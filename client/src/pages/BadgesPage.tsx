@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'wouter';
 import { ThemeContainer, ThemeHeading, GradientButton, OutlineButton } from '@/components/ui/theme';
+import { ShareButton } from '@/components/ui/share-button';
 import { NavBar } from '@/components/ui/nav-bar';
 import { INITIAL_REALMS } from '@/lib/constants';
 import { RealmData } from '@/lib/realm-data';
@@ -300,9 +301,20 @@ export default function BadgesPage() {
                       {realm?.name}
                     </div>
                     {badge.isEarned && (
-                      <div className="mt-2 text-xs text-green-400">
-                        Earned on {new Date(badge.dateEarned).toLocaleDateString()}
-                      </div>
+                      <>
+                        <div className="mt-2 text-xs text-green-400">
+                          Earned on {new Date(badge.dateEarned).toLocaleDateString()}
+                        </div>
+                        <div className="mt-3">
+                          <ShareButton 
+                            title={`I earned the ${badge.name} badge!`}
+                            text={`I'm learning Bitcoin with Bitcoin Quest and just earned the ${badge.name} badge!`}
+                            hashtags={['BitcoinQuest', 'LearnBitcoin']}
+                            variant="icon-only"
+                            size="sm"
+                          />
+                        </div>
+                      </>
                     )}
                   </div>
                 );
@@ -397,13 +409,21 @@ export default function BadgesPage() {
                 </p>
               </div>
               
-              <div className="flex justify-end gap-3">
-                <OutlineButton onClick={handleCloseCertificate}>
-                  Close
-                </OutlineButton>
-                <GradientButton>
-                  Download PDF
-                </GradientButton>
+              <div className="flex flex-wrap justify-between gap-3">
+                <ShareButton 
+                  title={`I earned the ${selectedCertificate.name}!`}
+                  text={`I just completed Bitcoin Quest training and earned the ${selectedCertificate.name}. Join me on this learning journey!`}
+                  hashtags={['BitcoinQuest', 'BitcoinCertificate', 'BitcoinEducation']}
+                />
+                
+                <div className="flex gap-3">
+                  <OutlineButton onClick={handleCloseCertificate}>
+                    Close
+                  </OutlineButton>
+                  <GradientButton>
+                    Download PDF
+                  </GradientButton>
+                </div>
               </div>
             </div>
           </div>

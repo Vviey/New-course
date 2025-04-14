@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'wouter';
 import { ThemeContainer, ThemeHeading, GradientButton, OutlineButton } from '@/components/ui/theme';
+import { ShareButton } from '@/components/ui/share-button';
 import { NavBar } from '@/components/ui/nav-bar';
 import { LessonCard } from '@/components/ui/lesson-card';
 import { Challenge } from '@/components/ui/challenge';
@@ -283,10 +284,16 @@ export default function MissionPage() {
                 </div>
               </div>
               
-              <div className="mt-8">
+              <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
                 <GradientButton onClick={handleContinueJourney}>
                   Continue Your Journey
                 </GradientButton>
+                
+                <ShareButton 
+                  title={`I earned the ${mission.badgeName} badge!`}
+                  text={`I just completed the "${mission.title}" mission in Bitcoin Quest and earned the ${mission.badgeName} badge! Join me on this journey to learn about Bitcoin.`}
+                  hashtags={['BitcoinQuest', 'BitcoinEducation', mission.badgeName.replace(/\s+/g, '')]}
+                />
               </div>
             </div>
           </div>

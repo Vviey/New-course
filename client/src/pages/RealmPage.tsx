@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'wouter';
 import { ThemeContainer, ThemeHeading, GradientButton, OutlineButton } from '@/components/ui/theme';
+import { ShareButton } from '@/components/ui/share-button';
 import { NavBar } from '@/components/ui/nav-bar';
 import { MissionCard } from '@/components/ui/mission-card';
 import { ProgressChain } from '@/components/ui/progress-chain';
@@ -110,7 +111,7 @@ export default function RealmPage() {
             <p className={`${themeClasses.text} mb-4 text-lg`}>
               {realmData.description}
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 mb-3">
               <div className={`inline-flex items-center ${themeClasses.text} text-sm`}>
                 <span className="mr-2">🌟</span>
                 <span>Emotional Tone: {realmData.emotionalTone}</span>
@@ -123,6 +124,14 @@ export default function RealmPage() {
                 <span className="mr-2">📖</span>
                 <span>Focus: {realmData.focus}</span>
               </div>
+            </div>
+            
+            <div className="mt-4">
+              <ShareButton 
+                title={`I'm exploring ${currentRealm.name} in Bitcoin Quest!`}
+                text={`I'm learning about Bitcoin in the ${currentRealm.name}: ${realmData.description}`}
+                hashtags={['BitcoinQuest', 'BitcoinEducation']}
+              />
             </div>
           </div>
         </div>
