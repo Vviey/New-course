@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200">
+  <!-- Background gradient for Realm 5 - Future Fields -->
+  <defs>
+    <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7E22CE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#581C87;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Star pattern -->
+    <pattern id="stars" width="400" height="200" patternUnits="userSpaceOnUse">
+      <circle cx="40" cy="30" r="1" fill="#F5D0FE" />
+      <circle cx="100" cy="50" r="1.2" fill="#F5D0FE" />
+      <circle cx="200" cy="25" r="0.8" fill="#F5D0FE" />
+      <circle cx="300" cy="40" r="1" fill="#F5D0FE" />
+      <circle cx="350" cy="70" r="0.7" fill="#F5D0FE" />
+      <circle cx="70" cy="120" r="1.1" fill="#F5D0FE" />
+      <circle cx="150" cy="150" r="0.9" fill="#F5D0FE" />
+      <circle cx="250" cy="130" r="1" fill="#F5D0FE" />
+      <circle cx="320" cy="180" r="0.8" fill="#F5D0FE" />
+    </pattern>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#grad5)" />
+  
+  <!-- Stars -->
+  <rect width="100%" height="100%" fill="url(#stars)" opacity="0.8" />
+  
+  <!-- Future elements -->
+  <g opacity="0.9">
+    <!-- Planet/Future World -->
+    <circle cx="200" cy="110" r="50" fill="#C084FC" opacity="0.5" stroke="#E9D5FF" stroke-width="1" />
+    
+    <!-- Orbit rings -->
+    <ellipse cx="200" cy="110" rx="70" ry="20" fill="none" stroke="#D8B4FE" stroke-width="1" stroke-dasharray="3,2" />
+    <ellipse cx="200" cy="110" rx="90" ry="30" fill="none" stroke="#D8B4FE" stroke-width="1" stroke-dasharray="4,3" />
+    
+    <!-- Satellite Bitcoin nodes -->
+    <circle cx="130" cy="110" r="6" fill="#FBBF24" />
+    <circle cx="270" cy="110" r="6" fill="#FBBF24" />
+    <circle cx="200" cy="80" r="6" fill="#FBBF24" />
+    <circle cx="200" cy="140" r="6" fill="#FBBF24" />
+    
+    <!-- Connection lines -->
+    <line x1="130" y1="110" x2="200" y2="110" stroke="#A855F7" stroke-width="1" stroke-dasharray="2,2" />
+    <line x1="200" y1="110" x2="270" y2="110" stroke="#A855F7" stroke-width="1" stroke-dasharray="2,2" />
+    <line x1="200" y1="80" x2="200" y2="110" stroke="#A855F7" stroke-width="1" stroke-dasharray="2,2" />
+    <line x1="200" y1="110" x2="200" y2="140" stroke="#A855F7" stroke-width="1" stroke-dasharray="2,2" />
+  </g>
+  
+  <!-- Lightning bolt -->
+  <path d="M200,40 L190,60 L205,65 L195,85 L210,90 L195,110" fill="none" stroke="#FBBF24" stroke-width="2" />
+  
+  <!-- Realm name -->
+  <text x="200" y="40" font-family="serif" font-size="20" text-anchor="middle" fill="#F5D0FE">Future Fields</text>
+</svg>
