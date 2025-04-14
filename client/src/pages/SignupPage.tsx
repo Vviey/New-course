@@ -106,7 +106,7 @@ export default function SignupPage() {
                     </button>
                   </div>
                   <p className="mt-2 text-sm text-lightText/80">
-                    <span className="font-bold text-primary">Important:</span> Save this ID to continue your journey in the future. It's your unique identifier that allows you to access the platform without requiring personal information.
+                    <span className="font-bold text-primary">Important:</span> Save this ID to continue your journey in the future. It can be used to recover your account if you forget your password, and it's your unique identifier that allows you to access the platform without requiring personal information.
                   </p>
                 </div>
                 
@@ -152,9 +152,9 @@ export default function SignupPage() {
                     id="email" 
                     {...register('email')}
                     className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
-                    placeholder="For recovery only"
+                    placeholder="For password recovery (optional)"
                   />
-                  <p className="mt-1 text-xs text-lightText/60">We don't require personal information to start</p>
+                  <p className="mt-1 text-xs text-lightText/60">Your Unique ID can be used for recovery instead of email</p>
                   {errors.email && (
                     <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>
                   )}

@@ -114,6 +114,7 @@ export default function LoginPage() {
                     className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
                     placeholder="Enter your unique ID"
                   />
+                  <p className="mt-1 text-xs text-lightText/60">Your Unique ID can be used for both login and password recovery</p>
                   {errors.userId && (
                     <p className="mt-1 text-xs text-red-400">{errors.userId.message}</p>
                   )}
@@ -134,6 +135,15 @@ export default function LoginPage() {
                 >
                   {loginMethod === 'username' ? 'Login with your Unique ID instead' : 'Login with Username & Password instead'}
                 </button>
+                <div className="mt-2">
+                  <button
+                    type="button"
+                    onClick={() => alert('Password recovery feature will be implemented in the production version. Your Unique ID can be used for recovery.')}
+                    className="text-secondary/80 hover:text-primary text-xs underline"
+                  >
+                    Forgot your password?
+                  </button>
+                </div>
               </div>
             </form>
             

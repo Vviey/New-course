@@ -16,7 +16,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Switch>
         {/* Public routes */}
-        <Route path="/" component={StoryIntroPage} />
+        <Route path="/" component={HomePage} />
+        <Route path="/story" component={StoryIntroPage} />
         <Route path="/signup" component={SignupPage} />
         <Route path="/login" component={LoginPage} />
         
