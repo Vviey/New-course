@@ -1,7 +1,8 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
+import { useEffect } from "react";
 
 // Pages
 import SignupPage from "@/pages/SignupPage";
@@ -18,10 +19,23 @@ import BadgesPage from "@/pages/BadgesPage";
 // Context providers
 import { AuthProvider } from "@/context/AuthContext";
 
+// Router wrapper to handle navigation
+function RouterListener() {
+  const [location] = useLocation();
+  
+  // Log navigation for debugging
+  useEffect(() => {
+    console.log("Current location:", location);
+  }, [location]);
+  
+  return null;
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <RouterListener />
         <Switch>
           {/* Public routes */}
           <Route path="/" component={StoryIntroPage} />
@@ -29,7 +43,7 @@ function App() {
           <Route path="/signup" component={SignupPage} />
           <Route path="/login" component={LoginPage} />
           
-          {/* Learning Journey Routes - these should be protected */}
+          {/* Learning Journey Routes - these should be protected but we'll leave them open for now */}
           <Route path="/realm/:id" component={RealmPage} />
           <Route path="/mission/:id" component={MissionPage} />
           <Route path="/map" component={MapPage} />
