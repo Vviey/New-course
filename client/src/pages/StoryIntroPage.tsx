@@ -1,99 +1,114 @@
-import { Link } from 'wouter';
-import { ThemeContainer, ThemeHeading, GradientButton, OutlineButton } from '@/components/ui/theme';
-import { ShareButton } from '@/components/ui/share-button';
+import { useLocation } from 'wouter';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
 
 export default function StoryIntroPage() {
+  const [, setLocation] = useLocation();
 
   return (
-    <ThemeContainer className="bg-darkBg">
-      <div className="min-h-screen flex flex-col">
-        {/* Header with logo */}
-        <header className="py-4 px-6 flex justify-center items-center">
-          <div className="flex items-center gap-3">
-            <img 
-              src="/asha-icon.svg" 
-              alt="Asha's Journey Logo" 
-              className="w-10 h-10 object-contain"
-            />
-            <h1 className="text-2xl font-cinzel font-bold text-secondary">Asha's Journey</h1>
-          </div>
-        </header>
+    <div className="min-h-screen bg-gradient-to-b from-amber-900/90 to-amber-950 text-amber-100 overflow-hidden relative">
+      {/* Background pattern */}
+      <div className="absolute inset-0 bg-[url('/patterns/african-pattern.svg')] opacity-5 bg-repeat"></div>
+      
+      {/* Content container */}
+      <div className="container mx-auto px-4 py-16 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-4xl md:text-6xl font-bold text-amber-300 mb-4">
+            Asha and the Whisper of Coins
+          </h1>
+          <p className="text-xl md:text-2xl text-amber-200/80">Journey Through the Realms of Money</p>
+        </motion.div>
 
-        {/* Main content */}
-        <main className="flex-1 container mx-auto px-4 py-6 flex flex-col items-center justify-center">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="flex justify-center mb-10">
-              <img 
-                src="/asha-portrait.svg" 
-                alt="Asha portrait" 
-                className="w-40 h-40 rounded-full object-contain border-2 border-secondary shadow-lg"
-              />
-            </div>
-
-            <ThemeHeading level={1} className="mb-8 text-3xl md:text-4xl">
-              Asha's Journey Through the Realms of Money
-            </ThemeHeading>
-
-            <div className="story-text space-y-6 text-left mb-12 bg-darkBg/70 p-6 rounded-lg border border-secondary/10 shadow-lg">
-              <p className="text-lg text-lightText/90 leading-relaxed">
-                In a town where tradition and technology live side by side, a young woman named Asha 
-                noticed small changes when her country began shifting from cash to digital systems.
-              </p>
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="bg-amber-950/50 backdrop-blur-sm border border-amber-800/30 rounded-lg p-6 md:p-8 shadow-xl mb-10"
+          >
+            <h2 className="text-2xl font-semibold text-amber-300 mb-4">Story Overview for Learners</h2>
+            <p className="mb-6 leading-relaxed">
+              As you begin this course, you'll walk alongside Asha, a curious young girl living in a thriving 
+              African town where tradition and technology live side by side.
+            </p>
+            <p className="mb-6 leading-relaxed">
+              When her country begins shifting from cash-based finance to fully digital systems, Asha starts to 
+              notice small changes—quiet, subtle—but they raise big questions:
+            </p>
+            
+            <div className="space-y-6 my-8">
+              <div className="p-4 bg-amber-900/30 border-l-4 border-amber-400 rounded">
+                <p className="text-lg font-medium">Who controls our money?</p>
+              </div>
               
-              <p className="text-lg text-lightText/90 leading-relaxed">
-                <span className="font-cinzel text-secondary">❝</span> I don't understand,<span className="font-cinzel text-secondary">❞</span> Asha whispered to herself as she stared at the 'Cash Not Accepted' 
-                sign in a shop window. <span className="font-cinzel text-secondary">❝</span>How can they refuse the money our country has used for generations?<span className="font-cinzel text-secondary">❞</span>
-              </p>
+              <div className="p-4 bg-amber-900/30 border-l-4 border-amber-400 rounded">
+                <p className="text-lg font-medium">What do we give up when everything becomes digital?</p>
+              </div>
               
-              <p className="text-lg text-lightText/90 leading-relaxed">
-                Questions began to form in her curious mind: <em className="text-secondary/90">Who controls our money? What do we give up 
-                when everything becomes digital? Is there another way?</em>
-              </p>
-              
-              <p className="text-lg text-lightText/90 leading-relaxed">
-                It was then that Asha met Odu, an elder whose eyes sparkled with wisdom. <span className="font-cinzel text-secondary">❝</span>You seek 
-                to understand money?<span className="font-cinzel text-secondary">❞</span> Odu asked. <span className="font-cinzel text-secondary">❝</span>Then you must journey through the six realms of 
-                understanding.<span className="font-cinzel text-secondary">❞</span>
-              </p>
-              
-              <p className="text-lg text-lightText/90 leading-relaxed">
-                Odu didn't give Asha answers—but helped her find them herself as she traveled 
-                through each realm, uncovering the truth about money's past, present, and possible futures.
-              </p>
-            </div>
-
-            <div className="cta-buttons flex flex-col sm:flex-row gap-6 justify-center mb-6">
-              <Link to="/signup">
-                <GradientButton className="px-10 py-4 text-lg">
-                  Begin Your Journey
-                </GradientButton>
-              </Link>
-              <Link to="/login">
-                <OutlineButton className="px-10 py-4 text-lg">
-                  Continue Your Journey
-                </OutlineButton>
-              </Link>
-            </div>
-
-            <div className="mt-8 text-sm text-lightText/70 max-w-md mx-auto p-4 border border-dashed border-secondary/20 rounded-lg">
-              <p className="mb-3">
-                <strong className="text-secondary">No personal data required.</strong> Your progress will be tied to a unique ID that you can save to continue your journey.
-              </p>
-              
-              <div className="flex justify-center items-center gap-2 pt-2 border-t border-secondary/10">
-                <p className="text-lightText/80">Share this story:</p>
-                <ShareButton 
-                  title="Asha's Journey Through the Realms of Money"
-                  text="Join Asha on her quest to understand money, from ancient systems to Bitcoin, in this interactive educational journey."
-                  hashtags={['BitcoinQuest', 'AshasJourney', 'LearnBitcoin']}
-                  variant="text-only"
-                  size="sm"
-                />
+              <div className="p-4 bg-amber-900/30 border-l-4 border-amber-400 rounded">
+                <p className="text-lg font-medium">Is there another way?</p>
               </div>
             </div>
-          </div>
-        </main>
+            
+            <p className="mb-6 leading-relaxed">
+              Each mission in this course is a chapter in Asha's journey to understanding money, guided by 
+              a mysterious elder named Odu, who doesn't give her answers—but helps her find them herself.
+            </p>
+            <p className="mb-6 leading-relaxed">
+              Just like Asha, you're not here to be told what to think. You're here to discover truths for yourself.
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="bg-amber-950/50 backdrop-blur-sm border border-amber-800/30 rounded-lg p-6 md:p-8 shadow-xl mb-10"
+          >
+            <h2 className="text-2xl font-semibold text-amber-300 mb-4">Your Journey Features</h2>
+            <ul className="space-y-3 list-disc list-inside">
+              <li className="flex items-start">
+                <span className="inline-block w-4 h-4 mr-2 mt-1 bg-amber-400 rounded-full"></span>
+                <span>Progress bar (as a glowing necklace or bracelet that lights up with each completed theme)</span>
+              </li>
+              <li className="flex items-start">
+                <span className="inline-block w-4 h-4 mr-2 mt-1 bg-amber-400 rounded-full"></span>
+                <span>Backpack icon for wallet, glossary, bookmarks</span>
+              </li>
+              <li className="flex items-start">
+                <span className="inline-block w-4 h-4 mr-2 mt-1 bg-amber-400 rounded-full"></span>
+                <span>Quest Map (shows progress, unlocked paths, upcoming rewards)</span>
+              </li>
+            </ul>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.8 }}
+            className="flex justify-center space-x-4"
+          >
+            <Button 
+              onClick={() => setLocation('/signup')} 
+              className="bg-amber-600 hover:bg-amber-500 text-white px-8 py-6 text-lg rounded-lg"
+            >
+              Begin Your Journey
+            </Button>
+            <Button 
+              onClick={() => setLocation('/login')} 
+              variant="outline" 
+              className="border-amber-600 text-amber-300 hover:bg-amber-900/50 px-8 py-6 text-lg rounded-lg"
+            >
+              Return to Your Journey
+            </Button>
+          </motion.div>
+        </div>
       </div>
-    </ThemeContainer>
+    </div>
   );
 }

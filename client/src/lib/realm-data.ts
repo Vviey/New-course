@@ -2,14 +2,17 @@
 
 // Realm data
 export const RealmData = [
-  // Realm 1: Origin
+  // Realm 1: Realm of Origins
   {
     id: 1,
     name: "Realm of Origins",
+    moduleNumber: 1,
     description: "A bustling trade festival at sunset where you'll discover the foundations of money, from ancient barter systems to modern currencies.",
     emotionalTone: "Curiosity, wonder",
     setting: "A bustling trade festival at sunset",
-    focus: "Origins of trade, evolution of money, introduction to fiat currency",
+    focus: "Foundations of Money",
+    imageUrl: "/realms/origins.jpg",
+    isLocked: false,
     badges: [
       {
         id: 1,
@@ -21,14 +24,17 @@ export const RealmData = [
     ]
   },
   
-  // Realm 2: Forest of Sparks
+  // Realm 2: The Forest of Sparks
   {
     id: 2,
-    name: "Forest of Sparks",
+    name: "The Forest of Sparks",
+    moduleNumber: 4,
     description: "Enter a mystical forest of knowledge where the spark of Bitcoin was first ignited, exploring blockchain technology and how Bitcoin works.",
     emotionalTone: "Discovery, fascination",
     setting: "Mystical forest of knowledge and digital connections",
-    focus: "Blockchain technology, mining, scalability, and transaction mechanics",
+    focus: "Bitcoin's Birth",
+    imageUrl: "/realms/forest.jpg",
+    isLocked: false,
     badges: [
       {
         id: 2,
@@ -57,32 +63,21 @@ export const RealmData = [
         description: "Understands Bitcoin transactions",
         imageUrl: "/badges/transaction-expert.svg",
         earned: false
-      },
-      {
-        id: 7,
-        name: "Sustainable Miner",
-        description: "Understands Bitcoin mining",
-        imageUrl: "/badges/sustainable-miner.svg",
-        earned: false
-      },
-      {
-        id: 8,
-        name: "Lightning Master",
-        description: "Mastered Lightning Network",
-        imageUrl: "/badges/lightning-master.svg",
-        earned: false
       }
     ]
   },
   
-  // Realm 3: Central Citadel
+  // Realm 3: The Central Citadel
   {
     id: 3,
     name: "The Central Citadel",
+    moduleNumber: 6,
     description: "A high mountain fortress with ancient scrolls and digital firewalls where you'll learn about Bitcoin security, custody, and running nodes.",
     emotionalTone: "Responsibility, mastery",
     setting: "A high mountain fortress with ancient scrolls and digital firewalls",
-    focus: "Custody, security, and running nodes",
+    focus: "Governance",
+    imageUrl: "/realms/citadel.jpg",
+    isLocked: true,
     badges: [
       {
         id: 6,
@@ -92,7 +87,7 @@ export const RealmData = [
         earned: false
       },
       {
-        id: 9,
+        id: 7,
         name: "Bitcoin Guardian",
         description: "Mastered Bitcoin security",
         imageUrl: "/badges/bitcoin-guardian.svg",
@@ -101,17 +96,20 @@ export const RealmData = [
     ]
   },
   
-  // Realm 4: Council of Forks
+  // Realm 4: The Council of Forks
   {
     id: 4,
-    name: "Council of Forks",
+    name: "The Council of Forks",
+    moduleNumber: 6,
     description: "A digital roundtable in a shifting network space where you'll explore Bitcoin governance, open-source development, and network upgrades.",
     emotionalTone: "Reflection, collaboration",
     setting: "A digital roundtable in a shifting network space",
-    focus: "Open-source software, Bitcoin Improvement Proposals (BIPs), forks",
+    focus: "Governance",
+    imageUrl: "/realms/forks.jpg",
+    isLocked: true,
     badges: [
       {
-        id: 10,
+        id: 8,
         name: "Decentralization Defender",
         description: "Understands Bitcoin governance",
         imageUrl: "/badges/decentralization-defender.svg",
@@ -120,17 +118,20 @@ export const RealmData = [
     ]
   },
   
-  // Realm 5: Ubuntu Village
+  // Realm 5: The Ubuntu Village
   {
     id: 5,
-    name: "Ubuntu Village",
+    name: "The Ubuntu Village",
+    moduleNumber: 7,
     description: "An interactive map-based village of diverse Bitcoin projects where you'll discover real-world Bitcoin applications across Africa.",
     emotionalTone: "Empowerment, community, hope",
     setting: "An interactive map-based village of diverse Bitcoin projects",
-    focus: "African Bitcoin use cases, remittances, merchant adoption, economic empowerment",
+    focus: "Bitcoin in Africa",
+    imageUrl: "/realms/ubuntu.jpg",
+    isLocked: true,
     badges: [
       {
-        id: 11,
+        id: 9,
         name: "Bitcoin Ambassador",
         description: "Expert in Bitcoin applications in Africa",
         imageUrl: "/badges/bitcoin-ambassador.svg",

@@ -15,27 +15,32 @@ import MissionPage from "@/pages/MissionPage";
 import AfricaMapPage from "@/pages/AfricaMapPage";
 import BadgesPage from "@/pages/BadgesPage";
 
+// Context providers
+import { AuthProvider } from "@/context/AuthContext";
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Switch>
-        {/* Public routes */}
-        <Route path="/" component={HomePage} />
-        <Route path="/story" component={StoryIntroPage} />
-        <Route path="/signup" component={SignupPage} />
-        <Route path="/login" component={LoginPage} />
-        
-        {/* Learning Journey Routes */}
-        <Route path="/realm/:id" component={RealmPage} />
-        <Route path="/mission/:id" component={MissionPage} />
-        <Route path="/map" component={MapPage} />
-        <Route path="/map/africa" component={AfricaMapPage} />
-        <Route path="/badges" component={BadgesPage} />
-        
-        {/* Fall back to NotFound for any other route */}
-        <Route component={NotFound} />
-      </Switch>
-      <Toaster />
+      <AuthProvider>
+        <Switch>
+          {/* Public routes */}
+          <Route path="/" component={StoryIntroPage} />
+          <Route path="/home" component={HomePage} />
+          <Route path="/signup" component={SignupPage} />
+          <Route path="/login" component={LoginPage} />
+          
+          {/* Learning Journey Routes - these should be protected */}
+          <Route path="/realm/:id" component={RealmPage} />
+          <Route path="/mission/:id" component={MissionPage} />
+          <Route path="/map" component={MapPage} />
+          <Route path="/map/africa" component={AfricaMapPage} />
+          <Route path="/badges" component={BadgesPage} />
+          
+          {/* Fall back to NotFound for any other route */}
+          <Route component={NotFound} />
+        </Switch>
+        <Toaster />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
