@@ -53,7 +53,7 @@ export function UserIdRecovery({ userId, onClose }: UserIdRecoveryProps) {
               id="userId"
               value={userId}
               readOnly
-              className="flex-1 bg-darkBg border-secondary/30 text-lightText font-mono text-sm"
+              className="flex-1 bg-darkBg border-secondary/30 text-black font-mono text-sm font-bold"
             />
             <Button 
               variant="outline" 

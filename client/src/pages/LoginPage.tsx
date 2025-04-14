@@ -193,7 +193,7 @@ export default function LoginPage() {
                 <input 
                   type="text"
                   placeholder="Enter your BTC-QUEST-XXXX-XXXX-XXXX"
-                  className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText" 
+                  className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-black font-bold" 
                 />
               </div>
               
