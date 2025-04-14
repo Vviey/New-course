@@ -1,24 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
 import { ThemeContainer, ThemeHeading, ThemeCard, GradientButton, OutlineButton } from '@/components/ui/theme';
 import { NavBar } from '@/components/ui/nav-bar';
-import { useAuth } from '@/context/AuthContext';
 import { INITIAL_REALMS, REWARDS } from '@/lib/constants';
 import { Link, useLocation } from 'wouter';
 
 export default function MapPage() {
-  const { user } = useAuth();
   const [, setLocation] = useLocation();
 
-  // Fetch realms from API
+  // Use mock data instead of API calls for now
   const { data: realms = INITIAL_REALMS, isLoading: realmsLoading } = useQuery<typeof INITIAL_REALMS>({
     queryKey: ['/api/realms'],
-    enabled: !!user
+    queryFn: () => Promise.resolve(INITIAL_REALMS),
+    enabled: true
   });
 
-  // Calculate progress based on user data
-  const progress = user?.progress?.chain?.progress || 35; // Default to 35% for visual purposes
-  const currentRealmId = user?.progress?.currentRealm || 3;
-  const completedRealms = user?.progress?.completedRealms || [1, 2];
+  // Mock progress data
+  const progress = 35; // Default to 35% for visual purposes
+  const currentRealmId = 3;
+  const completedRealms = [1, 2];
 
   // Current realm details
   const currentRealm = realms.find((realm: { id: number }) => realm.id === currentRealmId);

@@ -1,4 +1,3 @@
-import { useAuth } from '@/context/AuthContext';
 import { Link, useLocation } from 'wouter';
 import { BackpackMenu } from './backpack-menu';
 import { DEFAULT_AVATAR } from '@/lib/constants';
@@ -9,13 +8,18 @@ interface NavBarProps {
 }
 
 export function NavBar({ className = '' }: NavBarProps) {
-  const { user, logout } = useAuth();
   const [location, setLocation] = useLocation();
   
-  const userInitial = user?.username ? user.username.charAt(0).toUpperCase() : DEFAULT_AVATAR;
+  // Mock user data for frontend development
+  const mockUser = { 
+    username: "Asha", 
+    userId: "BTC12345" 
+  };
+  
+  const userInitial = mockUser.username.charAt(0).toUpperCase();
   
   const handleLogout = () => {
-    logout();
+    // This would normally clear authentication
     setLocation('/');
   };
   
@@ -52,13 +56,13 @@ export function NavBar({ className = '' }: NavBarProps) {
           <div className="flex items-center gap-3">
             <div 
               className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-secondary font-medium"
-              title={user?.username || 'Guest'}
+              title={mockUser.username}
             >
               {userInitial}
             </div>
             <div className="hidden sm:flex flex-col leading-tight">
-              <span className="text-sm text-secondary">{user?.username || 'Guest'}</span>
-              <span className="text-xs text-lightText/50">ID: {user?.userId?.substring(0, 8) || '---'}</span>
+              <span className="text-sm text-secondary">{mockUser.username}</span>
+              <span className="text-xs text-lightText/50">ID: {mockUser.userId}</span>
             </div>
             <button 
               onClick={handleLogout}

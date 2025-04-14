@@ -1,20 +1,18 @@
-import { useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { ThemeContainer, ThemeHeading, GradientButton, OutlineButton } from '@/components/ui/theme';
 import { NavBar } from '@/components/ui/nav-bar';
 import { RealmCard } from '@/components/ui/realm-card';
-import { useAuth } from '@/context/AuthContext';
 import { INITIAL_REALMS } from '@/lib/constants';
 
 export default function HomePage() {
-  const { user } = useAuth();
   const [, setLocation] = useLocation();
 
-  // Fetch realms from API
+  // For now, use the static data instead of API calls
   const { data: realms = INITIAL_REALMS, isLoading, error } = useQuery<typeof INITIAL_REALMS>({
     queryKey: ['/api/realms'],
-    enabled: !!user
+    queryFn: () => Promise.resolve(INITIAL_REALMS),
+    enabled: true
   });
 
   return (
