@@ -10,6 +10,10 @@ import HomePage from "@/pages/HomePage";
 import MapPage from "@/pages/MapPage";
 import NotFound from "@/pages/not-found";
 import StoryIntroPage from "@/pages/StoryIntroPage";
+import RealmPage from "@/pages/RealmPage";
+import MissionPage from "@/pages/MissionPage";
+import AfricaMapPage from "@/pages/AfricaMapPage";
+import BadgesPage from "@/pages/BadgesPage";
 
 function App() {
   return (
@@ -21,10 +25,12 @@ function App() {
         <Route path="/signup" component={SignupPage} />
         <Route path="/login" component={LoginPage} />
         
-        {/* Routes that would normally be protected */}
-        <Route path="/home" component={HomePage} />
+        {/* Learning Journey Routes */}
+        <Route path="/realm/:id" component={RealmPage} />
+        <Route path="/mission/:id" component={MissionPage} />
         <Route path="/map" component={MapPage} />
-        <Route path="/realm/:id" component={HomePage} />
+        <Route path="/map/africa" component={AfricaMapPage} />
+        <Route path="/badges" component={BadgesPage} />
         
         {/* Fall back to NotFound for any other route */}
         <Route component={NotFound} />
