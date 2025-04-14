@@ -1,175 +1,114 @@
 import { useQuery } from '@tanstack/react-query';
-import { ThemeContainer, ThemeHeading, ThemeCard, GradientButton, OutlineButton } from '@/components/ui/theme';
-import { NavBar } from '@/components/ui/nav-bar';
+import { useLocation } from 'wouter';
 import { GlowingChain } from '@/components/ui/glowing-chain';
-import { INITIAL_REALMS, REWARDS } from '@/lib/constants';
-import { Link, useLocation } from 'wouter';
+import { RealmData } from '@/lib/realm-data';
 
 export default function MapPage() {
   const [, setLocation] = useLocation();
 
-  // Use mock data instead of API calls for now
-  const { data: realms = INITIAL_REALMS, isLoading: realmsLoading } = useQuery<typeof INITIAL_REALMS>({
+  // Get realm data from our lib
+  const { data: realms = RealmData, isLoading: realmsLoading } = useQuery({
     queryKey: ['/api/realms'],
-    queryFn: () => Promise.resolve(INITIAL_REALMS),
+    queryFn: () => Promise.resolve(RealmData),
     enabled: true
   });
 
-  // Mock progress data
-  const progress = 35; // Default to 35% for visual purposes
-  const currentRealmId = 3;
-  const completedRealms = [1, 2];
+  // For the demo, we'll set realm 1 as completed and realm 2 as active
+  const progress = 33; // 33% complete - 2 of 6 realms started
+  const completedRealms = [1];
+  const currentRealmId = 2;
 
-  // Current realm details
-  const currentRealm = realms.find((realm: { id: number }) => realm.id === currentRealmId);
+  const handleNodeClick = (nodeId: number) => {
+    if (completedRealms.includes(nodeId) || nodeId === currentRealmId) {
+      setLocation(`/realm/${nodeId}`);
+    } else {
+      // We could add a toast notification here
+      console.log("This realm is still locked. Complete previous realms to unlock.");
+    }
+  };
 
   return (
-    <ThemeContainer className="bg-darkBg">
-      <NavBar />
-      
+    <div className="min-h-screen bg-gray-950 text-amber-100 py-8 px-4">
       {/* Header with back button */}
-      <header className="container mx-auto px-4 py-4">
+      <header className="max-w-6xl mx-auto mb-8">
         <button 
-          onClick={() => setLocation('/')} 
-          className="flex items-center text-secondary hover:text-primary"
+          onClick={() => setLocation('/home')} 
+          className="flex items-center text-amber-300 hover:text-amber-200 transition-colors"
         >
-          <span className="mr-1">←</span> Back to Home
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+          </svg>
+          Back to Home
         </button>
       </header>
       
       {/* Map Content */}
-      <div className="container mx-auto px-4 py-4">
-        <div className="mb-8 text-center">
-          <ThemeHeading level={1} className="mb-3">Asha's Journey Through the Realms of Money</ThemeHeading>
-          <p className="text-lightText/80 max-w-2xl mx-auto">
-            Follow the glowing chain to track your progress through the chapters of Asha's story
-          </p>
-        </div>
-        
-        {/* Progress Chain */}
-        <div className="max-w-5xl mx-auto relative py-12 px-4">
-          {realmsLoading ? (
-            <div className="text-center py-10">
-              <p>Loading map...</p>
-            </div>
-          ) : (
-            <div className="chain-container w-full my-8 pt-4">
-              <GlowingChain 
-                progress={progress}
-                nodes={realms.map(realm => ({
-                  id: realm.id,
-                  label: realm.name,
-                  realmId: realm.id,
-                  status: completedRealms.includes(realm.id) 
-                    ? 'completed' 
-                    : realm.id === currentRealmId 
-                      ? 'active' 
-                      : 'locked'
-                }))}
-                onNodeClick={(nodeId) => {
-                  if (completedRealms.includes(nodeId) || nodeId === currentRealmId) {
-                    setLocation(`/realm/${nodeId}`);
-                  } else {
-                    // Toast notification for locked realms
-                    window.alert("This realm is still locked. Complete previous realms to unlock.");
-                  }
-                }}
-                className="mb-16"
-              />
-            </div>
-          )}
-        </div>
-        
-        {/* Current Realm Details */}
-        {currentRealm && (
-          <ThemeCard className="max-w-4xl mx-auto mt-6">
-            <div className="flex flex-col md:flex-row gap-6">
-              <div className="md:w-1/3">
-                <img 
-                  src={currentRealm.imageUrl} 
-                  alt={currentRealm.name} 
-                  className="w-full h-48 rounded-lg object-contain"
-                />
-              </div>
-              <div className="md:w-2/3">
-                <div className="flex justify-between items-start mb-2">
-                  <ThemeHeading level={2}>{currentRealm.name}</ThemeHeading>
-                  <span className="text-xs bg-primary/20 text-primary px-2 py-1 rounded">Module {currentRealm.moduleNumber}</span>
-                </div>
-                <p className="text-lightText/90 mb-4">
-                  You are currently exploring the towers of monetary power, where Asha is discovering how central banks influence the lives of everyone in her town.
-                </p>
-                <div className="mb-4">
-                  <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div 
-                      className="bg-primary h-2 rounded-full" 
-                      style={{ width: '35%' }}
-                    ></div>
-                  </div>
-                  <div className="flex justify-between mt-1 text-xs text-lightText/60">
-                    <span>Progress: 35%</span>
-                    <span>2/6 Challenges Completed</span>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <Link to={`/realm/${currentRealm.id}`}>
-                    <GradientButton className="inline-block w-auto px-6">
-                      Continue Journey
-                    </GradientButton>
-                  </Link>
-                  <Link to="/">
-                    <OutlineButton className="inline-block w-auto px-6">
-                      View All Realms
-                    </OutlineButton>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </ThemeCard>
+      <div className="max-w-6xl mx-auto">
+        {realmsLoading ? (
+          <div className="text-center py-10">
+            <p>Loading journey map...</p>
+          </div>
+        ) : (
+          <div className="chain-container w-full">
+            <GlowingChain 
+              progress={progress}
+              nodes={realms.map(realm => ({
+                id: realm.id,
+                label: realm.name,
+                realmId: realm.id,
+                status: completedRealms.includes(realm.id) 
+                  ? 'completed' 
+                  : realm.id === currentRealmId 
+                    ? 'active' 
+                    : 'locked'
+              }))}
+              onNodeClick={handleNodeClick}
+              className="w-full"
+            />
+          </div>
         )}
         
-        {/* Rewards Section */}
-        <div className="max-w-4xl mx-auto mt-12 mb-12">
-          <ThemeHeading level={2} className="mb-6 text-center">Your Earned Rewards</ThemeHeading>
+        {/* Additional info */}
+        <div className="mt-12 max-w-2xl mx-auto text-center">
+          <h2 className="text-xl font-medium text-amber-200 mb-3">Your Journey</h2>
+          <p className="text-sm text-amber-100/70 mb-6">
+            Follow the chain to navigate through Asha's journey across the realms of money. 
+            Each link represents a chapter in her quest for understanding.
+          </p>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {REWARDS.map((reward) => (
-              <div 
-                key={reward.id}
-                className={`${
-                  reward.isEarned 
-                    ? 'bg-darkBg border border-secondary/20' 
-                    : 'bg-darkBg/50 border border-gray-700/20'
-                } rounded-lg p-4 text-center`}
-              >
-                <div className="w-16 h-16 mx-auto mb-2 flex items-center justify-center">
-                  {reward.imageUrl ? (
-                    <img 
-                      src={reward.imageUrl} 
-                      alt={reward.name} 
-                      className={`w-12 h-12 object-contain ${!reward.isEarned && 'opacity-30'}`}
-                    />
-                  ) : (
-                    <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
-                      <span className="text-lightText/20 text-xl">?</span>
-                    </div>
-                  )}
-                </div>
-                <h3 className={`font-cinzel ${
-                  reward.isEarned ? 'text-secondary' : 'text-lightText/40'
-                } font-bold text-sm`}>
-                  {reward.name}
-                </h3>
-                <p className={`text-xs ${
-                  reward.isEarned ? 'text-lightText/60' : 'text-lightText/30'
-                }`}>
-                  {reward.description}
-                </p>
-              </div>
-            ))}
+          <div className="flex justify-center space-x-8 mt-8">
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-amber-400 mr-2"></div>
+              <span className="text-amber-200 text-sm">Completed</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-amber-400 animate-pulse mr-2"></div>
+              <span className="text-amber-200 text-sm">Current</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-gray-700 mr-2"></div>
+              <span className="text-amber-200 text-sm">Locked</span>
+            </div>
           </div>
         </div>
+        
+        {/* Action buttons */}
+        <div className="mt-12 text-center">
+          <button 
+            onClick={() => setLocation('/home')}
+            className="px-5 py-2 bg-amber-800 rounded-full text-amber-200 font-semibold hover:bg-amber-700 transition-colors shadow-lg mx-2"
+          >
+            Return to Realms
+          </button>
+          
+          <button 
+            onClick={() => setLocation(`/realm/${currentRealmId}`)}
+            className="px-5 py-2 bg-amber-600 rounded-full text-amber-100 font-semibold hover:bg-amber-500 transition-colors shadow-lg mx-2"
+          >
+            Continue Your Journey
+          </button>
+        </div>
       </div>
-    </ThemeContainer>
+    </div>
   );
 }
