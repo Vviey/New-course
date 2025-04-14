@@ -76,7 +76,7 @@ export default function SignupPage() {
   };
 
   const continueToApp = () => {
-    setLocation('/');
+    setLocation('/home');
   };
 
   return (

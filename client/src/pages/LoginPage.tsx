@@ -37,7 +37,7 @@ export default function LoginPage() {
     // Simulate login with a delay
     setTimeout(() => {
       setLoading(false);
-      setLocation('/');
+      setLocation('/home');
       
       toast({
         title: "Welcome back!",
