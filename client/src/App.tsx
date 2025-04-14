@@ -3,7 +3,6 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { useAuth } from "./context/AuthContext";
-import { AuthProvider } from "./context/AuthContext";
 
 // Pages
 import SignupPage from "@/pages/SignupPage";
@@ -11,8 +10,9 @@ import LoginPage from "@/pages/LoginPage";
 import HomePage from "@/pages/HomePage";
 import MapPage from "@/pages/MapPage";
 import NotFound from "@/pages/not-found";
+import StoryIntroPage from "@/pages/StoryIntroPage";
 
-function Router() {
+function ProtectedRoutes() {
   const { user, loading } = useAuth();
 
   // Show loading state while checking authentication
@@ -28,17 +28,20 @@ function Router() {
     <Switch>
       {!user ? (
         <>
-          <Route path="/" component={SignupPage} />
           <Route path="/signup" component={SignupPage} />
           <Route path="/login" component={LoginPage} />
+          <Route path="/:rest*" component={() => {
+            window.location.href = '/';
+            return null;
+          }} />
         </>
       ) : (
         <>
           <Route path="/" component={HomePage} />
           <Route path="/map" component={MapPage} />
+          <Route component={NotFound} />
         </>
       )}
-      <Route component={NotFound} />
     </Switch>
   );
 }
@@ -46,10 +49,13 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Router />
-        <Toaster />
-      </AuthProvider>
+      <Switch>
+        <Route path="/" component={StoryIntroPage} />
+        <Route path="/:rest*">
+          <ProtectedRoutes />
+        </Route>
+      </Switch>
+      <Toaster />
     </QueryClientProvider>
   );
 }

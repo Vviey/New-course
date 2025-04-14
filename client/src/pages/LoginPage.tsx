@@ -1,13 +1,16 @@
+import { useState, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { ThemeContainer, ThemeCard, ThemeHeading, GradientButton } from '@/components/ui/theme';
 import { useAuth } from '@/context/AuthContext';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
   username: z.string().min(1, 'Username is required'),
-  password: z.string().min(1, 'Password is required')
+  password: z.string().min(1, 'Password is required'),
+  userId: z.string().optional()
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -15,81 +18,133 @@ type FormValues = z.infer<typeof formSchema>;
 export default function LoginPage() {
   const [, setLocation] = useLocation();
   const { login, loading } = useAuth();
+  const { toast } = useToast();
+  const [loginMethod, setLoginMethod] = useState<'username' | 'userId'>('username');
   
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
-      password: ''
+      password: '',
+      userId: ''
     }
   });
 
   const onSubmit = async (data: FormValues) => {
+    // For now, we only support username-password login
+    // In the future, we can add userId-based login
     const success = await login(data.username, data.password);
     if (success) {
       setLocation('/');
     }
   };
 
+  const toggleLoginMethod = () => {
+    setLoginMethod(prev => prev === 'username' ? 'userId' : 'username');
+  };
+
   return (
     <ThemeContainer>
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
-        <ThemeCard className="max-w-md w-full">
-          <div className="text-center mb-8">
-            <img 
-              src="https://images.unsplash.com/photo-1602928309809-655cb7b55f7a?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&q=80" 
-              alt="Coin logo" 
-              className="w-20 h-20 mx-auto rounded-full object-cover glow mb-4"
-            />
-            <ThemeHeading className="mb-2">Continue Your Journey</ThemeHeading>
-            <p className="text-lightText/80">Return to Asha's world of discovery</p>
-          </div>
-          
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium mb-2">Your Username</label>
-              <input 
-                type="text" 
-                id="username" 
-                {...register('username')}
-                className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
-                placeholder="Enter your username"
+      <div className="min-h-screen flex flex-col p-4 sm:p-6">
+        {/* Header with back button */}
+        <header className="w-full max-w-md mx-auto mb-4">
+          <button 
+            onClick={() => setLocation('/')} 
+            className="flex items-center text-secondary hover:text-primary"
+          >
+            <span className="mr-1">←</span> Back to Story
+          </button>
+        </header>
+
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <ThemeCard className="max-w-md w-full">
+            <div className="text-center mb-8">
+              <img 
+                src="/asha-icon.png" 
+                alt="Asha's Journey Icon" 
+                className="w-20 h-20 mx-auto rounded-full object-cover glow mb-4"
               />
-              {errors.username && (
-                <p className="mt-1 text-xs text-red-400">{errors.username.message}</p>
-              )}
+              <ThemeHeading className="mb-2">Continue Your Journey</ThemeHeading>
+              <p className="text-lightText/80">Return to Asha's world of discovery</p>
             </div>
             
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium mb-2">Password</label>
-              <input 
-                type="password" 
-                id="password" 
-                {...register('password')}
-                className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
-                placeholder="Your journey password"
-              />
-              {errors.password && (
-                <p className="mt-1 text-xs text-red-400">{errors.password.message}</p>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {loginMethod === 'username' ? (
+                <>
+                  <div>
+                    <label htmlFor="username" className="block text-sm font-medium mb-2">Your Username</label>
+                    <input 
+                      type="text" 
+                      id="username" 
+                      {...register('username')}
+                      className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
+                      placeholder="Enter your username"
+                    />
+                    {errors.username && (
+                      <p className="mt-1 text-xs text-red-400">{errors.username.message}</p>
+                    )}
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="password" className="block text-sm font-medium mb-2">Password</label>
+                    <input 
+                      type="password" 
+                      id="password" 
+                      {...register('password')}
+                      className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
+                      placeholder="Your journey password"
+                    />
+                    {errors.password && (
+                      <p className="mt-1 text-xs text-red-400">{errors.password.message}</p>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <label htmlFor="userId" className="block text-sm font-medium mb-2">Your Unique ID</label>
+                  <input 
+                    type="text" 
+                    id="userId" 
+                    {...register('userId')}
+                    className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
+                    placeholder="Enter your unique ID"
+                  />
+                  {errors.userId && (
+                    <p className="mt-1 text-xs text-red-400">{errors.userId.message}</p>
+                  )}
+                </div>
               )}
-            </div>
+              
+              <div className="pt-2">
+                <GradientButton type="submit" disabled={loading}>
+                  Return to the Realms
+                </GradientButton>
+              </div>
+              
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={toggleLoginMethod}
+                  className="text-secondary hover:text-primary text-sm"
+                >
+                  {loginMethod === 'username' ? 'Login with your Unique ID instead' : 'Login with Username & Password instead'}
+                </button>
+              </div>
+            </form>
             
-            <div className="pt-2">
-              <GradientButton type="submit" disabled={loading}>
-                Return to the Realms
-              </GradientButton>
+            <div className="mt-6 text-center border-t border-secondary/10 pt-4">
+              <p className="mb-3 text-sm text-lightText/80">
+                Don't have an account yet?
+              </p>
+              <button 
+                onClick={() => setLocation('/signup')} 
+                className="text-secondary hover:text-primary text-sm font-medium"
+              >
+                Create a New Account
+              </button>
             </div>
-          </form>
-          
-          <div className="mt-6 text-center">
-            <button 
-              onClick={() => setLocation('/signup')} 
-              className="text-secondary hover:text-primary text-sm"
-            >
-              Need a new ID? Sign up
-            </button>
-          </div>
-        </ThemeCard>
+          </ThemeCard>
+        </div>
       </div>
     </ThemeContainer>
   );
