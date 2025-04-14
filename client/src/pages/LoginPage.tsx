@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { ThemeContainer, ThemeCard, ThemeHeading, GradientButton } from '@/components/ui/theme';
-import { useAuth } from '@/context/AuthContext';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,8 +16,8 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
-  const { login, loading } = useAuth();
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const [loginMethod, setLoginMethod] = useState<'username' | 'userId'>('username');
   
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
@@ -31,12 +30,18 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    // For now, we only support username-password login
-    // In the future, we can add userId-based login
-    const success = await login(data.username, data.password);
-    if (success) {
+    setLoading(true);
+    
+    // Simulate login with a delay
+    setTimeout(() => {
+      setLoading(false);
       setLocation('/');
-    }
+      
+      toast({
+        title: "Welcome back!",
+        description: "You've successfully logged in",
+      });
+    }, 1000);
   };
 
   const toggleLoginMethod = () => {

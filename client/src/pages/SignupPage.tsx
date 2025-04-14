@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { ThemeContainer, ThemeCard, ThemeHeading, GradientButton, OutlineButton } from '@/components/ui/theme';
-import { useAuth } from '@/context/AuthContext';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,8 +16,8 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function SignupPage() {
   const [, setLocation] = useLocation();
-  const { signup, loading } = useAuth();
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const userIdRef = useRef<HTMLInputElement>(null);
   
@@ -32,18 +31,20 @@ export default function SignupPage() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    const success = await signup(data.username, data.password, data.email || undefined);
-    if (success) {
-      // Get the user's ID from localStorage
-      try {
-        const userData = JSON.parse(localStorage.getItem('user') || '{}');
-        if (userData.userId) {
-          setUserId(userData.userId);
-        }
-      } catch (error) {
-        console.error('Error parsing user data:', error);
-      }
-    }
+    setLoading(true);
+    
+    // Simulate signup process with a delay
+    setTimeout(() => {
+      // Generate a random mock user ID for demonstration
+      const mockUserId = 'BTC' + Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+      setUserId(mockUserId);
+      setLoading(false);
+      
+      toast({
+        title: "Account created!",
+        description: "Your journey can now begin",
+      });
+    }, 1000);
   };
 
   const copyUserIdToClipboard = () => {
