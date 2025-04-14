@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { ThemeContainer, ThemeHeading, ThemeCard, GradientButton, OutlineButton } from '@/components/ui/theme';
 import { NavBar } from '@/components/ui/nav-bar';
+import { GlowingChain } from '@/components/ui/glowing-chain';
 import { INITIAL_REALMS, REWARDS } from '@/lib/constants';
 import { Link, useLocation } from 'wouter';
 
@@ -46,17 +47,34 @@ export default function MapPage() {
         </div>
         
         {/* Progress Chain */}
-        <div className="max-w-5xl mx-auto relative py-8">
+        <div className="max-w-5xl mx-auto relative py-12 px-4">
           {realmsLoading ? (
             <div className="text-center py-10">
               <p>Loading map...</p>
             </div>
           ) : (
-            <div className="chain-container w-full overflow-hidden relative">
-              <img 
-                src="/progress-chain.svg" 
-                alt="Progress Chain" 
-                className="w-full"
+            <div className="chain-container w-full my-8 pt-4">
+              <GlowingChain 
+                progress={progress}
+                nodes={realms.map(realm => ({
+                  id: realm.id,
+                  label: realm.name,
+                  realmId: realm.id,
+                  status: completedRealms.includes(realm.id) 
+                    ? 'completed' 
+                    : realm.id === currentRealmId 
+                      ? 'active' 
+                      : 'locked'
+                }))}
+                onNodeClick={(nodeId) => {
+                  if (completedRealms.includes(nodeId) || nodeId === currentRealmId) {
+                    setLocation(`/realm/${nodeId}`);
+                  } else {
+                    // Toast notification for locked realms
+                    window.alert("This realm is still locked. Complete previous realms to unlock.");
+                  }
+                }}
+                className="mb-16"
               />
             </div>
           )}
