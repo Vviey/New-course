@@ -23,6 +23,7 @@ function App() {
         {/* Routes that would normally be protected */}
         <Route path="/home" component={HomePage} />
         <Route path="/map" component={MapPage} />
+        <Route path="/realm/:id" component={HomePage} />
         
         {/* Fall back to NotFound for any other route */}
         <Route component={NotFound} />
