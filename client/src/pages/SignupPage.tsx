@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
+import { UserIdRecovery } from '@/components/ui/user-id-recovery';
 
 const formSchema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters').max(30),
@@ -35,15 +36,31 @@ export default function SignupPage() {
     
     // Simulate signup process with a delay
     setTimeout(() => {
-      // Generate a random mock user ID for demonstration
-      const mockUserId = 'BTC' + Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
-      setUserId(mockUserId);
+      // Generate a more structured Bitcoin Quest ID format for better readability
+      // Format: BTC-QUEST-XXXX-YYYY-ZZZZ
+      const randomPart1 = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+      const randomPart2 = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+      const randomPart3 = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+      
+      const formattedUserId = `BTC-QUEST-${randomPart1}-${randomPart2}-${randomPart3}`;
+      setUserId(formattedUserId);
       setLoading(false);
       
-      toast({
-        title: "Account created!",
-        description: "Your journey can now begin",
+      // In a real app, we would send this data to the backend
+      // with the user account starting with no progress
+      console.log('Created new user with no initial progress:', {
+        ...data,
+        userId: formattedUserId,
+        progress: {
+          currentRealm: 1,
+          completedRealms: [],
+          completedMissions: [],
+          earnedBadges: [],
+          earnedCertificates: []
+        }
       });
+      
+      // Toast notification handled in the recovery component
     }, 1000);
   };
 
@@ -87,35 +104,10 @@ export default function SignupPage() {
                 <p className="text-lightText/80 mb-6">Your account has been created successfully</p>
               </div>
               
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Your Unique ID</label>
-                  <div className="flex">
-                    <input 
-                      ref={userIdRef}
-                      type="text" 
-                      readOnly 
-                      value={userId}
-                      className="flex-1 bg-darkBg border border-secondary/40 rounded-l-md p-3 text-lightText" 
-                    />
-                    <button 
-                      onClick={copyUserIdToClipboard}
-                      className="bg-secondary/20 hover:bg-secondary/30 text-secondary px-3 rounded-r-md"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                  <p className="mt-2 text-sm text-lightText/80">
-                    <span className="font-bold text-primary">Important:</span> Save this ID to continue your journey in the future. It can be used to recover your account if you forget your password, and it's your unique identifier that allows you to access the platform without requiring personal information.
-                  </p>
-                </div>
-                
-                <div className="pt-2">
-                  <GradientButton onClick={continueToApp}>
-                    Begin My Adventure
-                  </GradientButton>
-                </div>
-              </div>
+              <UserIdRecovery 
+                userId={userId || ''}
+                onClose={continueToApp}
+              />
             </ThemeCard>
           ) : (
             // Show signup form
