@@ -72,18 +72,11 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 relative">
           {/* Character image - only shown on medium screens and up */}
           <div className="hidden md:block absolute left-0 top-0 h-full">
-            <div className="flex flex-col items-center h-full relative">
-              <img 
-                src="/asha-icon.png" 
-                alt="Asha" 
-                className="h-64 object-contain rounded-lg border-2 border-amber-600/50 shadow-[0_0_15px_rgba(251,191,36,0.3)]" 
-              />
-              <div className="mt-4 p-3 bg-amber-900/60 rounded-lg border border-amber-700/50 text-center">
-                <h3 className="text-amber-300 font-bold">Asha</h3>
-                <p className="text-amber-200 text-sm">Your guide through the realms</p>
-              </div>
-              <div className="absolute -z-10 inset-0 bg-gradient-radial from-amber-600/20 to-transparent blur-xl"></div>
-            </div>
+            <img 
+              src="/asha-character.png" 
+              alt="Asha" 
+              className="h-full object-contain" 
+            />
           </div>
 
           {/* Realms Grid */}
