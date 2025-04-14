@@ -59,16 +59,15 @@ export class MemStorage implements IStorage {
       tokens: 0
     };
     
-    const user: User = { 
-      ...insertUserData, 
-      id, 
-      userId, 
+    const user = {
+      ...insertUserData,
+      id,
+      userId,
       progress: insertUserData.progress || initialProgress,
-      rewards: insertUserData.rewards || initialRewards 
-    };
-    
-    this.users.set(id, user);
+      rewards: insertUserData.rewards || initialRewards
+    } as User;
     return user;
+    
   }
 
   async updateUserProgress(userId: string, progress: any): Promise<User | undefined> {
@@ -78,10 +77,11 @@ export class MemStorage implements IStorage {
     const updatedUser = {
       ...user,
       progress: {
-        ...user.progress,
+        ...(user.progress || {}),
         ...progress
       }
-    };
+    } as User;
+    
     
     this.users.set(user.id, updatedUser);
     return updatedUser;
@@ -144,10 +144,12 @@ export class MemStorage implements IStorage {
 
     realmsData.forEach((realm, index) => {
       const id = this.realmId++;
-      this.realmsList.set(id, { ...realm, id });
+      this.realmsList.set(id, { ...realm, id } as Realm);
     });
   }
 }
+
+
 
 export const storage = new MemStorage();
 // Initialize realms data
