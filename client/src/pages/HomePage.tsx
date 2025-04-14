@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { ThemeContainer, ThemeHeading, GradientButton, OutlineButton } from '@/components/ui/theme';
+import { ShareButton } from '@/components/ui/share-button';
 import { NavBar } from '@/components/ui/nav-bar';
 import { RealmCard } from '@/components/ui/realm-card';
 import { INITIAL_REALMS } from '@/lib/constants';
@@ -75,14 +76,32 @@ export default function HomePage() {
       {/* Map button section */}
       <section className="container mx-auto px-4 py-8 mb-12 text-center">
         <div className="max-w-md mx-auto">
-          <Link to="/map">
-            <OutlineButton className="w-full py-4 text-lg">
-              View Journey Map
-            </OutlineButton>
-          </Link>
-          <p className="text-lightText/60 mt-2 text-sm">
-            See your progress through Asha's story
-          </p>
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <Link to="/map" className="flex-1">
+              <OutlineButton className="w-full py-4 text-lg">
+                View Journey Map
+              </OutlineButton>
+            </Link>
+            
+            <div className="flex-1">
+              <GradientButton 
+                onClick={() => setLocation('/badges')}
+                className="w-full py-4 text-lg"
+              >
+                View My Badges
+              </GradientButton>
+            </div>
+          </div>
+          
+          <div className="flex justify-center items-center gap-2 py-2">
+            <p className="text-lightText/80">Share your journey:</p>
+            <ShareButton 
+              title="Join me on Bitcoin Quest!"
+              text="I'm learning about Bitcoin with Bitcoin Quest - an interactive educational journey through the realms of money. Join me on this adventure of discovery!"
+              hashtags={['BitcoinQuest', 'LearnBitcoin', 'BitcoinEducation']}
+              size="md"
+            />
+          </div>
         </div>
       </section>
       

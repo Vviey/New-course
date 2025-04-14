@@ -204,6 +204,18 @@ export default function RealmPage() {
               <p className="text-lightText/60 text-xs mt-1">
                 {badge.earned ? 'Earned!' : 'Not yet earned'}
               </p>
+              
+              {badge.earned && (
+                <div className="mt-2">
+                  <ShareButton 
+                    title={`I earned the ${badge.name} badge in Bitcoin Quest!`}
+                    text={`I'm learning about Bitcoin and just earned the ${badge.name} badge in the ${currentRealm.name} realm.`}
+                    hashtags={['BitcoinQuest', 'BitcoinEducation']}
+                    variant="icon-only"
+                    size="sm"
+                  />
+                </div>
+              )}
             </div>
           ))}
         </div>

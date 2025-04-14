@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import { ThemeContainer, ThemeHeading, GradientButton, OutlineButton } from '@/components/ui/theme';
+import { ShareButton } from '@/components/ui/share-button';
 
 export default function StoryIntroPage() {
 
@@ -75,9 +76,20 @@ export default function StoryIntroPage() {
             </div>
 
             <div className="mt-8 text-sm text-lightText/70 max-w-md mx-auto p-4 border border-dashed border-secondary/20 rounded-lg">
-              <p>
+              <p className="mb-3">
                 <strong className="text-secondary">No personal data required.</strong> Your progress will be tied to a unique ID that you can save to continue your journey.
               </p>
+              
+              <div className="flex justify-center items-center gap-2 pt-2 border-t border-secondary/10">
+                <p className="text-lightText/80">Share this story:</p>
+                <ShareButton 
+                  title="Asha's Journey Through the Realms of Money"
+                  text="Join Asha on her quest to understand money, from ancient systems to Bitcoin, in this interactive educational journey."
+                  hashtags={['BitcoinQuest', 'AshasJourney', 'LearnBitcoin']}
+                  variant="text-only"
+                  size="sm"
+                />
+              </div>
             </div>
           </div>
         </main>
