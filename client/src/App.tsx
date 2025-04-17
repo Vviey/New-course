@@ -7,6 +7,7 @@ import { useEffect } from "react";
 // Pages
 import SignupPage from "@/pages/SignupPage";
 import LoginPage from "@/pages/LoginPage";
+import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import HomePage from "@/pages/HomePage";
 import MapPage from "@/pages/MapPage";
 import NotFound from "@/pages/not-found";
@@ -42,6 +43,7 @@ function App() {
           <Route path="/home" component={HomePage} />
           <Route path="/signup" component={SignupPage} />
           <Route path="/login" component={LoginPage} />
+          <Route path="/forgot-password" component={ForgotPasswordPage} />
           
           {/* Learning Journey Routes - these should be protected but we'll leave them open for now */}
           <Route path="/realm/:id" component={RealmPage} />
