@@ -66,8 +66,11 @@ export class MemStorage implements IStorage {
       progress: insertUserData.progress || initialProgress,
       rewards: insertUserData.rewards || initialRewards
     } as User;
-    return user;
     
+    // Save user to the map
+    this.users.set(id, user);
+    
+    return user;
   }
 
   async updateUserProgress(userId: string, progress: any): Promise<User | undefined> {
@@ -102,42 +105,42 @@ export class MemStorage implements IStorage {
         name: "Realm of Origins",
         description: "Discover how money began and evolved from shells to bills in this foundational chapter.",
         moduleNumber: 1,
-        imageUrl: "https://images.unsplash.com/photo-1604235362977-3eb0221402aa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-1.png",
         isLocked: false
       },
       {
         name: "The Forest of Sparks",
         description: "Enter the mystical forest where the spark of Bitcoin was first ignited.",
         moduleNumber: 2,
-        imageUrl: "https://images.unsplash.com/photo-1574607383180-2347cf7dcc4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-2.png",
         isLocked: true
       },
       {
         name: "The Central Citadel",
         description: "Explore the towers of power where monetary decisions echo through the lands.",
         moduleNumber: 3,
-        imageUrl: "https://images.unsplash.com/photo-1575503802870-45bcd9fe51d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-3.png",
         isLocked: true
       },
       {
         name: "The Council of Forks",
         description: "Witness the debates that shape the path of digital currencies at the Council.",
         moduleNumber: 4,
-        imageUrl: "https://images.unsplash.com/photo-1516750084777-bcc7eb0b9b5f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-4.png",
         isLocked: true
       },
       {
         name: "The Ubuntu Village",
         description: "Discover how Bitcoin weaves into African traditions of community and shared prosperity.",
         moduleNumber: 5,
-        imageUrl: "https://images.unsplash.com/photo-1506730447-7683abca8534?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-5.png",
         isLocked: true
       },
       {
         name: "The Grove of Becoming",
         description: "Complete your journey and discover your role in the future of money.",
         moduleNumber: 6,
-        imageUrl: "https://images.unsplash.com/photo-1589123053646-4e8b0c603676?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-6.png",
         isLocked: true
       }
     ];

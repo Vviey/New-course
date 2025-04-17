@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/AuthContext';
 
 const formSchema = z.object({
   username: z.string().min(1, 'Username is required'),
@@ -29,19 +30,32 @@ export default function LoginPage() {
     }
   });
 
+  const { login } = useAuth();
+
   const onSubmit = async (data: FormValues) => {
     setLoading(true);
     
-    // Simulate login with a delay
-    setTimeout(() => {
-      setLoading(false);
-      setLocation('/home');
-      
+    if (loginMethod === 'username') {
+      const success = await login(data.username, data.password);
+      if (success) {
+        setLocation('/home');
+        
+        toast({
+          title: "Welcome back!",
+          description: "You've successfully logged in",
+        });
+      } else {
+        setLoading(false);
+      }
+    } else {
+      // Handle login with userId - not implemented on backend yet
       toast({
-        title: "Welcome back!",
-        description: "You've successfully logged in",
+        title: "Not implemented",
+        description: "Login with User ID is not available yet",
+        variant: "destructive"
       });
-    }, 1000);
+      setLoading(false);
+    }
   };
 
   const toggleLoginMethod = () => {
@@ -64,11 +78,18 @@ export default function LoginPage() {
         <div className="flex-1 flex flex-col items-center justify-center">
           <ThemeCard className="max-w-md w-full">
             <div className="text-center mb-8">
-              <img 
-                src="/asha-icon.png" 
-                alt="Asha's Journey Icon" 
-                className="w-20 h-20 mx-auto rounded-full object-cover glow mb-4"
-              />
+              <div className="flex justify-center space-x-4 mb-4">
+                <img 
+                  src="https://bitcoiners.africa/wp-content/uploads/2025/04/ASHA-WOC.png" 
+                  alt="Asha" 
+                  className="h-24 object-contain"
+                />
+                <img 
+                  src="https://bitcoiners.africa/wp-content/uploads/2025/04/ODU.png" 
+                  alt="Odu" 
+                  className="h-24 object-contain"
+                />
+              </div>
               <ThemeHeading className="mb-2">Continue Your Journey</ThemeHeading>
               <p className="text-lightText/80">Return to Asha's world of discovery</p>
             </div>

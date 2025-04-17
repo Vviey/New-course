@@ -54,27 +54,27 @@ export default function RealmPage() {
     switch(realmId) {
       case 1: // Origins - matched to the third image
         return { 
-          backgroundImage: "url('/backgrounds/realm-origins-bg.jpg')",
+          backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/04/realm-1.png')",
           backgroundColor: "#B45309" // amber-700 as fallback
         };
       case 2: // Forest of Sparks
         return { 
-          backgroundImage: "url('/backgrounds/realm-forest-bg.jpg')",
+          backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/04/realm-2.png')",
           backgroundColor: "#065F46" // emerald-800 as fallback
         };
       case 3: // Central Citadel
         return { 
-          backgroundImage: "url('/backgrounds/realm-citadel-bg.jpg')",
+          backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/04/realm-3.png')",
           backgroundColor: "#3730A3" // indigo-800 as fallback
         };
       case 4: // Council of Forks
         return { 
-          backgroundImage: "url('/backgrounds/realm-forks-bg.jpg')",
+          backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/04/realm-4.png')",
           backgroundColor: "#5B21B6" // purple-800 as fallback
         };
       case 5: // Ubuntu Village
         return { 
-          backgroundImage: "url('/backgrounds/realm-village-bg.jpg')",
+          backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/04/realm-5.png')",
           backgroundColor: "#B91C1C" // red-700 as fallback
         };
       default:

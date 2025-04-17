@@ -112,59 +112,84 @@ export default function StoryIntroPage() {
           >
             <div className="w-full aspect-[16/9] bg-amber-950/60 rounded-xl overflow-hidden relative shadow-[0_0_15px_rgba(251,191,36,0.3)] border-2 border-amber-800/50 mb-8">
               <img 
-                src="/story-intro-bg.jpg" 
+                src="https://bitcoiners.africa/wp-content/uploads/2025/04/INTRO-BACKGROUND.png" 
                 alt="Story Background" 
                 className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-70"
               />
               
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center p-8 backdrop-blur-sm bg-amber-950/40 rounded-lg w-full max-w-2xl">
-                  {currentStep === 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="space-y-4"
-                    >
-                      <h2 className="text-2xl font-bold text-amber-300">The Journey Begins</h2>
-                      <p className="text-amber-100">In a thriving African town where tradition and technology live side by side, a young girl named Asha begins to question the nature of money itself.</p>
-                    </motion.div>
+                <div className="text-center p-8 backdrop-blur-sm bg-amber-950/40 rounded-lg w-full max-w-2xl flex">
+                  {/* Asha on the left */}
+                  {currentStep <= 1 && (
+                    <div className="w-1/4 flex items-center justify-center">
+                      <img 
+                        src="https://bitcoiners.africa/wp-content/uploads/2025/04/ASHA-WOC.png" 
+                        alt="Asha" 
+                        className="h-32 object-contain"
+                      />
+                    </div>
                   )}
                   
-                  {currentStep === 1 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="space-y-4"
-                    >
-                      <h2 className="text-2xl font-bold text-amber-300">A World in Transition</h2>
-                      <p className="text-amber-100">As her country shifts from cash to digital systems, Asha notices changes that raise big questions about control, freedom, and the future of money.</p>
-                    </motion.div>
-                  )}
+                  {/* Story Text in the middle */}
+                  <div className="flex-1">
+                    {currentStep === 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="space-y-4"
+                      >
+                        <h2 className="text-2xl font-bold text-amber-300">The Journey Begins</h2>
+                        <p className="text-amber-100">In a thriving African town where tradition and technology live side by side, a young girl named Asha begins to question the nature of money itself.</p>
+                      </motion.div>
+                    )}
+                    
+                    {currentStep === 1 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="space-y-4"
+                      >
+                        <h2 className="text-2xl font-bold text-amber-300">A World in Transition</h2>
+                        <p className="text-amber-100">As her country shifts from cash to digital systems, Asha notices changes that raise big questions about control, freedom, and the future of money.</p>
+                      </motion.div>
+                    )}
+                    
+                    {currentStep === 2 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="space-y-4"
+                      >
+                        <h2 className="text-2xl font-bold text-amber-300">The Elder's Guidance</h2>
+                        <p className="text-amber-100">Guided by a mysterious elder named Odu, Asha will explore ancient markets, digital fortresses, and everything in between to discover the true nature of value.</p>
+                      </motion.div>
+                    )}
+                    
+                    {currentStep === 3 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="space-y-4"
+                      >
+                        <h2 className="text-2xl font-bold text-amber-300">Your Adventure Awaits</h2>
+                        <p className="text-amber-100">Walk alongside Asha through five magical realms, each teaching valuable lessons about money's past, present, and future.</p>
+                      </motion.div>
+                    )}
+                  </div>
                   
-                  {currentStep === 2 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="space-y-4"
-                    >
-                      <h2 className="text-2xl font-bold text-amber-300">The Elder's Guidance</h2>
-                      <p className="text-amber-100">Guided by a mysterious elder named Odu, Asha will explore ancient markets, digital fortresses, and everything in between to discover the true nature of value.</p>
-                    </motion.div>
-                  )}
-                  
-                  {currentStep === 3 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="space-y-4"
-                    >
-                      <h2 className="text-2xl font-bold text-amber-300">Your Adventure Awaits</h2>
-                      <p className="text-amber-100">Walk alongside Asha through five magical realms, each teaching valuable lessons about money's past, present, and future.</p>
-                    </motion.div>
+                  {/* Odu on the right */}
+                  {currentStep >= 2 && (
+                    <div className="w-1/4 flex items-center justify-center">
+                      <img 
+                        src="https://bitcoiners.africa/wp-content/uploads/2025/04/ODU.png" 
+                        alt="Odu" 
+                        className="h-32 object-contain"
+                      />
+                    </div>
                   )}
                 </div>
               </div>
@@ -233,6 +258,14 @@ export default function StoryIntroPage() {
               transition={{ duration: 0.5 }}
               className="bg-amber-950/60 backdrop-blur-sm border-2 border-amber-700/40 rounded-lg p-6 md:p-8 shadow-[0_0_20px_rgba(251,191,36,0.2)] mb-8"
             >
+              <div className="text-center mb-6">
+                <img 
+                  src="https://bitcoiners.africa/wp-content/uploads/2025/04/storlylin-bg.png" 
+                  alt="Asha and Odu with the coin" 
+                  className="max-h-48 mx-auto object-contain"
+                />
+              </div>
+              
               <h2 className="text-2xl font-bold text-amber-300 mb-4 flex items-center">
                 <motion.span 
                   animate={{ 
@@ -318,8 +351,6 @@ export default function StoryIntroPage() {
           </div>
         )}
       </div>
-      
-      {/* We're not using the cursor effect for now as it's causing issues */}
     </div>
   );
 }

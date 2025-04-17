@@ -3,11 +3,13 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { useEffect } from "react";
+import { ProtectedRoute } from "@/lib/protected-route";
 
 // Pages
 import SignupPage from "@/pages/SignupPage";
 import LoginPage from "@/pages/LoginPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
+import AuthPage from "@/pages/auth-page";
 import HomePage from "@/pages/HomePage";
 import MapPage from "@/pages/MapPage";
 import NotFound from "@/pages/not-found";
@@ -40,17 +42,18 @@ function App() {
         <Switch>
           {/* Public routes */}
           <Route path="/" component={StoryIntroPage} />
-          <Route path="/home" component={HomePage} />
+          <Route path="/auth" component={AuthPage} />
           <Route path="/signup" component={SignupPage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/forgot-password" component={ForgotPasswordPage} />
           
-          {/* Learning Journey Routes - these should be protected but we'll leave them open for now */}
-          <Route path="/realm/:id" component={RealmPage} />
-          <Route path="/mission/:id" component={MissionPage} />
-          <Route path="/map" component={MapPage} />
-          <Route path="/map/africa" component={AfricaMapPage} />
-          <Route path="/badges" component={BadgesPage} />
+          {/* Protected Routes - Require Authentication */}
+          <ProtectedRoute path="/home" component={HomePage} />
+          <ProtectedRoute path="/realm/:id" component={RealmPage} />
+          <ProtectedRoute path="/mission/:id" component={MissionPage} />
+          <ProtectedRoute path="/map" component={MapPage} />
+          <ProtectedRoute path="/map/africa" component={AfricaMapPage} />
+          <ProtectedRoute path="/badges" component={BadgesPage} />
           
           {/* Fall back to NotFound for any other route */}
           <Route component={NotFound} />
