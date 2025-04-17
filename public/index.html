@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Bitcoin Quest: Asha's Journey</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background: #11111b;
+        color: #e4e4e7;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+      }
+      .container {
+        max-width: 800px;
+        padding: 2rem;
+      }
+      h1 {
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #f79c11, #f44a3f);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+      }
+      p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+      .btn {
+        display: inline-block;
+        background: linear-gradient(45deg, #f79c11, #f44a3f);
+        color: white;
+        font-weight: bold;
+        padding: 0.8rem 1.5rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+      }
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+      .characters {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin: 2rem 0;
+      }
+      .characters img {
+        height: 180px;
+        object-fit: contain;
+      }
+      .features {
+        text-align: left;
+        margin: 2rem 0;
+      }
+      .features li {
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+      .features li::before {
+        content: "✓";
+        color: #f79c11;
+        margin-right: 0.5rem;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bitcoin Quest: Asha's Journey</h1>
+      
+      <div class="characters">
+        <img src="https://bitcoiners.africa/wp-content/uploads/2025/04/ASHA-WOC.png" alt="Asha">
+        <img src="https://bitcoiners.africa/wp-content/uploads/2025/04/ODU.png" alt="Odu">
+      </div>
+      
+      <p>Embark on an educational journey through the realms of Bitcoin and discover the 
+      revolutionary potential of this technology in Africa and beyond.</p>
+      
+      <div class="features">
+        <ul>
+          <li>Interactive learning through stories</li>
+          <li>Earn badges and track your progress</li>
+          <li>Explore 5 unique realms of Bitcoin knowledge</li>
+          <li>Learn at your own pace, on any device</li>
+        </ul>
+      </div>
+      
+      <p>Our application is currently experiencing technical difficulties. Please try again later.</p>
+      
+      <a href="/api/health" class="btn">Check Server Status</a>
+    </div>
+  </body>
+</html>
