@@ -229,26 +229,7 @@ export default function StoryIntroPage() {
               </motion.button>
             </div>
             
-            {/* XP bar at the bottom */}
-            <div className="fixed bottom-0 left-0 right-0 bg-amber-950/80 border-t border-amber-800/40 py-2 px-4 z-50">
-              <div className="container mx-auto flex items-center justify-between">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-amber-400 flex items-center justify-center text-amber-950 font-bold mr-2">1</div>
-                  <span className="text-amber-300 text-sm">Adventure Begins</span>
-                </div>
-                
-                <div className="w-1/2 bg-amber-900/60 h-2 rounded-full">
-                  <div 
-                    className="bg-gradient-to-r from-amber-500 to-amber-300 h-2 rounded-full"
-                    style={{ width: `${(currentStep + 1) * 25}%` }}
-                  ></div>
-                </div>
-                
-                <div className="text-amber-300 text-sm">
-                  +25 XP per step
-                </div>
-              </div>
-            </div>
+
           </motion.div>
         ) : (
           <div className="max-w-3xl mx-auto">
