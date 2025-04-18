@@ -6,9 +6,6 @@ import { useEffect } from "react";
 import { ProtectedRoute } from "@/lib/protected-route";
 
 // Pages
-import SignupPage from "@/pages/SignupPage";
-import LoginPage from "@/pages/LoginPage";
-import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import AuthPage from "@/pages/auth-page";
 import HomePage from "@/pages/HomePage";
 import MapPage from "@/pages/MapPage";
@@ -42,9 +39,6 @@ function App() {
           {/* Public routes */}
           <Route path="/" component={StoryIntroPage} />
           <Route path="/auth" component={AuthPage} />
-          <Route path="/signup" component={SignupPage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/forgot-password" component={ForgotPasswordPage} />
           
           {/* Protected Routes - Require Authentication */}
           <ProtectedRoute path="/home" component={HomePage} />
