@@ -16,7 +16,6 @@ import NotFound from "@/pages/not-found";
 import StoryIntroPage from "@/pages/StoryIntroPage";
 import RealmPage from "@/pages/RealmPage";
 import MissionPage from "@/pages/MissionPage";
-import AfricaMapPage from "@/pages/AfricaMapPage";
 import BadgesPage from "@/pages/BadgesPage";
 
 // Context providers
@@ -52,7 +51,6 @@ function App() {
           <ProtectedRoute path="/realm/:id" component={RealmPage} />
           <ProtectedRoute path="/mission/:id" component={MissionPage} />
           <ProtectedRoute path="/map" component={MapPage} />
-          <ProtectedRoute path="/map/africa" component={AfricaMapPage} />
           <ProtectedRoute path="/badges" component={BadgesPage} />
           
           {/* Fall back to NotFound for any other route */}
