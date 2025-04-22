@@ -8,7 +8,8 @@ export const RealmData = [
     description: "Discover the foundational stories of money at the grand trade festival. Learn about barter, early forms of value exchange, and the dawn of monetary systems.",
     focus: "Foundations of Money",
     moduleNumber: 1,
-    imageUrl: "/realms/origins.jpg",
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-1.png",
+    fallbackImageUrl: "/realms/origins.jpg",
     isLocked: false
   },
   {
@@ -17,7 +18,8 @@ export const RealmData = [
     description: "Explore the intricate systems of modern money, central banks, and the evolution of currencies from physical coins to digital tokens.",
     focus: "Monetary Systems",
     moduleNumber: 2,
-    imageUrl: "/realms/systems.jpg",
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-2.png",
+    fallbackImageUrl: "/realms/systems.jpg",
     isLocked: false
   },
   {
@@ -26,7 +28,8 @@ export const RealmData = [
     description: "Venture into the blockchain frontier where cryptographic technology has revolutionized the concept of money and trust-based systems.",
     focus: "Cryptocurrency Basics",
     moduleNumber: 3,
-    imageUrl: "/realms/crypto.jpg",
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-3.png",
+    fallbackImageUrl: "/realms/crypto.jpg",
     isLocked: true
   },
   {
@@ -35,7 +38,8 @@ export const RealmData = [
     description: "Master the fundamentals of Bitcoin, the first cryptocurrency that changed how we think about money, trust, and decentralization.",
     focus: "Bitcoin Fundamentals",
     moduleNumber: 4,
-    imageUrl: "/realms/bitcoin.jpg", 
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-4.png",
+    fallbackImageUrl: "/realms/bitcoin.jpg", 
     isLocked: true
   },
   {
@@ -44,7 +48,8 @@ export const RealmData = [
     description: "Glimpse into the future of finance, exploring emerging trends in decentralized finance, digital identity, and global economic shifts.",
     focus: "Future of Money",
     moduleNumber: 5,
-    imageUrl: "/realms/future.jpg",
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-5.png",
+    fallbackImageUrl: "/realms/future.jpg",
     isLocked: true
   }
 ];

@@ -117,22 +117,52 @@ export default function HomePage() {
               realms.map((realm) => (
                 <div 
                   key={realm.id} 
-                  className={`realm-card bg-cover bg-center rounded-lg overflow-hidden shadow-lg cursor-pointer transform transition-all duration-300 
+                  className={`realm-card rounded-lg overflow-hidden shadow-lg cursor-pointer transform transition-all duration-300 
                     ${realm.isLocked ? 'opacity-80 filter grayscale' : 'hover:scale-105'}`}
-                  style={{ height: '200px', backgroundImage: `url('${realm.imageUrl}')` }}
                   onClick={() => handleRealmClick(realm.id, realm.isLocked)}
                 >
-                  <div className="h-full w-full flex flex-col justify-between p-4 bg-gradient-to-t from-black/70 to-transparent">
-                    <div className="text-center mt-2">
-                      <h3 className="text-xl font-bold text-amber-300 font-serif">{realm.name}</h3>
+                  <div className="relative h-full w-full">
+                    {/* Main realm image with fallback */}
+                    <div className="h-[200px] w-full bg-amber-100/30 relative">
+                      <img 
+                        src={realm.imageUrl} 
+                        alt={realm.name}
+                        className="h-full w-full object-cover object-center"
+                        onError={(e) => {
+                          // If main image fails, use the fallback image
+                          const target = e.target as HTMLImageElement;
+                          if (realm.fallbackImageUrl && target.src !== realm.fallbackImageUrl) {
+                            target.src = realm.fallbackImageUrl;
+                          } else {
+                            // If fallback also fails or doesn't exist, show a styled div
+                            target.style.display = 'none';
+                            const parent = target.parentNode as HTMLElement;
+                            if (parent) {
+                              parent.classList.add('bg-amber-800/50', 'flex', 'items-center', 'justify-center');
+                              // Add text content if image fails to load
+                              const textEl = document.createElement('span');
+                              textEl.className = 'text-amber-200 text-lg font-medium';
+                              textEl.textContent = realm.name;
+                              parent.appendChild(textEl);
+                            }
+                          }
+                        }}
+                      />
                     </div>
                     
-                    <div className={`rounded-md p-2 text-center mb-2 w-full 
-                      ${realm.isLocked ? 'bg-gray-800/70' : 'bg-amber-800/70'}`}>
-                      <span className={`text-sm font-medium
-                        ${realm.isLocked ? 'text-gray-400' : 'text-amber-200'}`}>
-                        {getModuleLabel(realm.focus, realm.moduleNumber)}
-                      </span>
+                    {/* Overlay with gradient and text */}
+                    <div className="absolute inset-0 h-full w-full flex flex-col justify-between p-4 bg-gradient-to-t from-black/70 to-transparent">
+                      <div className="text-center mt-2">
+                        <h3 className="text-xl font-bold text-amber-300 font-serif">{realm.name}</h3>
+                      </div>
+                      
+                      <div className={`rounded-md p-2 text-center mb-2 w-full 
+                        ${realm.isLocked ? 'bg-gray-800/70' : 'bg-amber-800/70'}`}>
+                        <span className={`text-sm font-medium
+                          ${realm.isLocked ? 'text-gray-400' : 'text-amber-200'}`}>
+                          {getModuleLabel(realm.focus, realm.moduleNumber)}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
