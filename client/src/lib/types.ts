@@ -34,8 +34,6 @@ export interface Realm {
   name: string;
   description: string;
   moduleNumber: number;
-  focus: string;
   imageUrl: string;
-  fallbackImageUrl?: string;
   isLocked: boolean;
 }
