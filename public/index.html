@@ -1,108 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>Bitcoin Quest: Asha's Journey</title>
-    <style>
-      body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        background: #11111b;
-        color: #e4e4e7;
-        margin: 0;
-        padding: 0;
-        display: flex;
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bitcoin Quest - Asha's Journey</title>
+  <style>
+    :root {
+      --primary: #EE720B;
+      --background: #1A1814;
+      --text-light: #FBF4D2;
+      --accent: #FFC567;
+      --text-dark: #121212;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      padding: 20px;
+    }
+    
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+      padding: 40px 20px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(41, 38, 33, 0.8), rgba(26, 24, 20, 0.8));
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="%23EE720B" stroke-width="1" fill="none" opacity="0.2"/><circle cx="30" cy="70" r="20" stroke="%23FFC567" stroke-width="1" fill="none" opacity="0.15"/><circle cx="70" cy="30" r="25" stroke="%23FBF4D2" stroke-width="1" fill="none" opacity="0.1"/></svg>');
+      background-repeat: repeat;
+      opacity: 0.15;
+      z-index: -1;
+    }
+    
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 30px;
+    }
+    
+    p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .btn {
+      display: inline-block;
+      background-color: var(--primary);
+      color: var(--text-light);
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 1px;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(238, 114, 11, 0.3);
+      margin: 10px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background-color: var(--accent);
+      color: var(--text-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(238, 114, 11, 0.5);
+    }
+    
+    .btn-secondary {
+      background-color: transparent;
+      border: 2px solid var(--primary);
+    }
+    
+    .btn-secondary:hover {
+      background-color: var(--primary);
+      color: var(--text-light);
+    }
+    
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .card {
+      background: rgba(41, 38, 33, 0.6);
+      border-radius: 12px;
+      padding: 30px;
+      width: 300px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    
+    .card:hover {
+      transform: translateY(-10px);
+    }
+    
+    .card h3 {
+      color: var(--accent);
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    
+    .card p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    
+    .api-test {
+      width: 100%;
+      max-width: 800px;
+      margin: 40px auto;
+      background: rgba(41, 38, 33, 0.6);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: left;
+    }
+    
+    .api-test h3 {
+      color: var(--accent);
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+    
+    .result {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 8px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      margin-top: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+      h2 {
+        font-size: 1.4rem;
+      }
+      .cards {
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        text-align: center;
       }
-      .container {
-        max-width: 800px;
-        padding: 2rem;
+      .card {
+        width: 100%;
+        max-width: 320px;
       }
-      h1 {
-        font-size: 2.5rem;
-        background: linear-gradient(45deg, #f79c11, #f44a3f);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 1rem;
-      }
-      p {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        margin-bottom: 1.5rem;
-      }
-      .btn {
-        display: inline-block;
-        background: linear-gradient(45deg, #f79c11, #f44a3f);
-        color: white;
-        font-weight: bold;
-        padding: 0.8rem 1.5rem;
-        border-radius: 0.5rem;
-        text-decoration: none;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-        border: none;
-        cursor: pointer;
-      }
-      .btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      }
-      .characters {
-        display: flex;
-        justify-content: center;
-        gap: 3rem;
-        margin: 2rem 0;
-      }
-      .characters img {
-        height: 180px;
-        object-fit: contain;
-      }
-      .features {
-        text-align: left;
-        margin: 2rem 0;
-      }
-      .features li {
-        margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-      }
-      .features li::before {
-        content: "✓";
-        color: #f79c11;
-        margin-right: 0.5rem;
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Bitcoin Quest: Asha's Journey</h1>
-      
-      <div class="characters">
-        <img src="https://bitcoiners.africa/wp-content/uploads/2025/04/ASHA-WOC.png" alt="Asha">
-        <img src="https://bitcoiners.africa/wp-content/uploads/2025/04/ODU.png" alt="Odu">
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>Bitcoin Quest</h1>
+      <h2>Asha's Journey Through the Realms of Money</h2>
+      <p>
+        Join Asha on an epic educational adventure that will transform your understanding of Bitcoin and cryptocurrency. 
+        Navigate through five unique realms, complete exciting missions, and collect badges as you master the fundamentals 
+        of this revolutionary technology.
+      </p>
+      <div>
+        <a href="/alt" class="btn">Launch Alternative App</a>
+        <a href="/" class="btn btn-secondary">Try Main Application</a>
       </div>
-      
-      <p>Embark on an educational journey through the realms of Bitcoin and discover the 
-      revolutionary potential of this technology in Africa and beyond.</p>
-      
-      <div class="features">
-        <ul>
-          <li>Interactive learning through stories</li>
-          <li>Earn badges and track your progress</li>
-          <li>Explore 5 unique realms of Bitcoin knowledge</li>
-          <li>Learn at your own pace, on any device</li>
-        </ul>
-      </div>
-      
-      <p>Our application is currently experiencing technical difficulties. Please try again later.</p>
-      
-      <a href="/api/health" class="btn">Check Server Status</a>
     </div>
-  </body>
+    
+    <div class="cards">
+      <div class="card">
+        <div class="feature-icon">🏛️</div>
+        <h3>Realm of Origins</h3>
+        <p>Begin your journey by understanding the fundamentals of money and how Bitcoin was born as a response to financial challenges.</p>
+      </div>
+      <div class="card">
+        <div class="feature-icon">🌳</div>
+        <h3>Forest of Sparks</h3>
+        <p>Navigate through the technical forest and discover how the Bitcoin network actually works.</p>
+      </div>
+      <div class="card">
+        <div class="feature-icon">🏙️</div>
+        <h3>Central Citadel</h3>
+        <p>Explore the economics of Bitcoin and understand its place in the broader financial landscape.</p>
+      </div>
+    </div>
+    
+    <div class="api-test">
+      <h3>API Connection Test</h3>
+      <p>This section tests the API connection to ensure the server is running properly.</p>
+      <button id="test-api" class="btn">Test API Connection</button>
+      <div id="api-result" class="result">API test results will appear here...</div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('test-api').addEventListener('click', async () => {
+      const resultEl = document.getElementById('api-result');
+      resultEl.textContent = 'Testing API connection...';
+      
+      try {
+        const response = await fetch('/api/realms');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        resultEl.textContent = 'Connection successful!\n\nRealms data: ' + 
+                              JSON.stringify(data.slice(0, 2), null, 2) + 
+                              '\n\n...and more realms';
+      } catch (error) {
+        resultEl.textContent = `Error: ${error.message}\n\nPlease check the server logs.`;
+      }
+    });
+  </script>
+</body>
 </html>

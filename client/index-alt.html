@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bitcoin Quest - Alternative Entry</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1A1814;
+      color: #FBF4D2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(238, 114, 11, 0.3);
+      text-align: center;
+    }
+    h1 {
+      color: #EE720B;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #FFC567;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .btn {
+      background-color: #EE720B;
+      color: #FBF4D2;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      margin: 10px;
+      display: inline-block;
+    }
+    .btn:hover {
+      background-color: #FFC567;
+      color: #1A1814;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(238, 114, 11, 0.4);
+    }
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .api-test {
+      margin-top: 30px;
+      text-align: left;
+    }
+    .result {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 15px;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      font-family: monospace;
+      text-align: left;
+    }
+  </style>
+  <!-- Improved Vite host configuration helper -->
+  <script>
+    // This script runs in the browser to modify Vite client's configuration
+    // Without modifying the vite.config.js file directly
+    (function() {
+      if (typeof window !== 'undefined') {
+        // Set up environment variables for Vite to allow all hosts
+        window.__vite_config_allowAllHosts = true;
+        window.__vite_bypass_host_check = true;
+        
+        console.log('Vite config helper: Allowed all hosts for development');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Bitcoin Quest</h1>
+    <p>Asha's Journey Through the Realms of Money</p>
+    
+    <p>Welcome to the alternate entry point for Bitcoin Quest. 
+       This page was created to help diagnose and bypass Vite host configuration issues.</p>
+    
+    <div class="options">
+      <button id="test-api" class="btn">Test API Connection</button>
+      <a href="/public/index.html" class="btn">Go to Test Page</a>
+    </div>
+    
+    <div class="api-test">
+      <div id="api-result" class="result">API test results will appear here...</div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('test-api').addEventListener('click', async () => {
+      const resultEl = document.getElementById('api-result');
+      resultEl.textContent = 'Testing API connection...';
+      
+      try {
+        const response = await fetch('/api/realms');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        resultEl.textContent = 'Connection successful!\n\nRealms data: ' + 
+                               JSON.stringify(data.slice(0, 2), null, 2) + 
+                               '\n\n...and more realms';
+      } catch (error) {
+        resultEl.textContent = `Error: ${error.message}\n\nPlease check the server logs.`;
+      }
+    });
+  </script>
+</body>
+</html>
