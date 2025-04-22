@@ -16,6 +16,7 @@ import NotFound from "@/pages/not-found";
 import StoryIntroPage from "@/pages/StoryIntroPage";
 import Realm1Page from "@/pages/Realm1Page";
 import Realm2Page from "@/pages/Realm2Page";
+import RealmPage from "@/pages/RealmPage";
 import MissionPage from "@/pages/MissionPage";
 import AfricaMapPage from "@/pages/AfricaMapPage";
 import BadgesPage from "@/pages/BadgesPage";
@@ -57,7 +58,7 @@ function App() {
           <ProtectedRoute path="/map" component={MapPage} />
           <ProtectedRoute path="/map/africa" component={AfricaMapPage} />
           <ProtectedRoute path="/badges" component={BadgesPage} />
-          <Route path="/realm/:id" component={MapPage} /> {/* Updated route to use RealmPage */}
+          <Route path="/realm/:id" component={RealmPage} /> {/* Using RealmPage to display realm content */}
           <Route path="/realm/1/mission/1" component={Mission1} /> {/* Added route for Mission1 */}
 
           {/* Fall back to NotFound for any other route */}

@@ -2,45 +2,6 @@ import { useParams, useLocation } from 'wouter';
 import { MissionCard } from '@/components/ui/mission-card';
 import { RealmData, missionData } from '@/lib/realm-data';
 
-// For demonstration, we'll create some sample missions that match the third image
-const demoMissions = [
-  {
-    title: 'The First Exchange',
-    description: 'Learn about barter systems.',
-    missionId: 101,
-    isCompleted: false,
-    isLocked: false
-  },
-  {
-    title: 'Cowries and Gold Dust',
-    description: 'Explore African traditional currencies',
-    missionId: 102,
-    isCompleted: false,
-    isLocked: false
-  },
-  {
-    title: 'Enter the Colonial Coin',
-    description: 'Discover colonial currency disruption',
-    missionId: 103,
-    isCompleted: false,
-    isLocked: false
-  },
-  {
-    title: 'Rise of the Nation-State Currency',
-    description: 'Fiat and inflation emerge',
-    missionId: 104,
-    isCompleted: false,
-    isLocked: false
-  },
-  {
-    title: 'Knowledge Test: Ancient to Modern Money',
-    description: 'Test your knowledge of the history of money',
-    missionId: 105,
-    isCompleted: false,
-    isLocked: false
-  }
-];
-
 export default function RealmPage() {
   const { id } = useParams<{ id: string }>();
   const realmId = parseInt(id || '1');
@@ -117,16 +78,28 @@ export default function RealmPage() {
       {/* Main content - grid of missions */}
       <main className="px-6 py-8">
         <div className="max-w-6xl mx-auto">
+          {/* Story Introduction */}
+          {currentRealm.storyIntro && (
+            <div className="mb-8 p-6 bg-amber-900/40 border border-amber-700/30 rounded-lg text-amber-100">
+              <h2 className="text-xl font-bold text-amber-300 mb-3">Story</h2>
+              <p className="italic">{currentRealm.storyIntro}</p>
+            </div>
+          )}
+          
+          {/* Missions Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {demoMissions.map((mission) => (
-              <MissionCard
-                key={mission.missionId}
-                title={mission.title}
-                description={mission.description}
-                isCompleted={mission.isCompleted}
-                isLocked={mission.isLocked}
-                missionId={mission.missionId}
-              />
+            {missionData
+              .filter(mission => mission.realmId === realmId)
+              .map((mission) => (
+                <MissionCard
+                  key={mission.id}
+                  title={mission.title}
+                  description={mission.description}
+                  imageUrl={mission.imageUrl}
+                  isCompleted={mission.isCompleted}
+                  isLocked={mission.isLocked}
+                  missionId={mission.id}
+                />
             ))}
           </div>
         </div>

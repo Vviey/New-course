@@ -16,25 +16,8 @@ export default function HomePage() {
 
   const handleRealmClick = (realmId: number, isLocked: boolean) => {
     if (!isLocked) {
-      switch(realmId) {
-        case 1:
-          setLocation('/realm1');
-          break;
-        case 2:
-          setLocation('/realm2');
-          break;
-        case 3:
-          setLocation('/realm3');
-          break;
-        case 4:
-          setLocation('/realm4');
-          break;
-        case 5:
-          setLocation('/realm5');
-          break;
-        default:
-          setLocation('/home');
-      }
+      // Use the universal realm route with the ID parameter
+      setLocation(`/realm/${realmId}`);
     }
   };
 
@@ -113,7 +96,7 @@ export default function HomePage() {
                   key={realm.id} 
                   className={`realm-card bg-cover bg-center rounded-lg overflow-hidden shadow-lg cursor-pointer transform transition-all duration-300 
                     ${realm.isLocked ? 'opacity-80 filter grayscale' : 'hover:scale-105'}`}
-                  style={{ height: '200px', backgroundImage: `url('/realms/realm-${realm.id}.jpg')` }}
+                  style={{ height: '200px', backgroundImage: `url('${realm.imageUrl}')` }}
                   onClick={() => handleRealmClick(realm.id, realm.isLocked)}
                 >
                   <div className="h-full w-full flex flex-col justify-between p-4 bg-gradient-to-t from-black/70 to-transparent">
