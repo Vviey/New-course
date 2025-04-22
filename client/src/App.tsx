@@ -19,6 +19,7 @@ import Realm2Page from "@/pages/Realm2Page";
 import MissionPage from "@/pages/MissionPage";
 import AfricaMapPage from "@/pages/AfricaMapPage";
 import BadgesPage from "@/pages/BadgesPage";
+import Mission1 from './pages/missions/Mission1'; // Added import
 
 // Context providers
 import { AuthProvider } from "@/context/AuthContext";
@@ -56,6 +57,8 @@ function App() {
           <ProtectedRoute path="/map" component={MapPage} />
           <ProtectedRoute path="/map/africa" component={AfricaMapPage} />
           <ProtectedRoute path="/badges" component={BadgesPage} />
+          <Route path="/realm/:id" component={Realm1Page} /> {/*This route is already there. */}
+          <Route path="/realm/1/mission/1" component={Mission1} /> {/* Added route for Mission1 */}
 
           {/* Fall back to NotFound for any other route */}
           <Route component={NotFound} />
