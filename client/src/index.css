@@ -1,8 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
+
+/* Enhanced Origins Theme Styles */
+@layer components {
+  /* Keyframes for glowing effects */
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 10px rgba(238, 114, 11, 0.5); }
+    50% { box-shadow: 0 0 15px rgba(255, 197, 103, 0.5); }
+  }
+}
 
 @layer base {
   * {
@@ -78,6 +89,10 @@
     font-family: 'Montserrat', sans-serif;
   }
   
+  .font-lora {
+    font-family: 'Lora', serif;
+  }
+  
   .bg-gradient-orange {
     background: linear-gradient(to right, #EE720B, #FFC567);
   }
@@ -114,5 +129,85 @@
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
+  }
+  
+  /* Realm of Origins Theme Specific Styles */
+  
+  /* Realm-specific backgrounds */
+  .bg-origins {
+    background-color: #FBF4D2;
+    background-image: url('/textures/woven-pattern.svg');
+    background-blend-mode: soft-light;
+  }
+  
+  .bg-origins-gradient {
+    background: linear-gradient(to bottom, #B34700, #EE720B);
+  }
+  
+  .bg-origins-card {
+    background-color: rgba(251, 244, 210, 0.9);
+    border: 1px solid #FFC567;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(238, 114, 11, 0.2);
+  }
+  
+  /* Button styles for Realm of Origins */
+  .btn-origins {
+    background-color: #EE720B;
+    color: #FBF4D2;
+    border-radius: 1.5rem;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(179, 71, 0, 0.3);
+  }
+  
+  .btn-origins:hover {
+    background-color: #FFC567;
+    color: #3A2E00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(179, 71, 0, 0.4);
+  }
+  
+  /* Progress and interactive elements */
+  .origins-progress-bar {
+    height: 0.75rem;
+    background-color: rgba(251, 244, 210, 0.3);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  
+  .origins-progress-fill {
+    background: linear-gradient(to right, #EE720B, #FFC567);
+    height: 100%;
+    border-radius: 1rem;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(238, 114, 11, 0.3);
+  }
+  
+  /* Pattern and texture classes */
+  .origins-pattern {
+    background-image: url('/textures/adinkra-pattern.svg');
+    background-repeat: repeat;
+    background-size: 200px;
+    background-blend-mode: soft-light;
+  }
+  
+  .cowrie-pattern {
+    background-image: url('/textures/cowrie-pattern.svg');
+    background-repeat: repeat;
+    background-size: 200px;
+    background-blend-mode: soft-light;
+  }
+  
+  /* Animation for completed missions */
+  @keyframes origins-complete-pulse {
+    0% { box-shadow: 0 0 10px 2px rgba(255, 197, 103, 0.3); }
+    50% { box-shadow: 0 0 15px 6px rgba(255, 197, 103, 0.5); transform: scale(1.05); }
+    100% { box-shadow: 0 0 10px 2px rgba(255, 197, 103, 0.3); }
+  }
+  
+  .origins-complete-animation {
+    animation: origins-complete-pulse 2s infinite ease-in-out;
   }
 }
