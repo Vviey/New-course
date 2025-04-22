@@ -16,7 +16,25 @@ export default function HomePage() {
 
   const handleRealmClick = (realmId: number, isLocked: boolean) => {
     if (!isLocked) {
-      setLocation(`/realm/${realmId}`);
+      switch(realmId) {
+        case 1:
+          setLocation('/realm1');
+          break;
+        case 2:
+          setLocation('/realm2');
+          break;
+        case 3:
+          setLocation('/realm3');
+          break;
+        case 4:
+          setLocation('/realm4');
+          break;
+        case 5:
+          setLocation('/realm5');
+          break;
+        default:
+          setLocation('/home');
+      }
     }
   };
 

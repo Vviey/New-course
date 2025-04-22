@@ -14,7 +14,8 @@ import HomePage from "@/pages/HomePage";
 import MapPage from "@/pages/MapPage";
 import NotFound from "@/pages/not-found";
 import StoryIntroPage from "@/pages/StoryIntroPage";
-import RealmPage from "@/pages/RealmPage";
+import Realm1Page from "@/pages/Realm1Page";
+import Realm2Page from "@/pages/Realm2Page";
 import MissionPage from "@/pages/MissionPage";
 import AfricaMapPage from "@/pages/AfricaMapPage";
 import BadgesPage from "@/pages/BadgesPage";
@@ -25,12 +26,12 @@ import { AuthProvider } from "@/context/AuthContext";
 // Router wrapper to handle navigation
 function RouterListener() {
   const [location] = useLocation();
-  
+
   // Log navigation for debugging
   useEffect(() => {
     console.log("Current location:", location);
   }, [location]);
-  
+
   return null;
 }
 
@@ -46,15 +47,16 @@ function App() {
           <Route path="/signup" component={SignupPage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/forgot-password" component={ForgotPasswordPage} />
-          
+
           {/* Protected Routes - Require Authentication */}
           <ProtectedRoute path="/home" component={HomePage} />
-          <ProtectedRoute path="/realm/:id" component={RealmPage} />
+          <Route path="/realm1" component={Realm1Page} />
+          <Route path="/realm2" component={Realm2Page} />
           <ProtectedRoute path="/mission/:id" component={MissionPage} />
           <ProtectedRoute path="/map" component={MapPage} />
           <ProtectedRoute path="/map/africa" component={AfricaMapPage} />
           <ProtectedRoute path="/badges" component={BadgesPage} />
-          
+
           {/* Fall back to NotFound for any other route */}
           <Route component={NotFound} />
         </Switch>
