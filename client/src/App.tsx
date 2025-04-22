@@ -57,7 +57,7 @@ function App() {
           <ProtectedRoute path="/map" component={MapPage} />
           <ProtectedRoute path="/map/africa" component={AfricaMapPage} />
           <ProtectedRoute path="/badges" component={BadgesPage} />
-          <Route path="/realm/:id" component={Realm1Page} /> {/*This route is already there. */}
+          <Route path="/realm/:id" component={MapPage} /> {/* Updated route to use RealmPage */}
           <Route path="/realm/1/mission/1" component={Mission1} /> {/* Added route for Mission1 */}
 
           {/* Fall back to NotFound for any other route */}

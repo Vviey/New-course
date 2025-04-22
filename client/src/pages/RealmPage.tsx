@@ -1,6 +1,6 @@
 import { useParams, useLocation } from 'wouter';
 import { MissionCard } from '@/components/ui/mission-card';
-import { RealmData } from '@/lib/realm-data';
+import { RealmData, missionData } from '@/lib/realm-data';
 
 // For demonstration, we'll create some sample missions that match the third image
 const demoMissions = [
