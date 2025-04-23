@@ -167,6 +167,22 @@
     box-shadow: 0 4px 12px rgba(179, 71, 0, 0.4);
   }
   
+  .btn-origins-outline {
+    background-color: transparent;
+    color: #FBF4D2;
+    border: 2px solid #EE720B;
+    border-radius: 1.5rem;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-origins-outline:hover {
+    background-color: rgba(238, 114, 11, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(238, 114, 11, 0.2);
+  }
+  
   /* Progress and interactive elements */
   .origins-progress-bar {
     height: 0.75rem;
@@ -207,5 +223,55 @@
   
   .origins-complete-animation {
     animation: origins-complete-pulse 2s infinite ease-in-out;
+  }
+  
+  /* Parallax specific styles */
+  .parallax-container {
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    perspective: 2px;
+  }
+  
+  .parallax-layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .parallax-layer-back {
+    transform: translateZ(-5px) scale(3.5);
+  }
+  
+  .parallax-layer-base {
+    transform: translateZ(0);
+  }
+  
+  .parallax-layer-front {
+    transform: translateZ(5px) scale(0.7);
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  .float-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .float-animation-delay-1 {
+    animation-delay: 1s;
+  }
+  
+  .float-animation-delay-2 {
+    animation-delay: 2s;
+  }
+  
+  .float-animation-delay-3 {
+    animation-delay: 3s;
   }
 }
