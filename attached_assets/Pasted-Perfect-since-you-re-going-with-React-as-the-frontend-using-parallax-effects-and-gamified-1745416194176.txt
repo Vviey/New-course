@@ -1,0 +1,125 @@
+Perfect — since you're going with **React** as the frontend, using **parallax effects** and gamified interactive elements (but staying within React/JS + CSS scope), here’s your **clear design requirements checklist** specifically for Asha’s Journey / Realm 1.
+
+---
+
+# 🎮 **Asha’s Journey: Realm 1 — Parallax Gamified Design Requirements**
+
+---
+
+## 🖼️ **1. Layered Visual Assets (for Parallax)**
+
+| Layer             | Type              | Movement Speed | Purpose                            |
+|-------------------|-------------------|----------------|------------------------------------|
+| Sky               | Gradient / Static | Slowest        | Deep background, atmosphere       |
+| Distant Landscape | Hills / Dunes     | Slow           | Adds depth (e.g., Sahara desert, skyline) |
+| Midground Objects | Trees, boats, camels, mosques, market stalls | Medium        | Main scenery and cultural setting |
+| Foreground Items  | Traders, Asha, Odu, objects like yams, pots, bracelet | Fastest        | Focus elements, interactables     |
+
+🔸 **Design Format:** SVG (preferred) / PNG (if detailed).  
+🔸 **Parallax Control:** Move layers using **CSS `transform: translate` + React state/scroll position** or `react-spring` for smooth interpolation.
+
+---
+
+## 🖌️ **2. Component Structure for Parallax + Storytelling**
+
+```
+/src
+  /components
+    /ParallaxScene.jsx      <-- Handles layered parallax backgrounds
+    /DialogueBox.jsx        <-- Story text, speaker handling
+    /ChallengeWrapper.jsx   <-- Loads barter game, quiz, timeline challenge
+    /AnimatedReward.jsx     <-- Reward pop-ups (glow effects)
+    /ProgressTracker.jsx    <-- Displays current mission progress
+    /SceneTransition.jsx    <-- Fades / parallax out to next scene
+```
+
+---
+
+## 🟠 **3. Required CSS Animations & Transitions**
+
+| Animation Type                | Purpose                            | Tools                   |
+|---------------------------------|------------------------------------|-------------------------|
+| Parallax layer translation      | Depth illusion                    | CSS transform / react-spring |
+| Dialogue text fade-in / out     | Smooth storytelling               | Framer Motion / CSS keyframes |
+| Drag-and-drop hover effects     | Barter game feedback               | CSS scale + color glow  |
+| Correct match → reward glow     | Bracelet bead lighting up         | CSS pulse + scale       |
+| Scene transitions (swirl, fade) | Move between missions             | Framer Motion           |
+
+---
+
+## 🧩 **4. Required Interactive Elements**
+
+- **Barter Matching (drag and drop):**  
+  Traders and items are draggable SVG cards. Match logic triggers animation and reward.
+
+- **Quiz Interaction:**  
+  Styled buttons for multiple-choice, hover effect with scale or border glow.
+
+- **Reflection Prompt Box:**  
+  Optional text input or selectable options ("What would you trade?").
+
+---
+
+## 🟢 **5. Audio Requirements**
+
+- **Ambient Background Loops:**  
+  Market sounds, desert winds, sea waves (adjust volume per scene).
+
+- **Interaction Sounds:**  
+  - Correct match = soft chime  
+  - Wrong match = soft wooden click  
+  - Scene change = airy swoosh  
+  - Reward unlock = bracelet glow sound
+
+Use **HTML5 Audio API** with controlled `play()` / `pause()` via React state.
+
+---
+
+## 🟡 **6. Progress System Design**
+
+| Feature                      | Type        | Tracking Method              |
+|--------------------------------|-------------|-----------------------------|
+| Mission completion            | Boolean per mission | Zustand / useContext |
+| Reward unlocked (bead, map)    | Boolean / ID list  | Zustand store               |
+| Quiz answers / reflections    | Optional save | Zustand (or localStorage if you want to persist between sessions) |
+
+---
+
+## 🌀 **7. Optional Enhancements (All React-Compatible):**
+
+| Feature                 | Tool              | Why Add It                     |
+|--------------------------|-------------------|---------------------------------|
+| Scene-based routing      | `React Router`    | Switch between realms or missions cleanly |
+| Custom cursor            | CSS + JS          | Make interactions feel unique (e.g., a glowing cowrie shell cursor) |
+| Sound toggle button      | React state       | Give users control over music / SFX |
+
+---
+
+## 💡 **8. Example Scene Flow (Mission 1.1 - Parallax + Interactivity)**
+
+1. **ParallaxScene.jsx** loads → layered SVGs (sky, dunes, traders, Asha).
+2. **DialogueBox.jsx** displays Odu explaining barter.
+3. **ChallengeWrapper.jsx** → loads drag-and-drop barter matching game.
+4. **On Success:**  
+   - Bracelet glows (reward pop-up via `AnimatedReward.jsx`)  
+   - Correct sound plays.
+5. **Reflection prompt appears.**
+6. **Scene fades → next mission loads with transition.**
+
+---
+
+## ✅ **9. Tools/Tech Stack Summary:**
+| Tech                  | Role                           |
+|------------------------|---------------------------------|
+| **React (JSX + Hooks)** | Structure, logic, interactivity |
+| **CSS / Styled-Components / JSS** | Styling, glow effects, layout |
+| **Framer Motion**       | Animations, transitions        |
+| **React Spring (optional)** | Smooth parallax interpolation |
+| **Zustand**             | Track mission progress, rewards |
+| **HTML5 Audio API**     | Handle background music / SFX  |
+
+---
+
+If you want, I can help draft the **starter structure of ParallaxScene.jsx** showing how to hook the layers and add the parallax movement.
+
+Would you like me to prepare that as your next step? 🚀
