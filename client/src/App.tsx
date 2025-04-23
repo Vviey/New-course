@@ -25,7 +25,7 @@ import OfflineSettingsPage from "@/pages/OfflineSettingsPage";
 import Mission1 from './pages/missions/Mission1'; // Added import
 
 // Context providers
-import { AuthProvider } from "@/hooks/use-auth";
+import { AuthProvider } from "@/context/AuthContext";
 import { OfflineProvider } from "@/context/OfflineContext";
 
 // Router wrapper to handle navigation

@@ -6,7 +6,8 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
 import { User as SelectUser } from "@shared/schema";
-import createMemoryStore from "memorystore";
+import connectPg from "connect-pg-simple";
+import { pool } from "./db";
 
 declare global {
   namespace Express {
@@ -30,14 +31,15 @@ async function comparePasswords(supplied: string, stored: string) {
 }
 
 export function setupAuth(app: Express) {
-  const MemoryStore = createMemoryStore(session);
+  const PostgresSessionStore = connectPg(session);
   
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || 'bitcoin-quest-secret-key',
     resave: false,
     saveUninitialized: false,
-    store: new MemoryStore({
-      checkPeriod: 86400000 // 24 hours
+    store: new PostgresSessionStore({ 
+      pool, 
+      createTableIfMissing: true 
     }),
     cookie: {
       secure: process.env.NODE_ENV === 'production',
