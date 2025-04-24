@@ -190,16 +190,16 @@ export default function Realm1Mission() {
     <div 
       className="min-h-screen py-8 px-4"
       style={{
-        backgroundColor: originTheme.colors.background,
-        color: originTheme.colors.textLight,
-        backgroundImage: "radial-gradient(circle at 10% 20%, rgba(238, 114, 11, 0.1) 0%, transparent 60%), radial-gradient(circle at 90% 80%, rgba(255, 197, 103, 0.1) 0%, transparent 60%)"
+        backgroundColor: "#FBF4D2", // Lighter background for better contrast
+        color: "#4B3621", // Darker text color for better readability
+        backgroundImage: "radial-gradient(circle at 10% 20%, rgba(238, 114, 11, 0.05) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(255, 197, 103, 0.05) 0%, transparent 40%)"
       }}
     >
       {/* Mission navigation header */}
       <header className="max-w-4xl mx-auto mb-6">
         <button 
           onClick={() => setLocation('/realm/1/home')} 
-          className="flex items-center text-amber-300 hover:text-amber-200 transition-colors"
+          className="flex items-center text-amber-800 hover:text-amber-600 transition-colors font-medium"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
@@ -218,7 +218,7 @@ export default function Realm1Mission() {
       {/* Mission content */}
       <main className="max-w-4xl mx-auto">
         {!contentRead ? (
-          <div className="bg-amber-900/30 backdrop-blur-sm p-8 rounded-xl border-2 border-amber-600/40 shadow-xl">
+          <div className="bg-white p-8 rounded-xl border-2 border-amber-600/40 shadow-xl">
             <Mission 
               mission={missionData}
               onComplete={handleMissionComplete}
@@ -238,12 +238,12 @@ export default function Realm1Mission() {
         ) : (
           <>
             {/* Challenge section */}
-            <div className="bg-amber-900/30 backdrop-blur-sm p-8 rounded-xl border-2 border-amber-600/40 shadow-xl">
-              <h2 className="text-2xl font-bold text-amber-300 mb-4">
+            <div className="bg-white p-8 rounded-xl border-2 border-amber-600/40 shadow-xl">
+              <h2 className="text-2xl font-bold text-amber-700 mb-4">
                 Challenge: {missionData?.title}
               </h2>
               
-              <p className="text-amber-100 mb-6">
+              <p className="text-amber-900 mb-6">
                 Complete this challenge to unlock the next mission and continue your journey through the Realm of Origins.
               </p>
               

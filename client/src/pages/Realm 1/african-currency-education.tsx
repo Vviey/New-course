@@ -130,44 +130,45 @@ Great Zimbabwe:
 
 const patternStyles: Record<PatternType, React.CSSProperties> = {
   spirals: {
-    backgroundImage: 'radial-gradient(circle, #EE720B 10%, transparent 11%), radial-gradient(circle, #EE720B 10%, transparent 11%)',
-    backgroundSize: '60px 60px',
-    backgroundPosition: '0 0, 30px 30px',
+    backgroundImage: 'radial-gradient(circle, #EE720B 8%, transparent 9%), radial-gradient(circle, #EE720B 8%, transparent 9%)',
+    backgroundSize: '80px 80px',
+    backgroundPosition: '0 0, 40px 40px',
     backgroundColor: '#FBF4D2',
     borderColor: '#FFC567'
   },
   meander: {
-    background: `repeating-linear-gradient(45deg, #EE720B, #EE720B 10px, #FFC567 10px, #FFC567 20px)`,
+    background: `repeating-linear-gradient(45deg, #EE720B, #EE720B 5px, #FFC567 5px, #FFC567 10px)`,
+    backgroundSize: '20px 20px',
     backgroundColor: '#FBF4D2',
     borderColor: '#FBF4D2'
   },
   leaves: {
-    backgroundImage: `linear-gradient(45deg, #EE720B 25%, transparent 25%), linear-gradient(-45deg, #EE720B 25%, transparent 25%)`,
-    backgroundSize: '20px 20px',
+    backgroundImage: `linear-gradient(45deg, #EE720B 15%, transparent 16%), linear-gradient(-45deg, #EE720B 15%, transparent 16%)`,
+    backgroundSize: '30px 30px',
     backgroundColor: '#FBF4D2',
     borderColor: '#FFC567'
   },
   waves: {
-    backgroundImage: `linear-gradient(135deg, #EE720B 25%, transparent 25%), linear-gradient(225deg, #EE720B 25%, transparent 25%)`,
-    backgroundSize: '20px 20px',
+    backgroundImage: `linear-gradient(135deg, #EE720B 15%, transparent 16%), linear-gradient(225deg, #EE720B 15%, transparent 16%)`,
+    backgroundSize: '30px 30px',
     backgroundColor: '#FFC567',
     borderColor: '#FBF4D2'
   },
   dots: {
-    backgroundImage: 'radial-gradient(#EE720B 20%, transparent 20%)',
-    backgroundSize: '15px 15px',
+    backgroundImage: 'radial-gradient(#EE720B 10%, transparent 11%)',
+    backgroundSize: '30px 30px',
     backgroundColor: '#FFC567',
     borderColor: '#FBF4D2'
   },
   chevron: {
-    backgroundImage: `linear-gradient(135deg, #FFC567 25%, transparent 25%), linear-gradient(225deg, #FFC567 25%, transparent 25%)`,
-    backgroundSize: '30px 30px',
+    backgroundImage: `linear-gradient(135deg, #FFC567 15%, transparent 16%), linear-gradient(225deg, #FFC567 15%, transparent 16%)`,
+    backgroundSize: '40px 40px',
     backgroundColor: '#EE720B',
     borderColor: '#FBF4D2'
   },
   floral: {
-    backgroundImage: `radial-gradient(circle at 50% 50%, #FFC567 10%, transparent 30%), radial-gradient(circle at 100% 50%, #EE720B 20%, transparent 30%)`,
-    backgroundSize: '50px 50px',
+    backgroundImage: `radial-gradient(circle at 50% 50%, #FFC567 5%, transparent 10%), radial-gradient(circle at 100% 50%, #EE720B 8%, transparent 12%)`,
+    backgroundSize: '80px 80px',
     backgroundColor: '#FBF4D2',
     borderColor: '#FFC567'
   }
@@ -199,7 +200,7 @@ export default function AfricanCurrencyEducation({ onComplete }: MissionProps) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-amber-50">
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-3xl font-bold mb-6 text-amber-900 text-center">
         African Currency Education
       </h1>
@@ -232,15 +233,20 @@ export default function AfricanCurrencyEducation({ onComplete }: MissionProps) {
       </div>
       <div className="mb-6">
         <div
-          className="h-16 rounded-t-lg flex items-center justify-center"
-          style={patternStyles[mission.pattern]}
+          className="h-16 rounded-t-lg flex items-center justify-center border-2 border-b-0"
+          style={{ 
+            borderColor: patternStyles[mission.pattern].borderColor,
+            backgroundColor: patternStyles[mission.pattern].backgroundColor
+          }}
         >
-          <h2 className="text-2xl font-bold text-white bg-amber-900/70 px-4 py-1 rounded">
-            Mission {mission.id}: {mission.title}
-          </h2>
+          <div className="bg-amber-600 px-4 py-2 rounded">
+            <h2 className="text-2xl font-bold text-white">
+              Mission {mission.id}: {mission.title}
+            </h2>
+          </div>
         </div>
         <div
-          className="bg-white p-6 rounded-b-lg shadow-md border-l-4 border-r-4 border-b-4"
+          className="bg-white p-6 rounded-b-lg shadow-md border-2 border-t-0"
           style={{ borderColor: patternStyles[mission.pattern].borderColor }}
         >
           <h3 className="text-xl font-semibold mb-4 text-amber-800">{mission.subtitle}</h3>
