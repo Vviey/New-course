@@ -1,98 +1,103 @@
 import { useParams, useLocation } from 'wouter';
 import { MissionCard } from '@/components/ui/mission-card';
 import { RealmData } from '@/lib/realm-data';
+import { realm1Missions } from '@/lib/realm1-missions';
+import { useAuth } from '@/context/AuthContext';
+import { originTheme } from '@/lib/realm-themes';
+import { useEffect } from 'react';
 
-// For demonstration, we'll create some sample missions that match the third image
-const demoMissions = [
-  {
-    title: 'The First Exchange',
-    description: 'Learn about barter systems.',
-    missionId: 101,
-    isCompleted: false,
-    isLocked: false
-  },
-  {
-    title: 'Cowries and Gold Dust',
-    description: 'Explore African traditional currencies',
-    missionId: 102,
-    isCompleted: false,
-    isLocked: false
-  },
-  {
-    title: 'Enter the Colonial Coin',
-    description: 'Discover colonial currency disruption',
-    missionId: 103,
-    isCompleted: false,
-    isLocked: false
-  },
-  {
-    title: 'Rise of the Nation-State Currency',
-    description: 'Fiat and inflation emerge',
-    missionId: 104,
-    isCompleted: false,
-    isLocked: false
-  },
-  {
-    title: 'Knowledge Test: Ancient to Modern Money',
-    description: 'Test your knowledge of the history of money',
-    missionId: 105,
-    isCompleted: false,
-    isLocked: false
+// Transform realm1Missions data to match MissionCard props
+const getMissionsForRealm = (realmId: number) => {
+  switch(realmId) {
+    case 1:
+      return realm1Missions.map((mission, index) => ({
+        title: mission.title,
+        description: mission.subtitle,
+        missionId: mission.id,
+        isCompleted: false, // This would come from user progress data in a real app
+        isLocked: false // All missions are accessible for demo purposes
+      }));
+    default:
+      // For other realms, use placeholder missions
+      return [
+        {
+          title: 'Coming Soon',
+          description: 'This realm is under construction',
+          missionId: realmId * 100 + 1,
+          isCompleted: false,
+          isLocked: true
+        }
+      ];
   }
-];
+};
 
 export default function RealmPage() {
   const { id } = useParams<{ id: string }>();
   const realmId = parseInt(id || '1');
   const [, setLocation] = useLocation();
+  const { user, loading } = useAuth();
+  
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      setLocation('/auth');
+    }
+  }, [user, loading, setLocation]);
   
   // Get realm-specific data 
   const currentRealm = RealmData.find(realm => realm.id === realmId) || RealmData[0];
   
-  // Get background image based on realm ID
-  const getBackgroundStyle = () => {
+  // Get missions for this realm
+  const missions = getMissionsForRealm(realmId);
+  
+  // Custom mission path generator
+  const getMissionPath = (missionId: number) => {
+    // Format consistent with architecture diagram
+    if (missionId === 100) { // Special case for bonus mission
+      return `/realm/${realmId}/mission/bonus`;
+    }
+    return `/realm/${realmId}/mission/${missionId % 100}`;
+  };
+  
+  // Get theme and styles for the current realm
+  const getRealmTheme = () => {
     switch(realmId) {
-      case 1: // Origins - matched to the third image
-        return { 
-          backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/04/realm-1.png')",
-          backgroundColor: "#B45309" // amber-700 as fallback
-        };
-      case 2: // Forest of Sparks
-        return { 
-          backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/04/realm-2.png')",
-          backgroundColor: "#065F46" // emerald-800 as fallback
-        };
-      case 3: // Central Citadel
-        return { 
-          backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/04/realm-3.png')",
-          backgroundColor: "#3730A3" // indigo-800 as fallback
-        };
-      case 4: // Council of Forks
-        return { 
-          backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/04/realm-4.png')",
-          backgroundColor: "#5B21B6" // purple-800 as fallback
-        };
-      case 5: // Ubuntu Village
-        return { 
-          backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/04/realm-5.png')",
-          backgroundColor: "#B91C1C" // red-700 as fallback
-        };
+      case 1:
+        return originTheme;
       default:
-        return { 
-          backgroundImage: "url('/backgrounds/realm-default-bg.jpg')",
-          backgroundColor: "#1F2937" // gray-800 as fallback
-        };
+        return originTheme; // Default to Origin theme for now
     }
   };
   
-  const backgroundStyle = getBackgroundStyle();
+  const currentTheme = getRealmTheme();
+  
+  // Handle mission card click
+  const handleMissionClick = (missionId: number) => {
+    setLocation(getMissionPath(missionId));
+  };
+
+  if (loading) {
+    return (
+      <div 
+        className="min-h-screen flex items-center justify-center"
+        style={{
+          backgroundColor: currentTheme.colors.background
+        }}
+      >
+        <div className="animate-pulse flex flex-col items-center">
+          <div className="h-32 w-32 bg-amber-600 rounded-full mb-4"></div>
+          <div className="h-6 w-48 bg-amber-600 rounded-full"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div 
-      className="min-h-screen bg-cover bg-center text-amber-100"
+      className="min-h-screen bg-cover bg-center"
       style={{
-        backgroundImage: backgroundStyle.backgroundImage,
-        backgroundColor: backgroundStyle.backgroundColor
+        backgroundColor: currentTheme.colors.background,
+        color: currentTheme.colors.textLight
       }}
     >
       {/* Header with back button and title */}
@@ -114,19 +119,30 @@ export default function RealmPage() {
         </div>
       </header>
       
+      {/* Realm description */}
+      <div className="px-6 py-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-amber-200 italic">{currentRealm.description}</p>
+        </div>
+      </div>
+      
       {/* Main content - grid of missions */}
       <main className="px-6 py-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {demoMissions.map((mission) => (
-              <MissionCard
+            {missions.map((mission) => (
+              <div 
                 key={mission.missionId}
-                title={mission.title}
-                description={mission.description}
-                isCompleted={mission.isCompleted}
-                isLocked={mission.isLocked}
-                missionId={mission.missionId}
-              />
+                onClick={() => !mission.isLocked && handleMissionClick(mission.missionId)}
+              >
+                <MissionCard
+                  title={mission.title}
+                  description={mission.description}
+                  isCompleted={mission.isCompleted}
+                  isLocked={mission.isLocked}
+                  missionId={mission.missionId}
+                />
+              </div>
             ))}
           </div>
         </div>

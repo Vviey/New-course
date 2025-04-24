@@ -8,6 +8,8 @@ export const users = pgTable("users", {
   username: text("username").notNull(),
   password: text("password").notNull(),
   email: text("email"),
+  githubId: text("github_id"),
+  avatarUrl: text("avatar_url"),
   progress: jsonb("progress").notNull(),
   rewards: jsonb("rewards").notNull()
 });
@@ -17,6 +19,8 @@ export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
   email: true,
+  githubId: true,
+  avatarUrl: true,
   progress: true,
   rewards: true
 });

@@ -1,40 +1,68 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User } from '@/lib/types';
+import { createContext, ReactNode, useContext, useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
+
+interface User {
+  id: number;
+  userId: string;
+  username: string;
+  email?: string;
+  avatarUrl?: string;
+  progress: {
+    currentRealm: number;
+    completedRealms: number[];
+    chain: {
+      progress: number;
+      lastUpdated: string;
+    };
+  };
+  rewards: {
+    badges: any[];
+    tokens: number;
+  };
+}
 
 interface AuthContextType {
   user: User | null;
   login: (username: string, password: string) => Promise<boolean>;
   signup: (username: string, password: string, email?: string) => Promise<boolean>;
-  logout: () => void;
+  logout: () => Promise<boolean>;
   loading: boolean;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const { toast } = useToast();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  // Check authentication status on component mount
   useEffect(() => {
-    // Check if user is already logged in
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    const checkAuth = async () => {
       try {
-        const userData = JSON.parse(storedUser);
-        setUser(userData);
+        const response = await fetch('/api/user');
+        
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
+          localStorage.setItem('user', JSON.stringify(userData));
+        } else {
+          // Not authenticated or error
+          localStorage.removeItem('user');
+        }
       } catch (error) {
-        console.error('Error parsing stored user data:', error);
+        console.error('Auth check failed', error);
         localStorage.removeItem('user');
+      } finally {
+        setLoading(false);
       }
-    }
-    setLoading(false);
+    };
+
+    checkAuth();
   }, []);
 
   const login = async (username: string, password: string): Promise<boolean> => {
     try {
-      setLoading(true);
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -43,58 +71,56 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         body: JSON.stringify({ username, password }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+        
         toast({
-          title: 'Login failed',
-          description: errorData.message || 'Invalid username or password',
-          variant: 'destructive',
+          title: "Login successful",
+          description: "Welcome to Bitcoin Quest!",
         });
-        return false;
+        
+        return true;
       }
-
-      const userData = await response.json();
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      return true;
-    } catch (error) {
-      console.error('Login error:', error);
+      
       toast({
-        title: 'Login failed',
-        description: 'An unexpected error occurred',
-        variant: 'destructive',
+        title: "Login failed",
+        description: "Invalid username or password",
+        variant: "destructive"
+      });
+      
+      return false;
+    } catch (error) {
+      toast({
+        title: "Login error",
+        description: "An unexpected error occurred",
+        variant: "destructive"
       });
       return false;
-    } finally {
-      setLoading(false);
     }
   };
 
   const signup = async (username: string, password: string, email?: string): Promise<boolean> => {
     try {
-      setLoading(true);
-      const initialProgress = {
-        currentRealm: 1,
-        completedRealms: [],
-        chain: {
-          progress: 0,
-          lastUpdated: new Date().toISOString()
-        }
-      };
-      
-      const initialRewards = {
-        badges: [],
-        tokens: 0
-      };
-
       const userData = {
         username,
         password,
         email,
-        progress: initialProgress,
-        rewards: initialRewards
+        progress: {
+          currentRealm: 1,
+          completedRealms: [],
+          chain: {
+            progress: 0,
+            lastUpdated: new Date().toISOString()
+          }
+        },
+        rewards: {
+          badges: [],
+          tokens: 0
+        }
       };
-
+      
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
@@ -103,42 +129,63 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         body: JSON.stringify(userData),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
+      if (response.ok) {
+        const newUser = await response.json();
+        setUser(newUser);
+        localStorage.setItem('user', JSON.stringify(newUser));
+        
         toast({
-          title: 'Signup failed',
-          description: errorData.message || 'Could not create account',
-          variant: 'destructive',
+          title: "Signup successful",
+          description: "Your account has been created",
         });
-        return false;
+        
+        return true;
       }
-
-      const newUser = await response.json();
-      setUser(newUser);
-      localStorage.setItem('user', JSON.stringify(newUser));
       
+      const errorData = await response.json();
       toast({
-        title: 'Account created',
-        description: `Your unique ID is ${newUser.userId}`,
+        title: "Signup failed",
+        description: errorData.message || "Could not create account",
+        variant: "destructive"
       });
       
-      return true;
+      return false;
     } catch (error) {
-      console.error('Signup error:', error);
       toast({
-        title: 'Signup failed',
-        description: 'An unexpected error occurred',
-        variant: 'destructive',
+        title: "Signup error",
+        description: "An unexpected error occurred",
+        variant: "destructive"
       });
       return false;
-    } finally {
-      setLoading(false);
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+  const logout = async (): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (response.ok) {
+        setUser(null);
+        localStorage.removeItem('user');
+        
+        toast({
+          title: "Logged out",
+          description: "You have been logged out successfully",
+        });
+        
+        return true;
+      }
+      
+      return false;
+    } catch (error) {
+      console.error('Logout error:', error);
+      return false;
+    }
   };
 
   return (
@@ -150,8 +197,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

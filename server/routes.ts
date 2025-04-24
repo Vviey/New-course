@@ -3,8 +3,22 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertUserSchema } from "@shared/schema";
 import { z } from "zod";
+import { setupAuth } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve the demo page for testing
+  app.get('/demo', (req, res) => {
+    res.sendFile('demo.html', { root: './public' });
+  });
+  
+  // Add a simple health check endpoint
+  app.get('/api/health', (req, res) => {
+    res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+  });
+  
+  // Set up authentication with GitHub OAuth
+  setupAuth(app);
+  
   // Initialize realms data
   await storage.initializeRealms();
 

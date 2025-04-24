@@ -8,6 +8,8 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
 import { UserIdRecovery } from '@/components/ui/user-id-recovery';
+import { GitHubLoginButton } from '@/components/ui/github-login-button';
+import { Separator } from '@/components/ui/separator';
 
 // Login form schema
 const loginFormSchema = z.object({
@@ -112,6 +114,17 @@ function LoginForm() {
             Return to the Realms
           </GradientButton>
         </div>
+        
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-secondary/20"></span>
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="bg-background px-2 text-lightText/60">Or continue with</span>
+          </div>
+        </div>
+        
+        <GitHubLoginButton />
         
         <div className="text-center mt-4">
           <button
@@ -286,6 +299,17 @@ function SignupForm() {
                 Start Your Journey
               </GradientButton>
             </div>
+            
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-secondary/20"></span>
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="bg-background px-2 text-lightText/60">Or continue with</span>
+              </div>
+            </div>
+            
+            <GitHubLoginButton />
           </form>
         </ThemeCard>
       )}

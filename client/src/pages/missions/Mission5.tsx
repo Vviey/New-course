@@ -1,28 +1,17 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
-import { useLocation, useParams } from 'wouter';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'wouter';
 import { Mission } from '@/components/missions/Mission';
 import { realm1Missions } from '@/lib/realm1-missions';
 import { useAuth } from '@/context/AuthContext';
 import { originTheme } from '@/lib/realm-themes';
-import { Loader2 } from 'lucide-react';
 
-// Lazy load simulation components to improve performance
-const BarterWebChallenge = lazy(() => import('./barter-web-challenge'));
-const TimelineBuilder = lazy(() => import('./timeline-builder'));
-const InflationSimulator = lazy(() => import('./inflation-simulator'));
-
-export default function Realm1Mission() {
+export default function Mission5() {
   const [, setLocation] = useLocation();
-  const { missionId } = useParams<{ missionId: string }>();
   const { user, loading } = useAuth();
   const [missionComplete, setMissionComplete] = useState(false);
   
-  // Parse mission ID from URL
-  const missionNumber = parseInt(missionId || '1');
-  const missionDataId = 100 + missionNumber;
-  
   // Current mission data
-  const missionData = realm1Missions.find(m => m.id === missionDataId);
+  const missionData = realm1Missions.find(m => m.id === 105);
   
   // Redirect if not authenticated
   useEffect(() => {
@@ -36,38 +25,12 @@ export default function Realm1Mission() {
     setMissionComplete(true);
     // In a real application, we would update the user's progress here
     // with something like:
-    // updateUserProgress(user.id, { completedMissions: [...user.completedMissions, missionDataId] })
+    // updateUserProgress(user.id, { completedMissions: [...user.completedMissions, 105] })
     
     // Redirect to realm page after a delay
     setTimeout(() => {
       setLocation('/realm/1');
     }, 2000);
-  };
-  
-  // Render appropriate simulation based on mission type
-  const renderSimulation = () => {
-    if (!missionData) return null;
-    
-    return (
-      <Suspense fallback={
-        <div className="flex justify-center items-center h-64">
-          <Loader2 className="h-8 w-8 animate-spin text-amber-500" />
-        </div>
-      }>
-        {(() => {
-          switch(missionData.simulationType) {
-            case 'barter':
-              return <BarterWebChallenge />;
-            case 'timeline':
-              return <TimelineBuilder />;
-            case 'inflation':
-              return <InflationSimulator />;
-            default:
-              return null;
-          }
-        })()}
-      </Suspense>
-    );
   };
   
   if (loading || !missionData) {
@@ -120,11 +83,6 @@ export default function Realm1Mission() {
           mission={missionData}
           onComplete={handleMissionComplete}
         />
-        
-        {/* Render appropriate simulation component */}
-        <div className="mt-8">
-          {renderSimulation()}
-        </div>
       </main>
     </div>
   );
