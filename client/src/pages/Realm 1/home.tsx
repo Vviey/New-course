@@ -9,14 +9,13 @@ export default function RealmHome() {
   // Track completed missions (in a real app, this would come from a database)
   const [completedMissions, setCompletedMissions] = useState<number[]>([]);
   
-  // Determine which mission is unlocked next
+  // All missions are unlocked
   const getNextUnlockedMission = () => {
-    if (completedMissions.length === 0) return 101; // First mission is always unlocked
-    return 100 + completedMissions.length + 1;
+    return 999; // Return a high number to unlock all missions
   };
   
   const isMissionUnlocked = (missionId: number) => {
-    return missionId <= getNextUnlockedMission();
+    return true; // All missions are unlocked
   };
   
   const isMissionCompleted = (missionId: number) => {

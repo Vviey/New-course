@@ -78,7 +78,7 @@ export const realm1Missions: MissionContent[] = [
     id: 101,
     title: "The First Exchange",
     subtitle: "Understanding Barter Systems",
-    description: "In this mission, you'll explore the ancient practice of bartering, the earliest form of economic exchange before the invention of money. You'll see why direct exchange of goods sometimes required complex chains of trades to get what you wanted.",
+    description: "In this mission, you'll explore the ancient practice of bartering, the earliest form of economic exchange before the invention of money. Across Africa, communities developed sophisticated barter networks, exchanging valuable goods like salt from the Sahara, gold from West Africa, textiles from Ethiopia, and copper from Central Africa.\n\nHowever, barter had major limitations. Imagine you have fish but need tools - if the toolmaker doesn't want fish, you're stuck! This 'double coincidence of wants' problem made trade inefficient. Additionally, how do you divide a cow if you only need a small amount of grain? These challenges eventually led societies to develop intermediate commodities that everyone accepted - the first forms of money.",
     objectives: [
       "Understand the basic concept of barter",
       "Identify the limitations of direct exchange",

@@ -12,6 +12,8 @@ const BarterWebChallenge = lazy(() => import('./barter-web-challenge'));
 const TimelineBuilder = lazy(() => import('./timeline-builder'));
 const InflationSimulator = lazy(() => import('./inflation-simulator'));
 const AfricanCurrencyEducation = lazy(() => import('./african-currency-education'));
+const QuizChallenge = lazy(() => import('@/components/simulations/QuizChallenge').then(module => ({ default: module.QuizChallenge })));
+const TradeRouteMap = lazy(() => import('@/components/simulations/TradeRouteMap').then(module => ({ default: module.TradeRouteMap })));
 
 export default function Realm1Mission() {
   const [, setLocation] = useLocation();
@@ -98,14 +100,14 @@ export default function Realm1Mission() {
               return <InflationSimulator onComplete={handleChallengeComplete} />;
             case 'reflection':
               return <AfricanCurrencyEducation onComplete={handleChallengeComplete} />;
-            // case 'quiz':
-            //   return <QuizChallenge questions={missionData.simulationData?.questions || []} onComplete={handleChallengeComplete} />;
-            // case 'map':
-            //   return <TradeRouteMap 
-            //     cities={missionData.simulationData?.cities || []} 
-            //     routes={missionData.simulationData?.routes || []} 
-            //     onComplete={handleChallengeComplete} 
-              // />;
+            case 'quiz':
+              return <QuizChallenge questions={missionData.simulationData?.questions || []} onComplete={handleChallengeComplete} />;
+            case 'map':
+              return <TradeRouteMap 
+                cities={missionData.simulationData?.cities || []} 
+                routes={missionData.simulationData?.routes || []} 
+                onComplete={handleChallengeComplete} 
+              />;
             default:
               return <div className="text-center text-amber-300 py-10">
                 <p>Challenge not found for this mission type.</p>
@@ -256,33 +258,33 @@ export default function Realm1Mission() {
             {/* Social media sharing section */}
             {showShareModal && (
               <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-                <div className="bg-amber-900 rounded-xl p-6 max-w-md w-full">
-                  <h3 className="text-xl font-bold text-amber-300 mb-4">Share Your Insight</h3>
+                <div className="bg-white rounded-xl p-6 max-w-md w-full">
+                  <h3 className="text-2xl font-bold text-amber-700 mb-4">Share Your Insight</h3>
                   <textarea
-                    className="w-full p-3 bg-amber-800 text-amber-100 rounded-lg border border-amber-600 mb-4"
+                    className="w-full p-3 bg-white text-gray-800 rounded-lg border-2 border-amber-300 mb-4"
                     rows={5}
                     value={shareContent}
                     onChange={(e) => setShareContent(e.target.value)}
                   />
                   
-                  <div className="flex flex-wrap gap-3 mb-4">
-                    <button className="px-4 py-2 bg-blue-600 text-white rounded">X (Twitter)</button>
-                    <button className="px-4 py-2 bg-blue-800 text-white rounded">Facebook</button>
-                    <button className="px-4 py-2 bg-green-600 text-white rounded">WhatsApp</button>
-                    <button className="px-4 py-2 bg-blue-500 text-white rounded">Telegram</button>
-                    <button className="px-4 py-2 bg-purple-700 text-white rounded">Nostr</button>
+                  <div className="flex flex-wrap gap-3 mb-6">
+                    <button className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors">X (Twitter)</button>
+                    <button className="px-4 py-2 bg-blue-800 text-white rounded-lg shadow-md hover:bg-blue-900 transition-colors">Facebook</button>
+                    <button className="px-4 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition-colors">WhatsApp</button>
+                    <button className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-colors">Telegram</button>
+                    <button className="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md hover:bg-purple-800 transition-colors">Nostr</button>
                   </div>
                   
                   <div className="flex justify-end">
                     <button 
                       onClick={() => setShowShareModal(false)}
-                      className="px-4 py-2 bg-gray-600 text-white rounded mr-3"
+                      className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 transition-colors mr-3"
                     >
                       Close
                     </button>
                     <button
                       onClick={handleMissionComplete}
-                      className="px-4 py-2 bg-amber-600 text-white rounded"
+                      className="px-4 py-2 bg-amber-600 text-white rounded-lg shadow-md hover:bg-amber-700 transition-colors"
                     >
                       Continue Journey
                     </button>

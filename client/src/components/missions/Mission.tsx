@@ -137,13 +137,40 @@ export function Mission({ mission, onComplete }: MissionProps) {
               </ul>
             </div>
             
-            {/* Start button */}
-            <button
-              className="w-full py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
-              onClick={startSimulation}
-            >
-              Begin Challenge
-            </button>
+            {/* For mission 1, show content directly; for others show start button */}
+            {mission.id === 101 ? (
+              <div className="mt-4 space-y-4">
+                <h3 className="text-xl font-semibold text-amber-800">Understanding Barter Systems</h3>
+                <p className="text-gray-700">
+                  Before money existed, communities used barter systems to trade goods and services directly. In ancient Africa, communities would exchange valuable commodities like salt, gold, livestock, and textiles.
+                </p>
+                <p className="text-gray-700">
+                  However, barter systems faced significant challenges:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                  <li><strong>Double coincidence of wants</strong>: Both parties needed to want what the other offered.</li>
+                  <li><strong>Indivisibility</strong>: Some goods couldn't be divided into smaller units.</li>
+                  <li><strong>Standardization</strong>: No standardized way to determine value.</li>
+                  <li><strong>Storage</strong>: Perishable goods couldn't store value over time.</li>
+                </ul>
+                <p className="text-gray-700">
+                  These limitations led to the development of commodity money and eventually currency systems that simplified trade across the continent.
+                </p>
+                <button
+                  className="w-full py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors mt-4"
+                  onClick={startSimulation}
+                >
+                  Start Barter Challenge
+                </button>
+              </div>
+            ) : (
+              <button
+                className="w-full py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+                onClick={startSimulation}
+              >
+                Begin Challenge
+              </button>
+            )}
           </div>
         </div>
       )}
