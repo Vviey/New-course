@@ -389,17 +389,18 @@ export const realm1Missions: MissionContent[] = [
   },
   {
     id: 106,
-    title: "Value and Time",
-    subtitle: "Reflections on Money",
-    description: "Take time to reflect on what you've learned about the origins of money, considering how it has evolved over time and how its properties relate to modern concepts of value.",
+    title: "Ubuntu Economics",
+    subtitle: "Trust-Based Systems Beyond Money",
+    description: "Explore how African societies developed sophisticated economic systems based on trust and communal values rather than relying solely on currency. Discover the philosophy of Ubuntu ('I am because we are') and its applications in community resource management throughout African history.",
     objectives: [
-      "Synthesize knowledge about money's origins",
-      "Connect historical monetary concepts to present day",
-      "Reflect on personal value systems",
-      "Prepare for next realm's more advanced concepts"
+      "Understand the philosophy of Ubuntu in economic contexts",
+      "Learn about gift economies and labor exchange systems in African societies",
+      "Explore communal resource management traditions",
+      "Compare trust-based and currency-based economies",
+      "Discover how Ubuntu principles continue to influence modern alternative economies"
     ],
     simulationType: "reflection",
-    reflectionQuestion: "Think about the different forms of money you've learned about, from cattle to shells to coins. What makes something valuable to humans? How might digital currencies like Bitcoin relate to the historical evolution of money you've explored in this realm?"
+    reflectionQuestion: "How did trust-based economic systems like Ubuntu provide resilience for communities? In what ways might these principles be valuable in today's economic systems?"
   },
   {
     id: 107,
