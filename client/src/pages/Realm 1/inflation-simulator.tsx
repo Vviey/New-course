@@ -304,7 +304,7 @@ const InflationSimulator = ({ onComplete }: InflationSimulatorProps) => {
         </p>
         <textarea 
           className="w-full p-3 border-2 border-yellow-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white" 
-          rows="4"
+          rows={4}
           placeholder="Type your thoughts..."
         />
       </div>

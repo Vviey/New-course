@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
+interface CardItem {
+  uniqueId: string;
+  id: number;
+  name: string;
+  value: string;
+}
+
 const MatchingGame = () => {
-  const [cards, setCards] = useState([]);
-  const [flipped, setFlipped] = useState([]);
-  const [matched, setMatched] = useState([]);
-  const [moves, setMoves] = useState(0);
-  const [lives, setLives] = useState(5);
+  const [cards, setCards] = useState<CardItem[]>([]);
+  const [flipped, setFlipped] = useState<string[]>([]);
+  const [matched, setMatched] = useState<string[]>([]);
+  const [moves, setMoves] = useState<number>(0);
+  const [lives, setLives] = useState<number>(5);
 
   const items = [
     { id: 1, name: 'Cowrie Shell', value: '🐚' },
@@ -20,7 +27,7 @@ const MatchingGame = () => {
 
   const initializeGame = () => {
     const duplicatedItems = [...items, ...items];
-    const shuffledItems = duplicatedItems
+    const shuffledItems: CardItem[] = duplicatedItems
       .sort(() => Math.random() - 0.5)
       .map((item, index) => ({
         ...item,
@@ -33,7 +40,7 @@ const MatchingGame = () => {
     setLives(5);
   };
 
-  const handleCardClick = (uniqueId) => {
+  const handleCardClick = (uniqueId: string) => {
     if (flipped.length === 2 || flipped.includes(uniqueId) || matched.includes(uniqueId)) {
       return;
     }
@@ -47,7 +54,7 @@ const MatchingGame = () => {
       const firstCard = cards.find(card => card.uniqueId === firstId);
       const secondCard = cards.find(card => card.uniqueId === secondId);
 
-      if (firstCard.id === secondCard.id) {
+      if (firstCard && secondCard && firstCard.id === secondCard.id) {
         setMatched(prev => [...prev, firstId, secondId]);
         setFlipped([]);
       } else {

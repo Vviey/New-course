@@ -328,7 +328,8 @@ const TimelineBuilder = ({ onComplete }: TimelineBuilderProps) => {
               onDragOver={handleDragOver}
               onDrop={handleDrop}
             >
-              <AfricanPatterns.zigzag />
+              {AfricanPatterns['zigzag']}
+
               
               <h3 className="text-xl font-serif text-orange-800 mb-4 relative z-10">Timeline</h3>
               
@@ -362,7 +363,8 @@ const TimelineBuilder = ({ onComplete }: TimelineBuilderProps) => {
             
             {/* Available events */}
             <div className="bg-amber-100 rounded-xl p-4 border-2 border-yellow-300 relative overflow-hidden">
-              <AfricanPatterns.circles />
+              {AfricanPatterns.circles}
+
               
               <h3 className="text-xl font-serif text-orange-800 mb-4 relative z-10">Available Events</h3>
               
@@ -413,7 +415,7 @@ const TimelineBuilder = ({ onComplete }: TimelineBuilderProps) => {
             </p>
             <textarea 
               className="w-full p-3 border-2 border-yellow-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white" 
-              rows="4"
+              rows={4}
               placeholder="Type your thoughts..."
             />
           </div>
