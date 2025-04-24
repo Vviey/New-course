@@ -209,7 +209,7 @@ export default function BadgesPage() {
       </header>
       
       <div className="container mx-auto px-4 py-6">
-        <ThemeHeading level={1} className="mb-2 text-center">Your Achievements</ThemeHeading>
+      <ThemeHeading className="mb-2 text-center" >Your Achievements</ThemeHeading>
         <p className="text-lightText/80 max-w-2xl mx-auto text-center mb-8">
           Track your progress through Asha's journey with these badges and certificates.
           Each represents knowledge and skills gained along the way.

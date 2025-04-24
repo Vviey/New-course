@@ -132,7 +132,8 @@ export default function AfricaMapPage() {
       </header>
       
       <div className="container mx-auto px-4 py-6">
-        <ThemeHeading level={1} className="mb-4 text-center">Bitcoin Projects Across Africa</ThemeHeading>
+        <ThemeHeading className="mb-4 text-center">Bitcoin Projects Across Africa</ThemeHeading>
+             
         <p className="text-lightText/90 max-w-3xl mx-auto text-center mb-8">
           Explore the growing Bitcoin ecosystem across the African continent. 
           Click on a marker to learn more about each project and how they're 
