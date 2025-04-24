@@ -1,7 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
+
+// Define TypeScript interfaces for the timeline event
+interface TimelineEvent {
+  id: number;
+  name: string;
+  year: string;
+  order: number;
+  description: string;
+  image: string;
+  pattern: string;
+}
+
+// Define pattern types for TypeScript
+type PatternType = 'spiral' | 'zigzag' | 'circles' | 'leaves' | 'flower' | 'greek';
 
 // African pattern SVG backgrounds - inspired by the shared image
-const AfricanPatterns = {
+const AfricanPatterns: Record<string, JSX.Element> = {
   spiral: (
     <svg width="100%" height="100%" className="absolute inset-0 opacity-15 pointer-events-none">
       <pattern id="spiralPattern" patternUnits="userSpaceOnUse" width="80" height="80">
@@ -64,9 +78,14 @@ const AfricanPatterns = {
   )
 };
 
+interface AfricanBorderProps {
+  children: ReactNode;
+  patternType?: PatternType;
+}
+
 // Component for decorative border with African pattern
-const AfricanBorder = ({ children, patternType = "zigzag" }) => {
-  const patterns = {
+const AfricanBorder = ({ children, patternType = "zigzag" }: AfricanBorderProps) => {
+  const patterns: Record<PatternType, JSX.Element> = {
     zigzag: (
       <svg width="100%" height="8" className="absolute top-0 left-0">
         <rect width="100%" height="8" fill="#EE720B" />
@@ -98,6 +117,24 @@ const AfricanBorder = ({ children, patternType = "zigzag" }) => {
         <path d="M0 4 H4 V0 H8 V4 H12 V0 H16 V4 H20 V0 H24 V4 H28 V0 H32 V4 H36 V0 H40 V4 H44 V0 H48 V4 H52 V0 H56 V4 H60 V0 H64 V4 H68 V0 H72 V4 H76 V0 H80 V4 H84 V0 H88 V4 H92 V0 H96 V4 H100 V0 H104 V4 H108 V0 H112 V4 H116 V0 H120 V4" 
           stroke="#FFC567" strokeWidth="2" fill="none" />
       </svg>
+    ),
+    spiral: (
+      <svg width="100%" height="8" className="absolute top-0 left-0">
+        <rect width="100%" height="8" fill="#EE720B" />
+        <circle cx="100" cy="4" r="3" fill="#FFC567" />
+      </svg>
+    ),
+    leaves: (
+      <svg width="100%" height="8" className="absolute top-0 left-0">
+        <rect width="100%" height="8" fill="#EE720B" />
+        <circle cx="100" cy="4" r="3" fill="#FFC567" />
+      </svg>
+    ),
+    flower: (
+      <svg width="100%" height="8" className="absolute top-0 left-0">
+        <rect width="100%" height="8" fill="#EE720B" />
+        <circle cx="100" cy="4" r="3" fill="#FFC567" />
+      </svg>
     )
   };
 
@@ -111,17 +148,28 @@ const AfricanBorder = ({ children, patternType = "zigzag" }) => {
   );
 };
 
-const TimelineBuilder = () => {
-  const [timelineEvents, setTimelineEvents] = useState([]);
-  const [availableEvents, setAvailableEvents] = useState([]);
-  const [draggedEvent, setDraggedEvent] = useState(null);
-  const [score, setScore] = useState(0);
-  const [message, setMessage] = useState("");
-  const [gameComplete, setGameComplete] = useState(false);
+interface TimelineBuilderProps {
+  onComplete?: () => void;
+}
+
+const TimelineBuilder = ({ onComplete }: TimelineBuilderProps) => {
+  const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([]);
+  const [availableEvents, setAvailableEvents] = useState<TimelineEvent[]>([]);
+  const [draggedEvent, setDraggedEvent] = useState<number | null>(null);
+  const [score, setScore] = useState<number>(0);
+  const [message, setMessage] = useState<string>("");
+  const [gameComplete, setGameComplete] = useState<boolean>(false);
   
   // Initialize events
   useEffect(() => {
-    const events = [
+    // Reset game state
+    setTimelineEvents([]);
+    setDraggedEvent(null);
+    setScore(0);
+    setMessage("");
+    setGameComplete(false);
+    
+    const events: TimelineEvent[] = [
       { 
         id: 1, 
         name: "Cowrie Shells as Currency", 
@@ -193,15 +241,15 @@ const TimelineBuilder = () => {
     setTimelineEvents([]);
   }, []);
   
-  const handleDragStart = (event, id) => {
+  const handleDragStart = (event: React.DragEvent<HTMLDivElement>, id: number): void => {
     setDraggedEvent(id);
   };
   
-  const handleDragOver = (event) => {
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>): void => {
     event.preventDefault();
   };
   
-  const handleDrop = (event) => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>): void => {
     event.preventDefault();
     
     if (draggedEvent !== null) {
@@ -225,6 +273,11 @@ const TimelineBuilder = () => {
         // Check if game is complete
         if (availableEvents.length === 1) { // Will be 0 after this drop completes
           setGameComplete(true);
+          
+          // Call onComplete callback if provided
+          if (onComplete) {
+            onComplete();
+          }
         }
       }
       
@@ -232,7 +285,7 @@ const TimelineBuilder = () => {
     }
   };
   
-  const resetGame = () => {
+  const resetGame = (): void => {
     const events = timelineEvents.concat(availableEvents);
     const shuffled = [...events].sort(() => Math.random() - 0.5);
     setAvailableEvents(shuffled);

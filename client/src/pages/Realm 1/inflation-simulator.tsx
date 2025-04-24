@@ -1,9 +1,23 @@
 import { useState, useEffect } from 'react';
 
-const InflationSimulator = () => {
+// Define TypeScript interfaces
+interface Item {
+  id: number;
+  name: string;
+  basePrice: number;
+  currentPrice: number;
+  inflationRate: number;
+  quantity: number;
+}
+
+interface InflationSimulatorProps {
+  onComplete?: () => void;
+}
+
+const InflationSimulator = ({ onComplete }: InflationSimulatorProps) => {
   const [day, setDay] = useState(1);
   const [money, setMoney] = useState(1000);
-  const [items, setItems] = useState([
+  const [items, setItems] = useState<Item[]>([
     { id: 1, name: 'Bread', basePrice: 50, currentPrice: 50, inflationRate: 0.05, quantity: 0 },
     { id: 2, name: 'Fish', basePrice: 100, currentPrice: 100, inflationRate: 0.08, quantity: 0 },
     { id: 3, name: 'Salt', basePrice: 25, currentPrice: 25, inflationRate: 0.03, quantity: 0 },
@@ -13,11 +27,11 @@ const InflationSimulator = () => {
   const [gameSpeed, setGameSpeed] = useState(1000);
   const [isRunning, setIsRunning] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [log, setLog] = useState([]);
+  const [log, setLog] = useState<string[]>([]);
 
   // Timer for day progression
   useEffect(() => {
-    let timer;
+    let timer: NodeJS.Timeout | undefined;
     
     if (isRunning && !isGameOver) {
       timer = setInterval(() => {
@@ -25,7 +39,9 @@ const InflationSimulator = () => {
       }, gameSpeed);
     }
     
-    return () => clearInterval(timer);
+    return () => {
+      if (timer) clearInterval(timer);
+    };
   }, [isRunning, gameSpeed, isGameOver]);
 
   // Update prices based on inflation
@@ -46,18 +62,23 @@ const InflationSimulator = () => {
         setIsGameOver(true);
         setIsRunning(false);
         addToLog(`Day ${day}: You can no longer afford any items. Game over!`);
+        
+        // Call onComplete if provided when the game is over
+        if (onComplete) {
+          onComplete();
+        }
       }
     }
-  }, [day]);
+  }, [day, items, money, inflationRate, onComplete]);
 
-  const addToLog = (message) => {
+  const addToLog = (message: string): void => {
     setLog(prevLog => [message, ...prevLog].slice(0, 10));
   };
 
-  const buyItem = (itemId) => {
+  const buyItem = (itemId: number): void => {
     const item = items.find(i => i.id === itemId);
     
-    if (money >= item.currentPrice) {
+    if (item && money >= item.currentPrice) {
       setMoney(prevMoney => prevMoney - item.currentPrice);
       setItems(prevItems => 
         prevItems.map(i => 
@@ -67,13 +88,13 @@ const InflationSimulator = () => {
         )
       );
       addToLog(`Day ${day}: Bought 1 ${item.name} for ${item.currentPrice} coins.`);
-    } else {
+    } else if (item) {
       addToLog(`Day ${day}: Cannot afford ${item.name}.`);
     }
   };
 
-  const toggleRunning = () => {
-    setIsRunning(!isRunning);
+  const toggleRunning = (): void => {
+    setIsRunning(prevIsRunning => !prevIsRunning);
     if (!isRunning) {
       addToLog(`Day ${day}: Market opened.`);
     } else {
@@ -81,7 +102,7 @@ const InflationSimulator = () => {
     }
   };
 
-  const resetGame = () => {
+  const resetGame = (): void => {
     setDay(1);
     setMoney(1000);
     setItems(items.map(item => ({ ...item, currentPrice: item.basePrice, quantity: 0 })));
@@ -89,10 +110,15 @@ const InflationSimulator = () => {
     setIsGameOver(false);
     setLog([]);
     addToLog("Game reset. New simulation started.");
+    
+    // Call onComplete if provided when the game is reset or completed
+    if (onComplete && isGameOver) {
+      onComplete();
+    }
   };
 
   // Calculate total value of purchases at both current and original prices
-  const calculateValue = () => {
+  const calculateValue = (): { originalValue: number; currentValue: number } => {
     const originalValue = items.reduce((sum, item) => sum + (item.basePrice * item.quantity), 0);
     const currentValue = items.reduce((sum, item) => sum + (item.currentPrice * item.quantity), 0);
     return { originalValue, currentValue };
