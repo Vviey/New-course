@@ -1,10 +1,37 @@
 import { useState, useEffect } from 'react';
 
-const BarterWebChallenge = () => {
-  const [traders, setTraders] = useState([]);
-  const [connections, setConnections] = useState([]);
-  const [selectedTrader, setSelectedTrader] = useState(null);
-  const [completedTrades, setCompletedTrades] = useState([]);
+// Define TypeScript interfaces for our data structures
+interface Trader {
+  id: number;
+  name: string;
+  has: string;
+  wants: string;
+  position: {
+    x: number;
+    y: number;
+  };
+}
+
+interface Connection {
+  from: number;
+  to: number;
+}
+
+interface Trade {
+  fromId: number;
+  toId: number;
+  item: string;
+}
+
+interface BarterWebChallengeProps {
+  onComplete?: () => void;
+}
+
+const BarterWebChallenge = ({ onComplete }: BarterWebChallengeProps) => {
+  const [traders, setTraders] = useState<Trader[]>([]);
+  const [connections, setConnections] = useState<Connection[]>([]);
+  const [selectedTrader, setSelectedTrader] = useState<number | null>(null);
+  const [completedTrades, setCompletedTrades] = useState<Trade[]>([]);
   const [isAllComplete, setIsAllComplete] = useState(false);
   const [attempts, setAttempts] = useState(0);
 
@@ -31,18 +58,32 @@ const BarterWebChallenge = () => {
       
       setIsAllComplete(allValid);
       if (allValid) {
-        setCompletedTrades(connections.map(conn => ({
-          fromId: conn.from,
-          toId: conn.to,
-          item: traders.find(t => t.id === conn.from).has
-        })));
+        // Set completed trades
+        const trades = connections.map(conn => {
+          const fromTrader = traders.find(t => t.id === conn.from);
+          if (fromTrader) {
+            return {
+              fromId: conn.from,
+              toId: conn.to,
+              item: fromTrader.has
+            };
+          }
+          return null;
+        }).filter(Boolean) as Trade[];
+        
+        setCompletedTrades(trades);
+        
+        // Call onComplete if provided
+        if (onComplete) {
+          onComplete();
+        }
       }
     } else {
       setIsAllComplete(false);
     }
-  }, [connections, traders]);
+  }, [connections, traders, onComplete]);
 
-  const handleTraderClick = (traderId) => {
+  const handleTraderClick = (traderId: number): void => {
     if (selectedTrader === null) {
       setSelectedTrader(traderId);
     } else if (selectedTrader === traderId) {
@@ -65,7 +106,7 @@ const BarterWebChallenge = () => {
     }
   };
 
-  const resetGame = () => {
+  const resetGame = (): void => {
     setConnections([]);
     setSelectedTrader(null);
     setCompletedTrades([]);
@@ -74,7 +115,7 @@ const BarterWebChallenge = () => {
   };
 
   // Calculate line coordinates between traders
-  const getLineCoordinates = (connection) => {
+  const getLineCoordinates = (connection: Connection): { x1: string; y1: string; x2: string; y2: string; } | null => {
     const fromTrader = traders.find(t => t.id === connection.from);
     const toTrader = traders.find(t => t.id === connection.to);
     
@@ -89,10 +130,10 @@ const BarterWebChallenge = () => {
   };
 
   // Check if a connection is valid (correct item match)
-  const isValidConnection = (connection) => {
+  const isValidConnection = (connection: Connection): boolean => {
     const giver = traders.find(t => t.id === connection.from);
     const receiver = traders.find(t => t.id === connection.to);
-    return giver && receiver && giver.has === receiver.wants;
+    return giver !== undefined && receiver !== undefined && giver.has === receiver.wants;
   };
 
   return (
@@ -188,6 +229,9 @@ const BarterWebChallenge = () => {
                   {completedTrades.map((trade, idx) => {
                     const fromTrader = traders.find(t => t.id === trade.fromId);
                     const toTrader = traders.find(t => t.id === trade.toId);
+                    
+                    if (!fromTrader || !toTrader) return null;
+                    
                     return (
                       <li key={idx}>
                         {fromTrader.name} gave {trade.item} to {toTrader.name}
