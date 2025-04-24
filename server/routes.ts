@@ -1,12 +1,29 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertUserSchema } from "@shared/schema";
 import { z } from "zod";
+import path from "path";
+import fs from "fs";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize realms data
   await storage.initializeRealms();
+  
+  // Special route for parallax journey (direct access)
+  app.get('/parallax', (req, res) => {
+    const clientDir = path.resolve('./client');
+    const parallaxPath = path.join(clientDir, 'parallax-entry.html');
+    
+    if (fs.existsSync(parallaxPath)) {
+      res.sendFile(parallaxPath);
+    } else {
+      res.redirect('/');
+    }
+  });
+
+  // User routes
+
 
   // User routes
   app.post('/api/auth/signup', async (req, res) => {

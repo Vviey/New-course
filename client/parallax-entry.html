@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bitcoin Quest - Parallax Journey</title>
+  <link rel="stylesheet" href="/src/index.css">
+  <style>
+    /* Fallback styles in case CSS doesn't load */
+    body {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      flex-direction: column;
+    }
+    .loading-pulse {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #EE720B;
+      margin-bottom: 20px;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0% {
+        transform: scale(0.8);
+        opacity: 0.7;
+      }
+      50% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0.8);
+        opacity: 0.7;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="loading">
+      <div class="loading-pulse"></div>
+      <div>Loading Bitcoin Quest...</div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.tsx"></script>
+  <script>
+    // Direct navigation to journey page
+    window.addEventListener('DOMContentLoaded', () => {
+      // Wait for React to initialize
+      setTimeout(() => {
+        // Check if the app is loaded by looking for React's root
+        const appLoaded = document.getElementById('root').childElementCount > 1;
+        if (appLoaded) {
+          // Navigate to journey page
+          window.location.href = '/journey';
+        }
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

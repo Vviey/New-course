@@ -5,8 +5,10 @@ import cors from "cors";
 
 const app = express();
 app.use(cors({ 
-  origin: true, // Reflect the request origin
-  credentials: true // Allow credentials (cookies, etc.)
+  origin: '*', // Allow all origins
+  credentials: true, // Allow credentials (cookies, etc.)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow all methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Allow essential headers
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
