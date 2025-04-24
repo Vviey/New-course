@@ -400,5 +400,21 @@ export const realm1Missions: MissionContent[] = [
     ],
     simulationType: "reflection",
     reflectionQuestion: "Think about the different forms of money you've learned about, from cattle to shells to coins. What makes something valuable to humans? How might digital currencies like Bitcoin relate to the historical evolution of money you've explored in this realm?"
+  },
+  {
+    id: 107,
+    title: "African Currency Education",
+    subtitle: "From Cowrie Shells to Colonial Coins",
+    description: "Explore the rich history of money and currency systems throughout African history. Learn how different cultures and communities developed unique monetary systems and how these evolved over time in response to local conditions and external forces.",
+    objectives: [
+      "Understand African barter systems and early trading practices",
+      "Learn about indigenous commodity currencies like cowrie shells and gold dust",
+      "Examine the impact of colonization on African monetary systems",
+      "Explore historical inflation events and their social impacts",
+      "Discover the monetary innovations of historic African empires",
+      "Consider the role of community and trust in value systems"
+    ],
+    simulationType: "reflection",
+    reflectionQuestion: "How did traditional African monetary systems incorporate both economic and cultural values? What lessons can we learn from these systems in today's digital age?"
   }
 ];

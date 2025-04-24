@@ -73,7 +73,12 @@ export default function RealmPage() {
   
   // Handle mission card click
   const handleMissionClick = (missionId: number) => {
-    setLocation(getMissionPath(missionId));
+    // For Realm 1, redirect to story intro first if it's the first mission
+    if (realmId === 1 && missionId === 101) {
+      setLocation('/realm/1/story');
+    } else {
+      setLocation(getMissionPath(missionId));
+    }
   };
 
   if (loading) {

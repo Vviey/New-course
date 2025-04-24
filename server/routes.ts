@@ -11,6 +11,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.sendFile('demo.html', { root: './public' });
   });
   
+  // Serve the African Currency Education demo page
+  app.get('/african-currency-demo', (req, res) => {
+    res.sendFile('african-currency-demo.html', { root: './public' });
+  });
+  
   // Add a simple health check endpoint
   app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });

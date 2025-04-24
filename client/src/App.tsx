@@ -19,8 +19,10 @@ import MissionPage from "@/pages/MissionPage";
 import AfricaMapPage from "@/pages/AfricaMapPage";
 import BadgesPage from "@/pages/BadgesPage";
 
-// Import Realm 1 Mission component
+// Import Realm 1 components
 import Realm1Mission from "@/pages/Realm 1/Missions";
+import Realm1Story from "@/pages/Realm 1/story-intro";
+import Realm1Home from "@/pages/Realm 1/home";
 
 // Context providers
 import { AuthProvider } from "@/context/AuthContext";
@@ -57,8 +59,9 @@ function App() {
           <ProtectedRoute path="/map/africa" component={AfricaMapPage} />
           <ProtectedRoute path="/badges" component={BadgesPage} />
           
-          {/* Mission Routes - Following architecture diagram */}
-          {/* Realm 1 specific missions */}
+          {/* Realm 1 specific routes */}
+          <ProtectedRoute path="/realm/1/story" component={Realm1Story} />
+          <ProtectedRoute path="/realm/1/home" component={Realm1Home} />
           <ProtectedRoute path="/realm/1/mission/:missionId" component={Realm1Mission} />
           <ProtectedRoute path="/realm/1/mission/bonus" component={MissionPage} /> {/* Bonus Mission */}
           
