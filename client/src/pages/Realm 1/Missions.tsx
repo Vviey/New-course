@@ -5,6 +5,7 @@ import { realm1Missions } from '@/lib/realm1-missions';
 import { useAuth } from '@/context/AuthContext';
 import { originTheme } from '@/lib/realm-themes';
 import { Loader2 } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 // Lazy load simulation components to improve performance
 const BarterWebChallenge = lazy(() => import('./barter-web-challenge'));
@@ -97,14 +98,14 @@ export default function Realm1Mission() {
               return <InflationSimulator onComplete={handleChallengeComplete} />;
             case 'reflection':
               return <AfricanCurrencyEducation onComplete={handleChallengeComplete} />;
-            case 'quiz':
-              return <QuizChallenge questions={missionData.simulationData?.questions || []} onComplete={handleChallengeComplete} />;
-            case 'map':
-              return <TradeRouteMap 
-                cities={missionData.simulationData?.cities || []} 
-                routes={missionData.simulationData?.routes || []} 
-                onComplete={handleChallengeComplete} 
-              />;
+            // case 'quiz':
+            //   return <QuizChallenge questions={missionData.simulationData?.questions || []} onComplete={handleChallengeComplete} />;
+            // case 'map':
+            //   return <TradeRouteMap 
+            //     cities={missionData.simulationData?.cities || []} 
+            //     routes={missionData.simulationData?.routes || []} 
+            //     onComplete={handleChallengeComplete} 
+              // />;
             default:
               return <div className="text-center text-amber-300 py-10">
                 <p>Challenge not found for this mission type.</p>
@@ -230,7 +231,7 @@ export default function Realm1Mission() {
                 className="px-6 py-3 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
               >
                 Start Challenge
-                <ChevronRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
