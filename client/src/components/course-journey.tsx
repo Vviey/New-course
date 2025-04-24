@@ -1,0 +1,237 @@
+import { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
+import { ParallaxSection } from './ui/parallax-section';
+import { originTheme } from '@/lib/realm-themes';
+
+interface Realm {
+  id: number;
+  name: string;
+  description: string;
+  moduleNumber: number;
+  imageUrl: string;
+  isLocked: boolean;
+}
+
+// Realm background images with parallax layers
+const REALM_PARALLAX_IMAGES = {
+  1: {
+    main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/origins-main.jpg',
+    foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/origins-foreground.png',
+    background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/origins-background.jpg',
+  },
+  2: {
+    main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/sparks-main.jpg',
+    foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/sparks-foreground.png',
+    background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/sparks-background.jpg',
+  },
+  3: {
+    main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/citadel-main.jpg',
+    foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/citadel-foreground.png',
+    background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/citadel-background.jpg',
+  },
+  4: {
+    main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/forks-main.jpg',
+    foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/forks-foreground.png',
+    background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/forks-background.jpg',
+  },
+  5: {
+    main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/ubuntu-main.jpg',
+    foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/ubuntu-foreground.png',
+    background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/ubuntu-background.jpg',
+  },
+  6: {
+    main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/grove-main.jpg',
+    foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/grove-foreground.png',
+    background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/grove-background.jpg',
+  }
+};
+
+// Fallback placeholders for when images don't load
+const PLACEHOLDER_COLORS = [
+  'bg-amber-900', // Origins
+  'bg-emerald-900', // Sparks
+  'bg-slate-900', // Citadel
+  'bg-indigo-900', // Forks
+  'bg-orange-900', // Ubuntu
+  'bg-purple-900', // Grove
+];
+
+export function CourseJourney() {
+  const [, setLocation] = useLocation();
+  const [realms, setRealms] = useState<Realm[]>([]);
+  const [activeRealmIndex, setActiveRealmIndex] = useState(0);
+  const [loadingRealms, setLoadingRealms] = useState(true);
+  
+  // Fetch realms data
+  useEffect(() => {
+    async function fetchRealms() {
+      try {
+        const response = await fetch('/api/realms');
+        if (response.ok) {
+          const data = await response.json();
+          // Sort realms by moduleNumber
+          const sortedRealms = [...data].sort((a, b) => a.moduleNumber - b.moduleNumber);
+          setRealms(sortedRealms);
+        } else {
+          console.error('Failed to fetch realms');
+        }
+      } catch (error) {
+        console.error('Error fetching realms:', error);
+      } finally {
+        setLoadingRealms(false);
+      }
+    }
+    
+    fetchRealms();
+  }, []);
+  
+  // Handle navigation to a realm
+  const navigateToRealm = (realmId: number, isLocked: boolean) => {
+    if (isLocked) {
+      // Show locked message or modal
+      return;
+    }
+    setLocation(`/realm/${realmId}`);
+  };
+  
+  // Auto-scroll to the next realm every 8 seconds
+  useEffect(() => {
+    if (realms.length === 0) return;
+    
+    const interval = setInterval(() => {
+      setActiveRealmIndex((prev) => (prev + 1) % realms.length);
+    }, 8000);
+    
+    return () => clearInterval(interval);
+  }, [realms.length]);
+  
+  // Scroll to the active realm section
+  useEffect(() => {
+    if (realms.length === 0) return;
+    
+    const realmElement = document.getElementById(`realm-${realms[activeRealmIndex]?.id}`);
+    if (realmElement) {
+      realmElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [activeRealmIndex, realms]);
+  
+  // Handle manual navigation
+  const handleRealmSelect = (index: number) => {
+    setActiveRealmIndex(index);
+  };
+  
+  if (loadingRealms) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse flex flex-col items-center">
+          <div className="h-32 w-32 bg-amber-600 rounded-full mb-4"></div>
+          <div className="h-6 w-48 bg-amber-600 rounded-full"></div>
+        </div>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="relative">
+      {/* Navigation indicators */}
+      <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-4">
+        {realms.map((realm, index) => (
+          <button
+            key={realm.id}
+            onClick={() => handleRealmSelect(index)}
+            className={`w-4 h-4 rounded-full transition-all duration-300 ${
+              index === activeRealmIndex
+                ? 'bg-amber-500 scale-125 shadow-lg shadow-amber-500/50'
+                : 'bg-gray-400 hover:bg-amber-400'
+            }`}
+            aria-label={`Navigate to ${realm.name}`}
+          />
+        ))}
+      </div>
+      
+      {/* Parallax sections for each realm */}
+      {realms.map((realm, index) => {
+        const parallaxImages = REALM_PARALLAX_IMAGES[realm.moduleNumber as keyof typeof REALM_PARALLAX_IMAGES] || {};
+        const placeholderColor = PLACEHOLDER_COLORS[(realm.moduleNumber - 1) % PLACEHOLDER_COLORS.length];
+        
+        return (
+          <section
+            key={realm.id}
+            id={`realm-${realm.id}`}
+            className={`min-h-screen flex items-center justify-center relative ${
+              !parallaxImages.main ? placeholderColor : ''
+            }`}
+          >
+            {/* Background parallax layer (slowest) */}
+            {parallaxImages.background && (
+              <ParallaxSection 
+                backgroundImage={parallaxImages.background}
+                speed={0.2}
+                className="absolute inset-0 w-full h-full"
+                opacity={0.8}
+                zIndex={1}
+              >
+                <div className="h-full w-full"></div>
+              </ParallaxSection>
+            )}
+            
+            {/* Main content layer (middle speed) */}
+            <ParallaxSection 
+              speed={0.4}
+              className="w-full min-h-screen flex items-center justify-center"
+              backgroundImage={parallaxImages.main}
+              opacity={parallaxImages.main ? 0.9 : 0}
+              zIndex={2}
+            >
+              <div className="container mx-auto px-4 py-20 relative z-30">
+                <div 
+                  className={`max-w-xl mx-auto p-8 rounded-xl bg-opacity-80 backdrop-blur-sm transform transition-all duration-700 ${
+                    index === activeRealmIndex ? 'scale-100 opacity-100' : 'scale-95 opacity-40'
+                  }`}
+                  style={{ 
+                    backgroundColor: `${originTheme.colors.backgroundLight}CC`,
+                    borderLeft: `4px solid ${originTheme.colors.primaryAccent}`
+                  }}
+                >
+                  <div className="mb-2 text-sm font-medium uppercase tracking-wider" style={{ color: originTheme.colors.primaryAccent }}>
+                    Realm {realm.moduleNumber}
+                  </div>
+                  
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4 font-lora" style={{ color: originTheme.colors.darkText }}>
+                    {realm.name}
+                  </h2>
+                  
+                  <p className="text-lg mb-6" style={{ color: `${originTheme.colors.darkText}DD` }}>
+                    {realm.description}
+                  </p>
+                  
+                  <button
+                    onClick={() => navigateToRealm(realm.id, realm.isLocked)}
+                    className={`btn-origins ${realm.isLocked ? 'opacity-60 cursor-not-allowed' : ''}`}
+                    disabled={realm.isLocked}
+                  >
+                    {realm.isLocked ? 'Locked' : 'Begin This Chapter'}
+                  </button>
+                </div>
+              </div>
+            </ParallaxSection>
+            
+            {/* Foreground parallax layer (fastest) */}
+            {parallaxImages.foreground && (
+              <ParallaxSection 
+                backgroundImage={parallaxImages.foreground}
+                speed={0.6}
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                backgroundPosition="center bottom"
+                opacity={0.9}
+                zIndex={10}
+              >
+                <div className="h-full w-full"></div>
+              </ParallaxSection>
+            )}
+          </section>
+        );
+      })}
+    </div>
+  );
+}

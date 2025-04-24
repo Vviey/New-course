@@ -80,13 +80,31 @@ export default function HomePage() {
               Join Asha on her journey through the realms of money, from ancient trade to the future of Bitcoin in Africa
             </p>
             
-            {!user && !isLoading && (
+            {!user && !isLoading ? (
               <div className="mt-8">
                 <button 
                   onClick={handleLogin}
                   className="btn-origins text-lg py-4 px-8"
                 >
                   Begin Your Journey
+                </button>
+              </div>
+            ) : (
+              <div className="mt-8 flex flex-col md:flex-row gap-4 justify-center">
+                <button 
+                  onClick={() => setLocation('/journey')}
+                  className="btn-origins text-lg py-4 px-8 flex items-center justify-center"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                  Explore Interactive Journey
+                </button>
+                <button 
+                  onClick={() => setLocation('/realm/1')}
+                  className="bg-transparent border-2 border-amber-500 text-amber-100 hover:bg-amber-500/20 text-lg py-4 px-8 rounded-full transition-colors"
+                >
+                  Start First Realm
                 </button>
               </div>
             )}

@@ -22,6 +22,7 @@ import MissionPage from "@/pages/MissionPage";
 import AfricaMapPage from "@/pages/AfricaMapPage";
 import BadgesPage from "@/pages/BadgesPage";
 import OfflineSettingsPage from "@/pages/OfflineSettingsPage";
+import JourneyPage from "@/pages/JourneyPage";
 import Mission1 from './pages/missions/Mission1'; // Added import
 
 // Context providers
@@ -65,6 +66,7 @@ function App() {
             <Route path="/mission/:id" component={MissionPage} />
 
             {/* Other application routes */}
+            <Route path="/journey" component={JourneyPage} />
             <Route path="/map" component={MapPage} />
             <Route path="/map/africa" component={AfricaMapPage} />
             <Route path="/badges" component={BadgesPage} />
