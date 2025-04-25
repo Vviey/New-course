@@ -292,17 +292,30 @@ export function Mission({ mission, onComplete }: MissionProps) {
                 </>
               )}
               
-              <button
-                className="w-full py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors mt-4"
-                onClick={startSimulation}
-              >
-                Start {mission.simulationType === 'barter' ? 'Barter' : 
-                        mission.simulationType === 'timeline' ? 'Timeline' : 
-                        mission.simulationType === 'inflation' ? 'Inflation' : 
-                        mission.simulationType === 'quiz' ? 'Quiz' : 
-                        mission.simulationType === 'map' ? 'Map' : 
-                        'Reflection'} Challenge
-              </button>
+              {/* Only show start challenge button for missions that are not Ubuntu or African Currency Education */}
+              {mission.id !== 106 && mission.id !== 107 && (
+                <button
+                  className="w-full py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors mt-4"
+                  onClick={startSimulation}
+                >
+                  Start {mission.simulationType === 'barter' ? 'Barter' : 
+                          mission.simulationType === 'timeline' ? 'Timeline' : 
+                          mission.simulationType === 'inflation' ? 'Inflation' : 
+                          mission.simulationType === 'quiz' ? 'Quiz' : 
+                          mission.simulationType === 'map' ? 'Map' : 
+                          'Reflection'} Challenge
+                </button>
+              )}
+              
+              {/* For Ubuntu mission and African Currency Education, show Continue button */}
+              {(mission.id === 106 || mission.id === 107) && (
+                <button
+                  className="w-full py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors mt-4"
+                  onClick={handleReflectionComplete}
+                >
+                  Continue Journey
+                </button>
+              )}
             </div>
           </div>
         </div>
