@@ -6,7 +6,8 @@ export interface MissionContent {
   description: string;
   objectives: string[];
   imagePath?: string;
-  simulationType: 'barter' | 'timeline' | 'inflation' | 'quiz' | 'map' | 'reflection';
+  simulationType: 'barter' | 'timeline' | 'inflation' | 'quiz' | 'map' | 'reflection' | 
+                  'roleplay' | 'privacy' | 'exclusion' | 'globalflow' | 'escape';
   simulationData?: any;
   reflectionQuestion?: string;
 }

@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { MissionContent } from '@/lib/realm1-missions';
 
-// Import simulation components
+// Import Realm 1 simulation components
 import { BarterWebChallenge } from '@/components/simulations/BarterWebChallenge';
 import { TimelineChallenge } from '@/components/simulations/TimelineChallenge';
 import { InflationSimulator } from '@/components/simulations/InflationSimulator';
 import { QuizChallenge } from '@/components/simulations/QuizChallenge';
 import { TradeRouteMap } from '@/components/simulations/TradeRouteMap';
 import { ReflectionExercise } from '@/components/simulations/ReflectionExercise';
+
+// Note: Realm 2 simulation components are dynamically imported in the renderSimulation function
 
 interface MissionProps {
   mission: MissionContent;
@@ -80,6 +82,54 @@ export function Mission({ mission, onComplete }: MissionProps) {
         return (
           <ReflectionExercise 
             question={mission.reflectionQuestion || 'Reflect on what you have learned in this mission.'}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      // New simulation types for Realm 2
+      case 'roleplay':
+        const { RolePlaySimulator } = require('@/components/simulations/RolePlaySimulator');
+        return (
+          <RolePlaySimulator
+            scenarios={mission.simulationData?.scenarios || []}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'privacy':
+        const { PaymentPrivacySimulator } = require('@/components/simulations/PaymentPrivacySimulator');
+        return (
+          <PaymentPrivacySimulator
+            paymentOptions={mission.simulationData?.paymentOptions || []}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'exclusion':
+        const { ExclusionWebGame } = require('@/components/simulations/ExclusionWebGame');
+        return (
+          <ExclusionWebGame
+            barriers={mission.simulationData?.barriers || []}
+            groups={mission.simulationData?.groups || []}
+            correctMatches={mission.simulationData?.correctMatches || []}
+            stats={mission.simulationData?.stats || []}
+            caseStudies={mission.simulationData?.caseStudies || []}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'globalflow':
+        const { GlobalMoneyWebSimulation } = require('@/components/simulations/GlobalMoneyWebSimulation');
+        return (
+          <GlobalMoneyWebSimulation
+            globalFlow={mission.simulationData?.globalFlow || { nodes: [], correctConnections: [] }}
+            dollarShock={mission.simulationData?.dollarShock || { initialYear: 1971, events: [] }}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'escape':
+        const { EscapeSurveillanceGame } = require('@/components/simulations/EscapeSurveillanceGame');
+        return (
+          <EscapeSurveillanceGame
+            playerStartFunds={mission.simulationData?.playerStartFunds || 1000}
+            routes={mission.simulationData?.routes || {}}
+            resistanceNetworks={mission.simulationData?.resistanceNetworks || []}
             onComplete={handleSimulationComplete}
           />
         );

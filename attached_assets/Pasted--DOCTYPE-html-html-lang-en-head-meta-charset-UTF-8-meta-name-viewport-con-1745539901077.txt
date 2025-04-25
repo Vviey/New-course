@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role-Play Simulator: Central Bank Decisions</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #FBF4D2;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        h1, h2, h3 {
+            color: #EE720B;
+        }
+        
+        .lesson-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(255, 197, 103, 0.1);
+            border-radius: 8px;
+        }
+        
+        .simulation-container {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .decision-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .decision-card {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .decision-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .decision-card.selected {
+            border: 2px solid #EE720B;
+            background-color: rgba(238, 114, 11, 0.05);
+        }
+        
+        .decision-card h3 {
+            margin-top: 0;
+        }
+        
+        .consequence-panel {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: opacity 0.5s, height 0.5s;
+        }
+        
+        .consequence-panel.visible {
+            opacity: 1;
+            height: auto;
+            min-height: 200px;
+        }
+        
+        .metrics {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .metric {
+            flex: 1;
+            padding: 10px;
+        }
+        
+        .metric h4 {
+            margin: 0 0 10px 0;
+        }
+        
+        .gauge {
+            width: 100%;
+            height: 15px;
+            background-color: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .gauge-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-out;
+        }
+        
+        .gauge-fill.inflation {
+            background-color: #FF6B6B;
+        }
+        
+        .gauge-fill.unemployment {
+            background-color: #4D96FF;
+        }
+        
+        .gauge-fill.growth {
+            background-color: #4CAF50;
+        }
+        
+        .gauge-fill.debt {
+            background-color: #9C27B0;
+        }
+        
+        button {
+            background-color: #EE720B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #d5650a;
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .scenario-description {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .scenario-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #EE720B;
+        }
+        
+        @media (max-width: 768px) {
+            .decision-container {
+                flex-direction: column;
+            }
+            
+            .metrics {
+                flex-direction: column;
+            }
+            
+            .metric {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const RolePlaySimulator = () => {
+            const [selectedDecision, setSelectedDecision] = React.useState(null);
+            const [showConsequences, setShowConsequences] = React.useState(false);
+            const [currentScenario, setCurrentScenario] = React.useState(0);
+            const [completedScenarios, setCompletedScenarios] = React.useState([]);
+            
+            const scenarios = [
+                {
+                    id: 1,
+                    title: "Scenario 1: Post-Pandemic Inflation Spike",
+                    description: "You are the head of the Central Bank. After the global pandemic, prices are rising at 8% annually - the highest in 40 years. Supply chains are still disrupted, and unemployment is at 6%. What policy will you implement?",
+                    decisions: [
+                        {
+                            id: "print",
+                            title: "Print More Money",
+                            description: "Increase the money supply to stimulate growth and decrease unemployment.",
+                            consequences: {
+                                description: "By increasing the money supply, you've stimulated short-term growth and reduced unemployment to 4%. However, inflation has skyrocketed to 12%, eroding people's savings and hitting lower-income households the hardest.",
+                                inflation: 90,
+                                unemployment: 30,
+                                growth: 60,
+                                debt: 75
+                            }
+                        },
+                        {
+                            id: "rates",
+                            title: "Raise Interest Rates",
+                            description: "Increase borrowing costs to slow down inflation by reducing spending.",
+                            consequences: {
+                                description: "By raising interest rates to 6%, you've successfully reduced inflation to 4%. However, economic growth has slowed, unemployment has increased to 8%, and the stock market took a significant hit, affecting retirement accounts.",
+                                inflation: 40,
+                                unemployment: 70,
+                                growth: 30,
+                                debt: 50
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Scenario 2: Currency Crisis in an Emerging Economy",
+                    description: "You're now leading the Central Bank of a developing nation. Your currency has depreciated 30% against the dollar in six months. Foreign debt is becoming unmanageable, and import costs are causing local inflation of 15%. What will you do?",
+                    decisions: [
+                        {
+                            id: "peg",
+                            title: "Peg to the Dollar",
+                            description: "Use foreign reserves to maintain a fixed exchange rate with the US dollar.",
+                            consequences: {
+                                description: "By pegging to the dollar, you've stabilized prices for imports and calmed market panic. However, your foreign reserves are rapidly depleting, and you're now dependent on dollar availability. Your monetary sovereignty is significantly reduced.",
+                                inflation: 40,
+                                unemployment: 50,
+                                growth: 45,
+                                debt: 80
+                            }
+                        },
+                        {
+                            id: "capital",
+                            title: "Implement Capital Controls",
+                            description: "Restrict the flow of capital out of your country to protect your currency.",
+                            consequences: {
+                                description: "Capital controls have stemmed the immediate crisis and protected local currency value. However, foreign investors are fleeing, business expansion has stalled, and you're now facing international creditor pressure and potential sanctions.",
+                                inflation: 60,
+                                unemployment: 65,
+                                growth: 25,
+                                debt: 70
+                            }
+                        }
+                    ]
+                }
+            ];
+            
+            const currentScenarioData = scenarios[currentScenario];
+            const isCompleted = completedScenarios.includes(currentScenarioData.id);
+            
+            const handleDecisionClick = (decisionId) => {
+                setSelectedDecision(decisionId);
+                setShowConsequences(false);
+            };
+            
+            const showResults = () => {
+                setShowConsequences(true);
+                if (!completedScenarios.includes(currentScenarioData.id)) {
+                    setCompletedScenarios([...completedScenarios, currentScenarioData.id]);
+                }
+            };
+            
+            const nextScenario = () => {
+                if (currentScenario < scenarios.length - 1) {
+                    setCurrentScenario(currentScenario + 1);
+                    setSelectedDecision(null);
+                    setShowConsequences(false);
+                }
+            };
+            
+            const resetSimulation = () => {
+                setCurrentScenario(0);
+                setSelectedDecision(null);
+                setShowConsequences(false);
+                setCompletedScenarios([]);
+            };
+            
+            const selectedDecisionData = selectedDecision 
+                ? currentScenarioData.decisions.find(d => d.id === selectedDecision)
+                : null;
+                
+            return (
+                <div className="container">
+                    <h1>Mission 2.1: Who Controls the Money?</h1>
+                    
+                    <div className="lesson-container">
+                        <h2>Learning Objectives</h2>
+                        <ul>
+                            <li>Understand how central banks influence the economy through monetary policy</li>
+                            <li>Recognize the trade-offs between inflation, unemployment, and growth</li>
+                            <li>Experience how monetary decisions impact different segments of the population</li>
+                            <li>Discover the historical roots of modern monetary control</li>
+                        </ul>
+                    </div>
+                    
+                    <div className="simulation-container">
+                        <h2>Central Bank Role-Play Simulator</h2>
+                        <p>Step into the shoes of a central banker and make critical decisions about monetary policy. Each choice has consequences for inflation, unemployment, and economic stability.</p>
+                        
+                        <div className="scenario-title">{currentScenarioData.title}</div>
+                        <p className="scenario-description">{currentScenarioData.description}</p>
+                        
+                        <div className="decision-container">
+                            {currentScenarioData.decisions.map(decision => (
+                                <div 
+                                    key={decision.id}
+                                    className={`decision-card ${selectedDecision === decision.id ? 'selected' : ''}`}
+                                    onClick={() => handleDecisionClick(decision.id)}
+                                >
+                                    <h3>{decision.title}</h3>
+                                    <p>{decision.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                        
+                        <button 
+                            onClick={showResults} 
+                            disabled={!selectedDecision || showConsequences}
+                        >
+                            Implement Policy
+                        </button>
+                        
+                        <div className={`consequence-panel ${showConsequences ? 'visible' : ''}`}>
+                            {selectedDecisionData && showConsequences && (
+                                <>
+                                    <h3>Consequences</h3>
+                                    <p>{selectedDecisionData.consequences.description}</p>
+                                    
+                                    <div className="metrics">
+                                        <div className="metric">
+                                            <h4>Inflation</h4>
+                                            <div className="gauge">
+                                                <div 
+                                                    className="gauge-fill inflation" 
+                                                    style={{width: `${selectedDecisionData.consequences.inflation}%`}}
+                                                ></div>
+                                            </div>
+                                            <p>{selectedDecisionData.consequences.inflation}%</p>
+                                        </div>
+                                        
+                                        <div className="metric">
+                                            <h4>Unemployment</h4>
+                                            <div className="gauge">
+                                                <div 
+                                                    className="gauge-fill unemployment" 
+                                                    style={{width: `${selectedDecisionData.consequences.unemployment}%`}}
+                                                ></div>
+                                            </div>
+                                            <p>{selectedDecisionData.consequences.unemployment}%</p>
+                                        </div>
+                                        
+                                        <div className="metric">
+                                            <h4>Economic Growth</h4>
+                                            <div className="gauge">
+                                                <div 
+                                                    className="gauge-fill growth" 
+                                                    style={{width: `${selectedDecisionData.consequences.growth}%`}}
+                                                ></div>
+                                            </div>
+                                            <p>{selectedDecisionData.consequences.growth}%</p>
+                                        </div>
+                                        
+                                        <div className="metric">
+                                            <h4>National Debt</h4>
+                                            <div className="gauge">
+                                                <div 
+                                                    className="gauge-fill debt" 
+                                                    style={{width: `${selectedDecisionData.consequences.debt}%`}}
+                                                ></div>
+                                            </div>
+                                            <p>{selectedDecisionData.consequences.debt}%</p>
+                                        </div>
+                                    </div>
+                                    
+                                    {currentScenario < scenarios.length - 1 ? (
+                                        <button onClick={nextScenario}>Next Scenario</button>
+                                    ) : (
+                                        <button onClick={resetSimulation}>Restart Simulation</button>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    </div>
+                    
+                    <div className="lesson-container">
+                        <h2>Key Insights</h2>
+                        <p>Central banks face difficult trade-offs. Printing money can boost growth and reduce unemployment in the short term, but often leads to inflation that erodes savings and hurts those on fixed incomes. Raising interest rates can control inflation but often causes economic slowdowns and job losses.</p>
+                        <p>These monetary powers were once tied to physical gold reserves, but today's fiat currencies can be created without such limitations. This gives central banks unprecedented control over national economies - a power that can be used for stability or abused for political goals.</p>
+                        <p>Understanding who controls money and how they use that power is essential for understanding economic sovereignty and freedom.</p>
+                    </div>
+                </div>
+            );
+        };
+        
+        ReactDOM.render(<RolePlaySimulator />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -24,6 +24,10 @@ import Realm1Mission from "@/pages/Realm 1/Missions";
 import Realm1Story from "@/pages/Realm 1/story-intro";
 import Realm1Home from "@/pages/Realm 1/home";
 
+// Import Realm 2 components
+import Realm2Home from "@/pages/Realm 2/home";
+import Realm2Mission from "@/pages/Realm 2/mission";
+
 // Context providers
 import { AuthProvider } from "@/context/AuthContext";
 
@@ -64,6 +68,11 @@ function App() {
           <ProtectedRoute path="/realm/1/home" component={Realm1Home} />
           <ProtectedRoute path="/realm/1/mission/:missionId" component={Realm1Mission} />
           <ProtectedRoute path="/realm/1/mission/bonus" component={MissionPage} /> {/* Bonus Mission */}
+          
+          {/* Realm 2 specific routes */}
+          <ProtectedRoute path="/realm/2/home" component={Realm2Home} />
+          <ProtectedRoute path="/realm/2/mission/:missionId" component={Realm2Mission} />
+          <ProtectedRoute path="/realm/2" component={Realm2Home} />
           
           {/* Generic mission route as fallback */}
           <ProtectedRoute path="/realm/:realmId/mission/:missionId" component={MissionPage} />

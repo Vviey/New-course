@@ -1,0 +1,120 @@
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Eye, EyeOff, Send, AlertCircle, User, DollarSign } from 'lucide-react';
+
+const EscapeSurveillanceGame = () => {
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [money, setMoney] = useState(1000);
+    const [route, setRoute] = useState('start');
+    const [surveillance, setSurveillance] = useState(0);
+    
+    const routes = {
+        start: {
+            options: [
+                { id: 'bitcoin', label: 'Bitcoin P2P', risk: 20 },
+                { id: 'hawala', label: 'Hawala Network', risk: 30 },
+                { id: 'bank', label: 'Traditional Bank', risk: 70 }
+            ]
+        },
+        bitcoin: {
+            options: [
+                { id: 'localbtc', label: 'Local Bitcoin Meetup', risk: 30 },
+                { id: 'dex', label: 'DEX Exchange', risk: 20 }
+            ]
+        },
+        hawala: {
+            options: [
+                { id: 'trusted', label: 'Trusted Dealer', risk: 25 },
+                { id: 'community', label: 'Community Network', risk: 35 }
+            ]
+        }
+    };
+
+    const handleRouteSelect = (option) => {
+        setSurveillance(prev => prev + option.risk);
+        setRoute(option.id);
+        setMoney(prev => prev - (option.risk * 2));
+    };
+
+    return (
+        <div className="bg-[#FBF4D2] p-6 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold text-[#EE720B] mb-6">
+                Escape the Surveillance Net: Help Asha Send Money Home
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="flex items-center space-x-2">
+                            <User className="text-[#EE720B]" />
+                            <span>Asha's Resources</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <DollarSign className="text-[#FFC567]" />
+                            <span>${money}</span>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center space-x-2 mb-4">
+                        <Eye className="text-[#EE720B]" />
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                            <motion.div 
+                                className="bg-[#EE720B] h-2 rounded-full"
+                                initial={{ width: '0%' }}
+                                animate={{ width: `${surveillance}%` }}
+                            />
+                        </div>
+                        <span className="text-sm">Risk: {surveillance}%</span>
+                    </div>
+
+                    <div className="space-y-4">
+                        {routes[route]?.options.map((option) => (
+                            <motion.button
+                                key={option.id}
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                className="w-full p-4 bg-[#FBF4D2] rounded-lg flex items-center justify-between"
+                                onClick={() => handleRouteSelect(option)}
+                            >
+                                <span>{option.label}</span>
+                                <div className="flex items-center space-x-2">
+                                    <AlertCircle size={16} />
+                                    <span>{option.risk}% risk</span>
+                                </div>
+                            </motion.button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg">
+                    <h3 className="font-bold text-[#EE720B] mb-4">Network Map</h3>
+                    <div className="h-64 border-2 border-[#FFC567] rounded-lg relative">
+                        <motion.div
+                            className="absolute w-4 h-4 bg-[#EE720B] rounded-full"
+                            animate={position}
+                        />
+                    </div>
+                    
+                    <div className="mt-4 p-4 bg-[#FBF4D2] rounded-lg">
+                        <h4 className="font-bold mb-2">Current Route Status:</h4>
+                        <p>Selected path: {route}</p>
+                        <p>Surveillance risk: {surveillance}%</p>
+                        <p>Remaining funds: ${money}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-6 bg-white p-4 rounded-lg">
+                <h3 className="font-bold text-[#EE720B] mb-2">Resistance Networks:</h3>
+                <ul className="list-disc ml-6 space-y-2">
+                    <li>Hawala - Traditional trust-based money transfer</li>
+                    <li>P2P Bitcoin - Decentralized value transfer</li>
+                    <li>Esusu - Rotating savings groups</li>
+                    <li>Community meshnet - Local support systems</li>
+                </ul>
+            </div>
+        </div>
+    );
+};
+
+export default EscapeSurveillanceGame;

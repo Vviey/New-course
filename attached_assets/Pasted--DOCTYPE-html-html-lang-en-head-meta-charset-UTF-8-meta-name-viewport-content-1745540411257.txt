@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission 2.4: Financial Exclusion in Africa</title>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #FBF4D2;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .header {
+      background-color: #EE720B;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .content-box {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .barriers-container, .groups-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .barrier, .group {
+      background-color: #FFC567;
+      border-radius: 8px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+      flex-basis: calc(33.333% - 15px);
+      box-sizing: border-box;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .barrier:hover, .group:hover, .barrier.selected, .group.selected {
+      background-color: #EE720B;
+      color: white;
+      transform: translateY(-5px);
+    }
+    
+    .connections-container {
+      margin-top: 30px;
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .connection {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    
+    .connection-arrow {
+      font-size: 24px;
+      color: #EE720B;
+    }
+    
+    .connection-explanation {
+      background-color: #FBF4D2;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 8px;
+      font-style: italic;
+    }
+    
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      flex-basis: calc(33.333% - 20px);
+      background-color: #FBF4D2;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .stat-number {
+      font-size: 36px;
+      font-weight: bold;
+      color: #EE720B;
+    }
+    
+    .stat-label {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    
+    .case-study {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .case-study-title {
+      color: #EE720B;
+      margin-top: 0;
+    }
+    
+    .case-study-content {
+      font-style: italic;
+      margin-bottom: 15px;
+    }
+    
+    .button {
+      background-color: #EE720B;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    
+    .button:hover {
+      background-color: #d66200;
+    }
+    
+    .feedback {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    
+    .feedback.success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    .feedback.error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    
+    @media (max-width: 768px) {
+      .barrier, .group {
+        flex-basis: calc(50% - 15px);
+      }
+      
+      .stat-box {
+        flex-basis: calc(50% - 20px);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .barrier, .group {
+        flex-basis: 100%;
+      }
+      
+      .stat-box {
+        flex-basis: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const FinancialExclusionGame = () => {
+      const [selectedBarrier, setSelectedBarrier] = React.useState(null);
+      const [selectedGroup, setSelectedGroup] = React.useState(null);
+      const [connections, setConnections] = React.useState([]);
+      const [feedback, setFeedback] = React.useState({ message: '', type: '' });
+      
+      const barriers = [
+        { id: 1, name: "No ID Documentation", description: "Many people in Africa lack formal ID documents required to open a bank account." },
+        { id: 2, name: "No Male Guardian", description: "Some banking systems require women to have a male guardian to access financial services." },
+        { id: 3, name: "Rural Location", description: "People in remote rural areas often live far from any banking infrastructure." },
+        { id: 4, name: "Minimum Balance Requirements", description: "Banks often require minimum balances that exceed what many can afford to keep idle." },
+        { id: 5, name: "Digital Literacy Barriers", description: "Modern banking requires technological skills that many haven't had the opportunity to learn." },
+        { id: 6, name: "Language Barriers", description: "Banking documents and interfaces often use official languages not spoken by many citizens." }
+      ];
+      
+      const groups = [
+        { id: 1, name: "Widows", description: "Women who have lost their husbands often face additional financial exclusion challenges." },
+        { id: 2, name: "Refugees", description: "Displaced people often lack documentation and legal status to access banking." },
+        { id: 3, name: "Rural Farmers", description: "Agricultural workers in remote areas have limited access to financial infrastructure." },
+        { id: 4, name: "Informal Workers", description: "Those employed in the informal economy struggle to provide proof of income." },
+        { id: 5, name: "Indigenous Communities", description: "Traditional communities often face language, cultural, and geographic barriers." },
+        { id: 6, name: "Youth", description: "Young people often lack credit history and collateral needed for financial services." }
+      ];
+      
+      const correctMatches = [
+        { barrierId: 1, groupId: 2, explanation: "Refugees often flee without documentation or have documents from countries not recognized by host nations." },
+        { barrierId: 2, groupId: 1, explanation: "In some regions, widows lose financial access when their husband dies if male guardianship is required." },
+        { barrierId: 3, groupId: 3, explanation: "Rural farmers often live days away from the nearest bank branch, making regular banking impossible." },
+        { barrierId: 4, groupId: 4, explanation: "Informal workers with inconsistent income struggle to maintain minimum balances required by banks." },
+        { barrierId: 5, groupId: 6, explanation: "Despite being tech-savvy in some ways, many youth lack formal digital financial literacy needed for banking." },
+        { barrierId: 6, groupId: 5, explanation: "Indigenous communities often speak languages not supported by banking services." }
+      ];
+      
+      const handleBarrierClick = (barrier) => {
+        setSelectedBarrier(barrier);
+      };
+      
+      const handleGroupClick = (group) => {
+        setSelectedGroup(group);
+      };
+      
+      const createConnection = () => {
+        if (!selectedBarrier || !selectedGroup) {
+          setFeedback({ message: 'Please select both a barrier and a group to make a connection.', type: 'error' });
+          return;
+        }
+        
+        // Check if this connection already exists
+        const existingConnection = connections.find(
+          conn => conn.barrier.id === selectedBarrier.id && conn.group.id === selectedGroup.id
+        );
+        
+        if (existingConnection) {
+          setFeedback({ message: 'This connection already exists!', type: 'error' });
+          return;
+        }
+        
+        // Check if it's a correct match
+        const isCorrect = correctMatches.some(
+          match => match.barrierId === selectedBarrier.id && match.groupId === selectedGroup.id
+        );
+        
+        const explanation = correctMatches.find(
+          match => match.barrierId === selectedBarrier.id && match.groupId === selectedGroup.id
+        )?.explanation || "This connection doesn't reflect common patterns of financial exclusion.";
+        
+        // Add the connection
+        setConnections([
+          ...connections,
+          {
+            barrier: selectedBarrier,
+            group: selectedGroup,
+            isCorrect,
+            explanation
+          }
+        ]);
+        
+        setFeedback({
+          message: isCorrect 
+            ? 'Correct! This is a common financial exclusion pattern.' 
+            : 'This connection is possible, but not one of the most common patterns.',
+          type: isCorrect ? 'success' : 'error'
+        });
+        
+        // Reset selections
+        setSelectedBarrier(null);
+        setSelectedGroup(null);
+      };
+      
+      const resetGame = () => {
+        setSelectedBarrier(null);
+        setSelectedGroup(null);
+        setConnections([]);
+        setFeedback({ message: '', type: '' });
+      };
+      
+      return (
+        <div className="container">
+          <div className="header">
+            <h1>Mission 2.4: Financial Exclusion in Africa</h1>
+            <p>Explore who is locked out of banking systems and why</p>
+          </div>
+          
+          <div className="content-box">
+            <h2>The Exclusion Web Game</h2>
+            <p>Match barriers to financial access with the groups most affected by them. Select one barrier and one group, then click "Create Connection" to see if you're right.</p>
+            
+            <h3>Financial Barriers:</h3>
+            <div className="barriers-container">
+              {barriers.map(barrier => (
+                <div 
+                  key={barrier.id} 
+                  className={`barrier ${selectedBarrier?.id === barrier.id ? 'selected' : ''}`}
+                  onClick={() => handleBarrierClick(barrier)}
+                >
+                  {barrier.name}
+                </div>
+              ))}
+            </div>
+            
+            <h3>Affected Groups:</h3>
+            <div className="groups-container">
+              {groups.map(group => (
+                <div 
+                  key={group.id} 
+                  className={`group ${selectedGroup?.id === group.id ? 'selected' : ''}`}
+                  onClick={() => handleGroupClick(group)}
+                >
+                  {group.name}
+                </div>
+              ))}
+            </div>
+            
+            <button className="button" onClick={createConnection}>Create Connection</button>
+            <button className="button" onClick={resetGame} style={{ marginLeft: '10px', backgroundColor: '#777' }}>Reset Game</button>
+            
+            {feedback.message && (
+              <div className={`feedback ${feedback.type}`}>
+                {feedback.message}
+              </div>
+            )}
+          </div>
+          
+          {connections.length > 0 && (
+            <div className="connections-container">
+              <h3>Your Connections:</h3>
+              {connections.map((connection, index) => (
+                <div key={index} className="connection" style={{ borderLeft: `5px solid ${connection.isCorrect ? '#28a745' : '#dc3545'}` }}>
+                  <div>{connection.barrier.name}</div>
+                  <div className="connection-arrow">→</div>
+                  <div>{connection.group.name}</div>
+                  <div className="connection-explanation">
+                    {connection.explanation}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          <div className="stats-container">
+            <div className="stat-box">
+              <div className="stat-number">57%</div>
+              <div className="stat-label">of adults in Africa lack access to formal banking</div>
+            </div>
+            <div className="stat-box">
+              <div className="stat-number">76%</div>
+              <div className="stat-label">of rural Africans are unbanked</div>
+            </div>
+            <div className="stat-box">
+              <div className="stat-number">33%</div>
+              <div className="stat-label">gender gap in account ownership in some regions</div>
+            </div>
+          </div>
+          
+          <div className="case-study">
+            <h3 className="case-study-title">Case Study: Asha's Story</h3>
+            <div className="case-study-content">
+              "As a widowed mother in rural Tanzania, I lost access to our family bank account when my husband died. Without a national ID and living 30km from the nearest bank, I rely on mobile money through a neighbor's phone. I can't save or build credit, trapping me in a cycle of financial insecurity."
+            </div>
+            <p>Asha's story highlights how multiple exclusion factors can overlap, creating compounded barriers to financial inclusion.</p>
+          </div>
+          
+          <div className="content-box">
+            <h3>What You've Learned</h3>
+            <ul>
+              <li>Financial exclusion affects specific demographic groups disproportionately</li>
+              <li>Exclusion is driven by systemic barriers, not individual choices</li>
+              <li>Multiple barriers often compound to create deeper exclusion</li>
+              <li>Traditional banking systems can reinforce existing social inequalities</li>
+              <li>Financial inclusion requires addressing these structural barriers</li>
+            </ul>
+            <p>In the next mission, you'll explore how alternative financial systems like Bitcoin can address some of these exclusion factors through open, permissionless networks.</p>
+          </div>
+        </div>
+      );
+    };
+    
+    ReactDOM.render(<FinancialExclusionGame />, document.getElementById('root'));
+  </script>
+</body>
+</html>

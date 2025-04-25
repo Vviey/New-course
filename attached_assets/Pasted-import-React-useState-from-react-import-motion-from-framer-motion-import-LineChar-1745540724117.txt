@@ -1,0 +1,117 @@
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+import { DollarSign, Coins } from 'lucide-react';
+
+const NixonShockSimulator = () => {
+    const [goldStandard, setGoldStandard] = useState(true);
+    const [moneySupply, setMoneySupply] = useState(100);
+    const [year, setYear] = useState(1971);
+    
+    const [historicalData, setHistoricalData] = useState([
+        { year: 1971, value: 100 },
+    ]);
+
+    const handlePrintMoney = () => {
+        if (goldStandard) return;
+        
+        const newValue = moneySupply * 1.2;
+        setMoneySupply(newValue);
+        setYear(prev => prev + 1);
+        
+        setHistoricalData(prev => [...prev, {
+            year: year + 1,
+            value: newValue
+        }]);
+    };
+
+    const toggleGoldStandard = () => {
+        setGoldStandard(!goldStandard);
+    };
+
+    return (
+        <div className="bg-[#FBF4D2] p-6 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold text-[#EE720B] mb-6">
+                Nixon Shock & Dollar Printing Simulator
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white p-4 rounded-lg">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center">
+                            <Coins className="text-[#EE720B] mr-2" />
+                            <span className="font-bold">Gold Standard:</span>
+                        </div>
+                        <button
+                            onClick={toggleGoldStandard}
+                            className={`px-4 py-2 rounded-lg ${
+                                goldStandard 
+                                    ? 'bg-[#EE720B] text-white' 
+                                    : 'bg-gray-300 text-gray-600'
+                            }`}
+                        >
+                            {goldStandard ? 'Active' : 'Removed'}
+                        </button>
+                    </div>
+
+                    <div className="mb-6">
+                        <h3 className="font-bold mb-2">Current Status:</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="p-3 bg-[#FBF4D2] rounded-lg">
+                                <div className="text-sm">Year</div>
+                                <div className="text-xl font-bold">{year}</div>
+                            </div>
+                            <div className="p-3 bg-[#FBF4D2] rounded-lg">
+                                <div className="text-sm">Money Supply</div>
+                                <div className="text-xl font-bold">${moneySupply.toFixed(0)}B</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={handlePrintMoney}
+                        disabled={goldStandard}
+                        className={`w-full py-3 rounded-lg flex items-center justify-center ${
+                            goldStandard 
+                                ? 'bg-gray-300 cursor-not-allowed' 
+                                : 'bg-[#EE720B] hover:bg-[#FFC567]'
+                        } text-white`}
+                    >
+                        <DollarSign className="mr-2" />
+                        Print More Money
+                    </motion.button>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg">
+                    <h3 className="font-bold mb-4">Money Supply Over Time</h3>
+                    <LineChart width={400} height={250} data={historicalData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="year" />
+                        <YAxis />
+                        <Tooltip />
+                        <Line 
+                            type="monotone" 
+                            dataKey="value" 
+                            stroke="#EE720B" 
+                            strokeWidth={2} 
+                        />
+                    </LineChart>
+                </div>
+            </div>
+
+            <div className="mt-6 bg-white p-4 rounded-lg">
+                <h3 className="font-bold text-[#EE720B] mb-2">Key Learning Points:</h3>
+                <ul className="list-disc ml-6 space-y-2">
+                    <li>The 1971 Nixon Shock ended the gold standard</li>
+                    <li>Removal of gold backing enabled unlimited money printing</li>
+                    <li>Impact on global monetary policy and inflation</li>
+                    <li>Transition to pure fiat currency system</li>
+                </ul>
+            </div>
+        </div>
+    );
+};
+
+export default NixonShockSimulator;

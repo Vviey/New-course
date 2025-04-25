@@ -63,17 +63,38 @@ export const forestTheme = {
 export const citadelTheme = {
   name: "Citadel Theme",
   colors: {
-    primary: "#1976D2", // Blue
-    secondary: "#BBDEFB", // Light blue
-    background: "#101F33", // Dark blue
-    backgroundLight: "#1E3A5F", // Medium blue
-    cardBackground: "#F5F9FF", // Very light blue
-    textDark: "#101F33", // Dark text
-    textLight: "#F5F9FF", // Light text
-    accent1: "#FFC107", // Gold accent
-    accent2: "#64B5F6", // Light blue accent
+    primary: "#005A8D", // Deep blue
+    secondary: "#0094C6", // Bright blue
+    background: "#0A2239", // Dark navy blue
+    backgroundLight: "#176087", // Medium blue
+    cardBackground: "#F7F9FC", // Very light blue-gray
+    textDark: "#0A2239", // Dark text
+    textLight: "#F7F9FC", // Light text
+    accent1: "#FF9505", // Orange accent
+    accent2: "#53D8FB", // Light blue accent
   },
-  // Other theme properties similar to originTheme
+  patterns: {
+    grid: `linear-gradient(#176087 1px, transparent 1px),
+    linear-gradient(to right, #176087 1px, transparent 1px)`,
+    dots: `radial-gradient(#176087 2px, transparent 2px)`,
+  },
+  gradients: {
+    blue: "linear-gradient(to right, #005A8D, #0094C6)",
+    steel: "linear-gradient(to bottom, #F7F9FC, #E1E5EB)",
+  },
+  shadows: {
+    card: "0 4px 8px rgba(10, 34, 57, 0.15), 0 1px 3px rgba(10, 34, 57, 0.1)",
+    button: "0 2px 4px rgba(0, 90, 141, 0.25)",
+  },
+  animations: {
+    pulse: "pulse 2s infinite",
+  },
+  borderRadius: {
+    small: "0.25rem",
+    default: "0.5rem",
+    large: "0.75rem",
+    full: "9999px",
+  },
 };
 
 export const forksTheme = {
