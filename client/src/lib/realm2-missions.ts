@@ -1,1286 +1,1414 @@
 import { MissionContent } from './realm1-missions';
 
-// Realm 2: The Central Citadel - Control vs. Sovereignty
+// Types specific to Realm 2
+export interface RoleplayScenario {
+  id: number;
+  title: string;
+  description: string;
+  choices: {
+    id: number;
+    text: string;
+    outcome: string;
+    isOptimal: boolean;
+  }[];
+  explanation: string;
+}
+
+export interface PaymentOption {
+  id: number;
+  name: string;
+  description: string;
+  privacyRating: number; // 1-10
+  surveillanceRisk: string[];
+  privacyFeatures: string[];
+  examples: string[];
+}
+
+export interface ExclusionBarrier {
+  id: number;
+  name: string;
+  description: string;
+}
+
+export interface ExclusionGroup {
+  id: number;
+  name: string;
+  description: string;
+}
+
+export interface CorrectMatch {
+  barrierId: number;
+  groupId: number;
+  explanation?: string;
+}
+
+export interface FlowNode {
+  id: string;
+  label: string;
+  type: 'institution' | 'country' | 'organization';
+  influence: number; // 1-10
+}
+
+export interface Connection {
+  source: string;
+  target: string;
+  isCorrect: boolean;
+  explanation?: string;
+}
+
+export interface DollarShockEvent {
+  year: number;
+  title: string;
+  description: string;
+  effects: string[];
+}
+
+export interface RouteOption {
+  id: string;
+  label: string;
+  risk: number;
+  outcome: {
+    funds?: number;
+    privacy?: number;
+    nextRoute?: string;
+    message: string;
+    restart?: boolean;
+    complete?: boolean;
+  };
+}
+
+export interface Routes {
+  [key: string]: {
+    options: RouteOption[];
+  };
+}
+
+export interface ResistanceNetwork {
+  name: string;
+  description: string;
+}
+
+// Main mission data for Realm 2
 export const realm2Missions: MissionContent[] = [
-  // Mission 1: The Central Bank Role Play
   {
     id: 201,
-    title: "The Central Bank Experience",
-    subtitle: "Understanding Monetary Policy",
-    description: "Step into the role of a central banker and experience the challenges of maintaining economic stability through monetary policy decisions. See firsthand how money supply affects an economy and the trade-offs involved in monetary decision-making.",
+    title: "Central Banking Simulation",
+    subtitle: "Experience monetary policy challenges firsthand",
+    description: "Step into the role of a central banker and discover the complex trade-offs involved in monetary policy decisions. Learn why giving a small group the power to control a nation's money can lead to significant unintended consequences.",
     objectives: [
-      "Experience the role and responsibilities of a central banker",
-      "Make monetary policy decisions and observe their impact",
-      "Balance inflation control and economic growth",
-      "Understand the limitations of centralized monetary systems"
+      "Understand basic monetary policy tools",
+      "Experience the challenge of balancing inflation and unemployment",
+      "Learn about the impact of interest rate decisions",
+      "Discover why Bitcoin's fixed supply presents an alternative model"
     ],
-    simulationType: "roleplay",
+    simulationType: 'roleplay',
     simulationData: {
       scenarios: [
         {
           id: 1,
-          title: "The Inflation Crisis",
-          description: "The economy is experiencing rising inflation at 7%, above your target of 2%. Unemployment is at 5%. What monetary policy action will you take?",
-          options: [
+          title: "Managing Inflation",
+          description: "Inflation has risen to 8% annually, well above your 2% target. Unemployment is at 4.5%. What action do you take as the central bank?",
+          choices: [
             {
-              id: "a",
-              text: "Raise interest rates significantly (by 1%)",
-              outcome: "Inflation begins to slow but unemployment rises to 7% as economic growth slows. Businesses struggle with higher borrowing costs.",
-              consequences: ["Inflation: Decreasing", "Unemployment: Rising", "Economic Growth: Slowing"],
+              id: 1,
+              text: "Raise interest rates aggressively to 5%",
+              outcome: "Inflation begins to slow, but unemployment rises to 7% as businesses cut back on borrowing and expansion.",
+              isOptimal: false
+            },
+            {
+              id: 2,
+              text: "Raise interest rates moderately to 3%",
+              outcome: "Inflation slows to 5%, while unemployment increases slightly to 5.5%.",
               isOptimal: true
             },
             {
-              id: "b",
-              text: "Raise interest rates modestly (by 0.5%)",
-              outcome: "Inflation continues to rise slightly while unemployment stays stable. Markets are uncertain about your commitment to price stability.",
-              consequences: ["Inflation: Stable/Slight Increase", "Unemployment: Stable", "Economic Growth: Steady"],
+              id: 3,
+              text: "Keep interest rates unchanged",
+              outcome: "Inflation rises to 10%, eroding savings and wages. Political pressure mounts to take action.",
               isOptimal: false
             },
             {
-              id: "c", 
-              text: "Keep interest rates unchanged",
-              outcome: "Inflation accelerates to 9% within six months. Economic activity remains strong initially but uncertainty increases.",
-              consequences: ["Inflation: Rapidly Increasing", "Unemployment: Stable (Short-term)", "Economic Growth: Overheating"],
+              id: 4,
+              text: "Lower interest rates to stimulate growth",
+              outcome: "The economy initially grows faster, but inflation surges to 15%, causing widespread economic harm.",
               isOptimal: false
             }
+          ],
+          explanation: "Central banks face a constant balancing act between controlling inflation and maintaining employment. However, any decision inevitably creates winners and losers. Bitcoin offers an alternative by removing this human decision-making and replacing it with a fixed, predictable issuance."
+        },
+        {
+          id: 2,
+          title: "Banking Crisis",
+          description: "Several major banks are on the verge of collapse due to risky investments. The entire financial system is at risk of contagion. What do you do?",
+          choices: [
+            {
+              id: 1,
+              text: "Let the banks fail to avoid moral hazard",
+              outcome: "The financial system experiences severe disruption, unemployment spikes to 12%, but surviving banks become more cautious.",
+              isOptimal: false
+            },
+            {
+              id: 2,
+              text: "Bail out the banks using taxpayer money",
+              outcome: "The financial system stabilizes, but it creates public resentment and encourages future risky behavior by banks.",
+              isOptimal: false
+            },
+            {
+              id: 3,
+              text: "Create new money to provide emergency liquidity",
+              outcome: "The crisis is averted, but the expanded money supply leads to 6% inflation, eroding savings.",
+              isOptimal: true
+            },
+            {
+              id: 4,
+              text: "Force healthier banks to acquire failing ones",
+              outcome: "The immediate crisis is resolved, but it creates larger, more systemically important banks, increasing future risks.",
+              isOptimal: false
+            }
+          ],
+          explanation: "Central banks often serve as 'lenders of last resort,' creating new money to prevent systemic collapse. While this can prevent immediate economic pain, it often leads to inflation and encourages risky behavior. Bitcoin's design prevents such interventions, which means participants must be more prudent."
+        },
+        {
+          id: 3,
+          title: "Pandemic Economic Response",
+          description: "A global pandemic has shut down large portions of the economy. GDP is falling rapidly, and unemployment is rising. How do you respond?",
+          choices: [
+            {
+              id: 1,
+              text: "Dramatically increase the money supply to finance government stimulus",
+              outcome: "The economy stabilizes initially, but inflation rises to 15% within 18 months, persisting for years.",
+              isOptimal: false
+            },
+            {
+              id: 2,
+              text: "Moderately increase money supply while encouraging targeted relief",
+              outcome: "The economy experiences a significant but manageable recession with 6% inflation that gradually subsides.",
+              isOptimal: true
+            },
+            {
+              id: 3,
+              text: "Keep monetary policy unchanged and let markets adjust",
+              outcome: "A deep depression occurs with 20% unemployment, causing widespread business failures and social unrest.",
+              isOptimal: false
+            },
+            {
+              id: 4,
+              text: "Implement negative interest rates to force spending",
+              outcome: "Banks struggle with profitability, savers are punished, and asset bubbles form in real estate and stock markets.",
+              isOptimal: false
+            }
+          ],
+          explanation: "Crises often prompt central banks to create large amounts of new money. While this can alleviate immediate suffering, it can lead to significant inflation and asset bubbles. Bitcoin's fixed supply means it cannot be inflated during crises, which could limit certain policy responses but also protect savings from devaluation."
+        }
+      ]
+    }
+  },
+  {
+    id: 202,
+    title: "Financial Surveillance Detective",
+    subtitle: "Uncover the hidden tracks of your financial transactions",
+    description: "In this mission, you'll investigate how various payment methods reveal your personal data. From who you are, where you shop, and what you buy—your financial transactions create a detailed profile that governments and corporations eagerly monitor. Discover why financial privacy matters in a surveillance state and how Bitcoin might offer an alternative.",
+    objectives: [
+      "Analyze the privacy implications of different payment methods",
+      "Understand how payment surveillance works",
+      "Learn what data is collected about you with each transaction",
+      "Discover Bitcoin's approach to financial privacy"
+    ],
+    simulationType: 'privacy',
+    simulationData: {
+      paymentOptions: [
+        {
+          id: 1,
+          name: "Credit Card",
+          description: "The most common electronic payment method that creates a detailed record of purchases.",
+          privacyRating: 2,
+          surveillanceRisk: [
+            "All purchase data stored permanently",
+            "Data shared with advertisers, banks, card networks, and governments",
+            "Creates detailed spending profile (patterns, locations, preferences)",
+            "Databases can be hacked or leaked"
+          ],
+          privacyFeatures: [
+            "Limited identity verification for small purchases",
+            "Some consumer protections against theft"
+          ],
+          examples: [
+            "A government tracking all political donations made by card",
+            "Advertisers purchasing your spending data from credit bureaus",
+            "Banks analyzing your spending patterns to calculate 'social scores'"
           ]
         },
         {
           id: 2,
-          title: "The Growth Dilemma",
-          description: "Economic growth has slowed to 0.5% and unemployment is rising to 8%. Inflation is low at 1%. How will you respond?",
-          options: [
-            {
-              id: "a",
-              text: "Cut interest rates significantly (by 1%)",
-              outcome: "Economic activity begins to recover but asset prices rise rapidly, creating a potential bubble in housing and stock markets.",
-              consequences: ["Economic Growth: Improving", "Unemployment: Decreasing", "Asset Prices: Potential Bubble"],
-              isOptimal: false
-            },
-            {
-              id: "b",
-              text: "Cut interest rates modestly (by 0.5%)",
-              outcome: "The economy recovers gradually with unemployment slowly decreasing. Inflation remains within target.",
-              consequences: ["Economic Growth: Gradually Improving", "Unemployment: Slowly Decreasing", "Inflation: Within Target"],
-              isOptimal: true
-            },
-            {
-              id: "c",
-              text: "Launch a large quantitative easing program",
-              outcome: "Markets rally and economic growth improves quickly, but inflation expectations rise significantly, threatening future price stability.",
-              consequences: ["Economic Growth: Rapidly Improving", "Inflation Expectations: Rising", "Financial Stability: At Risk"],
-              isOptimal: false
-            }
+          name: "Mobile Banking App",
+          description: "Banking apps that handle direct transfers and payments between individuals and merchants.",
+          privacyRating: 3,
+          surveillanceRisk: [
+            "Location tracking through app permissions",
+            "Transaction data shared with multiple parties",
+            "Linked to your verified identity",
+            "Often collects biometric data (fingerprints, face scans)"
+          ],
+          privacyFeatures: [
+            "Some apps offer limited transaction visibility options"
+          ],
+          examples: [
+            "Government requesting records of all transactions to certain organizations",
+            "App companies building behavioral profiles by analyzing spending patterns",
+            "Banks flagging 'suspicious' transactions for manual review"
           ]
         },
         {
           id: 3,
-          title: "The Financial Crisis",
-          description: "Several major banks are facing liquidity problems due to bad loans. The financial system is showing signs of stress with interbank lending rates rising sharply. What action will you take?",
-          options: [
-            {
-              id: "a",
-              text: "Provide emergency liquidity to struggling banks",
-              outcome: "Financial panic is averted but concerns about moral hazard grow. The public criticizes the central bank for bailing out irresponsible banks.",
-              consequences: ["Financial Stability: Improved", "Moral Hazard: Increased", "Public Trust: Decreased"],
-              isOptimal: true
-            },
-            {
-              id: "b",
-              text: "Let struggling banks fail to prevent moral hazard",
-              outcome: "One major bank collapses, triggering widespread panic. The entire financial system faces a severe credit crunch, requiring an even larger intervention later.",
-              consequences: ["Financial Stability: Severely Damaged", "Economic Activity: Sharp Decline", "Unemployment: Sharp Increase"],
-              isOptimal: false
-            },
-            {
-              id: "c",
-              text: "Cut interest rates to zero and launch unprecedented quantitative easing",
-              outcome: "Financial markets stabilize but the massive intervention causes currency depreciation and inflation concerns. Long-term economic distortions appear likely.",
-              consequences: ["Financial Stability: Restored", "Currency Value: Decreased", "Future Inflation Risk: High"],
-              isOptimal: false
-            }
+          name: "Cash",
+          description: "Physical banknotes and coins used for in-person transactions.",
+          privacyRating: 9,
+          surveillanceRisk: [
+            "Serial numbers can be tracked",
+            "ATM withdrawals create records",
+            "Large transactions often trigger reporting requirements",
+            "Increasingly difficult to use in digital economy"
+          ],
+          privacyFeatures: [
+            "No digital footprint for the transaction itself",
+            "No third-party processors or data collection",
+            "No need for identity verification for most transactions",
+            "Works without electricity or internet"
+          ],
+          examples: [
+            "Buying everyday items without creating a data trail",
+            "Supporting local businesses directly",
+            "Giving monetary gifts without surveillance"
+          ]
+        },
+        {
+          id: 4,
+          name: "CBDC (Central Bank Digital Currency)",
+          description: "Government-issued digital currency with direct central bank control.",
+          privacyRating: 1,
+          surveillanceRisk: [
+            "Complete government visibility of all transactions",
+            "Programmable restrictions on where, when, and how money can be spent",
+            "Potential for funds to be frozen instantly",
+            "Perfect record of all economic activity by identity"
+          ],
+          privacyFeatures: [
+            "Theoretical possibility of privacy features (rarely implemented)",
+            "Security against certain types of fraud"
+          ],
+          examples: [
+            "Government limiting purchases during shortages",
+            "Automatic taxation of every transaction",
+            "Restricting purchases based on social credit scores or behavior",
+            "Blocking payments to politically disfavored groups"
+          ]
+        },
+        {
+          id: 5,
+          name: "Bitcoin (Base Layer)",
+          description: "Peer-to-peer electronic cash system operating on a public blockchain.",
+          privacyRating: 6,
+          surveillanceRisk: [
+            "All transactions permanently visible on public blockchain",
+            "Address clustering can reveal patterns",
+            "Exchange KYC creates identity attachment points",
+            "Chain analysis companies track flows"
+          ],
+          privacyFeatures: [
+            "No built-in identity requirement",
+            "Pseudonymous by default",
+            "No central authority with special visibility",
+            "No permission needed to transact"
+          ],
+          examples: [
+            "Making donations to causes regardless of political pressure",
+            "Sending value globally without permissions",
+            "Holding savings outside the banking system"
+          ]
+        },
+        {
+          id: 6,
+          name: "Bitcoin (Lightning Network)",
+          description: "Second layer payment protocol operating on top of Bitcoin's base layer.",
+          privacyRating: 8,
+          surveillanceRisk: [
+            "Opening and closing channels visible on base chain",
+            "Potential for routing nodes to collect some data",
+            "Still requires on/off ramps that may involve KYC"
+          ],
+          privacyFeatures: [
+            "Individual payments not recorded on public blockchain",
+            "Onion routing obscures payment paths",
+            "No central oversight of transactions",
+            "Minimal data collection compared to traditional systems"
+          ],
+          examples: [
+            "Making small daily purchases with minimal surveillance",
+            "Sending global remittances with low fees and privacy",
+            "Streaming small payments for services without identity verification"
           ]
         }
       ]
-    },
-    reflectionQuestion: "Based on your experience as a central banker, what limitations did you observe in the central banking system? How might a decentralized monetary system like Bitcoin address some of these issues?"
+    }
   },
-
-  // Mission 2: Inflation Time Machine
-  {
-    id: 202,
-    title: "The Inflation Time Machine",
-    subtitle: "Money Supply and Its Consequences",
-    description: "Travel through different eras to witness how changes in money supply have affected prices, savings, and economic stability. Experience hyperinflation firsthand and understand why controlled supply matters for a currency's value.",
-    objectives: [
-      "Compare purchasing power across different monetary regimes",
-      "Witness the effects of currency debasement and money printing",
-      "Experience hyperinflation scenarios from history",
-      "Understand Bitcoin's fixed supply as a solution to inflation"
-    ],
-    simulationType: "inflation",
-    simulationData: {
-      basicItems: [
-        { id: "bread", name: "Loaf of Bread", initialPrice: 0.05 },
-        { id: "house", name: "Average Home", initialPrice: 2000 },
-        { id: "car", name: "Automobile", initialPrice: 800 },
-        { id: "salary", name: "Average Annual Salary", initialPrice: 1500 }
-      ],
-      events: [
-        {
-          year: 1925,
-          title: "Stable Gold Standard Era",
-          description: "The U.S. dollar is backed by gold at a fixed rate of $20.67 per ounce, creating price stability over long periods.",
-          priceMultiplier: 1.0
-        },
-        {
-          year: 1935,
-          title: "Gold Reserve Act",
-          description: "The U.S. government revalues gold to $35 per ounce, effectively devaluing the dollar by 40%.",
-          priceMultiplier: 1.4
-        },
-        {
-          year: 1945,
-          title: "Post-WWII Bretton Woods System",
-          description: "International monetary system established with the U.S. dollar as the world's reserve currency, still backed by gold.",
-          priceMultiplier: 1.8
-        },
-        {
-          year: 1971,
-          title: "Nixon Shock - End of Gold Standard",
-          description: "President Nixon ends the dollar's convertibility to gold, moving to a pure fiat currency system with no commodity backing.",
-          priceMultiplier: 2.5
-        },
-        {
-          year: 1980,
-          title: "Great Inflation Era",
-          description: "Inflation reaches 14% in the U.S. following a decade of loose monetary policy and oil crises.",
-          priceMultiplier: 5.0
-        },
-        {
-          year: 1995,
-          title: "Moderate Inflation Period",
-          description: "The Federal Reserve maintains a 2-3% inflation target, with gradual but persistent price increases.",
-          priceMultiplier: 10.0
-        },
-        {
-          year: 2008,
-          title: "Global Financial Crisis",
-          description: "Central banks around the world implement quantitative easing, dramatically expanding the money supply.",
-          priceMultiplier: 15.0
-        },
-        {
-          year: 2020,
-          title: "Pandemic Response",
-          description: "Unprecedented money creation to fund economic support during the global pandemic, with the Fed's balance sheet expanding by trillions.",
-          priceMultiplier: 22.0
-        },
-        {
-          year: 2023,
-          title: "Post-Pandemic Inflation Surge",
-          description: "Inflation reaches multi-decade highs following years of monetary expansion.",
-          priceMultiplier: 26.0
-        }
-      ]
-    },
-    reflectionQuestion: "How did the increasing money supply affect your purchasing power over time? What advantages might a currency with a fixed supply limit offer?"
-  },
-
-  // Mission 3: Payment Privacy Simulator
   {
     id: 203,
-    title: "Financial Surveillance Detective",
-    subtitle: "Payment Privacy in the Digital Age",
-    description: "In this simulation, you'll analyze different payment methods and understand the surprising amount of personal data revealed through financial transactions. Learn how centralized financial systems enable surveillance and how Bitcoin provides an alternative.",
-    objectives: [
-      "Analyze the privacy implications of different payment methods",
-      "Understand what data is collected in various financial systems",
-      "Identify how financial surveillance works in practice",
-      "Compare traditional finance privacy with Bitcoin privacy"
-    ],
-    simulationType: "privacy",
-    simulationData: {
-      paymentOptions: [
-        {
-          id: "credit",
-          name: "Credit Card",
-          description: "The most common electronic payment method",
-          dataCollected: [
-            "Full name and billing address",
-            "Complete transaction history",
-            "Merchant category codes for all purchases",
-            "Location data at time of purchase",
-            "Spending patterns and habits",
-            "Credit history and score",
-            "Purchase frequency and amount patterns"
-          ],
-          entities: [
-            "Card issuing bank",
-            "Card network (Visa, Mastercard)",
-            "Merchant's payment processor",
-            "Data aggregators and marketers",
-            "Government agencies (with proper request)"
-          ],
-          privacyScore: 2,
-          scenario: "Maria uses her credit card for most purchases. When she applies for health insurance, she's surprised to find her premium is higher than expected. The insurer's algorithm flagged frequent purchases at fast food restaurants and liquor stores as potential health risks."
-        },
-        {
-          id: "mobile",
-          name: "Mobile Payment App",
-          description: "Smartphone-based payment services like Venmo, Cash App, or Apple Pay",
-          dataCollected: [
-            "Transaction history with timestamps",
-            "Social connections between users",
-            "Purchase locations and movement patterns",
-            "Merchant information and categories",
-            "Bank account or card details",
-            "Device information",
-            "Messages and notes attached to payments"
-          ],
-          entities: [
-            "Payment app provider",
-            "Phone manufacturer",
-            "App store owner",
-            "Advertising networks",
-            "Partner companies in data sharing agreements",
-            "Government agencies (with proper request)"
-          ],
-          privacyScore: 3,
-          scenario: "Jamal regularly splits bills with friends using a popular payment app that has a social feed. When he paid his portion of the rent, he didn't realize the transaction was public. A potential landlord saw this activity, noted his irregular payment timing, and rejected his rental application."
-        },
-        {
-          id: "bank",
-          name: "Bank Transfer (ACH)",
-          description: "Direct electronic transfers between bank accounts",
-          dataCollected: [
-            "Account numbers and bank details",
-            "Transaction amount and frequency",
-            "Sender and recipient information",
-            "Transaction purpose (if noted)",
-            "Balance information",
-            "Spending and income patterns",
-            "Linked account details"
-          ],
-          entities: [
-            "Sending bank",
-            "Receiving bank",
-            "Central clearing houses",
-            "Banking regulators",
-            "Government agencies (with proper request)",
-            "Financial intelligence units"
-          ],
-          privacyScore: 4,
-          scenario: "Ahmed regularly sends money to family in his home country. After several transfers, his bank freezes his account pending a review, citing 'unusual activity patterns' that triggered automated anti-money laundering flags, despite the legitimate nature of his transactions."
-        },
-        {
-          id: "cash",
-          name: "Physical Cash",
-          description: "Traditional paper and coin currency",
-          dataCollected: [
-            "No direct digital data collection",
-            "Possible ATM withdrawal records",
-            "Possible surveillance camera footage",
-            "No transaction history beyond physical records"
-          ],
-          entities: [
-            "No direct digital tracking entities",
-            "Bank knows when cash was withdrawn (if applicable)",
-            "Merchants don't capture personally identifiable data"
-          ],
-          privacyScore: 8,
-          scenario: "Lin prefers using cash for most purchases, especially for politically sensitive books and materials. While this provides good privacy, she finds it increasingly difficult as more businesses go cashless and online purchases require digital payment methods."
-        },
-        {
-          id: "bitcoin_exchange",
-          name: "Bitcoin (via Exchange)",
-          description: "Bitcoin purchased on exchange and sent from exchange wallet",
-          dataCollected: [
-            "Identity verification documents (KYC)",
-            "Wallet addresses used",
-            "Transaction values and timing",
-            "IP address when accessing exchange",
-            "Withdrawal destinations",
-            "Blockchain transaction history (pseudonymous)"
-          ],
-          entities: [
-            "Bitcoin exchange",
-            "Blockchain analytics companies",
-            "Anyone with blockchain explorer tools",
-            "Government agencies (with proper request)"
-          ],
-          privacyScore: 5,
-          scenario: "Carlos bought Bitcoin on a regulated exchange for investment purposes. When he later sent some to a friend who had an account flagged for gambling sites, Carlos received an inquiry from the exchange questioning the purpose of his transaction."
-        },
-        {
-          id: "bitcoin_selfcustody",
-          name: "Bitcoin (Self-Custody)",
-          description: "Bitcoin acquired peer-to-peer and kept in self-custody wallet",
-          dataCollected: [
-            "Blockchain transaction record (pseudonymous)",
-            "Public key information",
-            "Transaction values",
-            "Transaction timing"
-          ],
-          entities: [
-            "Anyone with blockchain explorer tools",
-            "Blockchain analytics companies (limited capability without KYC data)",
-            "No central authority with complete view"
-          ],
-          privacyScore: 7,
-          scenario: "Sophia uses Bitcoin acquired from a peer and kept in her own wallet. While her transactions are visible on the blockchain, they're not directly linked to her identity. She uses best practices like avoiding address reuse and maintaining separation between different activities."
-        }
-      ]
-    },
-    reflectionQuestion: "How does the level of financial surveillance in traditional systems compare to Bitcoin's approach? What are the trade-offs between convenience, compliance, and privacy in payment systems?"
-  },
-
-  // Mission 4: Exclusion Web Game
-  {
-    id: 204,
     title: "Breaking the Exclusion Web",
-    subtitle: "Financial Inclusion and Barriers",
-    description: "Discover the invisible barriers that keep billions of people from accessing basic financial services. Connect real-world barriers with the groups they affect most and learn how Bitcoin can help overcome these obstacles.",
+    subtitle: "Mapping financial barriers and bitcoin solutions",
+    description: "Billions of people worldwide remain excluded from the modern financial system. In this mission, you'll connect various barriers to the specific populations they affect most severely. Then learn how Bitcoin's unique properties could help overcome these obstacles to bring financial services to everyone.",
     objectives: [
-      "Identify key barriers to financial inclusion globally",
-      "Understand which populations are most affected by financial exclusion",
-      "Analyze how traditional banking requirements create systemic barriers",
-      "Explore how Bitcoin addresses financial inclusion challenges"
+      "Identify major barriers to financial inclusion",
+      "Understand which populations are most affected by each barrier",
+      "Map the relationships between barriers and excluded groups",
+      "Discover how Bitcoin addresses these challenges"
     ],
-    simulationType: "exclusion",
+    simulationType: 'exclusion',
     simulationData: {
       barriers: [
         {
           id: 1,
-          name: "Identity Documentation",
-          description: "Requirement for government-issued IDs, proof of address, and other formal documentation to open accounts or access financial services."
+          name: "Identity Requirements",
+          description: "Traditional banks require government-issued ID, proof of address, and other documentation to open accounts."
         },
         {
           id: 2,
           name: "Minimum Balance Requirements",
-          description: "Mandatory minimum deposits or balances required to open or maintain financial accounts without fees."
+          description: "Many banks require minimum deposits or balances to avoid fees, often hundreds of dollars."
         },
         {
           id: 3,
           name: "Geographic Access",
-          description: "Physical distance to bank branches or financial service providers."
+          description: "Physical bank branches and ATMs are concentrated in profitable urban areas, leaving many regions underserved."
         },
         {
           id: 4,
-          name: "Banking Fees",
-          description: "Monthly maintenance, transaction, withdrawal, and other service charges that make banking unaffordable."
+          name: "Financial Literacy Barriers",
+          description: "Complex financial products, terms, and interfaces can be inaccessible to those with limited education or experience."
         },
         {
           id: 5,
-          name: "Financial Literacy",
-          description: "Knowledge and understanding of financial concepts, products, and systems."
+          name: "High Transaction Costs",
+          description: "Fees for basic services like money transfers or check cashing can consume a large percentage of income for the poor."
         },
         {
           id: 6,
-          name: "Credit History",
-          description: "Required past banking relationships and formal borrowing history to access loans and other services."
+          name: "Currency Controls & Instability",
+          description: "Government restrictions on currency use and high inflation create barriers to saving and financial planning."
         }
       ],
       groups: [
         {
           id: 1,
-          name: "Refugees & Displaced Persons",
-          description: "People forced to flee their homes due to conflict, persecution, or disasters."
+          name: "Rural Populations",
+          description: "People living in remote areas far from urban centers, often with limited infrastructure."
         },
         {
           id: 2,
-          name: "Rural Communities",
-          description: "Populations living in non-urban areas, often far from financial infrastructure."
+          name: "Refugees & Migrants",
+          description: "People who have been displaced from their homes, often lacking documentation from their host country."
         },
         {
           id: 3,
-          name: "Low-Income Workers",
-          description: "Individuals and families with limited financial resources, often working in informal economies."
+          name: "Unhoused Individuals",
+          description: "People without permanent addresses, making it difficult to satisfy bank requirements."
         },
         {
           id: 4,
-          name: "Unhoused Populations",
-          description: "People without stable, permanent housing or addresses."
+          name: "Low-Income Workers",
+          description: "People with limited financial resources who cannot meet minimum balance requirements."
         },
         {
           id: 5,
-          name: "Migrant Workers",
-          description: "People who move within or across borders for employment, often sending money to family members."
+          name: "Informal Economy Workers",
+          description: "People who earn income through unofficial channels without formal documentation."
         },
         {
           id: 6,
-          name: "Women in Restrictive Societies",
-          description: "Women in regions where cultural or legal barriers limit their financial independence."
+          name: "Citizens of Unstable Economies",
+          description: "People living in countries with hyperinflation, currency controls, or failing banking systems."
         }
       ],
       correctMatches: [
         {
           barrierId: 1,
-          groupId: 1,
-          explanation: "Refugees often lose or lack identity documents when fleeing their homes. Without these papers, they cannot open bank accounts or access formal financial services in their new locations."
+          groupId: 2,
+          explanation: "Refugees and migrants often lack the documentation required by traditional financial institutions in their host countries."
         },
         {
           barrierId: 1,
-          groupId: 4,
-          explanation: "Without a permanent address, unhoused individuals cannot meet proof of address requirements for opening bank accounts, creating a cycle of financial exclusion."
+          groupId: 3,
+          explanation: "Without a permanent address, unhoused individuals cannot satisfy standard KYC (Know Your Customer) requirements."
         },
         {
           barrierId: 2,
-          groupId: 3,
-          explanation: "Minimum balance requirements of $25-$100 can be unattainable for those living paycheck to paycheck, keeping low-income workers out of the banking system."
+          groupId: 4,
+          explanation: "Minimum balance requirements disproportionately affect those with limited income who cannot set aside sufficient funds."
         },
         {
           barrierId: 3,
-          groupId: 2,
-          explanation: "In many countries, the nearest bank branch might be hours away from rural communities, making regular banking transactions impractical or impossible."
+          groupId: 1,
+          explanation: "Rural populations often live far from bank branches or ATMs, making access to financial services physically difficult."
         },
         {
           barrierId: 4,
-          groupId: 3,
-          explanation: "Banking fees can consume a significant percentage of income for low-wage workers, making formal banking services unaffordable."
+          groupId: 5,
+          explanation: "Those working in the informal economy often have limited exposure to formal financial education and systems."
         },
         {
           barrierId: 5,
-          groupId: 2,
-          explanation: "Limited access to education in rural areas often results in lower financial literacy, creating barriers to understanding and using financial services effectively."
-        },
-        {
-          barrierId: 6,
-          groupId: 5,
-          explanation: "Migrant workers moving between countries typically cannot transfer their credit history, forcing them to start from zero in each new location."
+          groupId: 4,
+          explanation: "High transaction fees disproportionately affect low-income individuals, as fees consume a larger percentage of their total funds."
         },
         {
           barrierId: 6,
           groupId: 6,
-          explanation: "In societies where women have limited financial independence, they often cannot build credit histories in their own names, restricting access to loans and financial services."
+          explanation: "Citizens of countries with unstable economies suffer from currency controls that restrict their financial freedom and from inflation that erodes their savings."
         }
       ],
       stats: [
         {
-          value: "1.4 billion",
-          label: "Adults globally without access to banking services"
+          value: "1.7 billion",
+          label: "Adults without bank accounts worldwide"
         },
         {
-          value: "43%",
-          label: "Women in developing countries without bank accounts"
+          value: "70%",
+          label: "Unbanked who cite lack of documentation as a barrier"
         },
         {
-          value: "32%",
-          label: "Cost of remittances to low-income countries (as % of amount sent)"
+          value: "60%",
+          label: "Women's share of the global unbanked population"
         },
         {
-          value: "2.5 hours",
-          label: "Average travel time to nearest bank branch in rural African communities"
-        },
-        {
-          value: "56%",
-          label: "Refugees in camps without access to any formal financial services"
+          value: "$200+",
+          label: "Average annual cost of maintaining a basic bank account in some regions"
         }
       ],
       caseStudies: [
         {
-          title: "Bitcoin Beach: El Zonte, El Salvador",
-          content: "In this small coastal town, an anonymous Bitcoin donor helped create a circular Bitcoin economy that provided financial services to unbanked residents, demonstrating how Bitcoin enables financial inclusion without traditional banking requirements."
+          title: "Bitcoin Beach: El Salvador",
+          description: "A community project in El Zonte that helped residents use Bitcoin for everyday transactions, demonstrating financial inclusion without traditional banking infrastructure.",
+          impact: "Enabled unbanked residents to save, transact, and build small businesses outside the traditional financial system."
         },
         {
           title: "Refugee Empowerment in Uganda",
-          content: "Organizations are using Bitcoin to provide financial services to refugees who lack identification papers, allowing them to receive donations, build savings, and establish economic independence without formal banking access."
+          description: "Bitcoin and Lightning Network being used to help refugees receive money from family abroad without expensive remittance fees or documentation requirements.",
+          impact: "Reduced costs from 10-15% to less than 1% for receiving critical financial support."
         },
         {
-          title: "Empowering Rural Farmers in Kenya",
-          content: "Agricultural workers who previously had no banking access now use Bitcoin wallets to receive payments for crops, store value, and make purchases, bypassing the need to travel hours to the nearest bank branch."
+          title: "Financial Autonomy in Zimbabwe",
+          description: "Citizens using Bitcoin to preserve savings value during periods of hyperinflation when the local currency rapidly depreciated.",
+          impact: "Provided economic stability when the banking system and national currency failed to serve their basic functions."
         }
       ]
-    },
-    reflectionQuestion: "How does Bitcoin's permission-less nature address the barriers to financial inclusion that traditional systems create? Which excluded group might benefit most from Bitcoin adoption in your opinion?"
+    }
   },
-
-  // Mission 5: Central Control Consequences Quiz
   {
-    id: 205,
-    title: "Centralized Control Scenarios",
-    subtitle: "Consequences of Economic Authoritarianism",
-    description: "Test your understanding of how centralized monetary control can impact individuals and societies through real-world case studies and hypothetical scenarios.",
-    objectives: [
-      "Identify how monetary policy decisions affect different population segments",
-      "Recognize the potential for coercion in centralized financial systems",
-      "Understand historical examples of monetary control abuse",
-      "Evaluate how decentralized alternatives modify these power dynamics"
-    ],
-    simulationType: "quiz",
-    simulationData: {
-      questions: [
-        {
-          id: 1,
-          text: "In 2016, India suddenly demonetized 86% of its currency in circulation (500 and 1000 rupee notes). What was the primary impact on ordinary citizens?",
-          answers: [
-            {
-              id: 1,
-              text: "Most citizens saw their black market assets appreciate in value",
-              isCorrect: false,
-              explanation: "Black market assets did not generally appreciate; instead, many people lost substantial value as they struggled to exchange old notes within the tight deadlines."
-            },
-            {
-              id: 2,
-              text: "Long lines at banks, cash shortages, and significant economic disruption for everyday transactions",
-              isCorrect: true,
-              explanation: "The sudden demonetization caused severe cash shortages. People stood in lines for hours or days to exchange old notes, and many small businesses that operated primarily in cash were devastated."
-            },
-            {
-              id: 3,
-              text: "Most citizens received direct digital payments as compensation",
-              isCorrect: false,
-              explanation: "No widespread compensation was provided; citizens were simply expected to exchange their old notes for new ones within a limited timeframe."
-            },
-            {
-              id: 4,
-              text: "The policy only affected wealthy citizens with large cash holdings",
-              isCorrect: false,
-              explanation: "While targeting black money held by wealthy individuals was one stated goal, the policy disproportionately affected ordinary citizens, particularly the poor and those in rural areas with limited banking access."
-            }
-          ],
-          explanation: "India's demonetization experiment shows how centralized monetary decisions can create widespread disruption. The policy was announced with just hours of notice, giving citizens no time to prepare. While intended to fight corruption and tax evasion, it primarily impacted ordinary citizens conducting everyday business in cash."
-        },
-        {
-          id: 2,
-          text: "During hyperinflation in Zimbabwe (2007-2009), what happened to citizens' savings held in Zimbabwean dollars?",
-          answers: [
-            {
-              id: 1,
-              text: "Savings were protected by government insurance programs",
-              isCorrect: false,
-              explanation: "No effective insurance programs existed to protect savings from the hyperinflation, which reached billions of percent."
-            },
-            {
-              id: 2,
-              text: "Savings were automatically converted to US dollars at favorable rates",
-              isCorrect: false,
-              explanation: "No automatic conversion occurred. People who couldn't convert to foreign currencies or hard assets saw their savings essentially evaporate."
-            },
-            {
-              id: 3,
-              text: "The value of savings was effectively reduced to zero as inflation destroyed purchasing power",
-              isCorrect: true,
-              explanation: "With inflation reaching 79.6 billion percent at its peak, savings held in Zimbabwean dollars became essentially worthless. A trillion Zimbabwean dollars might not buy a loaf of bread."
-            },
-            {
-              id: 4,
-              text: "Savings earned high interest rates that offset inflation",
-              isCorrect: false,
-              explanation: "While banks did raise interest rates, they couldn't possibly keep pace with hyperinflation rates of millions or billions of percent."
-            }
-          ],
-          explanation: "Zimbabwe's hyperinflation demonstrates the ultimate consequence of centralized money printing. The government's ability to create unlimited money led to one of history's worst hyperinflations, wiping out savings, pensions, and wages. Citizens who couldn't access foreign currencies lost everything."
-        },
-        {
-          id: 3,
-          text: "When Cyprus experienced a banking crisis in 2013, what action did the government take regarding depositors' funds?",
-          answers: [
-            {
-              id: 1,
-              text: "All bank deposits were fully guaranteed by the European Central Bank",
-              isCorrect: false,
-              explanation: "The European Central Bank did not provide full guarantees for deposits. Instead, a 'bail-in' approach was used."
-            },
-            {
-              id: 2,
-              text: "Bank holidays were declared while the government printed more money",
-              isCorrect: false,
-              explanation: "While bank holidays were declared, Cyprus couldn't print money as it uses the Euro, which is controlled by the European Central Bank."
-            },
-            {
-              id: 3,
-              text: "A one-time wealth tax was imposed on all citizens equally",
-              isCorrect: false,
-              explanation: "The levy was not equal across all citizens but specifically targeted bank depositors above certain thresholds."
-            },
-            {
-              id: 4,
-              text: "A significant percentage of deposits above €100,000 was confiscated to recapitalize banks",
-              isCorrect: true,
-              explanation: "The Cypriot government imposed a 'bail-in,' confiscating up to 47.5% of bank deposits exceeding €100,000 to recapitalize failing banks, demonstrating how quickly funds in centralized banks can be appropriated."
-            }
-          ],
-          explanation: "The Cyprus bail-in showed that money in banks isn't always secure from government appropriation. Depositors who thought their money was safe suddenly found a substantial portion confiscated. This event triggered interest in Bitcoin as people realized the risks of keeping wealth in systems controlled by centralized authorities."
-        },
-        {
-          id: 4,
-          text: "During Canada's Freedom Convoy protests in 2022, what unprecedented financial measure did the government take?",
-          answers: [
-            {
-              id: 1,
-              text: "Required explicit consent before any donations could be processed",
-              isCorrect: false,
-              explanation: "The government did not implement a consent-based system but rather took direct action to freeze accounts."
-            },
-            {
-              id: 2,
-              text: "Froze bank accounts of protesters and donors without requiring court orders",
-              isCorrect: true,
-              explanation: "The Canadian government invoked the Emergencies Act to freeze bank accounts of not only protest organizers but also donors and supporters, without requiring standard judicial processes or court orders."
-            },
-            {
-              id: 3,
-              text: "Nationalized all major Canadian banks temporarily",
-              isCorrect: false,
-              explanation: "No nationalization of banks occurred. The government worked through existing financial institutions to implement account freezes."
-            },
-            {
-              id: 4,
-              text: "Restricted international wire transfers for all Canadian citizens",
-              isCorrect: false,
-              explanation: "While some financial restrictions were implemented, the government did not block all international transfers for all citizens."
-            }
-          ],
-          explanation: "The Canadian government's response demonstrated how centralized financial systems can be weaponized for political purposes. Bank accounts were frozen without court orders, and financial institutions were required to monitor for protest-supporting transactions. This case highlighted the political risks of systems where a central authority can easily deny financial access."
-        },
-        {
-          id: 5,
-          text: "What happens to an individual's financial assets when they are 'de-banked' (have all their banking relationships terminated)?",
-          answers: [
-            {
-              id: 1,
-              text: "Assets are typically held in escrow until the individual can find a new bank",
-              isCorrect: false,
-              explanation: "There is no standard escrow system. Individuals often struggle to recover funds or transfer them when de-banked."
-            },
-            {
-              id: 2,
-              text: "The individual typically receives their balance in cash immediately",
-              isCorrect: false,
-              explanation: "De-banked individuals often face significant challenges and delays in accessing their funds, rarely receiving immediate cash payouts."
-            },
-            {
-              id: 3,
-              text: "They lose the ability to participate in the formal economy, receive payments, or store funds securely",
-              isCorrect: true,
-              explanation: "Without bank accounts, individuals cannot receive direct deposits, make electronic payments, get loans, or participate fully in the modern economy. Even basic functions like receiving a salary become challenging."
-            },
-            {
-              id: 4,
-              text: "They must use cryptocurrency exclusively for all future transactions",
-              isCorrect: false,
-              explanation: "While cryptocurrency can provide an alternative, de-banked individuals are not required to use it and may find other workarounds like prepaid cards or informal financial networks."
-            }
-          ],
-          explanation: "Banking access has become essential for modern economic participation. When someone is de-banked, they effectively become financial outcasts, unable to receive direct deposits, make electronic payments, get loans, or store money securely. De-banking can occur for political reasons, suspected (but not proven) illegal activity, or simply being in a high-risk category."
-        },
-        {
-          id: 6,
-          text: "What capability will Central Bank Digital Currencies (CBDCs) potentially give to governments that they don't fully have with current financial systems?",
-          answers: [
-            {
-              id: 1,
-              text: "The ability to implement negative interest rates directly on all holdings",
-              isCorrect: false,
-              explanation: "While this is one possible feature of CBDCs, it's not the most significant new capability compared to current systems."
-            },
-            {
-              id: 2,
-              text: "Programmable money with expiration dates, usage restrictions, and complete transaction surveillance",
-              isCorrect: true,
-              explanation: "CBDCs enable unprecedented control: money that expires if not spent, can only be used for approved purchases, moves only to permitted recipients, and provides complete visibility into all transactions without the limitations of current banking surveillance."
-            },
-            {
-              id: 3,
-              text: "The ability to print unlimited currency",
-              isCorrect: false,
-              explanation: "Governments with sovereign currencies already have this ability with traditional fiat currencies."
-            },
-            {
-              id: 4,
-              text: "Direct person-to-person transactions without intermediaries",
-              isCorrect: false,
-              explanation: "While some CBDC designs might allow for this, most proposed CBDCs actually enhance government visibility and control rather than enabling truly peer-to-peer transactions."
-            }
-          ],
-          explanation: "CBDCs represent the ultimate form of centralized monetary control, giving authorities powers that current systems only partially provide. With programmable digital currency, governments could implement social credit systems, enforce spending on approved items only, activate automatic taxation, implement capital controls, and monitor every transaction in real-time."
-        }
-      ]
-    },
-    reflectionQuestion: "Based on these historical examples, what concerns might arise from increasing centralization of financial control? How might Bitcoin's decentralized design address some of these concerns?"
-  },
-
-  // Mission 6: Global Money Web
-  {
-    id: 206,
+    id: 204,
     title: "The Global Money Web",
-    subtitle: "Reserve Currencies and Power",
-    description: "Map the intricate connections between global currencies and understand how reserve currency status grants economic and political power. Then, experience how the 1971 Nixon Shock fundamentally changed the global monetary landscape.",
+    subtitle: "Mapping the Dollar Dominance System",
+    description: "Visualize the global financial system and how a single currency—the US dollar—has become the center of world trade, creating both stability and vulnerabilities. Then explore what happened when this system faced its first major shock in the 1970s, and how Bitcoin offers an alternative model for international exchange.",
     objectives: [
-      "Visualize the hierarchy of the global monetary system",
-      "Understand how the US dollar gained and maintains reserve status",
-      "Discover the advantages and consequences of issuing the world's reserve currency",
-      "Analyze how the 1971 Nixon Shock transformed money worldwide"
+      "Understand how the dollar-based financial system works",
+      "Map connections between central banks, SWIFT, and international trade",
+      "Learn what happened when the dollar left the gold standard in 1971",
+      "Discover how Bitcoin provides an alternative global settlement system"
     ],
-    simulationType: "globalflow",
+    simulationType: 'globalflow',
     simulationData: {
       globalFlow: {
         nodes: [
           {
-            id: "usd",
-            label: "US Dollar",
-            description: "World's primary reserve currency, used in 88% of international transactions",
-            position: { x: 50, y: 20 },
-            size: "large",
-            connections: ["euro", "jpy", "gbp", "cad", "aud", "cny"]
+            id: "fed",
+            label: "US Federal Reserve",
+            type: "institution",
+            influence: 10
           },
           {
-            id: "euro",
-            label: "Euro",
-            description: "Second largest reserve currency, used primarily in European trade",
-            position: { x: 30, y: 40 },
-            size: "medium",
-            connections: ["pln", "sek", "dkk"]
+            id: "ecb",
+            label: "European Central Bank",
+            type: "institution",
+            influence: 8
           },
           {
-            id: "jpy",
-            label: "Japanese Yen",
-            description: "Third largest reserve currency, dominant in Asian markets",
-            position: { x: 70, y: 40 },
-            size: "medium",
-            connections: ["krw", "twd"]
+            id: "pboc",
+            label: "People's Bank of China",
+            type: "institution",
+            influence: 7
           },
           {
-            id: "gbp",
-            label: "British Pound",
-            description: "Fourth largest reserve currency",
-            position: { x: 20, y: 60 },
-            size: "medium",
-            connections: []
+            id: "boj",
+            label: "Bank of Japan",
+            type: "institution",
+            influence: 6
           },
           {
-            id: "cny",
-            label: "Chinese Yuan",
-            description: "Growing reserve currency, tightly controlled by Chinese government",
-            position: { x: 80, y: 60 },
-            size: "medium",
-            connections: ["thb", "myr"]
+            id: "imf",
+            label: "International Monetary Fund",
+            type: "organization",
+            influence: 9
           },
           {
-            id: "cad",
-            label: "Canadian Dollar",
-            description: "Commodity-based currency with moderate reserve status",
-            position: { x: 40, y: 60 },
-            size: "small",
-            connections: []
+            id: "worldbank",
+            label: "World Bank",
+            type: "organization",
+            influence: 8
           },
           {
-            id: "aud",
-            label: "Australian Dollar",
-            description: "Commodity-based currency with moderate reserve status",
-            position: { x: 60, y: 60 },
-            size: "small",
-            connections: ["nzd"]
+            id: "swift",
+            label: "SWIFT Network",
+            type: "organization",
+            influence: 9
           },
           {
-            id: "pln",
-            label: "Polish Zloty",
-            description: "Eastern European currency dependent on Euro stability",
-            position: { x: 25, y: 80 },
-            size: "tiny",
-            connections: []
+            id: "usa",
+            label: "United States",
+            type: "country",
+            influence: 10
           },
           {
-            id: "sek",
-            label: "Swedish Krona",
-            description: "Nordic currency closely tied to Euro performance",
-            position: { x: 30, y: 80 },
-            size: "tiny",
-            connections: []
+            id: "eu",
+            label: "European Union",
+            type: "country",
+            influence: 8
           },
           {
-            id: "dkk",
-            label: "Danish Krone",
-            description: "Pegged to the Euro",
-            position: { x: 35, y: 80 },
-            size: "tiny",
-            connections: []
+            id: "china",
+            label: "China",
+            type: "country",
+            influence: 8
           },
           {
-            id: "krw",
-            label: "Korean Won",
-            description: "Heavily influenced by Japanese and US monetary policy",
-            position: { x: 65, y: 80 },
-            size: "tiny",
-            connections: []
+            id: "india",
+            label: "India",
+            type: "country",
+            influence: 6
           },
           {
-            id: "twd",
-            label: "Taiwan Dollar",
-            description: "Closely follows Japanese Yen and US Dollar trends",
-            position: { x: 70, y: 80 },
-            size: "tiny",
-            connections: []
+            id: "russia",
+            label: "Russia",
+            type: "country",
+            influence: 5
           },
           {
-            id: "thb",
-            label: "Thai Baht",
-            description: "Southeast Asian currency increasingly influenced by the Yuan",
-            position: { x: 75, y: 80 },
-            size: "tiny",
-            connections: []
-          },
-          {
-            id: "myr",
-            label: "Malaysian Ringgit",
-            description: "Increasingly aligned with Chinese economic influence",
-            position: { x: 80, y: 80 },
-            size: "tiny",
-            connections: []
-          },
-          {
-            id: "nzd",
-            label: "New Zealand Dollar",
-            description: "Closely follows Australian Dollar movements",
-            position: { x: 60, y: 80 },
-            size: "tiny",
-            connections: []
+            id: "developing",
+            label: "Developing Nations",
+            type: "country",
+            influence: 3
           }
         ],
         correctConnections: [
-          { source: "usd", target: "euro", type: "dominance" },
-          { source: "usd", target: "jpy", type: "dominance" },
-          { source: "usd", target: "gbp", type: "dominance" },
-          { source: "usd", target: "cad", type: "dominance" },
-          { source: "usd", target: "aud", type: "dominance" },
-          { source: "usd", target: "cny", type: "contested" },
-          { source: "euro", target: "pln", type: "dominance" },
-          { source: "euro", target: "sek", type: "dominance" },
-          { source: "euro", target: "dkk", type: "dominance" },
-          { source: "jpy", target: "krw", type: "dominance" },
-          { source: "jpy", target: "twd", type: "dominance" },
-          { source: "cny", target: "thb", type: "influence" },
-          { source: "cny", target: "myr", type: "influence" },
-          { source: "aud", target: "nzd", type: "dominance" }
+          {
+            source: "fed",
+            target: "usa",
+            isCorrect: true,
+            explanation: "The Federal Reserve is the central bank of the United States, responsible for monetary policy."
+          },
+          {
+            source: "fed",
+            target: "imf",
+            isCorrect: true,
+            explanation: "The US has the largest voting share in the IMF and significant influence over its policies."
+          },
+          {
+            source: "fed",
+            target: "ecb",
+            isCorrect: true,
+            explanation: "Central banks coordinate monetary policy, with the Fed's decisions significantly impacting others."
+          },
+          {
+            source: "fed",
+            target: "worldbank",
+            isCorrect: true,
+            explanation: "The US is the largest shareholder in the World Bank, giving the Fed indirect influence."
+          },
+          {
+            source: "usa",
+            target: "swift",
+            isCorrect: true,
+            explanation: "The US has significant influence over the SWIFT financial messaging system, used for international fund transfers."
+          },
+          {
+            source: "usa",
+            target: "developing",
+            isCorrect: true,
+            explanation: "US monetary policy directly affects developing nations through interest rates, dollar availability, and debt obligations."
+          },
+          {
+            source: "worldbank",
+            target: "developing",
+            isCorrect: true,
+            explanation: "The World Bank provides loans and aid to developing countries, often with specific policy requirements."
+          },
+          {
+            source: "imf",
+            target: "developing",
+            isCorrect: true,
+            explanation: "The IMF provides emergency loans to countries in crisis, typically requiring economic reforms."
+          },
+          {
+            source: "swift",
+            target: "eu",
+            isCorrect: true,
+            explanation: "SWIFT facilitates international transactions between EU member states and other countries."
+          },
+          {
+            source: "swift",
+            target: "china",
+            isCorrect: true,
+            explanation: "China relies on SWIFT for international trade settlement, despite developing alternatives."
+          },
+          {
+            source: "swift",
+            target: "russia",
+            isCorrect: true,
+            explanation: "Russia uses SWIFT for international transactions, though access can be restricted as a sanction."
+          }
         ]
       },
       dollarShock: {
         initialYear: 1971,
         events: [
           {
-            year: 1944,
-            title: "Bretton Woods Agreement",
-            description: "44 countries agree to fix their currencies to the US dollar, while the US fixes the dollar to gold at $35 per ounce.",
-            effects: [
-              "US dollar becomes world's reserve currency",
-              "Other nations hold dollars as backing for their own currencies",
-              "Global monetary stability is tied to US fiscal discipline"
-            ]
-          },
-          {
-            year: 1960,
-            title: "Growing US Deficits",
-            description: "The US begins running larger deficits to fund the Vietnam War and social programs, printing more dollars.",
-            effects: [
-              "More dollars circulate globally than US has gold to back",
-              "Foreign nations become concerned about dollar's gold backing",
-              "European countries begin redeeming dollars for gold"
-            ]
-          },
-          {
             year: 1971,
-            title: "Nixon Shock",
-            description: "President Nixon unilaterally ends dollar convertibility to gold, effectively ending the Bretton Woods system.",
+            title: "Nixon Ends Gold Standard",
+            description: "President Nixon announces that the US will no longer convert dollars to gold, ending the Bretton Woods system.",
             effects: [
-              "Dollar becomes a pure fiat currency with no commodity backing",
-              "Other currencies lose their indirect link to gold",
-              "Global monetary system enters uncharted territory of floating exchange rates"
-            ],
-            pivotalEvent: true
+              "Dollar becomes a pure fiat currency without gold backing",
+              "Other countries can no longer redeem dollars for gold",
+              "Beginning of the floating exchange rate system",
+              "US gains ability to create unlimited dollars"
+            ]
           },
           {
             year: 1973,
-            title: "Oil Crisis and Petrodollar",
-            description: "US makes agreement with Saudi Arabia for oil to be priced and sold exclusively in US dollars, creating 'petrodollar' system.",
+            title: "Oil Crisis",
+            description: "OPEC oil embargo drives major price increases, but oil continues to be priced exclusively in dollars (petrodollar).",
             effects: [
-              "Countries must hold dollars to purchase oil",
-              "US gains ability to export inflation globally",
-              "Dollar maintains reserve status despite lack of gold backing"
+              "Reinforced dollar's global importance despite being untethered from gold",
+              "Countries needed dollars to purchase oil, creating artificial demand",
+              "US gained significant geopolitical advantage",
+              "Increased inflation in many countries"
             ]
           },
           {
-            year: 1980,
+            year: 1979,
             title: "Volcker Shock",
-            description: "Federal Reserve under Paul Volcker raises interest rates dramatically to combat inflation.",
+            description: "Federal Reserve Chairman Paul Volcker raises interest rates dramatically to combat inflation.",
             effects: [
-              "Developing countries with dollar-denominated debt face crisis",
-              "US demonstrates power to affect global economy through monetary policy",
-              "Dollar strengthens significantly against other currencies"
+              "Interest rates reach nearly 20% in the United States",
+              "Developing nations with dollar-denominated debt face crisis",
+              "Demonstrated US ability to export monetary policy globally",
+              "Created economic hardship across the world"
+            ]
+          },
+          {
+            year: 1997,
+            title: "Asian Financial Crisis",
+            description: "Currency collapse spreads across Asian economies, requiring IMF intervention with strict conditions.",
+            effects: [
+              "Demonstrated vulnerability of countries to dollar policy",
+              "IMF required privatization and economic restructuring",
+              "Increased dollar reserves in Asian countries as protection",
+              "Sparked interest in monetary alternatives and regional cooperation"
             ]
           },
           {
             year: 2008,
             title: "Global Financial Crisis",
-            description: "US begins quantitative easing, dramatically expanding the dollar supply.",
+            description: "Federal Reserve creates trillions of new dollars through quantitative easing to stabilize markets.",
             effects: [
-              "Dollar paradoxically strengthens as global 'safe haven'",
-              "US exports inflation to developing economies",
-              "Bitcoin is created partly in response to banking failures and money printing"
-            ]
-          },
-          {
-            year: 2020,
-            title: "Pandemic Response",
-            description: "US creates trillions of new dollars in response to COVID-19 pandemic.",
-            effects: [
-              "Global dollar supply increases by over 40% in two years",
-              "Inflation rises globally, affecting both US and dollar-dependent economies",
-              "Countries begin exploring alternatives to dollar dependence"
+              "US exports inflation to countries holding dollar reserves",
+              "Demonstrated unilateral power of US over global monetary system",
+              "Asset prices rise globally as new money seeks investment",
+              "Bitcoin created as a direct response to bank bailouts"
             ]
           }
         ]
       }
-    },
-    reflectionQuestion: "How has the structure of the global monetary system concentrated power, and what might a more decentralized alternative like Bitcoin mean for the distribution of economic influence?"
+    }
   },
-
-  // Mission 7: Escape Surveillance Game
   {
-    id: 207,
+    id: 205,
     title: "Escape the Surveillance State",
-    subtitle: "Financial Freedom in a Controlled System",
-    description: "In this simulation, you must navigate a dystopian financial system where surveillance is pervasive. Make strategic choices to maintain your privacy and financial autonomy while learning how Bitcoin provides an alternative to financial control.",
+    subtitle: "Navigate financial censorship and control",
+    description: "In this interactive challenge, you'll attempt to maintain financial privacy and autonomy in a dystopian surveillance state. Make strategic decisions about how to manage your money while avoiding the ever-watching eye of financial monitoring systems.",
     objectives: [
       "Experience the challenges of financial surveillance firsthand",
-      "Learn practical strategies for maintaining financial privacy",
-      "Understand the trade-offs between convenience, compliance, and autonomy",
-      "Discover how Bitcoin enables personal financial sovereignty"
+      "Navigate strategic choices to maintain privacy",
+      "Learn about different types of financial censorship",
+      "Discover Bitcoin's role in preserving financial freedom"
     ],
-    simulationType: "escape",
+    simulationType: 'escape',
     simulationData: {
       playerStartFunds: 1000,
       routes: {
         "start": {
           options: [
             {
-              id: "traditional_bank",
-              label: "Use Traditional Banking System",
-              risk: 70,
+              id: "bank-account",
+              label: "Open a Traditional Bank Account",
+              risk: 40,
               outcome: {
-                funds: -200,
-                privacy: -60,
-                nextRoute: "bank_account",
-                message: "Your account activity is closely monitored. The bank flags your transactions as 'unusual' and freezes your account for review, charging you a $200 fee to reinstate it."
+                funds: -50, // account fees
+                privacy: -10,
+                nextRoute: "bank-account",
+                message: "You've opened a monitored bank account. The bank requires your ID, address, and biometric data. They charge a monthly fee of $50. Your financial activity is now visible to authorities."
               }
             },
             {
-              id: "cash_only",
-              label: "Operate in Cash Only",
+              id: "cash-only",
+              label: "Try to Live Cash-Only",
+              risk: 70,
+              outcome: {
+                funds: -100, // inefficiency costs
+                privacy: 25,
+                nextRoute: "cash-limits",
+                message: "You've chosen to use only cash. This provides good privacy for in-person transactions, but many services and online purchases are unavailable. You pay higher fees for basic services like bill payment."
+              }
+            },
+            {
+              id: "learn-bitcoin",
+              label: "Learn About Bitcoin",
+              risk: 20,
+              outcome: {
+                funds: -20, // cost of education materials
+                privacy: 5,
+                nextRoute: "bitcoin-basics",
+                message: "You spend some time learning about Bitcoin fundamentals and self-custody. You now understand private keys, wallets, and basic transaction mechanics."
+              }
+            }
+          ]
+        },
+        "bank-account": {
+          options: [
+            {
+              id: "large-withdrawal",
+              label: "Make a Large Cash Withdrawal",
+              risk: 80,
+              outcome: {
+                funds: -30, // withdrawal fees
+                privacy: -15,
+                nextRoute: "flagged-activity",
+                message: "Your attempt to withdraw $2,000 in cash triggers an automatic suspicious activity report. A bank officer questions the purpose of your withdrawal, and your account is flagged for enhanced monitoring."
+              }
+            },
+            {
+              id: "payment-app",
+              label: "Use a Popular Payment App",
+              risk: 50,
+              outcome: {
+                funds: -25, // fees and unfavorable exchange rates
+                privacy: -20,
+                nextRoute: "data-collection",
+                message: "You start using a mainstream payment app that connects to your bank account. It's convenient but collects detailed data on your spending habits, location, contacts, and browsing behavior."
+              }
+            },
+            {
+              id: "research-alternatives",
+              label: "Research Financial Alternatives",
+              risk: 30,
+              outcome: {
+                funds: -10,
+                privacy: 10,
+                nextRoute: "bitcoin-basics",
+                message: "You begin researching alternatives to traditional banking. You discover information about Bitcoin, privacy-preserving tools, and the concept of self-custody."
+              }
+            }
+          ]
+        },
+        "flagged-activity": {
+          options: [
+            {
+              id: "explain-withdrawal",
+              label: "Explain Your Withdrawal Reasons",
+              risk: 60,
+              outcome: {
+                funds: 0,
+                privacy: -30,
+                nextRoute: "increased-surveillance",
+                message: "You explain your withdrawal, but this adds more information to your profile. The bank removes the immediate restriction but places your account under enhanced surveillance. Future activities will face greater scrutiny."
+              }
+            },
+            {
+              id: "close-account",
+              label: "Close Your Bank Account",
+              risk: 75,
+              outcome: {
+                funds: -200, // closing fees and penalties
+                privacy: 15,
+                nextRoute: "cash-limits",
+                message: "You close your account, facing penalties and fees. You've escaped the immediate banking surveillance but now face challenges accessing the financial system."
+              }
+            },
+            {
+              id: "consult-advisor",
+              label: "Consult a Privacy-Focused Financial Advisor",
+              risk: 25,
+              outcome: {
+                funds: -150, // advisor fees
+                privacy: 20,
+                nextRoute: "bitcoin-basics",
+                message: "The advisor explains various privacy-preserving financial techniques, including the role of Bitcoin in a surveillance-resistant financial strategy."
+              }
+            }
+          ]
+        },
+        "increased-surveillance": {
+          options: [
+            {
+              id: "comply-restrictions",
+              label: "Comply with All Restrictions",
+              risk: 15,
+              outcome: {
+                funds: -300, // ongoing fees and devaluations
+                privacy: -40,
+                nextRoute: "complete-monitoring",
+                message: "You carefully follow all bank rules and restrictions. Your financial freedom diminishes as more controls are implemented, and your assets slowly lose value through fees and inflation."
+              }
+            },
+            {
+              id: "multiple-accounts",
+              label: "Try Opening Multiple Small Accounts",
+              risk: 85,
+              outcome: {
+                funds: -400, // setup and maintenance fees
+                privacy: -25,
+                nextRoute: "caught-structuring",
+                message: "Your attempt to distribute funds across multiple accounts triggers anti-structuring algorithms. All your accounts are frozen pending investigation."
+              }
+            },
+            {
+              id: "bitcoin-exit",
+              label: "Begin Gradually Moving to Bitcoin",
+              risk: 40,
+              outcome: {
+                funds: -50, // learning curve costs
+                privacy: 30,
+                nextRoute: "bitcoin-strategy",
+                message: "You start slowly converting some funds to Bitcoin through peer-to-peer exchanges, learning self-custody practices, and reducing reliance on surveilled financial systems."
+              }
+            }
+          ]
+        },
+        "complete-monitoring": {
+          options: [
+            {
+              id: "accept-cbdc",
+              label: "Adopt the New Central Bank Digital Currency",
+              risk: 10,
+              outcome: {
+                funds: -600, // value loss through devaluation
+                privacy: -60,
+                nextRoute: "complete-control",
+                message: "You adopt the new CBDC as required. All transactions now require government approval, are fully tracked, and can be blocked or reversed. Your purchasing ability is now tied to your social compliance score."
+              }
+            },
+            {
+              id: "last-chance-exit",
+              label: "Last-Ditch Effort to Exit the System",
+              risk: 90,
+              outcome: {
+                funds: -500, // exit penalties
+                privacy: 15,
+                nextRoute: "caught-exiting",
+                message: "Your attempt to withdraw remaining funds and exit the financial system is detected. Your accounts are frozen and assets seized under civil forfeiture laws."
+              }
+            },
+            {
+              id: "underground-economy",
+              label: "Connect with the Underground Economy",
+              risk: 70,
+              outcome: {
+                funds: -200, // inefficiency costs
+                privacy: 25,
+                nextRoute: "bitcoin-strategy",
+                message: "You connect with local networks operating outside the surveillance system, where you learn about Bitcoin and other tools for financial sovereignty."
+              }
+            }
+          ]
+        },
+        "complete-control": {
+          options: [
+            {
+              id: "total-compliance",
+              label: "Total Compliance with System",
+              risk: 5,
+              outcome: {
+                funds: -800,
+                privacy: -95,
+                restart: true,
+                message: "You surrender all financial autonomy. The system now decides what you can purchase, where you can go, and how you can earn. Your money can be frozen or devalued at any time. Game Over."
+              }
+            }
+          ]
+        },
+        "caught-exiting": {
+          options: [
+            {
+              id: "restart-surveillance",
+              label: "Start Over",
+              risk: 100,
+              outcome: {
+                funds: -900,
+                privacy: -80,
+                restart: true,
+                message: "Your assets have been seized, and you've been blacklisted from the financial system. Game Over."
+              }
+            }
+          ]
+        },
+        "caught-structuring": {
+          options: [
+            {
+              id: "legal-defense",
+              label: "Mount Legal Defense",
+              risk: 60,
+              outcome: {
+                funds: -700, // legal fees
+                privacy: -50,
+                restart: true,
+                message: "You spend thousands on legal defense but ultimately lose. Your accounts remain frozen, and you're now flagged in financial systems worldwide. Game Over."
+              }
+            }
+          ]
+        },
+        "cash-limits": {
+          options: [
+            {
+              id: "cash-economy",
+              label: "Operate Solely in the Cash Economy",
+              risk: 50,
+              outcome: {
+                funds: -250, // inefficiency and limitation costs
+                privacy: 20,
+                nextRoute: "cash-restrictions",
+                message: "You manage to operate using only cash, but face increasing limitations. Many services and opportunities are unavailable, and you pay premium prices for basic financial services."
+              }
+            },
+            {
+              id: "cash-suspicious",
+              label: "Make Large Cash Purchases",
+              risk: 80,
+              outcome: {
+                funds: -200,
+                privacy: -15,
+                nextRoute: "flagged-person",
+                message: "Your cash purchases over $600 are reported to authorities. Your name enters a database of 'unusual financial activity' subjects, and you face increased scrutiny."
+              }
+            },
+            {
+              id: "cash-to-bitcoin",
+              label: "Find a Cash-to-Bitcoin Exchange",
+              risk: 30,
+              outcome: {
+                funds: -50, // exchange premium
+                privacy: 25,
+                nextRoute: "bitcoin-basics",
+                message: "You find a local Bitcoin meetup where you can exchange cash for Bitcoin. This opens up new possibilities while maintaining reasonable privacy."
+              }
+            }
+          ]
+        },
+        "cash-restrictions": {
+          options: [
+            {
+              id: "cash-ban",
+              label: "Face New Cash Restrictions",
+              risk: 60,
+              outcome: {
+                funds: -300,
+                privacy: -20,
+                restart: true,
+                message: "New legislation severely restricts cash transactions above $500. Cash deposits require extensive documentation. Most businesses stop accepting cash for larger purchases. You can no longer function effectively in society. Game Over."
+              }
+            },
+            {
+              id: "cash-community",
+              label: "Join Local Alternative Economy",
               risk: 40,
               outcome: {
                 funds: -150,
-                privacy: 20,
-                nextRoute: "cash_economy",
-                message: "You avoid surveillance but face challenges. You pay higher fees for money orders and check cashing services, costing you $150."
-              }
-            },
-            {
-              id: "p2p_bitcoin",
-              label: "Acquire Bitcoin Peer-to-Peer",
-              risk: 20,
-              outcome: {
-                funds: -50,
-                privacy: 60,
-                nextRoute: "bitcoin_options",
-                message: "You successfully purchase Bitcoin from a local peer, paying a small premium of $50 over market rate, but maintaining your privacy."
+                privacy: 15,
+                nextRoute: "bitcoin-basics",
+                message: "You connect with a community of privacy-conscious individuals who introduce you to various financial alternatives, including Bitcoin."
               }
             }
           ]
         },
-        "bank_account": {
+        "flagged-person": {
           options: [
             {
-              id: "comply_restrictions",
-              label: "Comply with All Restrictions",
+              id: "surveillance-investigation",
+              label: "Subjected to Investigation",
+              risk: 70,
+              outcome: {
+                funds: -350,
+                privacy: -60,
+                restart: true,
+                message: "Your unusual cash activity leads to a formal investigation. You face asset seizure and legal costs that deplete your resources. Game Over."
+              }
+            },
+            {
+              id: "go-underground",
+              label: "Move Further Underground",
               risk: 50,
               outcome: {
-                funds: -100,
+                funds: -200,
+                privacy: 10,
+                nextRoute: "bitcoin-basics",
+                message: "You connect with privacy-focused communities that help you learn about Bitcoin and other financial tools resistant to surveillance."
+              }
+            }
+          ]
+        },
+        "data-collection": {
+          options: [
+            {
+              id: "accept-monitoring",
+              label: "Accept Comprehensive Monitoring",
+              risk: 20,
+              outcome: {
+                funds: -150, // targeted price discrimination
                 privacy: -40,
-                nextRoute: "limited_options",
-                message: "You maintain your account but face increasing scrutiny. Transaction limits and fees cost you $100, and your financial activities are fully tracked."
+                nextRoute: "increased-surveillance",
+                message: "You accept the convenience of digital financial services despite the surveillance. Companies now know your shopping habits, interests, and social connections, sharing this data with advertisers and authorities."
               }
             },
             {
-              id: "structured_transactions",
-              label: "Try to Work Around Monitoring",
-              risk: 80,
-              outcome: {
-                funds: -400,
-                privacy: -80,
-                nextRoute: "investigation",
-                message: "Your attempts to structure transactions below reporting thresholds trigger automated flags. Your account is closed, and you're placed on a banking blacklist. You lose $400 in frozen funds."
-              }
-            },
-            {
-              id: "close_account_bitcoin",
-              label: "Close Account and Switch to Bitcoin",
-              risk: 30,
-              outcome: {
-                funds: -75,
-                privacy: 40,
-                nextRoute: "bitcoin_options",
-                message: "You close your account and exit the traditional system, paying $75 in closing fees but regaining financial privacy."
-              }
-            }
-          ]
-        },
-        "cash_economy": {
-          options: [
-            {
-              id: "stay_full_cash",
-              label: "Continue Cash-Only Lifestyle",
-              risk: 45,
-              outcome: {
-                funds: -250,
-                privacy: 0,
-                nextRoute: "limited_options",
-                message: "You maintain privacy but face significant limitations. Unable to make online purchases or investments, you lose $250 in potential opportunities."
-              }
-            },
-            {
-              id: "prepaid_cards",
-              label: "Use Prepaid Cards for Online Needs",
+              id: "deplatformed",
+              label: "Express Controversial Views Online",
               risk: 60,
-              outcome: {
-                funds: -150,
-                privacy: -30,
-                nextRoute: "limited_options",
-                message: "You gain some digital capability but with high fees and increasing ID requirements for prepaid cards. You spend $150 on fees and your privacy is somewhat compromised."
-              }
-            },
-            {
-              id: "bitcoin_cash_meetups",
-              label: "Buy Bitcoin at Cash Meetups",
-              risk: 25,
-              outcome: {
-                funds: -25,
-                privacy: 50,
-                nextRoute: "bitcoin_options",
-                message: "You successfully transition to Bitcoin while maintaining privacy, paying only a small premium of $25 for the convenience of in-person trading."
-              }
-            }
-          ]
-        },
-        "bitcoin_options": {
-          options: [
-            {
-              id: "custodial_wallet",
-              label: "Use Exchange/Custodial Wallet",
-              risk: 65,
-              outcome: {
-                funds: 0,
-                privacy: -50,
-                nextRoute: "limited_options",
-                message: "You gain convenience but sacrifice privacy. The exchange requires KYC verification and monitors all transactions, reporting to authorities."
-              }
-            },
-            {
-              id: "self_custody_basics",
-              label: "Basic Self-Custody Setup",
-              risk: 35,
-              outcome: {
-                funds: 100,
-                privacy: 30,
-                nextRoute: "enhanced_freedom",
-                message: "You maintain control of your own keys using a mobile wallet. You save $100 in fees and maintain reasonable privacy, though your transactions are still visible on the blockchain."
-              }
-            },
-            {
-              id: "privacy_best_practices",
-              label: "Advanced Privacy Techniques",
-              risk: 15,
-              outcome: {
-                funds: 200,
-                privacy: 70,
-                nextRoute: "financial_freedom",
-                message: "You implement coinjoin transactions, avoid address reuse, and maintain proper wallet hygiene. Your financial privacy is strongly enhanced, and you save $200 in various fees and costs."
-              }
-            }
-          ]
-        },
-        "investigation": {
-          options: [
-            {
-              id: "legal_battle",
-              label: "Fight the System Legally",
-              risk: 90,
-              outcome: {
-                funds: -800,
-                privacy: -90,
-                nextRoute: "game_over",
-                message: "You spend $800 on legal fees but fail to clear your name from financial blacklists. Every aspect of your financial life is now under scrutiny."
-              }
-            },
-            {
-              id: "family_friends_accounts",
-              label: "Use Accounts of Family/Friends",
-              risk: 75,
               outcome: {
                 funds: -300,
-                privacy: -60,
-                nextRoute: "limited_options",
-                message: "You temporarily regain banking access but put others at risk. Relationship strains and inconvenience cost you approximately $300."
+                privacy: -25,
+                nextRoute: "financial-exclusion",
+                message: "After expressing political views online, you discover your payment app account has been suspended. You can no longer send or receive money through mainstream digital platforms."
               }
             },
             {
-              id: "full_bitcoin_transition",
-              label: "Fully Transition to Bitcoin",
+              id: "privacy-tools",
+              label: "Research Privacy Tools",
               risk: 30,
               outcome: {
-                funds: -100,
-                privacy: 60,
-                nextRoute: "bitcoin_options",
-                message: "You accept the initial challenge of being unbanked and build a new financial life with Bitcoin, paying a one-time transition cost of $100."
+                funds: -40,
+                privacy: 15,
+                nextRoute: "bitcoin-basics",
+                message: "You begin using privacy-preserving tools and learn about Bitcoin as an alternative financial system resistant to censorship and surveillance."
               }
             }
           ]
         },
-        "limited_options": {
+        "financial-exclusion": {
           options: [
             {
-              id: "accept_surveillance",
-              label: "Accept the Surveillance Reality",
-              risk: 60,
-              outcome: {
-                funds: -200,
-                privacy: -70,
-                nextRoute: "game_over",
-                message: "You surrender financial privacy for convenience. Your data is sold to marketers, and your purchasing power gradually decreases through hidden fees and targeted pricing, costing you $200."
-              }
-            },
-            {
-              id: "try_foreign_banks",
-              label: "Open Foreign Bank Accounts",
-              risk: 85,
-              outcome: {
-                funds: -600,
-                privacy: -50,
-                nextRoute: "game_over",
-                message: "Increased international regulatory cooperation means your attempt fails. You lose $600 in travel costs and fees, and are now flagged in multiple financial systems."
-              }
-            },
-            {
-              id: "bitcoin_community",
-              label: "Join Local Bitcoin Community",
+              id: "plead-reinstatement",
+              label: "Plead for Account Reinstatement",
               risk: 25,
               outcome: {
-                funds: 0,
-                privacy: 40,
-                nextRoute: "bitcoin_options",
-                message: "You connect with others using Bitcoin for daily needs, learning how to maintain privacy while gaining practical knowledge of living on Bitcoin."
+                funds: -50,
+                privacy: -30,
+                nextRoute: "social-compliance",
+                message: "Your account is reinstated after you apologize and agree to enhanced monitoring and restrictions. You're now subject to special review of all transactions."
+              }
+            },
+            {
+              id: "permanent-exclusion",
+              label: "Face Growing Financial Exclusion",
+              risk: 70,
+              outcome: {
+                funds: -400,
+                privacy: -20,
+                restart: true,
+                message: "You discover that your exclusion has spread to other financial services through shared blacklists. You can no longer access banking, payment apps, or online marketplaces. Game Over."
+              }
+            },
+            {
+              id: "find-bitcoin",
+              label: "Discover Bitcoin as an Alternative",
+              risk: 35,
+              outcome: {
+                funds: -70,
+                privacy: 25,
+                nextRoute: "bitcoin-basics",
+                message: "Through research, you discover that Bitcoin doesn't require permission to use and cannot exclude users based on their views or profiles."
               }
             }
           ]
         },
-        "enhanced_freedom": {
+        "social-compliance": {
           options: [
             {
-              id: "maintain_status",
-              label: "Maintain Current Setup",
+              id: "self-censor",
+              label: "Self-Censor to Maintain Access",
+              risk: 15,
+              outcome: {
+                funds: -200,
+                privacy: -50,
+                nextRoute: "complete-monitoring",
+                message: "You carefully avoid any controversy to maintain financial access. Your purchases are analyzed for 'suspicious patterns,' and certain transactions require pre-approval."
+              }
+            },
+            {
+              id: "social-credit-decline",
+              label: "Watch Your Social Credit Score Decline",
+              risk: 40,
+              outcome: {
+                funds: -350,
+                privacy: -60,
+                restart: true,
+                message: "Despite efforts to comply, association with 'low-scoring' individuals impacts your own score. Higher interest rates, declined applications, and service limitations follow. Game Over."
+              }
+            },
+            {
+              id: "exit-strategy",
+              label: "Develop Exit Strategy",
+              risk: 45,
+              outcome: {
+                funds: -100,
+                privacy: 20,
+                nextRoute: "bitcoin-basics",
+                message: "You begin discreetly reducing dependence on surveilled financial systems while learning about Bitcoin and self-custody."
+              }
+            }
+          ]
+        },
+        "bitcoin-basics": {
+          options: [
+            {
+              id: "buy-exchange",
+              label: "Buy Bitcoin on a Regulated Exchange",
+              risk: 40,
+              outcome: {
+                funds: -50, // fees
+                privacy: -10,
+                nextRoute: "bitcoin-kyc",
+                message: "You purchase Bitcoin on a regulated exchange, requiring ID verification and creating a permanent record linking your identity to your Bitcoin address."
+              }
+            },
+            {
+              id: "p2p-purchase",
+              label: "Purchase Bitcoin Peer-to-Peer",
               risk: 30,
               outcome: {
-                funds: 200,
+                funds: -70, // premium for p2p
                 privacy: 20,
-                nextRoute: "financial_freedom",
-                message: "You continue using self-custodied Bitcoin for most financial activities, saving $200 in banking fees and maintaining reasonable privacy."
+                nextRoute: "bitcoin-strategy",
+                message: "You buy Bitcoin directly from another person, maintaining better privacy but paying a slight premium."
               }
             },
             {
-              id: "community_education",
-              label: "Learn from Privacy Experts",
-              risk: 15,
-              outcome: {
-                funds: 300,
-                privacy: 60,
-                nextRoute: "financial_freedom",
-                message: "You learn advanced techniques from community experts, significantly enhancing your privacy practices and saving approximately $300 through more efficient Bitcoin usage."
-              }
-            },
-            {
-              id: "contribute_ecosystem",
-              label: "Contribute to Bitcoin Ecosystem",
+              id: "bitcoin-education",
+              label: "Deepen Your Bitcoin Knowledge",
               risk: 10,
               outcome: {
-                funds: 500,
-                privacy: 80,
-                nextRoute: "victory",
-                message: "You run a node, contribute to open source projects, and help build local Bitcoin circular economies. Your efforts strengthen both your own sovereignty and the network, while saving $500 in traditional financial costs."
+                funds: -30,
+                privacy: 10,
+                nextRoute: "bitcoin-security",
+                message: "You learn about Bitcoin security best practices, self-custody, privacy techniques, and how the network operates without central control."
               }
             }
           ]
         },
-        "financial_freedom": {
+        "bitcoin-kyc": {
           options: [
             {
-              id: "satellite_node",
-              label: "Setup Satellite Bitcoin Node",
-              risk: 10,
+              id: "exchange-freeze",
+              label: "Experience Account Freeze",
+              risk: 50,
               outcome: {
-                funds: 400,
-                privacy: 80,
-                nextRoute: "victory",
-                message: "You achieve censorship-resistant Bitcoin usage through satellite connectivity, completely detached from surveillance systems. Your financial sovereignty saves you $400 in avoided fees and economic opportunities."
+                funds: -200,
+                privacy: -20,
+                nextRoute: "bitcoin-lesson",
+                message: "Your exchange account is temporarily frozen for 'suspicious activity' after withdrawing to a personal wallet. You realize exchanges can be points of control and surveillance."
               }
             },
             {
-              id: "circular_economy",
-              label: "Build Circular Bitcoin Economy",
+              id: "chain-analysis",
+              label: "Learn About Chain Analysis",
+              risk: 20,
+              outcome: {
+                funds: -30,
+                privacy: 10,
+                nextRoute: "bitcoin-privacy",
+                message: "You discover that blockchain analytics companies track Bitcoin movements, especially those from KYC exchanges, potentially linking your future transactions to your identity."
+              }
+            },
+            {
+              id: "withdraw-wallet",
+              label: "Withdraw to Self-Custody Wallet",
+              risk: 25,
+              outcome: {
+                funds: -20, // withdrawal fee
+                privacy: 15,
+                nextRoute: "bitcoin-security",
+                message: "You move your Bitcoin from the exchange to a wallet where you control the private keys, reducing counterparty risk and increasing autonomy."
+              }
+            }
+          ]
+        },
+        "bitcoin-lesson": {
+          options: [
+            {
+              id: "leave-kyc",
+              label: "Avoid KYC Bitcoin Services",
+              risk: 25,
+              outcome: {
+                funds: -50,
+                privacy: 20,
+                nextRoute: "bitcoin-strategy",
+                message: "You learn to obtain and use Bitcoin without relying on regulated exchanges or services that report to authorities."
+              }
+            },
+            {
+              id: "recovery-lesson",
+              label: "Implement Backup Strategy",
               risk: 15,
               outcome: {
-                funds: 600,
-                privacy: 70,
-                nextRoute: "victory",
-                message: "You help local businesses accept Bitcoin and create a community where Bitcoin circulates without needing conversion to fiat. Your community saves approximately $600 in collective financial costs."
+                funds: -20,
+                privacy: 10,
+                nextRoute: "bitcoin-security",
+                message: "You create secure backups of your wallet's recovery phrase, ensuring you can access your funds even if your devices are lost or confiscated."
+              }
+            }
+          ]
+        },
+        "bitcoin-privacy": {
+          options: [
+            {
+              id: "coinjoin-technique",
+              label: "Learn Advanced Privacy Techniques",
+              risk: 30,
+              outcome: {
+                funds: -40,
+                privacy: 25,
+                nextRoute: "bitcoin-strategy",
+                message: "You learn about CoinJoin and other privacy-enhancing protocols that can help break the chain of surveillance when using Bitcoin."
               }
             },
             {
-              id: "privacy_developer",
-              label: "Become a Privacy Developer",
+              id: "lightning-channels",
+              label: "Explore Lightning Network",
+              risk: 20,
+              outcome: {
+                funds: -30,
+                privacy: 20,
+                nextRoute: "bitcoin-victory",
+                message: "You discover the Lightning Network, which offers faster, cheaper Bitcoin transactions with significantly improved privacy compared to on-chain transactions."
+              }
+            }
+          ]
+        },
+        "bitcoin-security": {
+          options: [
+            {
+              id: "hardware-wallet",
+              label: "Invest in a Hardware Wallet",
+              risk: 15,
+              outcome: {
+                funds: -80, // cost of hardware wallet
+                privacy: 15,
+                nextRoute: "bitcoin-strategy",
+                message: "You purchase a hardware wallet to securely store your private keys offline, significantly improving security against hacking."
+              }
+            },
+            {
+              id: "multisig-setup",
+              label: "Setup a Multisignature Wallet",
+              risk: 25,
+              outcome: {
+                funds: -60,
+                privacy: 15,
+                nextRoute: "bitcoin-victory",
+                message: "You configure a multisignature wallet requiring multiple devices to authorize transactions, protecting against single points of failure or confiscation."
+              }
+            },
+            {
+              id: "operational-security",
+              label: "Improve Operational Security",
+              risk: 10,
+              outcome: {
+                funds: -20,
+                privacy: 20,
+                nextRoute: "bitcoin-privacy",
+                message: "You implement best practices for digital security, including strong passwords, 2FA, and compartmentalization of financial activities."
+              }
+            }
+          ]
+        },
+        "bitcoin-strategy": {
+          options: [
+            {
+              id: "gradual-transition",
+              label: "Gradually Transition to Bitcoin Economy",
+              risk: 25,
+              outcome: {
+                funds: -50,
+                privacy: 30,
+                nextRoute: "bitcoin-victory",
+                message: "You slowly shift more of your economic activity to Bitcoin, reducing reliance on surveillance-based financial systems while maintaining practical functionality."
+              }
+            },
+            {
+              id: "community-building",
+              label: "Connect with Privacy-Focused Community",
+              risk: 20,
+              outcome: {
+                funds: -30,
+                privacy: 25,
+                nextRoute: "bitcoin-victory",
+                message: "You join local meetups and online communities focused on privacy and financial sovereignty, learning from others with similar goals."
+              }
+            },
+            {
+              id: "stablecoin-hedge",
+              label: "Use Stablecoins as Volatility Hedge",
+              risk: 35,
+              outcome: {
+                funds: -70,
+                privacy: 5,
+                nextRoute: "bitcoin-caution",
+                message: "You diversify into stablecoins to reduce price volatility, but discover that most stablecoins have centralized control and surveillance capabilities."
+              }
+            }
+          ]
+        },
+        "bitcoin-caution": {
+          options: [
+            {
+              id: "reassess-stables",
+              label: "Reassess Centralized Stablecoins",
+              risk: 25,
+              outcome: {
+                funds: -40,
+                privacy: 15,
+                nextRoute: "bitcoin-strategy",
+                message: "You realize that many stablecoins have centralized controls that reproduce the surveillance and censorship vulnerabilities you're trying to avoid."
+              }
+            },
+            {
+              id: "self-sovereignty",
+              label: "Embrace Self-Sovereign Bitcoin Strategy",
+              risk: 15,
+              outcome: {
+                funds: -30,
+                privacy: 30,
+                nextRoute: "bitcoin-victory",
+                message: "You develop a long-term perspective on Bitcoin, focusing on its censorship-resistance and protection against monetary debasement rather than short-term price movements."
+              }
+            }
+          ]
+        },
+        "bitcoin-victory": {
+          options: [
+            {
+              id: "financial-freedom",
+              label: "Achieve Financial Sovereignty",
               risk: 5,
               outcome: {
-                funds: 1000,
-                privacy: 90,
-                nextRoute: "ultimate_victory",
-                message: "You contribute to Bitcoin privacy tools and help others achieve financial sovereignty. Your expertise both enhances your own privacy and creates income opportunities worth $1000."
-              }
-            }
-          ]
-        },
-        "game_over": {
-          options: [
-            {
-              id: "restart",
-              label: "Learn From Mistakes (Restart)",
-              risk: 0,
-              outcome: {
-                restart: true,
-                message: "You've experienced the challenges of navigating a financial surveillance system. Now you can try again with new knowledge."
-              }
-            }
-          ]
-        },
-        "victory": {
-          options: [
-            {
-              id: "complete",
-              label: "Enjoy Financial Freedom",
-              risk: 0,
-              outcome: {
+                funds: 100,
+                privacy: 40,
                 complete: true,
-                message: "Congratulations! You've successfully escaped financial surveillance and achieved personal sovereignty using Bitcoin."
-              }
-            }
-          ]
-        },
-        "ultimate_victory": {
-          options: [
-            {
-              id: "complete_mastery",
-              label: "Complete Mastery Achieved",
-              risk: 0,
-              outcome: {
-                complete: true,
-                message: "Extraordinary achievement! You've not only secured your own financial freedom but are helping build tools for others to achieve sovereignty as well."
+                message: "You've successfully established financial sovereignty through Bitcoin. You control your own keys, can transact globally without permission, and your savings are protected from surveillance and debasement. Congratulations!"
               }
             }
           ]
@@ -1288,27 +1416,26 @@ export const realm2Missions: MissionContent[] = [
       },
       resistanceNetworks: [
         {
-          name: "Open Source Developers",
-          description: "Programmers creating privacy-enhancing tools and self-custody solutions that reduce dependence on surveillance-based financial systems."
+          name: "Bitcoin Privacy Tools",
+          description: "Software that enhances Bitcoin transaction privacy through techniques like CoinJoin, PayJoin, and Lightning Network payments."
         },
         {
-          name: "Bitcoin Educators",
-          description: "People teaching others about financial sovereignty, privacy practices, and how to use Bitcoin as an alternative to surveillance money."
+          name: "Self-Custody Education",
+          description: "Communities teaching secure self-custody of Bitcoin private keys, reducing reliance on regulated third parties."
         },
         {
-          name: "Node Operators",
-          description: "Individuals running Bitcoin nodes that strengthen the network while reducing reliance on trusted third parties for transaction verification."
+          name: "P2P Exchange Networks",
+          description: "Person-to-person Bitcoin trading platforms that facilitate exchange without requiring identity verification."
         },
         {
-          name: "Local Trading Networks",
-          description: "Communities facilitating in-person Bitcoin exchange, creating pathways to obtain Bitcoin without KYC requirements."
+          name: "Financial Freedom Media",
+          description: "Educational resources explaining monetary history, Bitcoin fundamentals, and techniques for financial sovereignty."
         },
         {
-          name: "Bitcoin Circular Economies",
-          description: "Local business networks accepting and recirculating Bitcoin, reducing the need to convert back to surveillance-heavy fiat currencies."
+          name: "Open-Source Hardware",
+          description: "Community-verified hardware wallet projects that secure Bitcoin private keys without backdoors or surveillance capabilities."
         }
       ]
-    },
-    reflectionQuestion: "In this simulation, what were the most effective strategies for maintaining financial privacy and sovereignty? How could these approaches apply to your own financial life?"
+    }
   }
 ];

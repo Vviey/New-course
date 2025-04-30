@@ -63,31 +63,41 @@ export const forestTheme = {
 export const citadelTheme = {
   name: "Citadel Theme",
   colors: {
-    primary: "#005A8D", // Deep blue
-    secondary: "#0094C6", // Bright blue
-    background: "#0A2239", // Dark navy blue
-    backgroundLight: "#176087", // Medium blue
-    cardBackground: "#F7F9FC", // Very light blue-gray
-    textDark: "#0A2239", // Dark text
-    textLight: "#F7F9FC", // Light text
-    accent1: "#FF9505", // Orange accent
-    accent2: "#53D8FB", // Light blue accent
+    primary: "#2563EB", // Vibrant blue
+    secondary: "#38BDF8", // Light blue
+    background: "#0F172A", // Dark tech blue (almost black)
+    backgroundLight: "#1E293B", // Slate blue
+    cardBackground: "#F8FAFC", // Light grayish blue
+    textDark: "#1E293B", // Dark text
+    textLight: "#F8FAFC", // Light text
+    accent1: "#FB7185", // Red-pink accent
+    accent2: "#60A5FA", // Medium blue accent
+    highlight: "#10B981", // Green accent for success/completion
+    alert: "#F43F5E", // Red accent for warnings
   },
   patterns: {
-    grid: `linear-gradient(#176087 1px, transparent 1px),
-    linear-gradient(to right, #176087 1px, transparent 1px)`,
-    dots: `radial-gradient(#176087 2px, transparent 2px)`,
+    grid: `linear-gradient(rgba(30, 41, 59, 0.3) 1px, transparent 1px),
+    linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px)`,
+    cityscape: `url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 v10 h10 v-5 h5 v5 h5 v-10 h5 v10 h5 v-5 h10 v5 h5 v-10 h10 v5 h5 v5 h5 v-10 h5 v10 h10 v-5 h5 v-5 h10 v10 h5 v-5 h5' fill='none' stroke='rgba(30, 41, 59, 0.2)' stroke-width='1'/%3E%3C/svg%3E")`,
+    dots: `radial-gradient(rgba(30, 41, 59, 0.4) 1px, transparent 1px)`,
+    circuits: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10,10 h20 v20 h20 v20 h-20 v20 h-20 z M60,10 h20 v20 h-20 z M60,50 h20 v20 h-20 z' fill='none' stroke='rgba(30, 41, 59, 0.15)' stroke-width='1'/%3E%3C/svg%3E")`,
   },
   gradients: {
-    blue: "linear-gradient(to right, #005A8D, #0094C6)",
-    steel: "linear-gradient(to bottom, #F7F9FC, #E1E5EB)",
+    blue: "linear-gradient(to right, #2563EB, #38BDF8)",
+    neon: "linear-gradient(to right, #FB7185, #60A5FA)",
+    tech: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
+    glow: "linear-gradient(to bottom, rgba(56, 189, 248, 0.1), transparent)",
   },
   shadows: {
-    card: "0 4px 8px rgba(10, 34, 57, 0.15), 0 1px 3px rgba(10, 34, 57, 0.1)",
-    button: "0 2px 4px rgba(0, 90, 141, 0.25)",
+    card: "0 4px 12px rgba(15, 23, 42, 0.2), 0 1px 3px rgba(15, 23, 42, 0.1)",
+    button: "0 2px 4px rgba(37, 99, 235, 0.25), 0 0 10px rgba(56, 189, 248, 0.1)",
+    neon: "0 0 15px rgba(56, 189, 248, 0.3)",
+    inner: "inset 0 2px 4px rgba(15, 23, 42, 0.1)",
   },
   animations: {
     pulse: "pulse 2s infinite",
+    glow: "glow 4s infinite alternate",
+    scan: "scan 3s infinite",
   },
   borderRadius: {
     small: "0.25rem",
@@ -143,4 +153,51 @@ export const groveTheme = {
     accent2: "#4DB6AC", // Light teal accent
   },
   // Other theme properties similar to originTheme
+};
+
+export const bioluminescentTheme = {
+  name: "Bioluminescent Forest Theme",
+  colors: {
+    primary: "#06D6A0", // Vibrant teal/mint
+    secondary: "#22CAAF", // Lighter teal
+    background: "#073B4C", // Dark blue-green
+    backgroundLight: "#118AB2", // Medium blue
+    cardBackground: "#F0FFF4", // Very light mint
+    textDark: "#073B4C", // Dark text
+    textLight: "#F0FFF4", // Light text
+    accent1: "#7209B7", // Purple accent
+    accent2: "#4CC9F0", // Cyan accent
+    highlight: "#06D6A0", // Mint highlight
+    warning: "#FFD166", // Amber warning
+  },
+  patterns: {
+    grid: `linear-gradient(rgba(6, 214, 160, 0.1) 1px, transparent 1px),
+    linear-gradient(to right, rgba(6, 214, 160, 0.1) 1px, transparent 1px)`,
+    leaves: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20,20 C40,10 60,10 80,20 C90,40 90,60 80,80 C60,90 40,90 20,80 C10,60 10,40 20,20 Z' fill='none' stroke='rgba(6, 214, 160, 0.1)' stroke-width='1'/%3E%3C/svg%3E")`,
+    dots: `radial-gradient(rgba(6, 214, 160, 0.2) 1px, transparent 1px)`,
+    code: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30,30 L10,50 L30,70 M70,30 L90,50 L70,70 M40,20 L60,80' fill='none' stroke='rgba(6, 214, 160, 0.1)' stroke-width='1'/%3E%3C/svg%3E")`,
+  },
+  gradients: {
+    glow: "linear-gradient(to right, #06D6A0, #4CC9F0)",
+    purple: "linear-gradient(to right, #7209B7, #4CC9F0)",
+    aurora: "linear-gradient(135deg, #073B4C 0%, #118AB2 50%, #06D6A0 100%)",
+    radial: "radial-gradient(circle, rgba(6, 214, 160, 0.2) 0%, transparent 70%)",
+  },
+  shadows: {
+    card: "0 4px 12px rgba(7, 59, 76, 0.15), 0 1px 3px rgba(7, 59, 76, 0.1)",
+    button: "0 2px 4px rgba(6, 214, 160, 0.2), 0 0 10px rgba(6, 214, 160, 0.1)",
+    glow: "0 0 15px rgba(6, 214, 160, 0.3)",
+    inner: "inset 0 2px 4px rgba(7, 59, 76, 0.05)",
+  },
+  animations: {
+    pulse: "pulse 3s infinite",
+    float: "float 6s ease-in-out infinite",
+    shimmer: "shimmer 2.5s linear infinite",
+  },
+  borderRadius: {
+    small: "0.375rem",
+    default: "0.75rem",
+    large: "1rem",
+    full: "9999px",
+  },
 };

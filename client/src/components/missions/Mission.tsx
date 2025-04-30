@@ -9,7 +9,7 @@ import { QuizChallenge } from '@/components/simulations/QuizChallenge';
 import { TradeRouteMap } from '@/components/simulations/TradeRouteMap';
 import { ReflectionExercise } from '@/components/simulations/ReflectionExercise';
 
-// Note: Realm 2 simulation components are dynamically imported in the renderSimulation function
+// Note: Realm 2 and Realm 3 simulation components are dynamically imported in the renderSimulation function
 
 interface MissionProps {
   mission: MissionContent;
@@ -130,6 +130,78 @@ export function Mission({ mission, onComplete }: MissionProps) {
             playerStartFunds={mission.simulationData?.playerStartFunds || 1000}
             routes={mission.simulationData?.routes || {}}
             resistanceNetworks={mission.simulationData?.resistanceNetworks || []}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      
+      // Realm 3 simulation types
+      case 'cryptography':
+        const { CryptographySimulator } = require('@/components/simulations/CryptographySimulator');
+        return (
+          <CryptographySimulator
+            challenges={mission.simulationData?.challenges || []}
+            visualExplanations={mission.simulationData?.visualExplanations || []}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'hash':
+        const { HashFunctionSimulator } = require('@/components/simulations/HashFunctionSimulator');
+        return (
+          <HashFunctionSimulator
+            challenges={mission.simulationData?.challenges || []}
+            visualizations={mission.simulationData?.visualizations || []}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'merkle':
+        const { MerkleTreeSimulator } = require('@/components/simulations/MerkleTreeSimulator');
+        return (
+          <MerkleTreeSimulator
+            explanation={mission.simulationData?.explanation}
+            transactionData={mission.simulationData?.transactionData || []}
+            challenges={mission.simulationData?.challenges || []}
+            visualization={mission.simulationData?.visualization}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'consensus':
+        const { ConsensusSimulator } = require('@/components/simulations/ConsensusSimulator');
+        return (
+          <ConsensusSimulator
+            scenarios={mission.simulationData?.scenarios || []}
+            quizQuestions={mission.simulationData?.quizQuestions || []}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'network':
+        const { NetworkSimulator } = require('@/components/simulations/NetworkSimulator');
+        return (
+          <NetworkSimulator
+            network={mission.simulationData?.network || { nodes: 50, connections: "random" }}
+            scenarios={mission.simulationData?.scenarios || []}
+            interactiveTests={mission.simulationData?.interactiveTests || []}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'code':
+        const { ScriptingSimulator } = require('@/components/simulations/ScriptingSimulator');
+        return (
+          <ScriptingSimulator
+            explanation={mission.simulationData?.explanation}
+            basics={mission.simulationData?.basics || []}
+            challenges={mission.simulationData?.challenges || []}
+            advanced={mission.simulationData?.advanced || []}
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'lightning':
+        const { LightningNetworkSimulator } = require('@/components/simulations/LightningNetworkSimulator');
+        return (
+          <LightningNetworkSimulator
+            explanation={mission.simulationData?.explanation}
+            scaling={mission.simulationData?.scaling}
+            interactive={mission.simulationData?.interactive || {}}
+            concepts={mission.simulationData?.concepts || []}
             onComplete={handleSimulationComplete}
           />
         );

@@ -1,23 +1,20 @@
-import React, { useState } from 'react';
-import { Eye, ShieldAlert, Check, Info } from 'lucide-react';
-
-interface DataPoint {
-  type: string;
-  risk: number;
-}
-
-interface CaseStudy {
-  title: string;
-  description: string;
-}
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { ArrowRight, EyeOff, Eye, Shield, Database, User, Activity } from 'lucide-react';
+import { citadelTheme } from '@/lib/realm-themes';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface PaymentOption {
   id: string;
   name: string;
   description: string;
+  dataCollected: string[];
+  entities: string[];
   privacyScore: number;
-  dataMapped: DataPoint[];
-  caseStudies: CaseStudy[];
+  scenario: string;
 }
 
 interface PaymentPrivacySimulatorProps {
@@ -25,169 +22,299 @@ interface PaymentPrivacySimulatorProps {
   onComplete?: () => void;
 }
 
-export function PaymentPrivacySimulator({ 
-  paymentOptions, 
-  onComplete 
-}: PaymentPrivacySimulatorProps) {
-  const [selectedPayment, setSelectedPayment] = useState<PaymentOption | null>(null);
-  const [showHeatmap, setShowHeatmap] = useState(false);
-  const [viewedOptions, setViewedOptions] = useState<string[]>([]);
+export function PaymentPrivacySimulator({ paymentOptions = [], onComplete }: PaymentPrivacySimulatorProps) {
+  const [currentTab, setCurrentTab] = useState("comparison");
+  const [selectedOption, setSelectedOption] = useState<PaymentOption | null>(null);
+  const [isComplete, setIsComplete] = useState(false);
+  const [viewedPaymentOptions, setViewedPaymentOptions] = useState<string[]>([]);
   
-  const handlePaymentSelect = (payment: PaymentOption) => {
-    setSelectedPayment(payment);
-    setShowHeatmap(true);
+  // Calculate progress toward completion
+  const progress = Math.min(
+    100, 
+    Math.round((viewedPaymentOptions.length / paymentOptions.length) * 100)
+  );
+  
+  // Handle payment option selection
+  const handleOptionSelect = (option: PaymentOption) => {
+    setSelectedOption(option);
+    setCurrentTab("details");
     
-    if (!viewedOptions.includes(payment.id)) {
-      setViewedOptions([...viewedOptions, payment.id]);
+    // Add to viewed options if not already viewed
+    if (!viewedPaymentOptions.includes(option.id)) {
+      setViewedPaymentOptions([...viewedPaymentOptions, option.id]);
+    }
+    
+    // Check if all options have been viewed
+    if (viewedPaymentOptions.length === paymentOptions.length - 1 && !viewedPaymentOptions.includes(option.id)) {
+      setTimeout(() => {
+        setIsComplete(true);
+      }, 500);
     }
   };
   
-  const getRiskLevelClass = (risk: number) => {
-    if (risk <= 2) return 'bg-green-500';
-    if (risk <= 4) return 'bg-green-400';
-    if (risk <= 5) return 'bg-yellow-400';
-    if (risk <= 7) return 'bg-orange-400';
-    if (risk <= 8) return 'bg-orange-500';
-    return 'bg-red-500';
-  };
+  // Sort payment options by privacy score (lowest to highest)
+  const sortedOptions = [...paymentOptions].sort((a, b) => a.privacyScore - b.privacyScore);
   
-  const handleComplete = () => {
-    if (onComplete) {
-      onComplete();
-    }
-  };
-  
-  const allOptionsViewed = paymentOptions.every(option => viewedOptions.includes(option.id));
-  
-  return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-      <div className="p-6 bg-amber-50">
-        <h2 className="text-2xl font-bold text-amber-800 mb-2">
-          Payment Privacy Simulator
-        </h2>
-        <p className="text-amber-700 mb-6">
-          Compare different payment methods to see how much data they reveal about you.
-        </p>
-        
-        {/* Payment options */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {paymentOptions.map(payment => (
-            <div 
-              key={payment.id}
-              className={`bg-white p-4 rounded-lg shadow-md cursor-pointer transition-all hover:shadow-lg ${
-                selectedPayment?.id === payment.id ? 'ring-2 ring-amber-500' : ''
-              }`}
-              onClick={() => handlePaymentSelect(payment)}
-            >
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
-                  <Eye size={28} className="text-amber-600" />
-                </div>
-              </div>
-              <h3 className="text-center font-semibold text-amber-700">{payment.name}</h3>
-              <p className="text-center text-sm text-gray-500 mt-1 mb-3">
-                {payment.description}
-              </p>
-              <div className="flex items-center justify-center">
-                <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-gradient-to-r from-green-500 to-red-500"
-                    style={{ width: `${payment.privacyScore}%` }}
-                  ></div>
-                </div>
-                <span className="ml-2 text-sm font-semibold">
-                  {payment.privacyScore}%
-                </span>
-              </div>
-              <p className="text-center text-xs text-gray-400 mt-2">
-                Privacy Score
-              </p>
-            </div>
-          ))}
+  // If the simulation is complete, show the completion screen
+  if (isComplete) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-lg"
+      >
+        <div className="text-center mb-8">
+          <EyeOff className="h-16 w-16 text-blue-600 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-blue-800 mb-2">Financial Surveillance Investigation Complete</h2>
+          <p className="text-gray-600">
+            You've analyzed the privacy implications of different payment methods and understood how financial surveillance works.
+          </p>
         </div>
         
-        {/* Data heatmap */}
-        {selectedPayment && (
-          <div 
-            className={`transition-all duration-500 overflow-hidden ${
-              showHeatmap ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
-            }`}
-          >
-            <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-              <h3 className="text-xl font-semibold text-amber-800 mb-4 flex items-center">
-                <ShieldAlert className="mr-2 text-amber-600" size={20} />
-                Data Exposure Analysis: {selectedPayment.name}
-              </h3>
-              
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
-                {selectedPayment.dataMapped.map((data, index) => (
-                  <div 
-                    key={index}
-                    className={`${getRiskLevelClass(data.risk)} p-3 rounded-lg text-white text-center transition-transform hover:scale-105`}
-                  >
-                    <div className="font-semibold">{data.type}</div>
-                    <div className="text-sm mt-1">Risk Level: {data.risk}/10</div>
-                  </div>
-                ))}
-              </div>
-              
-              {/* Privacy score summary */}
-              <div className="mb-6">
-                <h4 className="font-semibold text-amber-700 mb-2 flex items-center">
-                  <Info className="mr-2" size={16} />
-                  Overall Privacy Score
-                </h4>
-                <div className="flex items-center">
-                  <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden mr-3">
-                    <div 
-                      className={`h-full rounded-full ${selectedPayment.privacyScore > 70 ? 'bg-green-500' : selectedPayment.privacyScore > 40 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                      style={{ width: `${selectedPayment.privacyScore}%` }}
-                    ></div>
-                  </div>
-                  <span className="font-bold text-amber-600 text-lg">{selectedPayment.privacyScore}%</span>
-                </div>
-                
-                <p className="text-gray-600 text-sm mt-2">
-                  {selectedPayment.privacyScore > 70 
-                    ? 'Excellent privacy protection - minimal data exposure'
-                    : selectedPayment.privacyScore > 40 
-                    ? 'Moderate privacy concerns - some data is exposed'
-                    : 'High privacy risk - significant data exposure'}
-                </p>
-              </div>
-              
-              {/* Case studies */}
-              {selectedPayment.caseStudies.length > 0 && (
-                <div>
-                  <h4 className="font-semibold text-amber-700 mb-3">Real-World Case Studies</h4>
-                  {selectedPayment.caseStudies.map((case_, index) => (
-                    <div 
-                      key={index}
-                      className="p-3 bg-amber-50 rounded-lg mb-2 border-l-4 border-amber-500"
-                    >
-                      <h5 className="font-medium text-amber-800">{case_.title}</h5>
-                      <p className="text-gray-600 text-sm mt-1">{case_.description}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+        <div className="mb-6 bg-blue-50 p-4 rounded-lg">
+          <h3 className="font-semibold text-blue-800 mb-2">Key Insights:</h3>
+          <ul className="space-y-2">
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">•</span>
+              <span>Electronic payment methods reveal extensive personal data to multiple entities.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">•</span>
+              <span>Your financial history creates a detailed profile of your life, habits, and preferences.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">•</span>
+              <span>Payment data is often shared with third parties beyond the immediate transaction participants.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">•</span>
+              <span>Physical cash remains the most private traditional payment method but has limitations.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">•</span>
+              <span>Self-custodied Bitcoin offers a digital alternative with better privacy characteristics than traditional electronic payments.</span>
+            </li>
+          </ul>
+        </div>
         
-        {/* Complete button (shows when all options viewed) */}
-        {allOptionsViewed && (
-          <div className="flex justify-center">
-            <button
-              className="py-3 px-6 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-700 transition-colors"
-              onClick={handleComplete}
-            >
-              <Check size={18} className="inline mr-2" />
-              Complete Simulation
-            </button>
+        <div className="bg-gray-50 p-4 rounded-lg mb-6">
+          <h3 className="font-semibold text-gray-800 mb-2">The Bitcoin Difference:</h3>
+          <p className="text-gray-700">
+            Bitcoin's design offers a pseudonymous alternative to traditional financial surveillance. 
+            When used with proper self-custody practices, Bitcoin can provide a level of financial 
+            privacy that bridges the gap between the surveillance of electronic payments and the 
+            physical limitations of cash.
+          </p>
+        </div>
+        
+        <div className="text-center">
+          <Button
+            onClick={onComplete}
+            style={{
+              background: citadelTheme.gradients.blue,
+              boxShadow: citadelTheme.shadows.button,
+            }}
+          >
+            Complete Mission <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      </motion.div>
+    );
+  }
+  
+  return (
+    <div className="max-w-4xl mx-auto bg-white rounded-xl overflow-hidden shadow-lg">
+      <div className="p-6 border-b border-gray-200">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-blue-800">Financial Surveillance Detective</h2>
+          <div className="text-sm font-medium text-gray-500">
+            {viewedPaymentOptions.length} of {paymentOptions.length} methods analyzed
           </div>
-        )}
+        </div>
+        
+        <div className="mb-4">
+          <Progress value={progress} className="h-2" />
+        </div>
+        
+        <p className="text-gray-700 mb-4">
+          Investigate how different payment methods affect your financial privacy. Learn what data is collected,
+          who has access to it, and how it might be used.
+        </p>
       </div>
+      
+      <Tabs value={currentTab} onValueChange={setCurrentTab} className="w-full">
+        <div className="px-6 pt-4">
+          <TabsList className="grid grid-cols-2 w-full">
+            <TabsTrigger value="comparison">Compare Methods</TabsTrigger>
+            <TabsTrigger value="details" disabled={!selectedOption}>Detailed Analysis</TabsTrigger>
+          </TabsList>
+        </div>
+        
+        <TabsContent value="comparison" className="p-6 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {sortedOptions.map((option) => (
+              <motion.div
+                key={option.id}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Card 
+                  className={`cursor-pointer transition-colors ${
+                    viewedPaymentOptions.includes(option.id) 
+                      ? 'border-blue-300 bg-blue-50/30' 
+                      : 'hover:border-blue-200'
+                  }`}
+                  onClick={() => handleOptionSelect(option)}
+                >
+                  <CardHeader className="py-4 px-5">
+                    <div className="flex justify-between items-center">
+                      <CardTitle className="text-md font-medium text-blue-700">
+                        {option.name}
+                      </CardTitle>
+                      <div className="flex items-center">
+                        <div className="flex">
+                          {[...Array(10)].map((_, i) => (
+                            <Eye 
+                              key={i} 
+                              className={`h-3 w-3 ${
+                                i < option.privacyScore 
+                                  ? 'text-blue-500' 
+                                  : 'text-gray-300'
+                              }`} 
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="py-0 px-5">
+                    <p className="text-sm text-gray-600">{option.description}</p>
+                  </CardContent>
+                  <CardFooter className="py-3 px-5">
+                    <div className="flex justify-between items-center w-full">
+                      <div className="flex items-center text-xs text-gray-500">
+                        <Database className="h-3 w-3 mr-1" />
+                        <span>{option.dataCollected.length} data points collected</span>
+                      </div>
+                      <div className="flex items-center text-xs text-gray-500">
+                        <User className="h-3 w-3 mr-1" />
+                        <span>{option.entities.length} entities have access</span>
+                      </div>
+                    </div>
+                  </CardFooter>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="details" className="p-6">
+          {selectedOption && (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-bold text-blue-800">{selectedOption.name}</h3>
+                <div className="flex items-center px-3 py-1 bg-blue-100 rounded-full">
+                  <span className="text-xs font-medium text-blue-800 mr-2">Privacy Score:</span>
+                  <div className="flex">
+                    {[...Array(10)].map((_, i) => (
+                      <Eye 
+                        key={i} 
+                        className={`h-3 w-3 ${
+                          i < selectedOption.privacyScore 
+                            ? 'text-blue-500' 
+                            : 'text-gray-300'
+                        }`} 
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+              <p className="text-gray-700">{selectedOption.description}</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader className="py-4 px-5">
+                    <div className="flex items-center">
+                      <Database className="h-5 w-5 text-red-500 mr-2" />
+                      <CardTitle className="text-md font-medium text-gray-800">
+                        Data Collected
+                      </CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="py-0 px-5">
+                    <ul className="space-y-2">
+                      {selectedOption.dataCollected.map((data, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="text-red-500 mr-2">•</span>
+                          <span className="text-sm text-gray-700">{data}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader className="py-4 px-5">
+                    <div className="flex items-center">
+                      <User className="h-5 w-5 text-amber-500 mr-2" />
+                      <CardTitle className="text-md font-medium text-gray-800">
+                        Who Has Access
+                      </CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="py-0 px-5">
+                    <ul className="space-y-2">
+                      {selectedOption.entities.map((entity, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="text-amber-500 mr-2">•</span>
+                          <span className="text-sm text-gray-700">{entity}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
+              
+              <Card className="bg-gray-50">
+                <CardHeader className="py-4 px-5">
+                  <div className="flex items-center">
+                    <Activity className="h-5 w-5 text-blue-500 mr-2" />
+                    <CardTitle className="text-md font-medium text-gray-800">
+                      Real-World Scenario
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="py-0 px-5">
+                  <p className="text-gray-700">{selectedOption.scenario}</p>
+                </CardContent>
+              </Card>
+              
+              <div className="flex justify-between pt-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentTab("comparison")}
+                >
+                  Back to Comparison
+                </Button>
+                
+                <Button
+                  onClick={() => {
+                    setCurrentTab("comparison");
+                    setSelectedOption(null);
+                  }}
+                  style={{
+                    background: citadelTheme.gradients.blue,
+                    boxShadow: citadelTheme.shadows.button,
+                  }}
+                >
+                  Continue Investigation
+                </Button>
+              </div>
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
-import { DollarSign, Droplet, Landmark, ArrowRight, BarChart, Check } from 'lucide-react';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ArrowRight, ArrowLeft, Globe, DollarSign, Clock, LineChart } from 'lucide-react';
+import { citadelTheme } from '@/lib/realm-themes';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface Node {
   id: string;
   label: string;
-  type: string;
-  x: number;
-  y: number;
+  description: string;
+  position: { x: number; y: number };
+  size: 'large' | 'medium' | 'small' | 'tiny';
+  connections: string[];
 }
 
 interface Connection {
-  from: string;
-  to: string;
-  description?: string;
+  source: string;
+  target: string;
+  type: 'dominance' | 'influence' | 'contested';
 }
 
-interface DollarShockEvent {
+interface TimelineEvent {
   year: number;
   title: string;
   description: string;
-  moneySupplyChange: number;
+  effects: string[];
+  pivotalEvent?: boolean;
 }
 
 interface GlobalMoneyWebSimulationProps {
@@ -29,7 +36,7 @@ interface GlobalMoneyWebSimulationProps {
   };
   dollarShock: {
     initialYear: number;
-    events: DollarShockEvent[];
+    events: TimelineEvent[];
   };
   onComplete?: () => void;
 }
@@ -39,451 +46,524 @@ export function GlobalMoneyWebSimulation({
   dollarShock,
   onComplete 
 }: GlobalMoneyWebSimulationProps) {
-  const [connections, setConnections] = useState<Connection[]>([]);
-  const [dragStart, setDragStart] = useState<string | null>(null);
-  const [selectedEvent, setSelectedEvent] = useState(0);
-  const [goldStandard, setGoldStandard] = useState(true);
-  const [moneySupply, setMoneySupply] = useState(100);
-  const [supplyHistory, setSupplyHistory] = useState<{year: number, value: number}[]>([
-    { year: dollarShock.initialYear, value: 100 }
-  ]);
-  const [activeTab, setActiveTab] = useState<'flow' | 'dollar'>('flow');
+  const [currentTab, setCurrentTab] = useState("globalWeb");
+  const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+  const [userConnections, setUserConnections] = useState<Connection[]>([]);
+  const [connectionMode, setConnectionMode] = useState<null | { source: string; type: 'dominance' | 'influence' | 'contested' }>(null);
+  const [currentYear, setCurrentYear] = useState(dollarShock.initialYear);
+  const [isComplete, setIsComplete] = useState(false);
+  const [webCompleted, setWebCompleted] = useState(false);
+  const [timelineCompleted, setTimelineCompleted] = useState(false);
   
-  const { nodes, correctConnections } = globalFlow;
-  const events = dollarShock.events;
-  
-  // Global Flow Web Simulation logic
-  const handleDragStart = (nodeId: string) => {
-    setDragStart(nodeId);
+  // Helper functions
+  const getSizeClass = (size: string): string => {
+    switch(size) {
+      case 'large': return 'w-20 h-20';
+      case 'medium': return 'w-16 h-16';
+      case 'small': return 'w-12 h-12';
+      case 'tiny': return 'w-10 h-10';
+      default: return 'w-10 h-10';
+    }
   };
   
-  const handleDragEnd = (endNodeId: string) => {
-    if (dragStart && dragStart !== endNodeId) {
-      const connection = {
-        from: dragStart,
-        to: endNodeId
-      };
-      
-      // Check if connection already exists
-      const connectionExists = connections.some(
-        conn => conn.from === connection.from && conn.to === connection.to
-      );
-      
-      if (!connectionExists) {
-        // Find if this is a correct connection and add description if so
-        const correctConnection = correctConnections.find(
-          conn => conn.from === connection.from && conn.to === connection.to
-        );
-        
-        setConnections([...connections, {
-          ...connection,
-          description: correctConnection?.description
-        }]);
+  const getPositionStyle = (position: { x: number; y: number }): Record<string, string> => {
+    return {
+      left: `${position.x}%`,
+      top: `${position.y}%`,
+    };
+  };
+  
+  const getTimelineEvent = () => {
+    return dollarShock.events.find(event => event.year === currentYear);
+  };
+  
+  const handleNodeClick = (node: Node) => {
+    if (connectionMode) {
+      // If we're in connection mode, add a connection
+      if (connectionMode.source !== node.id) {
+        const newConnection: Connection = {
+          source: connectionMode.source,
+          target: node.id,
+          type: connectionMode.type
+        };
+        setUserConnections([...userConnections, newConnection]);
+      }
+      setConnectionMode(null);
+    } else {
+      // Otherwise, just select the node
+      setSelectedNode(node);
+    }
+  };
+  
+  const startConnection = (nodeId: string, type: 'dominance' | 'influence' | 'contested') => {
+    setConnectionMode({ source: nodeId, type });
+  };
+  
+  const nodeHasCorrectConnections = (nodeId: string): boolean => {
+    const correctNodeConnections = globalFlow.correctConnections.filter(
+      conn => conn.source === nodeId || conn.target === nodeId
+    );
+    
+    const userNodeConnections = userConnections.filter(
+      conn => conn.source === nodeId || conn.target === nodeId
+    );
+    
+    return correctNodeConnections.every(correctConn => 
+      userNodeConnections.some(userConn => 
+        (userConn.source === correctConn.source && userConn.target === correctConn.target && userConn.type === correctConn.type) ||
+        (userConn.target === correctConn.source && userConn.source === correctConn.target && userConn.type === correctConn.type)
+      )
+    );
+  };
+  
+  const isConnectionCorrect = (connection: Connection): boolean => {
+    return globalFlow.correctConnections.some(correctConn => 
+      (connection.source === correctConn.source && connection.target === correctConn.target && connection.type === correctConn.type) ||
+      (connection.target === correctConn.source && connection.source === correctConn.target && connection.type === correctConn.type)
+    );
+  };
+  
+  const removeConnection = (index: number) => {
+    const newConnections = [...userConnections];
+    newConnections.splice(index, 1);
+    setUserConnections(newConnections);
+  };
+  
+  const handleNextYear = () => {
+    const currentIndex = dollarShock.events.findIndex(event => event.year === currentYear);
+    if (currentIndex < dollarShock.events.length - 1) {
+      setCurrentYear(dollarShock.events[currentIndex + 1].year);
+    } else {
+      setTimelineCompleted(true);
+      checkCompletion();
+    }
+  };
+  
+  const handlePrevYear = () => {
+    const currentIndex = dollarShock.events.findIndex(event => event.year === currentYear);
+    if (currentIndex > 0) {
+      setCurrentYear(dollarShock.events[currentIndex - 1].year);
+    }
+  };
+  
+  const handleCompleteWeb = () => {
+    setWebCompleted(true);
+    checkCompletion();
+  };
+  
+  const checkCompletion = () => {
+    if (webCompleted && timelineCompleted) {
+      setIsComplete(true);
+      if (onComplete) {
+        setTimeout(() => {
+          onComplete();
+        }, 1000);
       }
     }
-    setDragStart(null);
   };
   
-  // Dollar Shock Simulator logic
-  const handleToggleGoldStandard = () => {
-    setGoldStandard(!goldStandard);
-  };
-  
-  const handlePrintMoney = () => {
-    if (goldStandard) return;
-    
-    const event = events[selectedEvent];
-    const newValue = moneySupply + event.moneySupplyChange;
-    setMoneySupply(newValue);
-    
-    setSupplyHistory([...supplyHistory, {
-      year: event.year,
-      value: newValue
-    }]);
-    
-    if (selectedEvent < events.length - 1) {
-      setSelectedEvent(selectedEvent + 1);
-    }
-  };
-  
-  // Check if all correct connections are made
-  const allCorrectConnectionsMade = correctConnections.every(correctConn => 
-    connections.some(conn => conn.from === correctConn.from && conn.to === correctConn.to)
-  );
-  
-  // Check if dollar simulation is complete
-  const dollarSimulationComplete = selectedEvent === events.length - 1;
-  
-  const handleComplete = () => {
-    if (onComplete) {
-      onComplete();
-    }
-  };
-  
-  const getNodeColor = (nodeId: string) => {
-    switch(nodeId) {
-      case 'usa': return 'bg-amber-600';
-      case 'oil': return 'bg-emerald-600';
-      case 'debt': return 'bg-purple-600';
-      case 'africa': return 'bg-blue-600';
-      default: return 'bg-gray-600';
-    }
-  };
-  
-  const getNodeIcon = (nodeId: string) => {
-    switch(nodeId) {
-      case 'usa': return <DollarSign size={20} />;
-      case 'oil': return <Droplet size={20} />;
-      case 'debt': return <Landmark size={20} />;
-      case 'africa': return <ArrowRight size={20} />;
-      default: return null;
-    }
-  };
-  
-  return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-      <div className="p-6 bg-amber-50">
-        <h2 className="text-2xl font-bold text-amber-800 mb-2">
-          The Rise of the Dollar: Global Power Dynamics
-        </h2>
-        <p className="text-amber-700 mb-6">
-          Explore how the US dollar became the world's dominant currency and how this creates power imbalances.
-        </p>
-        
-        {/* Simulation Tabs */}
-        <div className="flex border-b border-amber-200 mb-6">
-          <button
-            className={`py-3 px-4 font-medium ${
-              activeTab === 'flow' 
-                ? 'text-amber-600 border-b-2 border-amber-600' 
-                : 'text-gray-500 hover:text-amber-600'
-            }`}
-            onClick={() => setActiveTab('flow')}
-          >
-            Global Money Web
-          </button>
-          <button
-            className={`py-3 px-4 font-medium ${
-              activeTab === 'dollar' 
-                ? 'text-amber-600 border-b-2 border-amber-600' 
-                : 'text-gray-500 hover:text-amber-600'
-            }`}
-            onClick={() => setActiveTab('dollar')}
-          >
-            Nixon Shock & Dollar Printing
-          </button>
+  // If completed, show completion screen
+  if (isComplete) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-lg"
+      >
+        <div className="text-center mb-8">
+          <Globe className="h-16 w-16 text-blue-600 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-blue-800 mb-2">Global Currency Exploration Complete</h2>
+          <p className="text-gray-600">
+            You've mapped the intricate relationships between global currencies and discovered how the 1971 Nixon Shock transformed the global monetary system.
+          </p>
         </div>
         
-        {/* Global Money Web Simulation */}
-        {activeTab === 'flow' && (
-          <div>
-            <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-              <h3 className="font-semibold text-amber-800 mb-4">
-                Map the Global Flow of Dollar Power
-              </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Create connections between entities by dragging from one node to another. Try to map how the dollar creates a global system of dependency.
-              </p>
-              
-              {/* The network visualization */}
-              <div className="relative h-[400px] border-2 border-amber-200 rounded-lg bg-gray-50 mb-4">
-                {nodes.map((node) => (
-                  <div
-                    key={node.id}
-                    className="absolute cursor-pointer"
-                    style={{ 
-                      left: `${(node.x / 500) * 100}%`, 
-                      top: `${(node.y / 500) * 100}%`,
-                      transform: 'translate(-50%, -50%)'
-                    }}
-                  >
-                    <div 
-                      className={`flex flex-col items-center justify-center w-20 h-20 rounded-full text-white transition-transform hover:scale-110 ${getNodeColor(node.id)}`}
-                      onMouseDown={() => handleDragStart(node.id)}
-                      onMouseUp={() => handleDragEnd(node.id)}
-                    >
-                      {getNodeIcon(node.id)}
-                      <div className="text-xs mt-1">{node.label}</div>
-                    </div>
-                  </div>
-                ))}
+        <div className="mb-6 bg-blue-50 p-4 rounded-lg">
+          <h3 className="font-semibold text-blue-800 mb-2">Key Insights:</h3>
+          <ul className="space-y-2">
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">•</span>
+              <span>The global monetary system is hierarchical, with the US dollar at the center.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">•</span>
+              <span>Reserve currency status gives immense economic and geopolitical power.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">•</span>
+              <span>The 1971 Nixon Shock fundamentally changed money by removing its last connection to gold.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">•</span>
+              <span>The petrodollar system helped maintain US dollar dominance despite the end of gold backing.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">•</span>
+              <span>Countries that depend on the dollar sacrifice some monetary sovereignty.</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div className="bg-gray-50 p-4 rounded-lg mb-6">
+          <h3 className="font-semibold text-gray-800 mb-2">The Bitcoin Perspective:</h3>
+          <p className="text-gray-700">
+            Bitcoin represents a potential alternative to the hierarchical currency system. As a neutral, 
+            borderless currency with no central issuer, Bitcoin isn't controlled by any nation-state and 
+            doesn't require trust in a central authority like a reserve currency does. This design allows 
+            it to operate outside the traditional currency hierarchy, potentially reducing the monetary 
+            power concentration that exists in the current system.
+          </p>
+        </div>
+        
+        <div className="text-center">
+          <Button
+            onClick={onComplete}
+            style={{
+              background: citadelTheme.gradients.blue,
+              boxShadow: citadelTheme.shadows.button,
+            }}
+          >
+            Complete Mission <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      </motion.div>
+    );
+  }
+  
+  return (
+    <div className="max-w-4xl mx-auto bg-white rounded-xl overflow-hidden shadow-lg">
+      <div className="p-6 border-b border-gray-200">
+        <h2 className="text-2xl font-bold text-blue-800 mb-2">The Global Money Web</h2>
+        <p className="text-gray-700">
+          Explore how the world's currencies are interconnected and how reserve currency status shapes the global economy.
+        </p>
+      </div>
+      
+      <Tabs value={currentTab} onValueChange={setCurrentTab} className="w-full">
+        <div className="px-6 pt-4">
+          <TabsList className="grid grid-cols-2 w-full">
+            <TabsTrigger value="globalWeb">Currency Web</TabsTrigger>
+            <TabsTrigger value="dollarShock">Nixon Shock Timeline</TabsTrigger>
+          </TabsList>
+        </div>
+        
+        <TabsContent value="globalWeb" className="p-6">
+          <div className="mb-4">
+            <Card className="bg-blue-50">
+              <CardHeader className="py-3 px-4">
+                <CardTitle className="text-sm font-medium text-blue-800">
+                  Your Task: Map Currency Relationships
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="py-0 px-4 pb-3">
+                <p className="text-xs text-gray-700">
+                  Create connections between currencies to show how they influence each other. Select a currency, choose a connection type, then click another currency to connect them.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+          
+          <div className="relative h-[500px] border border-gray-200 rounded-lg mb-6 overflow-hidden bg-gray-50">
+            {/* Currency nodes */}
+            {globalFlow.nodes.map((node) => (
+              <motion.div
+                key={node.id}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`absolute rounded-full flex items-center justify-center cursor-pointer ${getSizeClass(node.size)} ${
+                  connectionMode ? 'hover:ring-2 hover:ring-blue-400' : ''
+                } ${
+                  selectedNode?.id === node.id ? 'ring-2 ring-blue-500' : ''
+                } ${
+                  nodeHasCorrectConnections(node.id) ? 'bg-green-100' : 'bg-white'
+                }`}
+                style={getPositionStyle(node.position)}
+                onClick={() => handleNodeClick(node)}
+              >
+                <span className="text-xs font-medium text-center p-1">{node.label}</span>
+              </motion.div>
+            ))}
+            
+            {/* Connection lines */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none">
+              {userConnections.map((connection, index) => {
+                const sourceNode = globalFlow.nodes.find(n => n.id === connection.source);
+                const targetNode = globalFlow.nodes.find(n => n.id === connection.target);
                 
-                {/* Draw connections */}
-                <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
-                  {connections.map((connection, idx) => {
-                    const start = nodes.find(n => n.id === connection.from);
-                    const end = nodes.find(n => n.id === connection.to);
-                    
-                    if (!start || !end) return null;
-                    
-                    const startX = (start.x / 500) * 100;
-                    const startY = (start.y / 500) * 100;
-                    const endX = (end.x / 500) * 100;
-                    const endY = (end.y / 500) * 100;
-                    
-                    // Check if this is a correct connection
-                    const isCorrect = correctConnections.some(
-                      conn => conn.from === connection.from && conn.to === connection.to
-                    );
-                    
-                    return (
-                      <g key={idx}>
-                        <defs>
-                          <marker
-                            id={`arrowhead-${idx}`}
-                            markerWidth="10"
-                            markerHeight="7"
-                            refX="9"
-                            refY="3.5"
-                            orient="auto"
-                          >
-                            <polygon 
-                              points="0 0, 10 3.5, 0 7" 
-                              fill={isCorrect ? "#15803d" : "#FFC567"} 
-                            />
-                          </marker>
-                        </defs>
-                        <line
-                          x1={`${startX}%`}
-                          y1={`${startY}%`}
-                          x2={`${endX}%`}
-                          y2={`${endY}%`}
-                          stroke={isCorrect ? "#15803d" : "#FFC567"}
-                          strokeWidth="3"
-                          markerEnd={`url(#arrowhead-${idx})`}
-                          strokeDasharray={isCorrect ? "0" : "5,5"}
-                        />
-                      </g>
-                    );
-                  })}
-                </svg>
-              </div>
-              
-              {/* Connections list */}
-              {connections.length > 0 && (
-                <div className="mb-6">
-                  <h4 className="font-medium text-amber-700 mb-2">Your Connections:</h4>
-                  <div className="space-y-2">
-                    {connections.map((connection, idx) => {
-                      const start = nodes.find(n => n.id === connection.from);
-                      const end = nodes.find(n => n.id === connection.to);
-                      
-                      if (!start || !end) return null;
-                      
-                      // Check if this is a correct connection
-                      const isCorrect = correctConnections.some(
-                        conn => conn.from === connection.from && conn.to === connection.to
-                      );
-                      
-                      return (
-                        <div 
-                          key={idx}
-                          className={`p-3 rounded-lg ${
-                            isCorrect 
-                              ? 'bg-green-50 border border-green-300' 
-                              : 'bg-amber-50 border border-amber-300'
-                          }`}
-                        >
-                          <div className="flex items-center">
-                            {isCorrect && (
-                              <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
-                            )}
-                            <span className="font-medium">
-                              {start.label} → {end.label}
-                            </span>
-                          </div>
-                          {connection.description && (
-                            <p className="text-sm text-gray-600 mt-1">
-                              {connection.description}
-                            </p>
-                          )}
-                        </div>
-                      );
-                    })}
+                if (!sourceNode || !targetNode) return null;
+                
+                const sourceX = sourceNode.position.x;
+                const sourceY = sourceNode.position.y;
+                const targetX = targetNode.position.x;
+                const targetY = targetNode.position.y;
+                
+                const isCorrect = isConnectionCorrect(connection);
+                
+                return (
+                  <g key={index}>
+                    <line
+                      x1={`${sourceX}%`}
+                      y1={`${sourceY}%`}
+                      x2={`${targetX}%`}
+                      y2={`${targetY}%`}
+                      stroke={isCorrect ? "#10b981" : "#6b7280"}
+                      strokeWidth="2"
+                      strokeDasharray={connection.type === 'contested' ? "5,5" : "none"}
+                    />
+                    {/* Arrow marker */}
+                    <polygon 
+                      points={`${targetX}%,${targetY}% ${targetX-0.5}%,${targetY-0.5}% ${targetX-0.5}%,${targetY+0.5}%`}
+                      fill={isCorrect ? "#10b981" : "#6b7280"}
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+          
+          <div className="grid grid-cols-1 gap-4 mb-6">
+            {selectedNode && (
+              <Card>
+                <CardHeader className="py-3 px-4">
+                  <CardTitle className="text-lg font-medium text-blue-800">
+                    {selectedNode.label}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="py-0 px-4 pb-3">
+                  <p className="text-sm text-gray-700 mb-3">
+                    {selectedNode.description}
+                  </p>
+                  <div className="flex space-x-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-blue-300 text-blue-700 hover:bg-blue-50"
+                      onClick={() => startConnection(selectedNode.id, 'dominance')}
+                    >
+                      Strong Influence
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-amber-300 text-amber-700 hover:bg-amber-50"
+                      onClick={() => startConnection(selectedNode.id, 'influence')}
+                    >
+                      Moderate Influence
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                      onClick={() => startConnection(selectedNode.id, 'contested')}
+                    >
+                      Contested Influence
+                    </Button>
                   </div>
-                </div>
-              )}
-            </div>
+                </CardContent>
+              </Card>
+            )}
             
-            {/* Key points about dollar dominance */}
-            <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-              <h3 className="font-semibold text-amber-800 mb-2">Key Points About Dollar Dominance</h3>
-              <ul className="list-disc list-inside space-y-1 text-gray-700">
-                <li>The US dollar is used for ~60% of international trade and 65% of global currency reserves</li>
-                <li>Oil is priced and traded almost exclusively in dollars (the "petrodollar" system)</li>
-                <li>Many countries are forced to maintain dollar reserves to pay for essential imports</li>
-                <li>Dollar dominance gives the US significant economic and geopolitical advantages</li>
-                <li>Countries without sufficient dollar reserves often face financial crises</li>
-              </ul>
-            </div>
-            
-            {/* Complete button for flow simulation */}
-            {allCorrectConnectionsMade && (
-              <div className="flex justify-center">
-                <button
-                  className="py-3 px-6 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-700 transition-colors"
-                  onClick={() => setActiveTab('dollar')}
+            {connectionMode && (
+              <div className="bg-blue-50 p-3 rounded-md">
+                <p className="text-sm text-blue-800 mb-2">
+                  Now click on a target currency to create a{' '}
+                  <span className="font-semibold">
+                    {connectionMode.type === 'dominance' && 'strong influence'}
+                    {connectionMode.type === 'influence' && 'moderate influence'}
+                    {connectionMode.type === 'contested' && 'contested influence'}
+                  </span>{' '}
+                  connection.
+                </p>
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={() => setConnectionMode(null)}
                 >
-                  Continue to Nixon Shock Simulation
-                </button>
+                  Cancel
+                </Button>
               </div>
             )}
           </div>
-        )}
-        
-        {/* Dollar Shock Simulation */}
-        {activeTab === 'dollar' && (
-          <div>
-            <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-              <h3 className="font-semibold text-amber-800 mb-4">
-                The Nixon Shock & Dollar Printing Simulator
-              </h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  {/* Event description */}
-                  <div className="p-4 mb-4 bg-amber-100 rounded-lg border-l-4 border-amber-500">
-                    <h4 className="font-medium text-amber-800">
-                      {events[selectedEvent].year}: {events[selectedEvent].title}
-                    </h4>
-                    <p className="text-gray-700 text-sm mt-1">
-                      {events[selectedEvent].description}
-                    </p>
-                  </div>
+          
+          {userConnections.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-sm font-medium text-gray-700 mb-2">Your Connections:</h3>
+              <div className="space-y-2 max-h-40 overflow-y-auto p-2 border border-gray-200 rounded-md">
+                {userConnections.map((connection, index) => {
+                  const sourceNode = globalFlow.nodes.find(n => n.id === connection.source);
+                  const targetNode = globalFlow.nodes.find(n => n.id === connection.target);
+                  const isCorrect = isConnectionCorrect(connection);
                   
-                  {/* Gold standard toggle */}
-                  <div className="flex items-center justify-between mb-4 p-3 border border-amber-200 rounded-lg">
-                    <div className="flex items-center">
-                      <Landmark className="text-amber-600 mr-2" size={20} />
-                      <span className="font-medium">Gold Standard:</span>
-                    </div>
-                    <button
-                      onClick={handleToggleGoldStandard}
-                      className={`px-4 py-2 rounded-lg transition-colors ${
-                        goldStandard 
-                          ? 'bg-amber-600 text-white' 
-                          : 'bg-gray-300 text-gray-600'
+                  return (
+                    <div 
+                      key={index} 
+                      className={`flex justify-between items-center p-2 rounded-md text-xs ${
+                        isCorrect ? 'bg-green-50 text-green-700' : 'bg-gray-50 text-gray-700'
                       }`}
-                      disabled={selectedEvent > 0}
                     >
-                      {goldStandard ? 'Active' : 'Removed'}
-                    </button>
-                  </div>
-                  
-                  {/* Money supply status */}
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="p-3 bg-amber-50 rounded-lg">
-                      <div className="text-sm text-gray-600">Year</div>
-                      <div className="text-xl font-bold text-amber-600">
-                        {events[selectedEvent].year}
+                      <div>
+                        <span className="font-medium">{sourceNode?.label}</span>
+                        {' '}
+                        <span>
+                          {connection.type === 'dominance' && '→ strongly influences →'}
+                          {connection.type === 'influence' && '→ moderately influences →'}
+                          {connection.type === 'contested' && '→ contests influence with →'}
+                        </span>
+                        {' '}
+                        <span className="font-medium">{targetNode?.label}</span>
                       </div>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-6 w-6 p-0"
+                        onClick={() => removeConnection(index)}
+                      >
+                        ✕
+                      </Button>
                     </div>
-                    <div className="p-3 bg-amber-50 rounded-lg">
-                      <div className="text-sm text-gray-600">Money Supply</div>
-                      <div className="text-xl font-bold text-amber-600">
-                        ${moneySupply}B
-                      </div>
-                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          
+          <div className="flex justify-between pt-4">
+            <div></div>
+            <Button
+              onClick={handleCompleteWeb}
+              style={{
+                background: citadelTheme.gradients.blue,
+                boxShadow: citadelTheme.shadows.button,
+              }}
+            >
+              Complete Currency Web <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="dollarShock" className="p-6">
+          <div className="mb-4">
+            <Card className="bg-blue-50">
+              <CardHeader className="py-3 px-4">
+                <CardTitle className="text-sm font-medium text-blue-800">
+                  Historical Timeline: The Nixon Shock & Its Impact
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="py-0 px-4 pb-3">
+                <p className="text-xs text-gray-700">
+                  Explore how the 1971 Nixon Shock fundamentally transformed the global monetary system.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+          
+          <div className="relative mb-6">
+            {/* Timeline */}
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-200"></div>
+            
+            {dollarShock.events.map((event, index) => {
+              const isActive = event.year === currentYear;
+              const isPast = dollarShock.events.findIndex(e => e.year === currentYear) > index;
+              
+              return (
+                <div
+                  key={event.year}
+                  className={`relative pl-8 mb-4 ${isActive ? '' : 'opacity-60'}`}
+                >
+                  <div 
+                    className={`absolute left-0 top-0 w-1 h-full ${
+                      isPast ? 'bg-blue-500' : 'bg-gray-200'
+                    }`}
+                  ></div>
+                  <div 
+                    className={`absolute left-[-6px] top-0 w-[13px] h-[13px] rounded-full border-2 ${
+                      isActive
+                        ? 'bg-white border-blue-500'
+                        : isPast
+                        ? 'bg-blue-500 border-blue-500'
+                        : 'bg-white border-gray-300'
+                    }`}
+                  ></div>
+                  <div className="mb-1 text-sm font-medium text-gray-500">
+                    {event.year}
                   </div>
-                  
-                  {/* Print money button */}
-                  <button
-                    onClick={handlePrintMoney}
-                    disabled={goldStandard || selectedEvent === events.length - 1}
-                    className={`w-full py-3 rounded-lg flex items-center justify-center transition-colors ${
-                      !goldStandard && selectedEvent < events.length - 1
-                        ? 'bg-amber-600 hover:bg-amber-700 text-white' 
-                        : 'bg-gray-300 cursor-not-allowed text-gray-600'
+                  <Card 
+                    className={`${
+                      isActive 
+                        ? event.pivotalEvent 
+                          ? 'border-red-300 bg-red-50/50' 
+                          : 'border-blue-300'
+                        : ''
                     }`}
                   >
-                    <DollarSign className="mr-2" size={20} />
-                    Print More Money
-                  </button>
-                  
-                  {/* Instructions */}
-                  {selectedEvent === 0 && goldStandard && (
-                    <p className="text-sm text-gray-600 mt-2">
-                      First, remove the gold standard to begin printing money.
-                    </p>
-                  )}
-                </div>
-                
-                <div>
-                  {/* Money supply chart (simplified visual representation) */}
-                  <h4 className="font-medium text-amber-700 mb-3">Money Supply Growth</h4>
-                  <div className="h-[200px] bg-white rounded-lg border border-gray-200 p-3 relative">
-                    {/* Simple chart background */}
-                    <div className="absolute inset-0 p-3">
-                      <div className="border-b border-l border-gray-200 h-full"></div>
-                      <div className="absolute left-0 bottom-0 w-full h-[1px] bg-gray-300"></div>
-                      <div className="absolute left-0 top-0 h-full w-[1px] bg-gray-300"></div>
-                    </div>
-                    
-                    {/* Supply history bars */}
-                    <div className="flex items-end h-full relative">
-                      {supplyHistory.map((point, idx) => {
-                        const lastIdx = supplyHistory.length - 1;
-                        const initialValue = supplyHistory[0].value;
-                        const maxValue = Math.max(...supplyHistory.map(p => p.value));
-                        const heightPercentage = ((point.value - initialValue) / (maxValue - initialValue)) * 80;
+                    <CardHeader className="py-3 px-4">
+                      <CardTitle className={`text-md font-medium ${
+                        event.pivotalEvent 
+                          ? 'text-red-800' 
+                          : 'text-blue-800'
+                      }`}>
+                        {event.title}
+                      </CardTitle>
+                    </CardHeader>
+                    {isActive && (
+                      <CardContent className="py-0 px-4 pb-3">
+                        <p className="text-sm text-gray-700 mb-3">
+                          {event.description}
+                        </p>
                         
-                        return (
-                          <div 
-                            key={idx}
-                            className="flex flex-col items-center mx-1"
-                            style={{ 
-                              flex: `0 0 ${100 / (lastIdx + 1)}%`,
-                              height: '100%'
-                            }}
-                          >
-                            <div 
-                              className="w-full bg-amber-500 rounded-t-sm"
-                              style={{ 
-                                height: `${heightPercentage}%`,
-                                marginTop: 'auto'
-                              }}
-                            ></div>
-                            <div className="text-xs text-gray-600 mt-1">
-                              {point.year}
-                            </div>
+                        <div className="bg-gray-50 p-3 rounded-md mb-2">
+                          <h4 className="text-xs font-medium text-gray-700 mb-1">Effects:</h4>
+                          <ul className="space-y-1">
+                            {event.effects.map((effect, idx) => (
+                              <li key={idx} className="flex items-start text-xs">
+                                <span className="text-blue-500 mr-1">•</span>
+                                <span>{effect}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        
+                        {event.pivotalEvent && (
+                          <div className="bg-red-50 p-3 rounded-md">
+                            <h4 className="text-xs font-medium text-red-800 mb-1">Pivotal Moment:</h4>
+                            <p className="text-xs text-red-700">
+                              This event fundamentally altered the global monetary system and its effects continue to shape economic relations today.
+                            </p>
                           </div>
-                        );
-                      })}
-                    </div>
-                    
-                    {/* Y-axis label */}
-                    <div className="absolute top-2 left-2 text-xs text-gray-500">
-                      Money Supply (billions)
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4 p-3 bg-amber-50 rounded-lg">
-                    <h4 className="font-medium text-amber-700 mb-2">Key Insights:</h4>
-                    <ul className="text-sm text-gray-700 space-y-1">
-                      <li>• Ending the gold standard removed natural constraints on money creation</li>
-                      <li>• Since 1971, the dollar has lost over 85% of its purchasing power</li>
-                      <li>• The ability to print unlimited money gives the US significant advantages</li>
-                      <li>• Countries using the dollar are subject to US monetary policy decisions</li>
-                    </ul>
-                  </div>
+                        )}
+                      </CardContent>
+                    )}
+                  </Card>
                 </div>
-              </div>
-            </div>
-            
-            {/* Complete button for dollar simulation */}
-            {dollarSimulationComplete && !goldStandard && (
-              <div className="flex justify-center">
-                <button
-                  className="py-3 px-6 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-700 transition-colors"
-                  onClick={handleComplete}
-                >
-                  Complete Simulation
-                </button>
-              </div>
-            )}
+              );
+            })}
           </div>
-        )}
-      </div>
+          
+          <div className="flex justify-between pt-4">
+            <Button
+              variant="outline"
+              onClick={handlePrevYear}
+              disabled={currentYear === dollarShock.events[0].year}
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" /> Previous Event
+            </Button>
+            
+            <Button
+              onClick={handleNextYear}
+              disabled={currentYear === dollarShock.events[dollarShock.events.length - 1].year && timelineCompleted}
+              style={{
+                background: citadelTheme.gradients.blue,
+                boxShadow: citadelTheme.shadows.button,
+              }}
+            >
+              {currentYear === dollarShock.events[dollarShock.events.length - 1].year
+                ? 'Complete Timeline'
+                : 'Next Event'
+              } <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
