@@ -8,9 +8,35 @@ import fs from "fs";
 import { setupAuth } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Root route - redirect to direct access page
+  app.get('/', (req, res) => {
+    res.sendFile('index.html', { root: './public' });
+  });
+
   // Serve the demo page for testing
   app.get('/demo', (req, res) => {
     res.sendFile('demo.html', { root: './public' });
+  });
+  
+  // Direct access to static HTML mission pages
+  app.get('/demo.html', (req, res) => {
+    res.sendFile('demo.html', { root: './public' });
+  });
+  
+  app.get('/realm2-mission4.html', (req, res) => {
+    res.sendFile('realm2-mission4.html', { root: './public' });
+  });
+  
+  app.get('/realm2-mission5.html', (req, res) => {
+    res.sendFile('realm2-mission5.html', { root: './public' });
+  });
+  
+  app.get('/realm2-mission6.html', (req, res) => {
+    res.sendFile('realm2-mission6.html', { root: './public' });
+  });
+  
+  app.get('/realm2-missionbonus.html', (req, res) => {
+    res.sendFile('realm2-missionbonus.html', { root: './public' });
   });
   
   // Serve the African Currency Education demo page
