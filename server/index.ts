@@ -4,20 +4,12 @@ import { setupVite, serveStatic, log } from "./vite";
 import cors from "cors";
 
 const app = express();
-<<<<<<< HEAD
 // Explicitly set up CORS with very permissive settings
 app.use(cors({
-  origin: '*', // Allow all origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-=======
-app.use(cors({ 
   origin: '*', // Allow all origins
   credentials: true, // Allow credentials (cookies, etc.)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow all methods
   allowedHeaders: ['Content-Type', 'Authorization'] // Allow essential headers
->>>>>>> 0652a0db822258f9bfa7da88533be0a2088f509a
 }));
 
 // Add additional headers for CORS

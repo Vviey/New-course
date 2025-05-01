@@ -1,6 +1,77 @@
-<<<<<<< HEAD
-export const originTheme = {
-  name: "Origin Theme",
+// Realm-specific design tokens and themes
+
+export interface RealmTheme {
+  id?: number;
+  name: string;
+  colors: {
+    primary: string;
+    secondary: string;
+    background: string;
+    backgroundLight: string;
+    cardBackground?: string;
+    textDark: string;
+    textLight: string;
+    accent1?: string;
+    accent2?: string;
+    highlight?: string;
+    alert?: string;
+    primaryAccent?: string;
+    darkText?: string;
+    secondaryAccent?: string;
+    softContrast?: string;
+    gradientStart?: string;
+    gradientEnd?: string;
+  };
+  patterns?: {
+    grid?: string;
+    cityscape?: string;
+    dots?: string;
+    circuits?: string;
+    adinkra?: string;
+  };
+  gradients?: {
+    sunset?: string;
+    sand?: string;
+    blue?: string;
+    neon?: string;
+    tech?: string;
+    glow?: string;
+  };
+  shadows?: {
+    card?: string;
+    button?: string;
+    neon?: string;
+    inner?: string;
+  };
+  animations?: {
+    pulse?: string;
+    glow?: string;
+  };
+  borderRadius?: {
+    small?: string;
+    default?: string;
+    large?: string;
+    full?: string;
+  };
+  patternClass?: string;
+  backgroundTexture?: string;
+  zIndex?: {
+    base?: number;
+    modal?: number;
+    tooltip?: number;
+    header?: number;
+  };
+  fonts?: {
+    heading?: string;
+    body?: string;
+    mono?: string;
+  };
+}
+
+// Realm of Origins Theme - Trade Festival at Sunset
+export const originTheme: RealmTheme = {
+  id: 1,
+  name: "Realm of Origins",
   colors: {
     primary: "#EE720B", // Main orange accent
     secondary: "#FFC567", // Secondary/golden accent
@@ -11,6 +82,12 @@ export const originTheme = {
     textLight: "#FBF4D2", // Light text color
     accent1: "#EB5A00", // Additional accent
     accent2: "#DB9D47", // Additional accent
+    primaryAccent: "#EE720B",    // Sunset Orange
+    darkText: "#3A2E00",         // Deep Earth Brown
+    secondaryAccent: "#B34700",  // Terracotta Clay Red
+    softContrast: "#31456A",     // Muted Indigo / Night Sky Blue
+    gradientStart: "#B34700",    // Terracotta gradient start
+    gradientEnd: "#EE720B",      // Sunset Orange gradient end
   },
   patterns: {
     // CSS pattern for use in backgrounds
@@ -43,9 +120,11 @@ export const originTheme = {
     large: "1rem",
     full: "9999px",
   },
+  patternClass: "origins-pattern",
+  backgroundTexture: "url('/textures/woven-pattern.svg')"
 };
 
-export const forestTheme = {
+export const forestTheme: RealmTheme = {
   name: "Forest Theme",
   colors: {
     primary: "#1E8E3E", // Green
@@ -61,7 +140,7 @@ export const forestTheme = {
   // Other theme properties similar to originTheme
 };
 
-export const citadelTheme = {
+export const citadelTheme: RealmTheme = {
   name: "Citadel Theme",
   colors: {
     primary: "#2563EB", // Vibrant blue
@@ -98,202 +177,85 @@ export const citadelTheme = {
   animations: {
     pulse: "pulse 2s infinite",
     glow: "glow 4s infinite alternate",
-    scan: "scan 3s infinite",
-  },
-  borderRadius: {
-    small: "0.25rem",
-    default: "0.5rem",
-    large: "0.75rem",
-    full: "9999px",
   },
 };
 
-export const forksTheme = {
+export const forksTheme: RealmTheme = {
   name: "Forks Theme",
   colors: {
-    primary: "#7B1FA2", // Purple
-    secondary: "#E1BEE7", // Light purple
-    background: "#2A0934", // Dark purple
-    backgroundLight: "#4A148C", // Medium purple
-    cardBackground: "#F9F0FC", // Very light purple
-    textDark: "#2A0934", // Dark text
-    textLight: "#F9F0FC", // Light text
-    accent1: "#00BCD4", // Cyan accent
-    accent2: "#CE93D8", // Light purple accent
+    primary: "#8B5CF6", // Purple
+    secondary: "#C4B5FD", // Light purple
+    background: "#2E1065", // Deep purple
+    backgroundLight: "#4C1D95", // Medium purple
+    textDark: "#2E1065", // Dark text
+    textLight: "#EDE9FE", // Light text
+    accent1: "#EC4899", // Pink accent
+    accent2: "#A78BFA", // Medium purple
   },
-  // Other theme properties similar to originTheme
 };
 
-export const ubuntuTheme = {
+export const ubuntuTheme: RealmTheme = {
   name: "Ubuntu Theme",
   colors: {
-    primary: "#E53935", // Red
-    secondary: "#FFCDD2", // Light red
-    background: "#3E0000", // Dark red
-    backgroundLight: "#5D0000", // Medium red
-    cardBackground: "#FFF5F5", // Very light red
-    textDark: "#3E0000", // Dark text
-    textLight: "#FFF5F5", // Light text
-    accent1: "#43A047", // Green accent
-    accent2: "#EF9A9A", // Light red accent
+    primary: "#E9791D", // Ubuntu orange
+    secondary: "#77216F", // Ubuntu purple
+    background: "#2C001E", // Deep ubuntu purple
+    backgroundLight: "#5E2750", // Lighter ubuntu purple
+    textDark: "#2C001E", // Dark text
+    textLight: "#FFF6DD", // Light text
+    accent1: "#F1CB69", // Gold accent
+    accent2: "#AEA79F", // Ubuntu warm grey
   },
-  // Other theme properties similar to originTheme
 };
 
-export const groveTheme = {
+export const groveTheme: RealmTheme = {
   name: "Grove Theme",
   colors: {
-    primary: "#00695C", // Teal
-    secondary: "#B2DFDB", // Light teal
-    background: "#003D33", // Dark teal
-    backgroundLight: "#00796B", // Medium teal
-    cardBackground: "#E0F2F1", // Very light teal
-    textDark: "#003D33", // Dark text
-    textLight: "#E0F2F1", // Light text
-    accent1: "#FFC107", // Amber accent
-    accent2: "#4DB6AC", // Light teal accent
+    primary: "#10B981", // Green
+    secondary: "#D1FAE5", // Light green
+    background: "#064E3B", // Deep green
+    backgroundLight: "#065F46", // Medium green
+    textDark: "#064E3B", // Dark text
+    textLight: "#ECFDF5", // Light text
+    accent1: "#FBBF24", // Yellow accent
+    accent2: "#34D399", // Teal accent
   },
-  // Other theme properties similar to originTheme
 };
 
-export const bioluminescentTheme = {
-  name: "Bioluminescent Forest Theme",
+export const bioluminescentTheme: RealmTheme = {
+  name: "Bioluminescent Theme",
   colors: {
-    primary: "#06D6A0", // Vibrant teal/mint
-    secondary: "#22CAAF", // Lighter teal
-    background: "#073B4C", // Dark blue-green
-    backgroundLight: "#118AB2", // Medium blue
-    cardBackground: "#F0FFF4", // Very light mint
-    textDark: "#073B4C", // Dark text
-    textLight: "#F0FFF4", // Light text
-    accent1: "#7209B7", // Purple accent
-    accent2: "#4CC9F0", // Cyan accent
-    highlight: "#06D6A0", // Mint highlight
-    warning: "#FFD166", // Amber warning
-  },
-  patterns: {
-    grid: `linear-gradient(rgba(6, 214, 160, 0.1) 1px, transparent 1px),
-    linear-gradient(to right, rgba(6, 214, 160, 0.1) 1px, transparent 1px)`,
-    leaves: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20,20 C40,10 60,10 80,20 C90,40 90,60 80,80 C60,90 40,90 20,80 C10,60 10,40 20,20 Z' fill='none' stroke='rgba(6, 214, 160, 0.1)' stroke-width='1'/%3E%3C/svg%3E")`,
-    dots: `radial-gradient(rgba(6, 214, 160, 0.2) 1px, transparent 1px)`,
-    code: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30,30 L10,50 L30,70 M70,30 L90,50 L70,70 M40,20 L60,80' fill='none' stroke='rgba(6, 214, 160, 0.1)' stroke-width='1'/%3E%3C/svg%3E")`,
-  },
-  gradients: {
-    glow: "linear-gradient(to right, #06D6A0, #4CC9F0)",
-    purple: "linear-gradient(to right, #7209B7, #4CC9F0)",
-    aurora: "linear-gradient(135deg, #073B4C 0%, #118AB2 50%, #06D6A0 100%)",
-    radial: "radial-gradient(circle, rgba(6, 214, 160, 0.2) 0%, transparent 70%)",
-  },
-  shadows: {
-    card: "0 4px 12px rgba(7, 59, 76, 0.15), 0 1px 3px rgba(7, 59, 76, 0.1)",
-    button: "0 2px 4px rgba(6, 214, 160, 0.2), 0 0 10px rgba(6, 214, 160, 0.1)",
-    glow: "0 0 15px rgba(6, 214, 160, 0.3)",
-    inner: "inset 0 2px 4px rgba(7, 59, 76, 0.05)",
-  },
-  animations: {
-    pulse: "pulse 3s infinite",
-    float: "float 6s ease-in-out infinite",
-    shimmer: "shimmer 2.5s linear infinite",
-  },
-  borderRadius: {
-    small: "0.375rem",
-    default: "0.75rem",
-    large: "1rem",
-    full: "9999px",
+    primary: "#06B6D4", // Cyan
+    secondary: "#67E8F9", // Light cyan
+    background: "#042F2E", // Deep teal
+    backgroundLight: "#134E4A", // Medium teal
+    textDark: "#042F2E", // Dark text
+    textLight: "#CCFBF1", // Light text
+    accent1: "#22D3EE", // Bright cyan
+    accent2: "#2DD4BF", // Teal
   },
 };
 
-export const mountainForgeTheme = {
+export const mountainForgeTheme: RealmTheme = {
   name: "Mountain Forge Theme",
   colors: {
-    primary: "#D97706", // Amber/gold
-    secondary: "#F59E0B", // Lighter amber
-    background: "#292524", // Dark brown/charcoal
-    backgroundLight: "#44403C", // Medium brown
-    cardBackground: "#FFFBEB", // Very light amber
-    textDark: "#292524", // Dark text
-    textLight: "#FFFBEB", // Light text
-    accent1: "#B91C1C", // Fiery red accent
-    accent2: "#FBBF24", // Yellow accent
-    highlight: "#D97706", // Amber highlight
-    warning: "#DC2626", // Red warning
+    primary: "#DB2777", // Pink
+    secondary: "#F9A8D4", // Light pink
+    background: "#5A0938", // Deep magenta
+    backgroundLight: "#831843", // Medium magenta
+    textDark: "#5A0938", // Dark text
+    textLight: "#FDF2F8", // Light text
+    accent1: "#F59E0B", // Amber accent
+    accent2: "#E11D48", // Red accent
   },
-  patterns: {
-    grid: `linear-gradient(rgba(217, 119, 6, 0.1) 1px, transparent 1px),
-    linear-gradient(to right, rgba(217, 119, 6, 0.1) 1px, transparent 1px)`,
-    mountains: `url("data:image/svg+xml,%3Csvg width='100' height='50' viewBox='0 0 100 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,50 L20,15 L40,35 L60,5 L80,30 L100,20 L100,50 Z' fill='rgba(217, 119, 6, 0.05)'/%3E%3C/svg%3E")`,
-    dots: `radial-gradient(rgba(217, 119, 6, 0.2) 1px, transparent 1px)`,
-    forge: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30,70 L30,30 L70,30 L70,70 Z M40,40 L60,40 L60,60 L40,60 Z' fill='none' stroke='rgba(217, 119, 6, 0.1)' stroke-width='1'/%3E%3C/svg%3E")`,
-    circuits: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10,10 h20 v20 h20 v20 h-20 v20 h-20 z M60,10 h20 v20 h-20 z M60,50 h20 v20 h-20 z' fill='none' stroke='rgba(217, 119, 6, 0.1)' stroke-width='1'/%3E%3C/svg%3E")`,
-  },
-  gradients: {
-    amber: "linear-gradient(to right, #D97706, #FBBF24)",
-    fire: "linear-gradient(to right, #B91C1C, #F59E0B)",
-    forge: "linear-gradient(135deg, #292524 0%, #44403C 50%, #78350F 100%)",
-    radial: "radial-gradient(circle, rgba(217, 119, 6, 0.2) 0%, transparent 70%)",
-    warmGlow: "linear-gradient(to bottom, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05))",
-  },
-  shadows: {
-    card: "0 4px 12px rgba(41, 37, 36, 0.15), 0 1px 3px rgba(41, 37, 36, 0.1)",
-    button: "0 2px 4px rgba(217, 119, 6, 0.25), 0 0 10px rgba(251, 191, 36, 0.1)",
-    glow: "0 0 15px rgba(217, 119, 6, 0.3)",
-    inner: "inset 0 2px 4px rgba(41, 37, 36, 0.1)",
-    ambient: "0 8px 30px rgba(185, 28, 28, 0.1)",
-  },
-  animations: {
-    pulse: "pulse 3s infinite",
-    float: "float 6s ease-in-out infinite",
-    flicker: "flicker 5s ease-in-out infinite",
-    forge: "forge 3s ease-in-out infinite",
-  },
-  borderRadius: {
-    small: "0.25rem",
-    default: "0.5rem",
-    large: "0.75rem",
-    full: "9999px",
-  },
-};
-=======
-// Realm-specific design tokens and themes
-
-export interface RealmTheme {
-  id: number;
-  name: string;
-  colors: {
-    primaryAccent: string;
-    backgroundLight: string;
-    highlight: string;
-    darkText: string;
-    secondaryAccent: string;
-    softContrast: string;
-    gradientStart?: string;
-    gradientEnd?: string;
-  };
-  patternClass?: string;
-  backgroundTexture?: string;
-}
-
-// Realm of Origins Theme - Trade Festival at Sunset
-export const originTheme: RealmTheme = {
-  id: 1,
-  name: "Realm of Origins",
-  colors: {
-    primaryAccent: "#EE720B",    // Sunset Orange
-    backgroundLight: "#FBF4D2",  // Soft Golden Yellow (light sand)
-    highlight: "#FFC567",        // Warm Gold
-    darkText: "#3A2E00",         // Deep Earth Brown
-    secondaryAccent: "#B34700",  // Terracotta Clay Red
-    softContrast: "#31456A",     // Muted Indigo / Night Sky Blue
-    gradientStart: "#B34700",    // Terracotta gradient start
-    gradientEnd: "#EE720B",      // Sunset Orange gradient end
-  },
-  patternClass: "origins-pattern",
-  backgroundTexture: "url('/textures/woven-pattern.svg')"
 };
 
 // Collection of all realm themes
 export const realmThemes: Record<number, RealmTheme> = {
   1: originTheme,
+  2: citadelTheme,
+  3: bioluminescentTheme,
+  4: mountainForgeTheme,
   // Add more realms as they are developed
 };
 
@@ -301,4 +263,3 @@ export const realmThemes: Record<number, RealmTheme> = {
 export function getRealmTheme(realmId: number): RealmTheme {
   return realmThemes[realmId] || originTheme;
 }
->>>>>>> 0652a0db822258f9bfa7da88533be0a2088f509a

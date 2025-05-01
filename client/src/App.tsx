@@ -32,7 +32,11 @@ import Realm1Home from "@/pages/Realm 1/home";
 
 // Import Realm 2 components
 import Realm2Home from "@/pages/Realm 2/index";
-import Realm2Mission from "@/pages/realm2/Mission";
+// Legacy import, to be removed when full migration to realms structure is complete
+// import Realm2Mission from "@/pages/realm2/Mission";
+// New Realm 2 components with improved architecture
+import Realm2Index from "@/realms/Realm2";
+import Realm2Mission1 from "@/realms/Realm2/Mission1";
 
 // Import Realm 3 components
 import Realm3Home from "@/pages/realm3/Home";
@@ -86,7 +90,7 @@ function App() {
           
           {/* Realm 2 specific routes */}
           <ProtectedRoute path="/realm/2/index" component={Realm2Home} />
-          <ProtectedRoute path="/realm/2/mission/:missionId" component={Realm2Mission} />
+          <ProtectedRoute path="/realm/2/mission/:missionId" component={MissionPage} />
           <ProtectedRoute path="/realm/2" component={Realm2Home} />
           
           {/* Realm 3 specific routes */}
@@ -97,8 +101,9 @@ function App() {
           <ProtectedRoute path="/realm3/mission/:id" component={Realm3Mission} />
           
           {/* Realm 2 direct routes */}
-          <ProtectedRoute path="/realm2" component={Realm2Home} />
-          <ProtectedRoute path="/realm2/mission/:id" component={Realm2Mission} />
+          <ProtectedRoute path="/realm2" component={Realm2Index} />
+          <ProtectedRoute path="/realm2/mission/1" component={Realm2Mission1} />
+          <ProtectedRoute path="/realm2/mission/:id" component={MissionPage} />
           
           {/* Realm 4 direct routes */}
           <ProtectedRoute path="/realm4" component={Realm4Home} />
