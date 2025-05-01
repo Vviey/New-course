@@ -212,6 +212,28 @@ export const useCommonStyles = createUseStyles({
     }
   },
   
+  errorMessage: {
+    backgroundColor: 'rgba(255, 82, 82, 0.1)',
+    color: theme.colors.primary,
+    padding: '10px 15px',
+    borderRadius: theme.borderRadius.default,
+    marginTop: '10px',
+    marginBottom: '10px',
+    fontSize: '0.9rem',
+    border: `1px solid ${theme.colors.primary}40`,
+  },
+  
+  simulationIntro: {
+    fontSize: '1.05rem',
+    lineHeight: '1.6',
+    marginBottom: '25px',
+    color: theme.colors.textLight,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    padding: '15px 20px',
+    borderRadius: theme.borderRadius.default,
+    borderLeft: `4px solid ${theme.colors.primary}`,
+  },
+  
   warningAlert: {
     extend: 'alert',
     backgroundColor: 'rgba(255, 171, 0, 0.1)',

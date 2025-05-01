@@ -2,115 +2,114 @@ import React, { ReactNode } from 'react';
 import { createUseStyles } from 'react-jss';
 import theme from '../styles/theme';
 import { useCommonStyles } from '../styles/missionStyles';
+import { Shield, AlertTriangle, Lock, Eye } from 'lucide-react';
 
 interface SimulationFrameProps {
   children: ReactNode;
   title: string;
   description?: string;
   securityLevel?: 'low' | 'medium' | 'high';
-  isMonitored?: boolean;
 }
 
 const useStyles = createUseStyles({
   simulationContainer: {
-    backgroundColor: theme.colors.cardBackground,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     borderRadius: theme.borderRadius.default,
-    padding: '10px',
-    boxShadow: theme.shadows.card,
-    border: '1px solid rgba(255, 255, 255, 0.05)',
-    margin: '20px 0',
     overflow: 'hidden',
-    position: 'relative',
+    border: '1px solid rgba(255, 255, 255, 0.05)',
+    boxShadow: theme.shadows.card,
+    marginBottom: '20px',
   },
   simulationHeader: {
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+    padding: '10px 20px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: '10px 15px',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    borderTopLeftRadius: theme.borderRadius.default,
-    borderTopRightRadius: theme.borderRadius.default,
   },
-  simulationTitle: {
-    fontSize: '1.2rem',
-    fontWeight: 600,
-    color: theme.colors.textLight,
-    fontFamily: theme.fonts.heading,
-    margin: 0,
+  titleSection: {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
   },
-  simulationDescription: {
-    fontSize: '0.9rem',
-    color: theme.colors.softContrast,
-    marginBottom: '15px',
-    padding: '15px 15px 0 15px',
+  simulationTitle: {
+    color: theme.colors.textLight,
+    margin: 0,
+    fontSize: '1.1rem',
+    fontWeight: 600,
+    fontFamily: theme.fonts.heading,
   },
-  simulationContent: {
-    padding: '15px',
-    position: 'relative',
+  simulationDescription: {
+    color: theme.colors.softContrast,
+    fontSize: '0.85rem',
+    margin: 0,
   },
   securityBadge: {
     display: 'flex',
     alignItems: 'center',
-    gap: '5px',
-    padding: '5px 10px',
-    borderRadius: '15px',
+    padding: '4px 10px',
+    borderRadius: theme.borderRadius.full,
     fontSize: '0.8rem',
     fontWeight: 500,
+    gap: '5px',
   },
   lowSecurity: {
     backgroundColor: 'rgba(76, 175, 80, 0.1)',
+    border: '1px solid rgba(76, 175, 80, 0.2)',
     color: '#4caf50',
   },
   mediumSecurity: {
-    backgroundColor: 'rgba(255, 171, 0, 0.1)',
-    color: theme.colors.accent1,
+    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+    border: '1px solid rgba(255, 193, 7, 0.2)',
+    color: '#ffc107',
   },
   highSecurity: {
-    backgroundColor: 'rgba(255, 82, 82, 0.1)',
+    backgroundColor: 'rgba(198, 40, 40, 0.1)',
+    border: '1px solid rgba(198, 40, 40, 0.2)',
     color: theme.colors.primary,
   },
-  monitoredBadge: {
-    backgroundColor: 'rgba(255, 82, 82, 0.1)',
-    color: theme.colors.primary,
+  simulationContent: {
+    padding: '20px',
+  },
+  controlPanel: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    display: 'flex',
+    gap: '5px',
+  },
+  controlButton: {
+    width: '30px',
+    height: '30px',
+    borderRadius: '50%',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px',
-    padding: '5px 10px',
-    borderRadius: '15px',
-    fontSize: '0.8rem',
-    fontWeight: 500,
+    justifyContent: 'center',
+    border: 'none',
+    color: theme.colors.softContrast,
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      color: theme.colors.textLight,
+    },
   },
-  blinkingDot: {
-    width: '6px',
-    height: '6px',
+  cameraIndicator: {
+    width: '8px',
+    height: '8px',
     borderRadius: '50%',
     backgroundColor: theme.colors.primary,
+    position: 'absolute',
+    top: '15px',
+    right: '15px',
+    boxShadow: `0 0 5px ${theme.colors.primary}80`,
     animation: '$pulse 2s infinite',
   },
-  scanLine: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: '2px',
-    backgroundImage: `linear-gradient(90deg, ${theme.colors.primary}00, ${theme.colors.primary}, ${theme.colors.primary}00)`,
-    animation: '$scanline 3s linear infinite',
-    opacity: 0.6,
-    zIndex: 10,
-    pointerEvents: 'none',
-  },
-  '@keyframes scanline': {
-    '0%': { transform: 'translateY(0)' },
-    '100%': { transform: 'translateY(100vh)' },
-  },
   '@keyframes pulse': {
-    '0%': { opacity: 0.4 },
-    '50%': { opacity: 1 },
-    '100%': { opacity: 0.4 },
+    '0%': { opacity: 0.6, boxShadow: `0 0 3px ${theme.colors.primary}40` },
+    '50%': { opacity: 1, boxShadow: `0 0 8px ${theme.colors.primary}80` },
+    '100%': { opacity: 0.6, boxShadow: `0 0 3px ${theme.colors.primary}40` },
   },
 });
 
@@ -118,14 +117,25 @@ const SimulationFrame: React.FC<SimulationFrameProps> = ({
   children,
   title,
   description,
-  securityLevel = 'medium',
-  isMonitored = false,
+  securityLevel = 'medium'
 }) => {
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   
-  // Get the security badge class based on security level
-  const getSecurityBadgeClass = () => {
+  const getSecurityIcon = () => {
+    switch (securityLevel) {
+      case 'low':
+        return <Shield size={14} />;
+      case 'medium':
+        return <AlertTriangle size={14} />;
+      case 'high':
+        return <Lock size={14} />;
+      default:
+        return <Shield size={14} />;
+    }
+  };
+  
+  const getSecurityClass = () => {
     switch (securityLevel) {
       case 'low':
         return classes.lowSecurity;
@@ -138,8 +148,7 @@ const SimulationFrame: React.FC<SimulationFrameProps> = ({
     }
   };
   
-  // Get security label text
-  const getSecurityLabel = () => {
+  const getSecurityText = () => {
     switch (securityLevel) {
       case 'low':
         return 'Low Security';
@@ -151,38 +160,26 @@ const SimulationFrame: React.FC<SimulationFrameProps> = ({
         return 'Medium Security';
     }
   };
-
+  
   return (
     <div className={classes.simulationContainer}>
       <div className={classes.simulationHeader}>
-        <h3 className={classes.simulationTitle}>
-          <span>{title}</span>
-        </h3>
-        <div className={commonClasses.flexRow}>
-          <div className={`${classes.securityBadge} ${getSecurityBadgeClass()}`}>
-            <span>{getSecurityLabel()}</span>
-          </div>
-          
-          {isMonitored && (
-            <div className={classes.monitoredBadge} style={{ marginLeft: '10px' }}>
-              <div className={classes.blinkingDot} />
-              <span>MONITORING ACTIVE</span>
-            </div>
-          )}
+        <div className={classes.titleSection}>
+          <h3 className={classes.simulationTitle}>{title}</h3>
+          {description && <p className={classes.simulationDescription}>{description}</p>}
+        </div>
+        
+        <div className={`${classes.securityBadge} ${getSecurityClass()}`}>
+          {getSecurityIcon()}
+          <span>{getSecurityText()}</span>
         </div>
       </div>
       
-      {description && (
-        <div className={classes.simulationDescription}>
-          {description}
-        </div>
-      )}
+      <div className={classes.cameraIndicator} />
       
       <div className={classes.simulationContent}>
         {children}
       </div>
-      
-      {isMonitored && <div className={classes.scanLine} />}
     </div>
   );
 };

@@ -3,435 +3,275 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>African Currency Education - Demo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            amber: {
-              50: '#FFF8E1',
-              100: '#FFECB3',
-              200: '#FFE082',
-              300: '#FFD54F',
-              400: '#FFCA28',
-              500: '#FFC107',
-              600: '#FFB300',
-              700: '#FFA000',
-              800: '#FF8F00',
-              900: '#FF6F00',
-            },
-          },
-        },
-      },
-    }
-  </script>
+  <title>African Currency Education</title>
   <style>
-    /* Custom Pattern Styles */
-    .pattern-spirals {
-      background-image: radial-gradient(circle, #EE720B 10%, transparent 11%), radial-gradient(circle, #EE720B 10%, transparent 11%);
-      background-size: 60px 60px;
-      background-position: 0 0, 30px 30px;
-      background-color: #FBF4D2;
-      border-color: #FFC567;
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #1a1a1a;
+      color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
     }
-    
-    .pattern-meander {
-      background: repeating-linear-gradient(
-        45deg,
-        #EE720B,
-        #EE720B 10px,
-        #FFC567 10px,
-        #FFC567 20px
-      );
-      border-color: #FBF4D2;
+    header {
+      width: 100%;
+      background-color: #c62828;
+      color: white;
+      text-align: center;
+      padding: 2rem 0;
     }
-    
-    .pattern-leaves {
-      background-image: linear-gradient(45deg, #EE720B 25%, transparent 25%), 
-                         linear-gradient(-45deg, #EE720B 25%, transparent 25%), 
-                         linear-gradient(45deg, transparent 75%, #EE720B 75%), 
-                         linear-gradient(-45deg, transparent 75%, #EE720B 75%);
-      background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-      background-color: #FBF4D2;
-      border-color: #FFC567;
+    .title {
+      margin: 0;
+      font-size: 2.5rem;
     }
-    
-    .pattern-waves {
-      background-image: linear-gradient(135deg, #EE720B 25%, transparent 25%), 
-                         linear-gradient(225deg, #EE720B 25%, transparent 25%), 
-                         linear-gradient(45deg, #EE720B 25%, transparent 25%), 
-                         linear-gradient(315deg, #EE720B 25%, transparent 25%);
-      background-position: 10px 0, 10px 0, 0 0, 0 0;
-      background-size: 20px 20px;
-      background-repeat: repeat;
-      background-color: #FFC567;
-      border-color: #FBF4D2;
+    .subtitle {
+      margin-top: 0.5rem;
+      font-weight: normal;
+      opacity: 0.8;
     }
-    
-    .pattern-dots {
-      background-image: radial-gradient(#EE720B 20%, transparent 20%);
-      background-position: 0 0;
-      background-size: 15px 15px;
-      background-color: #FFC567;
-      border-color: #FBF4D2;
+    .container {
+      max-width: 1000px;
+      width: 90%;
+      margin: 2rem auto;
     }
-    
-    .pattern-chevron {
-      background-image: linear-gradient(135deg, #FFC567 25%, transparent 25%), 
-                         linear-gradient(225deg, #FFC567 25%, transparent 25%);
-      background-size: 30px 30px;
-      background-color: #EE720B;
-      border-color: #FBF4D2;
+    .intro {
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
-    
-    .pattern-floral {
-      background-image: radial-gradient(circle at 50% 50%, #FFC567 10%, transparent 30%),
-                         radial-gradient(circle at 100% 50%, #EE720B 20%, transparent 30%),
-                         radial-gradient(circle at 0% 50%, #EE720B 20%, transparent 30%),
-                         radial-gradient(circle at 50% 100%, #EE720B 20%, transparent 30%),
-                         radial-gradient(circle at 50% 0%, #EE720B 20%, transparent 30%);
-      background-size: 50px 50px;
-      background-color: #FBF4D2;
-      border-color: #FFC567;
+    h2 {
+      color: #ffab00;
+      border-bottom: 2px solid #ffab00;
+      padding-bottom: 0.5rem;
+      margin-top: 2.5rem;
+    }
+    .currency-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .currency-card {
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .currency-header {
+      background-color: #333;
+      padding: 1rem;
+      border-bottom: 1px solid #444;
+    }
+    .currency-name {
+      margin: 0;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .currency-flag {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #ddd;
+      display: inline-block;
+    }
+    .currency-body {
+      padding: 1rem;
+    }
+    .currency-info {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .currency-label {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+    .currency-value {
+      font-weight: 600;
+    }
+    .timeline {
+      position: relative;
+      margin: 2rem 0;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 4px;
+      background-color: #c62828;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 0.3rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #c62828;
+    }
+    .timeline-date {
+      font-weight: 600;
+      color: #ffab00;
+      margin-bottom: 0.5rem;
+    }
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    a.button {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: #c62828;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    a.button:hover {
+      background-color: #e53935;
+      transform: translateY(-2px);
+    }
+    footer {
+      width: 100%;
+      background-color: #2a2a2a;
+      text-align: center;
+      padding: 1.5rem 0;
+      margin-top: auto;
     }
   </style>
 </head>
-<body class="bg-amber-50">
-  <div id="app" class="max-w-4xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-8 text-amber-900 text-center">
-      African Currency Education
-    </h1>
+<body>
+  <header>
+    <h1 class="title">African Currency Education</h1>
+    <p class="subtitle">Exploring the Monetary History and Evolution of African Currencies</p>
+  </header>
+  
+  <div class="container">
+    <section class="intro">
+      <h2>Introduction</h2>
+      <p>Africa has a rich and diverse monetary history that spans thousands of years, from commodity currencies to modern fiat systems. This educational module explores how various African regions developed their monetary systems, the impact of colonization, and the current monetary landscape across the continent.</p>
+      <p>Understanding Africa's monetary history provides important context for appreciating the potential impact of Bitcoin and other cryptocurrencies across the continent.</p>
+    </section>
     
-    <!-- Progress bar -->
-    <div class="w-full bg-amber-200 rounded-full h-4 mb-6">
-      <div id="progress-bar" class="bg-amber-600 h-4 rounded-full transition-all duration-500 ease-in-out" style="width: 14.3%"></div>
-    </div>
-    
-    <div class="flex justify-between mb-6">
-      <button 
-        id="prev-btn" 
-        class="flex items-center px-4 py-2 rounded bg-amber-600 hover:bg-amber-700 text-white"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        Previous
-      </button>
-      
-      <div id="mission-counter" class="text-amber-900 font-semibold">
-        Mission 1 of 7
+    <h2>Featured African Currencies</h2>
+    <div class="currency-grid">
+      <div class="currency-card">
+        <div class="currency-header">
+          <h3 class="currency-name"><span class="currency-flag"></span> Nigerian Naira (NGN)</h3>
+        </div>
+        <div class="currency-body">
+          <div class="currency-info">
+            <div>
+              <div class="currency-label">Introduced</div>
+              <div class="currency-value">1973</div>
+            </div>
+            <div>
+              <div class="currency-label">Replaced</div>
+              <div class="currency-value">Nigerian Pound</div>
+            </div>
+          </div>
+          <p>The Naira was introduced to replace the Nigerian Pound two years after the country decimalized. Nigeria has one of Africa's largest economies and the Naira plays a significant role in West African trade.</p>
+        </div>
       </div>
       
-      <button 
-        id="next-btn" 
-        class="flex items-center px-4 py-2 rounded bg-amber-600 hover:bg-amber-700 text-white"
-      >
-        Next
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </button>
-    </div>
-    
-    <div class="mb-6">
-      <div id="mission-header" class="h-16 rounded-t-lg flex items-center justify-center pattern-spirals">
-        <h2 class="text-2xl font-bold text-white bg-amber-900/70 px-4 py-1 rounded">
-          Mission 1: The First Exchange — Barter Systems
-        </h2>
+      <div class="currency-card">
+        <div class="currency-header">
+          <h3 class="currency-name"><span class="currency-flag"></span> South African Rand (ZAR)</h3>
+        </div>
+        <div class="currency-body">
+          <div class="currency-info">
+            <div>
+              <div class="currency-label">Introduced</div>
+              <div class="currency-value">1961</div>
+            </div>
+            <div>
+              <div class="currency-label">Replaced</div>
+              <div class="currency-value">South African Pound</div>
+            </div>
+          </div>
+          <p>The Rand was introduced when South Africa became a republic. It's now used by multiple countries in the Common Monetary Area, including Namibia, Lesotho, and Eswatini.</p>
+        </div>
       </div>
       
-      <div class="bg-white p-6 rounded-b-lg shadow-md border-l-4 border-r-4 border-b-4 border-[#FFC567]">
-        <h3 id="mission-subtitle" class="text-xl font-semibold mb-4 text-amber-800">
-          Why Barter Worked (Until It Didn't)
-        </h3>
-        
-        <div id="mission-content" class="prose max-w-none">
-          <p class="mb-4 whitespace-pre-line">
-            Long before coins or paper money, people traded goods directly—a system called barter. Imagine walking through a bustling African market 1,000 years ago. Traders shout, drums beat, and villagers exchange yams for pots, milk for medicine, and cloth for salt. But there's a problem: What if the salt trader doesn't want your yams?
-          </p>
-          <p class="mb-4 whitespace-pre-line">
-            How Barter Worked:
-            • Double Coincidence of Wants: Both traders must want what the other has.
-            • Small Communities: Easier to know neighbors' needs.
-            • No "Money" Needed: Value came from usefulness (e.g., iron tools for farming).
-          </p>
-          <p class="mb-4 whitespace-pre-line">
-            Why It Failed as Trade Grew:
-            • Scalability Issues: What if you need medicine but only have a goat?
-            • Perishable Goods: Milk spoils; salt lasts longer.
-            • No Standard Value: Is one pot worth 10 yams or 20?
-          </p>
+      <div class="currency-card">
+        <div class="currency-header">
+          <h3 class="currency-name"><span class="currency-flag"></span> CFA Franc (XOF/XAF)</h3>
         </div>
-        
-        <div id="mission-images" class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 hidden">
-          <div class="border border-amber-200 rounded-lg p-4 bg-amber-50 flex flex-col items-center">
-            <div class="w-[200px] h-[150px] bg-amber-300 mb-2 rounded flex items-center justify-center">
-              <span class="text-amber-800">Mali Gold Dust Image</span>
+        <div class="currency-body">
+          <div class="currency-info">
+            <div>
+              <div class="currency-label">Introduced</div>
+              <div class="currency-value">1945</div>
             </div>
-            <h4 class="font-semibold text-amber-800">Mali Gold Dust</h4>
-            <p class="text-sm text-center mt-2">
-              Gold dust used as currency in Mali under Mansa Musa's rule
-            </p>
-          </div>
-          
-          <div class="border border-amber-200 rounded-lg p-4 bg-amber-50 flex flex-col items-center">
-            <div class="w-[200px] h-[150px] bg-amber-300 mb-2 rounded flex items-center justify-center">
-              <span class="text-amber-800">Aksumite Coin Image</span>
+            <div>
+              <div class="currency-label">Used in</div>
+              <div class="currency-value">14 countries</div>
             </div>
-            <h4 class="font-semibold text-amber-800">Aksumite Coin</h4>
-            <p class="text-sm text-center mt-2">
-              Early Ethiopian coins showing kings and religious symbols (300 CE)
-            </p>
           </div>
-          
-          <div class="border border-amber-200 rounded-lg p-4 bg-amber-50 flex flex-col items-center">
-            <div class="w-[200px] h-[150px] bg-amber-300 mb-2 rounded flex items-center justify-center">
-              <span class="text-amber-800">Great Zimbabwe Image</span>
-            </div>
-            <h4 class="font-semibold text-amber-800">Great Zimbabwe</h4>
-            <p class="text-sm text-center mt-2">
-              Archaeological evidence of trade goods and wealth measures
-            </p>
-          </div>
-        </div>
-        
-        <div class="mt-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
-          <h4 class="font-semibold text-amber-800 mb-2">Key Reflection:</h4>
-          <p id="mission-reflection">Could you trade your favorite toy for something you need? What if the other person doesn't want it?</p>
-          
-          <textarea
-            class="w-full mt-4 p-3 border-2 border-amber-200 rounded focus:outline-none focus:border-amber-400 transition"
-            rows="4"
-            placeholder="Write your thoughts here..."
-          ></textarea>
+          <p>The CFA Franc was created after World War II as a currency for French colonies. It's split into two zones (West African and Central African) but maintains a fixed exchange rate with the Euro.</p>
         </div>
       </div>
     </div>
     
-    <div class="flex gap-2 justify-center mt-8">
-      <button class="w-8 h-8 rounded-full border-2 border-amber-900 pattern-spirals"></button>
-      <button class="w-8 h-8 rounded-full opacity-70 pattern-meander"></button>
-      <button class="w-8 h-8 rounded-full opacity-70 pattern-leaves"></button>
-      <button class="w-8 h-8 rounded-full opacity-70 pattern-waves"></button>
-      <button class="w-8 h-8 rounded-full opacity-70 pattern-dots"></button>
-      <button class="w-8 h-8 rounded-full opacity-70 pattern-chevron"></button>
-      <button class="w-8 h-8 rounded-full opacity-70 pattern-floral"></button>
+    <h2>History of Money in Africa</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">Pre-Colonial Era</div>
+        <p>Before European colonization, various regions of Africa used different forms of commodity money including cowry shells, beads, salt, cloth, and metal objects. Some regions developed their own forms of currency unique to their economies and trade needs.</p>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-date">Colonial Period (19th-20th Century)</div>
+        <p>European colonial powers introduced their currencies to Africa, displacing traditional forms of exchange. These colonial currencies were often linked to the metropolitan currencies of the colonizing powers (British Pound, French Franc, etc.).</p>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-date">Independence Era (1950s-1970s)</div>
+        <p>As countries gained independence, many established their own national currencies as symbols of sovereignty. Some maintained links to former colonial powers (like the CFA Franc), while others created entirely new monetary systems.</p>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-date">Structural Adjustment Period (1980s-1990s)</div>
+        <p>Many African currencies experienced severe devaluation during the debt crisis and subsequent IMF/World Bank structural adjustment programs. This period saw high inflation and currency instability across much of the continent.</p>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-date">Contemporary Period (2000s-Present)</div>
+        <p>Recent years have seen increased regional monetary integration efforts, such as the East African Community's plans for a common currency. At the same time, many countries continue to face challenges with inflation and exchange rate stability.</p>
+      </div>
+    </div>
+    
+    <h2>Bitcoin & Africa</h2>
+    <p>Bitcoin adoption is growing across Africa, potentially offering solutions to problems like high remittance costs, currency instability, and limited banking access. Countries like Nigeria, Kenya, and South Africa have seen significant cryptocurrency adoption despite regulatory challenges.</p>
+    <p>The unique monetary challenges faced by many African countries make the continent a particularly interesting case study for Bitcoin's potential as both a store of value and medium of exchange.</p>
+    
+    <div class="buttons">
+      <a href="/demo" class="button">Return to Main Demo</a>
+      <a href="/" class="button">Back to Home</a>
     </div>
   </div>
   
-  <script>
-    const missions = [
-      {
-        id: 1,
-        title: "The First Exchange — Barter Systems",
-        subtitle: "Why Barter Worked (Until It Didn't)",
-        content: `Long before coins or paper money, people traded goods directly—a system called barter. Imagine walking through a bustling African market 1,000 years ago. Traders shout, drums beat, and villagers exchange yams for pots, milk for medicine, and cloth for salt. But there's a problem: What if the salt trader doesn't want your yams?
-
-        How Barter Worked:
-        • Double Coincidence of Wants: Both traders must want what the other has.
-        • Small Communities: Easier to know neighbors' needs.
-        • No "Money" Needed: Value came from usefulness (e.g., iron tools for farming).
-
-        Why It Failed as Trade Grew:
-        • Scalability Issues: What if you need medicine but only have a goat?
-        • Perishable Goods: Milk spoils; salt lasts longer.
-        • No Standard Value: Is one pot worth 10 yams or 20?`,
-        pattern: 'spirals',
-        reflection: "Could you trade your favorite toy for something you need? What if the other person doesn't want it?",
-        hasImages: false
-      },
-      {
-        id: 2,
-        title: "Cowries & Gold Dust — Africa's First Currencies",
-        subtitle: "Shells, Gold, and Trust: The Money of Our Ancestors",
-        content: `Before European coins, African communities used beautiful, rare, or useful items as money. Let's explore three examples:
-
-        Cowrie Shells (Yoruba, West Africa):
-        • Why valuable? Rare (brought from the Indian Ocean), durable, and pretty.
-        • Used for: Buying grain, paying taxes, or even as jewelry.
-
-        Gold Dust (Akan, Ghana):
-        • Why valuable? Easy to measure, culturally sacred, and traded across the Sahara.
-        • Fun fact: Stored in tiny brass boxes called forowa.
-
-        Iron Tools (Central Africa):
-        • Why valuable? Useful for farming and building.
-        • Example: A hoe could buy a chicken or pay for a service.`,
-        pattern: 'meander',
-        reflection: "If your village used seashells as money, what would make them lose value?",
-        hasImages: false
-      },
-      {
-        id: 3,
-        title: "Colonial Coins — A Forced Revolution",
-        subtitle: "When Foreign Coins Crushed Local Systems",
-        content: `In the 19th century, European colonizers arrived with coins stamped with kings and queens. They didn't just bring money—they forced communities to use it.
-
-        How Colonial Money Disrupted Africa:
-        • Taxation: Pay taxes in British coins, not cowries or grain.
-        • Example: The Hut Tax in Sierra Leone forced farmers to sell crops for coins.
-        • Devaluing Tradition: Calling cowries "primitive" to justify control.
-        • Centralized Power: Money became controlled by outsiders, not local chiefs.`,
-        pattern: 'leaves',
-        reflection: "Is it fair to force a new money system on people? Why or why not?",
-        hasImages: false
-      },
-      {
-        id: 4,
-        title: "Hyperinflation — When Money Loses Meaning",
-        subtitle: "The Day a Billion Dollars Bought Bread",
-        content: `After independence, African nations printed their own money. But when governments printed too much, disaster struck.
-
-        Case Study: Zimbabwe (2008)
-        • What Happened: Prices doubled every day. A loaf of bread cost 2,000,000,000 Zimbabwean dollars.
-        • Why: The government printed money to pay debts, destroying trust.
-        • Result: People switched to U.S. dollars or bartered eggs for fuel.`,
-        pattern: 'waves',
-        reflection: "Would you save money if you knew it could be worthless tomorrow?",
-        hasImages: false
-      },
-      {
-        id: 5,
-        title: "Knowledge Checkpoint",
-        subtitle: "From Barter to Bitcoin: A Timeline",
-        content: `Let's review how money evolved:
-
-        • Barter: Yams for pots (no standard value).
-        • Commodity Money: Cowries, gold, iron (value from scarcity/utility).
-        • Colonial Coins: Imposed by force, centralizing power.
-        • Fiat Money: Government-issued, risk of inflation.
-        • Digital Money: Bitcoin—decentralized, like ancient trust systems.`,
-        pattern: 'dots',
-        reflection: "How has money changed from ancient times to today? What stayed the same?",
-        hasImages: false
-      },
-      {
-        id: 6,
-        title: "Ubuntu — Money Isn't Everything",
-        subtitle: "The Village That Thrived Without Coins",
-        content: `In many African communities, Ubuntu ("I am because we are") meant sharing, not selling.
-
-        Examples of Non-Money Value:
-        • Labor Exchange: Build my hut today; I'll help farm tomorrow.
-        • Social Debt: A healer gives medicine, trusting the community will support her later.
-        • Gifts: A drum teacher shares skills, earning respect (not cash).`,
-        pattern: 'chevron',
-        reflection: "Could a global economy work like a village—using trust instead of money?",
-        hasImages: false
-      },
-      {
-        id: 7,
-        title: "Bonus Mission: African Empires & Money Innovation",
-        subtitle: "Mansa Musa's Gold & Aksum's Coins: Africa's Financial Pioneers",
-        content: `Mali Empire (Gold Dust):
-        • Mansa Musa, the richest man in history, used gold dust for trade. But it wasn't coins—it relied on trust in weight and purity.
-
-        Aksumite Coins (Ethiopia):
-        • Africa's first coins (300 CE) showed kings and crosses. Proved Africa's economic power long before Europe.
-
-        Great Zimbabwe:
-        • Traded gold for Chinese porcelain but measured wealth in cattle.`,
-        pattern: 'floral',
-        hasImages: true,
-        reflection: "What surprised you most about Africa's monetary history?"
-      }
-    ];
-    
-    // DOM Elements
-    const progressBar = document.getElementById('progress-bar');
-    const missionCounter = document.getElementById('mission-counter');
-    const missionHeader = document.getElementById('mission-header');
-    const missionSubtitle = document.getElementById('mission-subtitle');
-    const missionContent = document.getElementById('mission-content');
-    const missionImages = document.getElementById('mission-images');
-    const missionReflection = document.getElementById('mission-reflection');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    
-    let currentMission = 0;
-    let completedMissions = [];
-    
-    function updateMission() {
-      const mission = missions[currentMission];
-      
-      // Update mission counter
-      missionCounter.textContent = `Mission ${mission.id} of ${missions.length}`;
-      
-      // Update header
-      missionHeader.className = `h-16 rounded-t-lg flex items-center justify-center pattern-${mission.pattern}`;
-      missionHeader.querySelector('h2').textContent = `Mission ${mission.id}: ${mission.title}`;
-      
-      // Update subtitle
-      missionSubtitle.textContent = mission.subtitle;
-      
-      // Update content
-      missionContent.innerHTML = mission.content.split('\n\n').map(paragraph => 
-        `<p class="mb-4 whitespace-pre-line">${paragraph}</p>`
-      ).join('');
-      
-      // Update images
-      missionImages.classList.toggle('hidden', !mission.hasImages);
-      
-      // Update reflection
-      missionReflection.textContent = mission.reflection;
-      
-      // Update buttons
-      prevBtn.disabled = currentMission === 0;
-      prevBtn.classList.toggle('bg-gray-300', currentMission === 0);
-      prevBtn.classList.toggle('bg-amber-600', currentMission !== 0);
-      prevBtn.classList.toggle('cursor-not-allowed', currentMission === 0);
-      
-      nextBtn.disabled = currentMission === missions.length - 1;
-      nextBtn.classList.toggle('bg-gray-300', currentMission === missions.length - 1);
-      nextBtn.classList.toggle('bg-amber-600', currentMission !== missions.length - 1);
-      nextBtn.classList.toggle('cursor-not-allowed', currentMission === missions.length - 1);
-      
-      // Update progress
-      const progress = ((completedMissions.length) / missions.length) * 100;
-      progressBar.style.width = `${progress}%`;
-      
-      // Update nav dots
-      const dots = document.querySelectorAll('.flex.gap-2.justify-center button');
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('border-2', i === currentMission);
-        dot.classList.toggle('border-amber-900', i === currentMission);
-        dot.classList.toggle('opacity-70', i !== currentMission);
-      });
-    }
-    
-    prevBtn.addEventListener('click', () => {
-      if (currentMission > 0) {
-        currentMission--;
-        updateMission();
-      }
-    });
-    
-    nextBtn.addEventListener('click', () => {
-      if (currentMission < missions.length - 1) {
-        // Mark previous mission as completed
-        if (!completedMissions.includes(missions[currentMission].id)) {
-          completedMissions.push(missions[currentMission].id);
-        }
-        
-        currentMission++;
-        updateMission();
-      }
-    });
-    
-    // Initialize
-    updateMission();
-    
-    // Add click handlers to navigation dots
-    const dots = document.querySelectorAll('.flex.gap-2.justify-center button');
-    dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => {
-        currentMission = i;
-        updateMission();
-      });
-    });
-  </script>
+  <footer>
+    <p>© 2025 Bitcoin Quest: Asha's Journey | African Currency Education Module</p>
+  </footer>
 </body>
 </html>

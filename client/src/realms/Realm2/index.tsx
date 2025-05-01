@@ -1,657 +1,459 @@
-import React from 'react';
-import { useLocation, Link } from 'wouter';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { createUseStyles } from 'react-jss';
+import { motion } from 'framer-motion';
+import {
+  Eye,
+  CreditCard,
+  CircleDollarSign,
+  BadgePercent,
+  Building,
+  Lock,
+  AlertTriangle,
+  Shield,
+  ChevronRight,
+  Star
+} from 'lucide-react';
 import theme from './styles/theme';
-import { useCommonStyles } from './styles/missionStyles';
-import { Eye, Shield, Lock, ArrowRight, AlertTriangle, Building2, BriefcaseBusiness, Landmark, Navigation, BarChart4 } from 'lucide-react';
 
-interface MissionCardProps {
+interface Mission {
   id: number;
   title: string;
+  subtitle: string;
   description: string;
   icon: React.ReactNode;
-  isCompleted?: boolean;
-  isLocked?: boolean;
-  onClick: () => void;
+  path: string;
+  unlocked: boolean;
+  completed: boolean;
+  bonus?: boolean;
 }
 
 const useStyles = createUseStyles({
   realmContainer: {
-    minHeight: '100vh',
-    backgroundColor: theme.colors.background,
-    color: theme.colors.textLight,
-    position: 'relative',
-    padding: '0 0 50px 0',
-  },
-  surveillanceBackground: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: `${theme.patterns.grid}, ${theme.backgroundTexture}`,
-    backgroundSize: '40px 40px, 100px 100px',
-    backgroundPosition: 'center center',
-    backgroundAttachment: 'fixed',
-    opacity: 0.15,
-    zIndex: 0,
-  },
-  header: {
-    backgroundColor: 'rgba(26, 26, 26, 0.8)',
-    backdropFilter: 'blur(10px)',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-    padding: '20px 0',
-    position: 'relative',
-    zIndex: 1,
-  },
-  headerContainer: {
-    width: '100%',
     maxWidth: '1200px',
     margin: '0 auto',
-    padding: '0 20px',
-    display: 'flex',
-    flexDirection: 'column',
+    padding: '40px 20px',
   },
-  navigationRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '20px',
-  },
-  backButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    border: 'none',
-    padding: '8px 15px',
-    borderRadius: theme.borderRadius.default,
-    color: theme.colors.textLight,
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-    fontSize: '0.9rem',
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    },
-  },
-  surveillanceIndicator: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '15px',
-  },
-  securityBadge: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '8px',
-    padding: '8px 12px',
-    borderRadius: '20px',
-    backgroundColor: 'rgba(255, 82, 82, 0.1)',
-    fontSize: '0.85rem',
-    color: theme.colors.primary,
-  },
-  warningBadge: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '8px',
-    padding: '8px 12px',
-    borderRadius: '20px',
-    backgroundColor: 'rgba(255, 171, 0, 0.1)',
-    fontSize: '0.85rem',
-    color: theme.colors.accent1,
-  },
-  headerContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+  realmHeader: {
     textAlign: 'center',
-    marginBottom: '30px',
+    marginBottom: '50px',
   },
   realmTitle: {
     fontSize: '3rem',
     fontWeight: 700,
-    marginBottom: '15px',
+    color: theme.colors.textLight,
+    margin: '0 0 15px 0',
+    textShadow: '0 2px 10px rgba(198, 40, 40, 0.2)',
     fontFamily: theme.fonts.heading,
-    letterSpacing: '1px',
-    background: theme.gradients.danger,
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
   },
   realmSubtitle: {
-    fontSize: '1.2rem',
+    fontSize: '1.1rem',
     color: theme.colors.softContrast,
     maxWidth: '800px',
     margin: '0 auto 20px auto',
-    lineHeight: 1.6,
+    lineHeight: '1.6',
   },
-  contentContainer: {
-    width: '100%',
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '40px 20px',
-    position: 'relative',
-    zIndex: 1,
-  },
-  introCard: {
-    backgroundColor: theme.colors.cardBackground,
+  surveillanceNote: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '8px 15px',
+    backgroundColor: 'rgba(198, 40, 40, 0.1)',
     borderRadius: theme.borderRadius.default,
-    padding: '30px',
-    boxShadow: theme.shadows.card,
-    marginBottom: '40px',
-    border: '1px solid rgba(255, 255, 255, 0.05)',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '20px',
-  },
-  introTitle: {
-    fontSize: '1.5rem',
-    fontWeight: 600,
-    color: theme.colors.textLight,
-    fontFamily: theme.fonts.heading,
-  },
-  introParagraph: {
-    fontSize: '1rem',
-    lineHeight: 1.6,
-    color: theme.colors.softContrast,
-  },
-  highlightText: {
     color: theme.colors.primary,
-    fontWeight: 500,
-  },
-  warningBox: {
-    backgroundColor: 'rgba(255, 171, 0, 0.1)',
-    border: '1px solid rgba(255, 171, 0, 0.2)',
-    borderRadius: theme.borderRadius.default,
-    padding: '15px',
-    display: 'flex',
-    gap: '15px',
-    marginTop: '20px',
-  },
-  warningIcon: {
-    color: theme.colors.accent1,
-    flexShrink: 0,
-  },
-  warningContent: {
-    fontSize: '0.95rem',
-    color: theme.colors.softContrast,
-  },
-  missionsTitle: {
-    fontSize: '2rem',
-    fontWeight: 600,
-    marginBottom: '20px',
-    color: theme.colors.textLight,
-    fontFamily: theme.fonts.heading,
+    fontSize: '0.9rem',
+    margin: '15px 0',
+    border: `1px solid ${theme.colors.primary}40`,
   },
   missionsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-    gap: '20px',
-    marginBottom: '40px',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+    gap: '25px',
+    marginTop: '30px',
   },
   missionCard: {
     backgroundColor: theme.colors.cardBackground,
     borderRadius: theme.borderRadius.default,
+    overflow: 'hidden',
     boxShadow: theme.shadows.card,
     border: '1px solid rgba(255, 255, 255, 0.05)',
-    overflow: 'hidden',
     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+    position: 'relative',
     '&:hover': {
       transform: 'translateY(-5px)',
       boxShadow: '0 8px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.07)',
+      '&:not($lockedMission) $cardOverlay': {
+        opacity: 1,
+      },
     },
   },
-  missionHeader: {
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    padding: '15px',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '15px',
+  completedMission: {
+    borderColor: 'rgba(76, 175, 80, 0.3)',
+    '&:after': {
+      content: '"✓"',
+      position: 'absolute',
+      top: '15px',
+      right: '15px',
+      width: '30px',
+      height: '30px',
+      backgroundColor: 'rgba(76, 175, 80, 0.2)',
+      color: '#4caf50',
+      fontSize: '1.2rem',
+      fontWeight: 'bold',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: '50%',
+      zIndex: 2,
+    },
+  },
+  bonusMission: {
+    borderColor: 'rgba(255, 193, 7, 0.3)',
+    '&:before': {
+      content: '"★"',
+      position: 'absolute',
+      top: '15px',
+      left: '15px',
+      width: '30px',
+      height: '30px',
+      backgroundColor: 'rgba(255, 193, 7, 0.2)',
+      color: '#ffc107',
+      fontSize: '1.2rem',
+      fontWeight: 'bold',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: '50%',
+      zIndex: 2,
+    },
+  },
+  lockedMission: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    '&:before': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      zIndex: 1,
+    },
+  },
+  cardBody: {
+    padding: '20px',
+    position: 'relative',
+    zIndex: 1,
   },
   missionIcon: {
-    backgroundColor: 'rgba(198, 40, 40, 0.1)',
-    width: '40px',
-    height: '40px',
+    width: '50px',
+    height: '50px',
     borderRadius: '50%',
+    backgroundColor: 'rgba(198, 40, 40, 0.1)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    margin: '0 0 15px 0',
     color: theme.colors.primary,
   },
-  missionNumber: {
-    fontSize: '0.85rem',
-    color: theme.colors.softContrast,
-    marginBottom: '5px',
-  },
   missionTitle: {
-    fontSize: '1.1rem',
+    fontSize: '1.5rem',
     fontWeight: 600,
     color: theme.colors.textLight,
+    margin: '0 0 10px 0',
+    fontFamily: theme.fonts.heading,
   },
-  missionContent: {
-    padding: '15px',
-    flexGrow: 1,
-    display: 'flex',
-    flexDirection: 'column',
+  missionSubtitle: {
+    color: theme.colors.primary,
+    fontSize: '0.9rem',
+    marginBottom: '10px',
+    fontWeight: 500,
   },
   missionDescription: {
-    fontSize: '0.95rem',
     color: theme.colors.softContrast,
-    marginBottom: '20px',
-    lineHeight: 1.5,
-    flexGrow: 1,
+    fontSize: '0.95rem',
+    lineHeight: '1.6',
+    marginBottom: '15px',
   },
-  missionButton: {
-    backgroundColor: theme.colors.primary,
-    color: 'white',
-    border: 'none',
-    padding: '10px 15px',
-    borderRadius: theme.borderRadius.default,
-    cursor: 'pointer',
-    fontWeight: 500,
-    fontSize: '0.9rem',
-    display: 'flex',
+  startButton: {
+    display: 'inline-flex',
     alignItems: 'center',
-    justifyContent: 'center',
     gap: '8px',
+    padding: '10px 20px',
+    backgroundColor: 'rgba(198, 40, 40, 0.2)',
+    border: 'none',
+    borderRadius: theme.borderRadius.button,
+    color: theme.colors.primary,
+    fontSize: '0.9rem',
+    fontWeight: 600,
+    cursor: 'pointer',
     transition: 'background-color 0.3s',
-    marginTop: 'auto',
     '&:hover': {
-      backgroundColor: theme.colors.primaryAccent,
-    },
-    '&:disabled': {
-      backgroundColor: theme.colors.secondaryAccent,
-      cursor: 'not-allowed',
-      opacity: 0.7,
+      backgroundColor: 'rgba(198, 40, 40, 0.3)',
     },
   },
-  completedBadge: {
-    backgroundColor: 'rgba(76, 175, 80, 0.1)',
-    color: '#4caf50',
-    padding: '4px 8px',
-    borderRadius: theme.borderRadius.full,
-    fontSize: '0.75rem',
-    fontWeight: 500,
-    marginLeft: 'auto',
+  lockedIcon: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    color: 'rgba(255, 255, 255, 0.3)',
+    zIndex: 2,
+    fontSize: '3rem',
   },
-  lockedOverlay: {
+  cardOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    backdropFilter: 'blur(3px)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    gap: '10px',
-    zIndex: 2,
-    borderRadius: theme.borderRadius.default,
+    background: 'linear-gradient(to bottom, rgba(198, 40, 40, 0.0), rgba(198, 40, 40, 0.1))',
+    opacity: 0,
+    transition: 'opacity 0.3s ease',
+    zIndex: 0,
   },
-  lockedIcon: {
-    color: theme.colors.textLight,
-    opacity: 0.7,
+  realmProgress: {
+    maxWidth: '600px',
+    margin: '0 auto 30px auto',
   },
-  lockedText: {
-    color: theme.colors.textLight,
-    opacity: 0.7,
-    fontSize: '0.9rem',
-    fontWeight: 500,
-  },
-  bonusSection: {
-    marginTop: '40px',
-  },
-  bonusTitle: {
-    fontSize: '1.5rem',
-    fontWeight: 600,
-    marginBottom: '20px',
-    color: theme.colors.textLight,
-    fontFamily: theme.fonts.heading,
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-  },
-  bonusBadge: {
-    backgroundColor: 'rgba(255, 171, 0, 0.1)',
-    color: theme.colors.accent1,
-    padding: '4px 8px',
-    borderRadius: theme.borderRadius.full,
-    fontSize: '0.8rem',
-    fontWeight: 500,
-  },
-  bonusCard: {
-    backgroundColor: theme.colors.cardBackground,
-    borderRadius: theme.borderRadius.default,
-    boxShadow: theme.shadows.card,
-    border: '1px solid rgba(255, 255, 255, 0.05)',
-    overflow: 'hidden',
-    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-    '&:hover': {
-      transform: 'translateY(-5px)',
-      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.07)',
-    },
-  },
-  bonusHeader: {
-    backgroundColor: 'rgba(255, 171, 0, 0.1)',
-    padding: '15px',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '15px',
-  },
-  bonusIcon: {
-    backgroundColor: 'rgba(255, 171, 0, 0.1)',
-    width: '40px',
-    height: '40px',
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: theme.colors.accent1,
-  },
-  bonusContent: {
-    padding: '20px',
-  },
-  bonusDescription: {
-    fontSize: '0.95rem',
-    color: theme.colors.softContrast,
-    marginBottom: '20px',
-    lineHeight: 1.5,
-  },
-  bonusButton: {
-    backgroundColor: theme.colors.accent1,
-    color: 'white',
-    border: 'none',
-    padding: '10px 15px',
-    borderRadius: theme.borderRadius.default,
-    cursor: 'pointer',
-    fontWeight: 500,
-    fontSize: '0.9rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '8px',
-    transition: 'background-color 0.3s',
-    '&:hover': {
-      backgroundColor: `${theme.colors.accent1}d0`,
-    },
-    '&:disabled': {
-      backgroundColor: theme.colors.secondaryAccent,
-      cursor: 'not-allowed',
-      opacity: 0.7,
-    },
-  },
-  surveillanceNotice: {
-    position: 'fixed',
-    bottom: '20px',
-    right: '20px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    backgroundColor: 'rgba(26, 26, 26, 0.8)',
-    backdropFilter: 'blur(5px)',
-    padding: '10px 15px',
-    borderRadius: '30px',
-    border: `1px solid ${theme.colors.primary}40`,
-    zIndex: 100,
-    fontSize: '0.85rem',
-    color: theme.colors.textLight,
-    boxShadow: '0 5px 15px rgba(0, 0, 0, 0.3)',
-  },
-  blinkingDot: {
-    width: '8px',
+  progressContainer: {
     height: '8px',
-    borderRadius: '50%',
-    backgroundColor: theme.colors.primary,
-    animation: '$pulse 2s infinite',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: theme.borderRadius.full,
+    margin: '10px 0',
+    overflow: 'hidden',
   },
-  '@keyframes pulse': {
-    '0%': { opacity: 0.4 },
-    '50%': { opacity: 1 },
-    '100%': { opacity: 0.4 },
+  progressBar: {
+    height: '100%',
+    backgroundColor: theme.colors.primary,
+    borderRadius: theme.borderRadius.full,
+    transition: 'width 0.5s ease-out',
+  },
+  progressText: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    color: theme.colors.softContrast,
+    fontSize: '0.9rem',
+  },
+  securityLevels: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '15px',
+    justifyContent: 'center',
+    marginTop: '15px',
+  },
+  securityBadge: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '8px 15px',
+    borderRadius: theme.borderRadius.full,
+    fontSize: '0.85rem',
+    fontWeight: 500,
+  },
+  lowSecurity: {
+    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+    border: '1px solid rgba(76, 175, 80, 0.2)',
+    color: '#4caf50',
+  },
+  mediumSecurity: {
+    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+    border: '1px solid rgba(255, 193, 7, 0.2)',
+    color: '#ffc107',
+  },
+  highSecurity: {
+    backgroundColor: 'rgba(198, 40, 40, 0.1)',
+    border: '1px solid rgba(198, 40, 40, 0.2)',
+    color: theme.colors.primary,
   },
 });
 
-// Mission card component
-const MissionCard: React.FC<MissionCardProps> = ({ 
-  id, 
-  title, 
-  description, 
-  icon, 
-  isCompleted = false, 
-  isLocked = false,
-  onClick 
-}) => {
-  const classes = useStyles();
-  
-  return (
-    <div className={classes.missionCard} style={{ position: 'relative' }}>
-      <div className={classes.missionHeader}>
-        <div className={classes.missionIcon}>
-          {icon}
-        </div>
-        <div>
-          <div className={classes.missionNumber}>Mission 2.{id}</div>
-          <div className={classes.missionTitle}>{title}</div>
-        </div>
-        {isCompleted && (
-          <div className={classes.completedBadge}>Completed</div>
-        )}
-      </div>
-      <div className={classes.missionContent}>
-        <div className={classes.missionDescription}>{description}</div>
-        <button 
-          className={classes.missionButton} 
-          onClick={onClick}
-          disabled={isLocked}
-        >
-          Start Mission <ArrowRight size={16} />
-        </button>
-      </div>
-      
-      {isLocked && (
-        <div className={classes.lockedOverlay}>
-          <Lock size={24} className={classes.lockedIcon} />
-          <div className={classes.lockedText}>Complete previous missions to unlock</div>
-        </div>
-      )}
-    </div>
-  );
-};
-
 const Realm2: React.FC = () => {
   const classes = useStyles();
-  const commonClasses = useCommonStyles();
   const [, setLocation] = useLocation();
+  // In a real implementation, this progress would be fetched from a global state or API
+  const [progress, setProgress] = useState({
+    completedMissions: [1],
+    totalMissions: 7,
+    highestUnlockedMission: 2
+  });
   
-  // Mission data
-  const missions = [
+  const missions: Mission[] = [
     {
       id: 1,
-      title: "Who Controls the Money?",
-      description: "Explore central banking systems and how monetary policy decisions impact different groups in society. Experience the power dynamics of controlling a nation's money supply.",
-      icon: <Landmark size={20} />,
-      path: "/realm2/mission/1",
-      isCompleted: false,
-      isLocked: false
+      title: "Central Banking Control",
+      subtitle: "Money Printers & Monetary Policy",
+      description: "Take control of a central bank and witness firsthand how monetary policy decisions impact an economy and the value of currency.",
+      icon: <Building size={24} />,
+      path: "/realm/2/mission/1",
+      unlocked: true,
+      completed: progress.completedMissions.includes(1)
     },
     {
       id: 2,
-      title: "The Silent Tax — Inflation",
-      description: "Understand how inflation erodes savings and functions as a hidden tax. Witness how monetary debasement affects different social classes over time.",
-      icon: <BarChart4 size={20} />,
-      path: "/realm2/mission/2", 
-      isCompleted: false,
-      isLocked: true
+      title: "The Silent Tax",
+      subtitle: "Understanding Inflation",
+      description: "Explore how inflation erodes purchasing power over time and why it's considered a hidden tax that affects everyone.",
+      icon: <CircleDollarSign size={24} />,
+      path: "/realm/2/mission/2",
+      unlocked: progress.highestUnlockedMission >= 2,
+      completed: progress.completedMissions.includes(2)
     },
     {
       id: 3,
-      title: "Surveillance & Censorship",
-      description: "Discover how digital payment systems enable financial surveillance and censorship. Trace the flow of sensitive transaction data through the financial system.",
-      icon: <Eye size={20} />,
-      path: "/realm2/mission/3",
-      isCompleted: false,
-      isLocked: true
+      title: "Digital Surveillance",
+      subtitle: "Finance in the Surveillance Age",
+      description: "Discover how traditional financial systems enable surveillance and how this impacts privacy and freedom.",
+      icon: <Eye size={24} />,
+      path: "/realm/2/mission/3",
+      unlocked: progress.highestUnlockedMission >= 3,
+      completed: progress.completedMissions.includes(3)
     },
     {
       id: 4,
-      title: "Financial Exclusion in Africa",
-      description: "Learn about who is locked out of banking systems and why. Connect barriers to financial access with affected populations across the continent.",
-      icon: <Building2 size={20} />,
-      path: "/realm2/mission/4",
-      isCompleted: false,
-      isLocked: true
+      title: "The Hidden Costs",
+      subtitle: "Banking Fees & Access",
+      description: "Uncover the often hidden costs of traditional banking and how they create barriers to financial inclusion.",
+      icon: <CreditCard size={24} />,
+      path: "/realm/2/mission/4",
+      unlocked: progress.highestUnlockedMission >= 4,
+      completed: progress.completedMissions.includes(4)
     },
     {
       id: 5,
-      title: "Knowledge Test — Fiat vs Freedom",
-      description: "Test your knowledge of fiat money vulnerabilities and their impact on personal sovereignty through challenging scenario-based questions.",
-      icon: <BriefcaseBusiness size={20} />,
-      path: "/realm2/mission/5",
-      isCompleted: false,
-      isLocked: true
+      title: "Confiscation Risk",
+      subtitle: "Asset Seizure & Bail-ins",
+      description: "Learn about the risks of having assets in traditional financial systems, including seizures, bail-ins, and capital controls.",
+      icon: <AlertTriangle size={24} />,
+      path: "/realm/2/mission/5",
+      unlocked: progress.highestUnlockedMission >= 5,
+      completed: progress.completedMissions.includes(5)
     },
     {
       id: 6,
-      title: "The Rise of the Dollar",
-      description: "Trace the global dominance of the dollar from Bretton Woods to the petrodollar system. Visualize international money flows and power dynamics.",
-      icon: <Navigation size={20} />,
-      path: "/realm2/mission/6",
-      isCompleted: false,
-      isLocked: true
+      title: "The Alternative",
+      subtitle: "Bitcoin's Value Proposition",
+      description: "Explore how Bitcoin provides an alternative to surveillance-based financial systems and protection against monetary policy.",
+      icon: <Shield size={24} />,
+      path: "/realm/2/mission/6",
+      unlocked: progress.highestUnlockedMission >= 6,
+      completed: progress.completedMissions.includes(6)
     },
+    {
+      id: 7,
+      title: "Financial Sovereignty",
+      subtitle: "BONUS: Taking Control",
+      description: "A special challenge to test your understanding of financial sovereignty and how to maintain privacy in the digital age.",
+      icon: <Star size={24} />,
+      path: "/realm/2/mission/bonus",
+      unlocked: progress.highestUnlockedMission >= 7,
+      completed: progress.completedMissions.includes(7),
+      bonus: true
+    }
   ];
   
-  const handleBack = () => {
-    setLocation('/home');
+  const calculateProgress = (): number => {
+    return (progress.completedMissions.length / progress.totalMissions) * 100;
   };
   
-  const handleMissionClick = (path: string) => {
-    setLocation(path);
+  const handleMissionClick = (mission: Mission) => {
+    if (mission.unlocked) {
+      setLocation(mission.path);
+    }
   };
   
-  const handleBonusMissionClick = () => {
-    setLocation('/realm2/mission/bonus');
-  };
-
   return (
     <div className={classes.realmContainer}>
-      {/* Background with surveillance grid pattern */}
-      <div className={classes.surveillanceBackground} />
-      
-      {/* Header */}
-      <header className={classes.header}>
-        <div className={classes.headerContainer}>
-          <div className={classes.navigationRow}>
-            <button className={classes.backButton} onClick={handleBack}>
-              ← Back to Home
-            </button>
-            
-            <div className={classes.surveillanceIndicator}>
-              <div className={classes.securityBadge}>
-                <Shield size={14} />
-                <span>Privacy Mode Active</span>
-              </div>
-              <div className={classes.warningBadge}>
-                <AlertTriangle size={14} />
-                <span>Surveillance Zone</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className={classes.headerContent}>
-            <h1 className={classes.realmTitle}>The Central Citadel</h1>
-            <p className={classes.realmSubtitle}>
-              Navigate the panopticon of financial control using ancestral wisdom and crypto tools. In this surveillance city, you'll discover how money is controlled, monitored, and weaponized — and how to resist these systems.
-            </p>
-          </div>
+      <motion.div 
+        className={classes.realmHeader}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1 className={classes.realmTitle}>Realm 2: The Surveillance City</h1>
+        <p className={classes.realmSubtitle}>
+          Welcome to Neo-Surveillance, where financial control and monetary policy rule the day.
+          In this realm, you'll explore how traditional financial systems enable surveillance and control,
+          and how this impacts your freedom and privacy.
+        </p>
+        
+        <div className={classes.surveillanceNote}>
+          <Eye size={18} />
+          <span>Your activities in this realm are being monitored by the Central Authority</span>
         </div>
-      </header>
-      
-      {/* Main content */}
-      <main className={classes.contentContainer}>
-        {/* Introduction */}
-        <div className={classes.introCard}>
-          <h2 className={classes.introTitle}>Welcome to the Surveillance City</h2>
-          <p className={classes.introParagraph}>
-            In this realm, you will navigate a dystopian city where financial control systems are fully deployed. Central authorities monitor and control the flow of money, creating both winners and losers through their policies. You'll learn how inflation silently erodes savings, how surveillance systems track financial movements, and how these systems exclude many from participation.
-          </p>
-          <p className={classes.introParagraph}>
-            But more importantly, you'll discover tools and strategies to <span className={classes.highlightText}>protect your financial sovereignty</span> in such a world. Each mission will reveal both the challenges and the solutions available to those who seek financial freedom.
-          </p>
+        
+        <div className={classes.securityLevels}>
+          <div className={`${classes.securityBadge} ${classes.lowSecurity}`}>
+            <Shield size={14} />
+            <span>Low Security Level</span>
+          </div>
           
-          <div className={classes.warningBox}>
-            <AlertTriangle className={classes.warningIcon} size={24} />
-            <div className={classes.warningContent}>
-              <strong>Security Alert:</strong> This realm contains sensitive information about financial control systems. Be aware that knowledge of these systems may change how you view the existing financial order. Proceed with caution and an open mind.
-            </div>
+          <div className={`${classes.securityBadge} ${classes.mediumSecurity}`}>
+            <AlertTriangle size={14} />
+            <span>Medium Security Level</span>
+          </div>
+          
+          <div className={`${classes.securityBadge} ${classes.highSecurity}`}>
+            <Lock size={14} />
+            <span>High Security Level</span>
           </div>
         </div>
         
-        {/* Missions */}
-        <h2 className={classes.missionsTitle}>Available Missions</h2>
-        <div className={classes.missionsGrid}>
-          {missions.map((mission) => (
-            <MissionCard
-              key={mission.id}
-              id={mission.id}
-              title={mission.title}
-              description={mission.description}
-              icon={mission.icon}
-              isCompleted={mission.isCompleted}
-              isLocked={mission.isLocked}
-              onClick={() => handleMissionClick(mission.path)}
+        <div className={classes.realmProgress}>
+          <div className={classes.progressContainer}>
+            <div 
+              className={classes.progressBar} 
+              style={{ width: `${calculateProgress()}%` }}
             />
-          ))}
-        </div>
-        
-        {/* Bonus Mission */}
-        <div className={classes.bonusSection}>
-          <h2 className={classes.bonusTitle}>
-            Bonus Mission <span className={classes.bonusBadge}>Special Challenge</span>
-          </h2>
-          
-          <div className={classes.bonusCard}>
-            <div className={classes.bonusHeader}>
-              <div className={classes.bonusIcon}>
-                <Shield size={20} />
-              </div>
-              <div>
-                <div className={classes.missionNumber}>Special Challenge</div>
-                <div className={classes.missionTitle}>Whisper Networks: Escape the Surveillance</div>
-              </div>
-            </div>
-            <div className={classes.bonusContent}>
-              <div className={classes.bonusDescription}>
-                Discover how people resist financial control through informal networks. Help Asha route a remittance through Bitcoin or Hawala systems while dodging censorship traps. Learn about traditional and modern ways communities route around financial control.
-              </div>
-              <button 
-                className={classes.bonusButton} 
-                onClick={handleBonusMissionClick}
-                disabled={true} // Locked until main missions are completed
-              >
-                Unlock Challenge <Lock size={16} />
-              </button>
-            </div>
+          </div>
+          <div className={classes.progressText}>
+            <span>Progress: {progress.completedMissions.length}/{progress.totalMissions} missions</span>
+            <span>{calculateProgress().toFixed(0)}% complete</span>
           </div>
         </div>
-      </main>
+      </motion.div>
       
-      {/* Fixed surveillance indicator */}
-      <div className={classes.surveillanceNotice}>
-        <div className={classes.blinkingDot} />
-        <Lock size={14} />
-        <span>Connection Encrypted</span>
-        <div className={classes.blinkingDot} />
-        <Shield size={14} />
-        <span>Firewall Active</span>
-        <div className={classes.blinkingDot} />
-        <Eye size={14} />
-        <span>3 Surveillance Attempts Blocked</span>
+      <div className={classes.missionsGrid}>
+        {missions.map((mission) => (
+          <motion.div 
+            key={mission.id}
+            className={`
+              ${classes.missionCard}
+              ${mission.completed ? classes.completedMission : ''}
+              ${mission.bonus ? classes.bonusMission : ''}
+              ${!mission.unlocked ? classes.lockedMission : ''}
+            `}
+            onClick={() => handleMissionClick(mission)}
+            whileHover={mission.unlocked ? { scale: 1.03 } : {}}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: mission.id * 0.1 }}
+          >
+            <div className={classes.cardOverlay} />
+            
+            {!mission.unlocked && (
+              <div className={classes.lockedIcon}>
+                <Lock size={50} />
+              </div>
+            )}
+            
+            <div className={classes.cardBody}>
+              <div className={classes.missionIcon}>
+                {mission.icon}
+              </div>
+              <h3 className={classes.missionTitle}>Mission {mission.id}: {mission.title}</h3>
+              <div className={classes.missionSubtitle}>{mission.subtitle}</div>
+              <p className={classes.missionDescription}>{mission.description}</p>
+              
+              {mission.unlocked && (
+                <button className={classes.startButton}>
+                  {mission.completed ? 'Replay Mission' : 'Start Mission'}
+                  <ChevronRight size={16} />
+                </button>
+              )}
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );

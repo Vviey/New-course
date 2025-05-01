@@ -17,6 +17,7 @@ export const theme = {
     softContrast: '#78909c',
     gradientStart: '#1a1a1a',
     gradientEnd: '#292929',
+    danger: '#ff0000', // Red for danger/error messages
   },
   patterns: {
     grid: 'repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 40px)',
@@ -46,6 +47,9 @@ export const theme = {
     default: '8px',
     large: '12px',
     full: '9999px',
+    input: '6px',
+    button: '8px',
+    card: '10px',  // Adding card border radius
   },
   patternClass: 'surveillance-pattern',
   backgroundTexture: 'url("/images/noise-texture.png")',

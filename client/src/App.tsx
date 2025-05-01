@@ -16,7 +16,6 @@ import MapPage from "@/pages/MapPage";
 import NotFound from "@/pages/not-found";
 import StoryIntroPage from "@/pages/StoryIntroPage";
 import Realm1Page from "@/pages/Realm1Page";
-import Realm2Page from "@/pages/Realm2Page";
 import RealmPage from "@/pages/RealmPage";
 import MissionPage from "@/pages/MissionPage";
 import AfricaMapPage from "@/pages/AfricaMapPage";
@@ -30,13 +29,17 @@ import Realm1Mission from "@/pages/Realm 1/Missions";
 import Realm1Story from "@/pages/Realm 1/story-intro";
 import Realm1Home from "@/pages/Realm 1/home";
 
-// Import Realm 2 components
-import Realm2Home from "@/pages/Realm 2/index";
-// Legacy import, to be removed when full migration to realms structure is complete
-// import Realm2Mission from "@/pages/realm2/Mission";
-// New Realm 2 components with improved architecture
+// Import Realm 2 components with improved architecture
 import Realm2Index from "@/realms/Realm2";
 import Realm2Mission1 from "@/realms/Realm2/Mission1";
+import Realm2Mission2 from "@/realms/Realm2/Mission2";
+import Realm2Mission3 from "@/realms/Realm2/Mission3";
+import Realm2Mission4 from "@/realms/Realm2/Mission4";
+import Realm2Mission5 from "@/realms/Realm2/Mission5";
+import Realm2Mission6 from "@/realms/Realm2/Mission6";
+import Realm2MissionBonus from "@/realms/Realm2/MissionBonus";
+// Legacy components - kept for compatibility
+import Realm2Page from "@/pages/Realm2Page";
 
 // Import Realm 3 components
 import Realm3Home from "@/pages/realm3/Home";
@@ -89,9 +92,16 @@ function App() {
           <ProtectedRoute path="/realm/1/mission/bonus" component={MissionPage} /> {/* Bonus Mission */}
           
           {/* Realm 2 specific routes */}
-          <ProtectedRoute path="/realm/2/index" component={Realm2Home} />
+          <ProtectedRoute path="/realm/2/index" component={Realm2Index} />
+          <ProtectedRoute path="/realm/2/mission/1" component={Realm2Mission1} />
+          <ProtectedRoute path="/realm/2/mission/2" component={Realm2Mission2} />
+          <ProtectedRoute path="/realm/2/mission/3" component={Realm2Mission3} />
+          <ProtectedRoute path="/realm/2/mission/4" component={Realm2Mission4} />
+          <ProtectedRoute path="/realm/2/mission/5" component={Realm2Mission5} />
+          <ProtectedRoute path="/realm/2/mission/6" component={Realm2Mission6} />
+          <ProtectedRoute path="/realm/2/mission/bonus" component={Realm2MissionBonus} />
           <ProtectedRoute path="/realm/2/mission/:missionId" component={MissionPage} />
-          <ProtectedRoute path="/realm/2" component={Realm2Home} />
+          <ProtectedRoute path="/realm/2" component={Realm2Index} />
           
           {/* Realm 3 specific routes */}
           <ProtectedRoute path="/realm/3/home" component={Realm3Home} />
@@ -103,6 +113,7 @@ function App() {
           {/* Realm 2 direct routes */}
           <ProtectedRoute path="/realm2" component={Realm2Index} />
           <ProtectedRoute path="/realm2/mission/1" component={Realm2Mission1} />
+          <ProtectedRoute path="/realm2/mission/2" component={Realm2Mission2} />
           <ProtectedRoute path="/realm2/mission/:id" component={MissionPage} />
           
           {/* Realm 4 direct routes */}

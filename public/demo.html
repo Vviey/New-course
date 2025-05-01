@@ -3,241 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bitcoin Quest - Realm 1 Demo</title>
+  <title>Bitcoin Quest Demo</title>
   <style>
-    :root {
-      --primary: #EE720B;
-      --secondary: #FFC567;
-      --background: #3E1E00;
-      --background-light: #70350A;
-      --card-bg: #FBF4D2;
-      --text-dark: #3E1E00;
-      --text-light: #FBF4D2;
-      --accent1: #EB5A00;
-      --accent2: #DB9D47;
-    }
-    
     body {
-      background-color: var(--background);
-      color: var(--text-light);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      padding: 2rem;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #1a1a1a;
+      color: #f0f0f0;
       margin: 0;
-      min-height: 100vh;
-    }
-    
-    header {
-      max-width: 1200px;
-      margin: 0 auto 2rem;
-    }
-    
-    h1 {
-      color: var(--secondary);
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .description {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      color: var(--secondary);
-      font-style: italic;
-    }
-    
-    .mission-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .mission-card {
-      background-color: var(--card-bg);
-      border-radius: 0.75rem;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-    }
-    
-    .mission-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
-    }
-    
-    .mission-content {
-      padding: 1.5rem;
-    }
-    
-    .mission-title {
-      color: var(--text-dark);
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
+      padding: 0;
       display: flex;
-      justify-content: space-between;
-    }
-    
-    .mission-subtitle {
-      color: var(--text-dark);
-      opacity: 0.8;
-      margin-bottom: 1rem;
-    }
-    
-    .mission-number {
-      background-color: var(--primary);
-      color: white;
-      font-size: 0.875rem;
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-    }
-    
-    .mission-footer {
-      display: flex;
-      justify-content: flex-end;
-    }
-    
-    button {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 0.375rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    
-    button:hover {
-      background-color: var(--accent1);
-    }
-    
-    .back-button {
-      display: inline-flex;
+      flex-direction: column;
       align-items: center;
-      background: none;
-      color: var(--secondary);
-      padding: 0.5rem;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      padding: 2rem;
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    h1 {
+      color: #c62828;
       margin-bottom: 1rem;
     }
-    
-    .back-button:hover {
-      background: none;
-      color: var(--text-light);
+    p {
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    a.button {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: #c62828;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    a.button:hover {
+      background-color: #e53935;
+      transform: translateY(-2px);
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Realm of Origins</h1>
-    <p class="description">The journey begins here, exploring the ancient beginnings of money and trade in human societies</p>
-  </header>
-  
-  <main>
-    <div class="mission-grid">
-      <!-- Mission 1 -->
-      <div class="mission-card">
-        <div class="mission-content">
-          <div class="mission-title">
-            <span>The First Exchange</span>
-            <span class="mission-number">1</span>
-          </div>
-          <div class="mission-subtitle">Understanding Barter Systems</div>
-          <p>In this mission, you'll explore the ancient practice of bartering, the earliest form of economic exchange before the invention of money.</p>
-          <div class="mission-footer">
-            <button>Start Mission</button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Mission 2 -->
-      <div class="mission-card">
-        <div class="mission-content">
-          <div class="mission-title">
-            <span>Evolution of Money</span>
-            <span class="mission-number">2</span>
-          </div>
-          <div class="mission-subtitle">From Shells to Metal Coins</div>
-          <p>Trace the fascinating journey of how money evolved from commodity money like shells and beads to the first standardized metal coins.</p>
-          <div class="mission-footer">
-            <button>Start Mission</button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Mission 3 -->
-      <div class="mission-card">
-        <div class="mission-content">
-          <div class="mission-title">
-            <span>The Value of Money</span>
-            <span class="mission-number">3</span>
-          </div>
-          <div class="mission-subtitle">Understanding Inflation Over Time</div>
-          <p>Experience how the value of money can change over time through inflation. This simulation will show you how prices of everyday items change.</p>
-          <div class="mission-footer">
-            <button>Start Mission</button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Mission 4 -->
-      <div class="mission-card">
-        <div class="mission-content">
-          <div class="mission-title">
-            <span>Money Properties</span>
-            <span class="mission-number">4</span>
-          </div>
-          <div class="mission-subtitle">What Makes Good Money?</div>
-          <p>Test your knowledge about the key properties that make good money. Different forms of money have succeeded or failed based on these characteristics.</p>
-          <div class="mission-footer">
-            <button>Start Mission</button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Mission 5 -->
-      <div class="mission-card">
-        <div class="mission-content">
-          <div class="mission-title">
-            <span>Ancient Trade Routes</span>
-            <span class="mission-number">5</span>
-          </div>
-          <div class="mission-subtitle">How Money Facilitates Trade</div>
-          <p>Explore ancient African trade routes and see how the introduction of standardized forms of money facilitated trade across vast distances.</p>
-          <div class="mission-footer">
-            <button>Start Mission</button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Mission 6 -->
-      <div class="mission-card">
-        <div class="mission-content">
-          <div class="mission-title">
-            <span>Value and Time</span>
-            <span class="mission-number">6</span>
-          </div>
-          <div class="mission-subtitle">Reflections on Money</div>
-          <p>Take time to reflect on what you've learned about the origins of money, considering how it has evolved over time and how its properties relate to modern concepts of value.</p>
-          <div class="mission-footer">
-            <button>Start Mission</button>
-          </div>
-        </div>
-      </div>
+  <div class="container">
+    <h1>Bitcoin Quest: Demo</h1>
+    <p>Welcome to the demo page for Bitcoin Quest. This page allows you to directly access different missions in Realm 2: The Surveillance City.</p>
+    
+    <div class="buttons">
+      <a href="/realm/2/mission/1" class="button">Mission 1: Central Banking Simulator</a>
+      <a href="/realm/2/mission/2" class="button">Mission 2: Inflation Time Machine</a>
+      <a href="/realm/2/mission/3" class="button">Mission 3: Digital Surveillance</a>
+      <a href="/realm/2/mission/4" class="button">Mission 4: Cryptographic Shield</a>
+      <a href="/realm/2/mission/5" class="button">Mission 5: Legacy Finance Architecture</a>
+      <a href="/realm/2/mission/6" class="button">Mission 6: Knowledge Challenge</a>
+      <a href="/realm/2/mission/bonus" class="button">Bonus: Bitcoin's Evolution</a>
     </div>
-  </main>
-  
-  <script>
-    // Simple interaction for demo purposes
-    document.querySelectorAll('.mission-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const missionTitle = card.querySelector('.mission-title span').textContent;
-        alert(`You clicked on mission: ${missionTitle}. In the full application, this would navigate to the mission page.`);
-      });
-    });
-  </script>
+    
+    <p style="margin-top: 2rem;">Return to <a href="/" style="color: #90caf9;">home page</a>.</p>
+  </div>
 </body>
 </html>

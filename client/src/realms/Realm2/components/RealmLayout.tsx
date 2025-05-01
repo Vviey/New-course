@@ -11,9 +11,25 @@ interface RealmLayoutProps {
   subtitle?: string;
   showBackButton?: boolean;
   backTo?: string;
+  onBack?: () => void;
+  progress?: number;
 }
 
 const useStyles = createUseStyles({
+  progressBar: {
+    width: '100%',
+    height: '4px',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 15,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: theme.colors.primary,
+    transition: 'width 0.5s ease',
+  },
   header: {
     backgroundColor: 'rgba(26, 26, 26, 0.8)',
     backdropFilter: 'blur(10px)',
@@ -171,7 +187,9 @@ const RealmLayout: React.FC<RealmLayoutProps> = ({
   title, 
   subtitle,
   showBackButton = true,
-  backTo = '/realm/2'
+  backTo = '/realm/2',
+  onBack,
+  progress
 }) => {
   const commonClasses = useCommonStyles();
   const classes = useStyles();
@@ -189,7 +207,11 @@ const RealmLayout: React.FC<RealmLayoutProps> = ({
   }, []);
   
   const handleBackClick = () => {
-    setLocation(backTo);
+    if (onBack) {
+      onBack();
+    } else {
+      setLocation(backTo);
+    }
   };
 
   return (
@@ -203,6 +225,16 @@ const RealmLayout: React.FC<RealmLayoutProps> = ({
     }}>
       {/* Background with surveillance grid pattern */}
       <div className={commonClasses.surveillanceBackground} />
+      
+      {/* Progress bar */}
+      {progress !== undefined && (
+        <div className={classes.progressBar}>
+          <div 
+            className={classes.progressFill} 
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      )}
       
       {/* Header */}
       <header className={classes.header}>
