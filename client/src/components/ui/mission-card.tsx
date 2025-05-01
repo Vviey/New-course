@@ -1,103 +1,125 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
+import { originTheme } from '@/lib/realm-themes';
 
-interface MissionCardProps {
+export interface MissionCardProps {
+  id: number;
   title: string;
   description: string;
-  imageUrl?: string;
+  imageUrl: string;
+  duration: number;
+  points: number;
   isCompleted?: boolean;
+  isRecommended?: boolean;
   isLocked?: boolean;
-  missionId: number;
+  realmId: number;
 }
 
 export function MissionCard({
+  id,
   title,
   description,
   imageUrl,
+  duration,
+  points,
   isCompleted = false,
+  isRecommended = false,
   isLocked = false,
-  missionId
+  realmId
 }: MissionCardProps) {
   const [, setLocation] = useLocation();
-  const [hover, setHover] = useState(false);
-
-  // Random placeholder images for mission types
-  const placeholderImages = [
-    '/mission-placeholders/bartering.jpg',
-    '/mission-placeholders/coins.jpg',
-    '/mission-placeholders/digital.jpg',
-    '/mission-placeholders/trade.jpg',
-    '/mission-placeholders/quiz.jpg'
-  ];
-
-  // Select a random image for missions that don't have one
-  const randomImage = imageUrl || placeholderImages[missionId % placeholderImages.length];
-
+  const [isHovered, setIsHovered] = useState(false);
+  
+  // Use Origins theme for now
+  const theme = originTheme;
+  
   const handleClick = () => {
     if (!isLocked) {
-      setLocation(`/mission/${missionId}`);
+      setLocation(`/realms/${realmId}/missions/${id}`);
     }
   };
-
+  
   return (
-    <div
-      className={`relative rounded-lg overflow-hidden shadow-lg border transition-all duration-300 
-        ${isLocked ? 'opacity-70 border-gray-700' : hover ? 'border-amber-400 transform scale-[1.02]' : 'border-amber-700'}`}
+    <div 
+      className={`rounded-xl overflow-hidden shadow-lg transition-all duration-300 ${
+        isLocked ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer hover:shadow-xl'
+      } ${isCompleted ? 'origins-complete-animation' : ''}`}
+      style={{ 
+        backgroundColor: isHovered && !isLocked ? theme.colors.highlight : theme.colors.backgroundLight,
+        borderColor: theme.colors.primaryAccent,
+        borderWidth: isRecommended ? '2px' : '1px',
+        transform: isHovered && !isLocked ? 'translateY(-5px)' : 'none'
+      }}
       onClick={handleClick}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={{ cursor: isLocked ? 'not-allowed' : 'pointer' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative h-[120px] bg-amber-900/60">
-        {/* Optional image */}
-        {randomImage && (
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent z-10" />
-            <div 
-              className="h-full w-full bg-cover bg-center"
-              style={{ 
-                backgroundImage: `url(${randomImage})`,
-                opacity: isLocked ? 0.5 : 0.8
-              }}
-            />
+      {/* Mission Image */}
+      <div className="relative h-40 bg-amber-100 overflow-hidden">
+        {imageUrl ? (
+          <img 
+            src={imageUrl} 
+            alt={title} 
+            className="w-full h-full object-cover" 
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="origins-pattern opacity-20 absolute inset-0"></div>
+            <span className="text-amber-800">No image available</span>
           </div>
         )}
         
-        {/* Title */}
-        <div className="absolute bottom-0 left-0 right-0 p-3 z-20">
-          <h3 className="text-lg font-bold text-amber-100 drop-shadow-md">{title}</h3>
-        </div>
-
         {/* Status indicators */}
+        {isRecommended && !isCompleted && (
+          <div className="absolute top-3 right-3 bg-amber-600 text-white text-xs px-2 py-1 rounded-full">
+            Recommended
+          </div>
+        )}
+        
         {isCompleted && (
-          <div className="absolute top-2 right-2 z-20 bg-green-800 rounded-full p-1 w-8 h-8 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
+          <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center">
+            <div className="bg-amber-600 text-white rounded-full p-3">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+            </div>
           </div>
         )}
         
         {isLocked && (
-          <div className="absolute top-2 right-2 z-20 bg-gray-800 rounded-full p-1 w-8 h-8 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
+          <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center">
+            <div className="bg-gray-600 text-white rounded-full p-3">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+              </svg>
+            </div>
           </div>
         )}
       </div>
       
-      {/* Description */}
-      <div className="p-3 bg-gray-900">
-        <p className="text-sm text-amber-100/90">{description}</p>
+      {/* Mission Content */}
+      <div className="p-4">
+        <h3 className="text-lg font-semibold mb-2 font-lora" style={{ color: theme.colors.darkText }}>
+          {title}
+        </h3>
+        <p className="text-sm mb-4 line-clamp-2" style={{ color: `${theme.colors.darkText}CC` }}>
+          {description}
+        </p>
         
-        {/* Interactive footer */}
-        <div className={`mt-3 flex justify-end ${isLocked ? 'opacity-50' : ''}`}>
-          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-900/60 text-amber-200">
-            {isCompleted ? 'Completed' : isLocked ? 'Locked' : 'Start Mission'}
-            <svg xmlns="http://www.w3.org/2000/svg" className={`ml-1 h-3 w-3 ${isLocked ? '' : 'animate-pulse'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        {/* Mission Details */}
+        <div className="flex justify-between items-center text-xs" style={{ color: theme.colors.darkText }}>
+          <div className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
             </svg>
-          </span>
+            <span>{duration} min</span>
+          </div>
+          <div className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+            </svg>
+            <span>{points} points</span>
+          </div>
         </div>
       </div>
     </div>
