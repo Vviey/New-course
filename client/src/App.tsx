@@ -31,7 +31,7 @@ import Realm1Story from "@/pages/Realm 1/story-intro";
 import Realm1Home from "@/pages/Realm 1/home";
 
 // Import Realm 2 components
-import Realm2Home from "@/pages/realm2/Home";
+import Realm2Home from "@/pages/Realm 2/index";
 import Realm2Mission from "@/pages/realm2/Mission";
 
 // Import Realm 3 components
@@ -62,7 +62,6 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-<<<<<<< HEAD
         <RouterListener />
         <Switch>
           {/* Public routes */}
@@ -86,7 +85,7 @@ function App() {
           <ProtectedRoute path="/realm/1/mission/bonus" component={MissionPage} /> {/* Bonus Mission */}
           
           {/* Realm 2 specific routes */}
-          <ProtectedRoute path="/realm/2/home" component={Realm2Home} />
+          <ProtectedRoute path="/realm/2/index" component={Realm2Home} />
           <ProtectedRoute path="/realm/2/mission/:missionId" component={Realm2Mission} />
           <ProtectedRoute path="/realm/2" component={Realm2Home} />
           
@@ -115,41 +114,6 @@ function App() {
           <Route component={NotFound} />
         </Switch>
         <Toaster />
-=======
-        <OfflineProvider>
-          <RouterListener />
-          <Switch>
-            {/* Public routes */}
-            <Route path="/" component={HomePage} />
-            <Route path="/intro" component={StoryIntroPage} />
-            <Route path="/auth" component={AuthPage} />
-            <Route path="/signup" component={SignupPage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/forgot-password" component={ForgotPasswordPage} />
-
-            {/* Realm routes */}
-            <Route path="/realm/1" component={Realm1Page} />
-            <Route path="/realm/2" component={Realm2Page} />
-            <Route path="/realm/:id" component={RealmPage} />
-
-            {/* Mission routes */}
-            <Route path="/mission/101" component={Mission1} />
-            <Route path="/mission/:id" component={MissionPage} />
-
-            {/* Other application routes */}
-            <Route path="/journey" component={JourneyPage} />
-            <Route path="/map" component={MapPage} />
-            <Route path="/map/africa" component={AfricaMapPage} />
-            <Route path="/badges" component={BadgesPage} />
-            <Route path="/offline-settings" component={OfflineSettingsPage} />
-
-            {/* Fall back to NotFound for any other route */}
-            <Route component={NotFound} />
-          </Switch>
-          <OfflineIndicator />
-          <Toaster />
-        </OfflineProvider>
->>>>>>> 0652a0db822258f9bfa7da88533be0a2088f509a
       </AuthProvider>
     </QueryClientProvider>
   );
