@@ -15,39 +15,20 @@ import HomePage from "@/pages/HomePage";
 import MapPage from "@/pages/MapPage";
 import NotFound from "@/pages/not-found";
 import StoryIntroPage from "@/pages/StoryIntroPage";
-import Realm1Page from "@/pages/Realm1Page";
 import RealmPage from "@/pages/RealmPage";
-import MissionPage from "@/pages/MissionPage";
 import AfricaMapPage from "@/pages/AfricaMapPage";
 import BadgesPage from "@/pages/BadgesPage";
 import OfflineSettingsPage from "@/pages/OfflineSettingsPage";
 import JourneyPage from "@/pages/JourneyPage";
-import Mission1 from './pages/missions/Mission1'; // Added import
 
-// Import Realm 1 components
-import Realm1Mission from "@/pages/Realm 1/Missions";
+// Import Mission wrapper component
+import MissionWrapper from "@/components/mission-wrapper";
+
+// Import Realm components
 import Realm1Story from "@/pages/Realm 1/story-intro";
 import Realm1Home from "@/pages/Realm 1/home";
-
-// Import Realm 2 components with improved architecture
-import Realm2Index from "@/realms/Realm2";
-import Realm2Mission1 from "@/realms/Realm2/Mission1";
-import Realm2Mission2 from "@/realms/Realm2/Mission2";
-import Realm2Mission3 from "@/realms/Realm2/Mission3";
-import Realm2Mission4 from "@/realms/Realm2/Mission4";
-import Realm2Mission5 from "@/realms/Realm2/Mission5";
-import Realm2Mission6 from "@/realms/Realm2/Mission6";
-import Realm2MissionBonus from "@/realms/Realm2/MissionBonus";
-// Legacy components - kept for compatibility
-import Realm2Page from "@/pages/Realm2Page";
-
-// Import Realm 3 components
 import Realm3Home from "@/pages/realm3/Home";
-import Realm3Mission from "@/pages/realm3/Mission";
-
-// Import Realm 4 components
 import Realm4Home from "@/pages/realm4/Home";
-import Realm4Mission from "@/pages/realm4/Mission";
 
 // Context providers
 import { AuthProvider } from "@/context/AuthContext";
@@ -80,51 +61,35 @@ function App() {
           
           {/* Protected Routes - Require Authentication */}
           <ProtectedRoute path="/home" component={HomePage} />
-          <ProtectedRoute path="/realm/:id" component={RealmPage} />
           <ProtectedRoute path="/map" component={MapPage} />
           <ProtectedRoute path="/map/africa" component={AfricaMapPage} />
           <ProtectedRoute path="/badges" component={BadgesPage} />
+          <ProtectedRoute path="/journey" component={JourneyPage} />
+          <ProtectedRoute path="/offline-settings" component={OfflineSettingsPage} />
           
           {/* Realm 1 specific routes */}
           <ProtectedRoute path="/realm/1/story" component={Realm1Story} />
           <ProtectedRoute path="/realm/1/home" component={Realm1Home} />
-          <ProtectedRoute path="/realm/1/mission/:missionId" component={Realm1Mission} />
-          <ProtectedRoute path="/realm/1/mission/bonus" component={MissionPage} /> {/* Bonus Mission */}
           
-          {/* Realm 2 specific routes */}
-          <ProtectedRoute path="/realm/2/index" component={Realm2Index} />
-          <ProtectedRoute path="/realm/2/mission/1" component={Realm2Mission1} />
-          <ProtectedRoute path="/realm/2/mission/2" component={Realm2Mission2} />
-          <ProtectedRoute path="/realm/2/mission/3" component={Realm2Mission3} />
-          <ProtectedRoute path="/realm/2/mission/4" component={Realm2Mission4} />
-          <ProtectedRoute path="/realm/2/mission/5" component={Realm2Mission5} />
-          <ProtectedRoute path="/realm/2/mission/6" component={Realm2Mission6} />
-          <ProtectedRoute path="/realm/2/mission/bonus" component={Realm2MissionBonus} />
-          <ProtectedRoute path="/realm/2/mission/:missionId" component={MissionPage} />
-          <ProtectedRoute path="/realm/2" component={Realm2Index} />
-          
-          {/* Realm 3 specific routes */}
-          <ProtectedRoute path="/realm/3/home" component={Realm3Home} />
-          <ProtectedRoute path="/realm/3/mission/:missionId" component={Realm3Mission} />
+          {/* Realm 3 home */}
           <ProtectedRoute path="/realm/3" component={Realm3Home} />
           <ProtectedRoute path="/realm3" component={Realm3Home} />
-          <ProtectedRoute path="/realm3/mission/:id" component={Realm3Mission} />
           
-          {/* Realm 2 direct routes */}
-          <ProtectedRoute path="/realm2" component={Realm2Index} />
-          <ProtectedRoute path="/realm2/mission/1" component={Realm2Mission1} />
-          <ProtectedRoute path="/realm2/mission/2" component={Realm2Mission2} />
-          <ProtectedRoute path="/realm2/mission/:id" component={MissionPage} />
-          
-          {/* Realm 4 direct routes */}
-          <ProtectedRoute path="/realm4" component={Realm4Home} />
-          <ProtectedRoute path="/realm4/mission/:id" component={Realm4Mission} />
-          <ProtectedRoute path="/realm/4/home" component={Realm4Home} />
-          <ProtectedRoute path="/realm/4/mission/:missionId" component={Realm4Mission} />
+          {/* Realm 4 home */}
           <ProtectedRoute path="/realm/4" component={Realm4Home} />
+          <ProtectedRoute path="/realm4" component={Realm4Home} />
           
-          {/* Generic mission route as fallback */}
-          <ProtectedRoute path="/realm/:realmId/mission/:missionId" component={MissionPage} />
+          {/* Universal realm routes */}
+          <ProtectedRoute path="/realm/:id" component={RealmPage} />
+          
+          {/* Universal mission routes - these will use our dynamic mission wrapper */}
+          <ProtectedRoute path="/realm/:realmId/mission/:missionId" component={MissionWrapper} />
+          <ProtectedRoute path="/realm/:realmId/missions/:missionId" component={MissionWrapper} />
+          
+          {/* Alternative mission route patterns for backwards compatibility */}
+          <ProtectedRoute path="/realm2/mission/:missionId" component={MissionWrapper} />
+          <ProtectedRoute path="/realm3/mission/:missionId" component={MissionWrapper} />
+          <ProtectedRoute path="/realm4/mission/:missionId" component={MissionWrapper} />
           
           {/* Fall back to NotFound for any other route */}
           <Route component={NotFound} />
