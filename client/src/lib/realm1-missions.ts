@@ -8,7 +8,8 @@ export interface MissionContent {
   imagePath?: string;
   simulationType: 'barter' | 'timeline' | 'inflation' | 'quiz' | 'map' | 'reflection' | 
                   'roleplay' | 'privacy' | 'exclusion' | 'globalflow' | 'escape' |
-                  'cryptography' | 'hash' | 'merkle' | 'consensus' | 'network' | 'code' | 'lightning';
+                  'cryptography' | 'hash' | 'merkle' | 'consensus' | 'network' | 'code' | 'lightning' |
+                  'miningBasics' | 'miningConsensus' | 'energyUsage' | 'africanMining' | 'miningChallenge' | 'halving';
   simulationData?: any;
   reflectionQuestion?: string;
 }

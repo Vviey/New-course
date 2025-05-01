@@ -201,3 +201,54 @@ export const bioluminescentTheme = {
     full: "9999px",
   },
 };
+
+export const mountainForgeTheme = {
+  name: "Mountain Forge Theme",
+  colors: {
+    primary: "#D97706", // Amber/gold
+    secondary: "#F59E0B", // Lighter amber
+    background: "#292524", // Dark brown/charcoal
+    backgroundLight: "#44403C", // Medium brown
+    cardBackground: "#FFFBEB", // Very light amber
+    textDark: "#292524", // Dark text
+    textLight: "#FFFBEB", // Light text
+    accent1: "#B91C1C", // Fiery red accent
+    accent2: "#FBBF24", // Yellow accent
+    highlight: "#D97706", // Amber highlight
+    warning: "#DC2626", // Red warning
+  },
+  patterns: {
+    grid: `linear-gradient(rgba(217, 119, 6, 0.1) 1px, transparent 1px),
+    linear-gradient(to right, rgba(217, 119, 6, 0.1) 1px, transparent 1px)`,
+    mountains: `url("data:image/svg+xml,%3Csvg width='100' height='50' viewBox='0 0 100 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,50 L20,15 L40,35 L60,5 L80,30 L100,20 L100,50 Z' fill='rgba(217, 119, 6, 0.05)'/%3E%3C/svg%3E")`,
+    dots: `radial-gradient(rgba(217, 119, 6, 0.2) 1px, transparent 1px)`,
+    forge: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30,70 L30,30 L70,30 L70,70 Z M40,40 L60,40 L60,60 L40,60 Z' fill='none' stroke='rgba(217, 119, 6, 0.1)' stroke-width='1'/%3E%3C/svg%3E")`,
+    circuits: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10,10 h20 v20 h20 v20 h-20 v20 h-20 z M60,10 h20 v20 h-20 z M60,50 h20 v20 h-20 z' fill='none' stroke='rgba(217, 119, 6, 0.1)' stroke-width='1'/%3E%3C/svg%3E")`,
+  },
+  gradients: {
+    amber: "linear-gradient(to right, #D97706, #FBBF24)",
+    fire: "linear-gradient(to right, #B91C1C, #F59E0B)",
+    forge: "linear-gradient(135deg, #292524 0%, #44403C 50%, #78350F 100%)",
+    radial: "radial-gradient(circle, rgba(217, 119, 6, 0.2) 0%, transparent 70%)",
+    warmGlow: "linear-gradient(to bottom, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05))",
+  },
+  shadows: {
+    card: "0 4px 12px rgba(41, 37, 36, 0.15), 0 1px 3px rgba(41, 37, 36, 0.1)",
+    button: "0 2px 4px rgba(217, 119, 6, 0.25), 0 0 10px rgba(251, 191, 36, 0.1)",
+    glow: "0 0 15px rgba(217, 119, 6, 0.3)",
+    inner: "inset 0 2px 4px rgba(41, 37, 36, 0.1)",
+    ambient: "0 8px 30px rgba(185, 28, 28, 0.1)",
+  },
+  animations: {
+    pulse: "pulse 3s infinite",
+    float: "float 6s ease-in-out infinite",
+    flicker: "flicker 5s ease-in-out infinite",
+    forge: "forge 3s ease-in-out infinite",
+  },
+  borderRadius: {
+    small: "0.25rem",
+    default: "0.5rem",
+    large: "0.75rem",
+    full: "9999px",
+  },
+};
