@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bonus Mission: Bitcoin's Evolution - Bitcoin Quest</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #1a1a1a;
+      color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    .header {
+      background-color: rgba(26, 26, 26, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background-color: rgba(198, 40, 40, 0.1);
+      border: 1px solid rgba(198, 40, 40, 0.3);
+      border-radius: 4px;
+      color: #c62828;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .back-button:hover {
+      background-color: rgba(198, 40, 40, 0.2);
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    h1, h2, h3 {
+      color: #f0f0f0;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: #c62828;
+    }
+    p {
+      margin-bottom: 1rem;
+    }
+    .mission-description {
+      color: #aaa;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+    .section {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .info-box {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .info-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #f0f0f0;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .info-content {
+      color: #aaa;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+    }
+    .table-header {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 15px;
+      text-align: left;
+      color: #f0f0f0;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .table-cell {
+      padding: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #aaa;
+      vertical-align: top;
+    }
+    .highlight-cell {
+      background-color: rgba(198, 40, 40, 0.1);
+      border-right: 1px solid rgba(198, 40, 40, 0.4);
+    }
+    .diagram-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      margin: 30px 0;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .diagram-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #f0f0f0;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .diagram-node {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #f0f0f0;
+      padding: 10px;
+      text-align: center;
+      border: 2px solid rgba(198, 40, 40, 0.5);
+      box-shadow: 0 0 15px rgba(198, 40, 40, 0.25);
+    }
+    .diagram-channel {
+      position: absolute;
+      height: 10px;
+      border-radius: 5px;
+      background-color: rgba(255, 215, 0, 0.5);
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    .channel-state {
+      position: absolute;
+      padding: 8px 12px;
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #f0f0f0;
+      font-size: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .feature-card {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .feature-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: rgba(198, 40, 40, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #c62828;
+      font-size: 1.5rem;
+    }
+    .feature-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #f0f0f0;
+      margin: 0;
+    }
+    .feature-description {
+      color: #aaa;
+      font-size: 1rem;
+      line-height: 1.6;
+      flex: 1;
+    }
+    .timeline-container {
+      margin: 40px 0;
+      position: relative;
+      padding: 20px 0;
+    }
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background-color: rgba(198, 40, 40, 0.3);
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 50px;
+      position: relative;
+      width: 100%;
+    }
+    .timeline-item-right {
+      justify-content: flex-end;
+    }
+    .timeline-content {
+      width: 45%;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .timeline-date {
+      position: absolute;
+      top: -30px;
+      font-weight: 600;
+      color: #c62828;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #c62828;
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px rgba(198, 40, 40, 0.5);
+    }
+    .timeline-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #f0f0f0;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .timeline-description {
+      color: #aaa;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .conclusion-box {
+      background-color: rgba(198, 40, 40, 0.1);
+      border-radius: 8px;
+      padding: 25px;
+      margin-top: 30px;
+      border: 1px solid rgba(198, 40, 40, 0.3);
+    }
+    .conclusion-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #f0f0f0;
+      margin: 0 0 15px 0;
+    }
+    .conclusion-text {
+      color: #aaa;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    .continue-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 25px;
+      background-color: #c62828;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 2rem;
+      transition: background-color 0.3s;
+    }
+    .continue-button:hover {
+      background-color: #e53935;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-container">
+      <div class="title-area">
+        <h1 style="margin: 0; font-size: 1.5rem;">Bonus Mission: Bitcoin's Evolution</h1>
+      </div>
+      <a href="/demo.html" class="back-button">← Back to Mission Selection</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>
+      <span style="background-color: rgba(198, 40, 40, 0.1); width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%;">
+        ✨
+      </span>
+      Beyond The Blockchain: Bitcoin's Evolving Ecosystem
+    </h1>
+    
+    <p class="mission-description">
+      The Bitcoin network is constantly evolving with new technologies and improvements.
+      In this bonus mission, we'll explore the Lightning Network and other innovations
+      that are expanding Bitcoin's capabilities and potential uses.
+    </p>
+
+    <div class="section">
+      <h2>1. The Lightning Network: Bitcoin's Second Layer</h2>
+      
+      <p>
+        While Bitcoin's blockchain provides exceptional security and decentralization, it faces
+        challenges with scalability and transaction fees. The Lightning Network was developed as a
+        "layer 2" solution that operates on top of the Bitcoin blockchain to address these limitations.
+      </p>
+      
+      <div class="info-box">
+        <h3 class="info-title">
+          <span style="font-size: 1.3rem;">⚡</span>
+          What is the Lightning Network?
+        </h3>
+        <div class="info-content">
+          <p>
+            The Lightning Network is a decentralized network of payment channels that allows for near-instant, 
+            low-cost Bitcoin transactions. It works by creating private payment channels between users that can 
+            remain open for extended periods, with only the final balances being recorded on the Bitcoin blockchain.
+          </p>
+        </div>
+      </div>
+      
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th class="table-header">Feature</th>
+            <th class="table-header">Bitcoin Base Layer</th>
+            <th class="table-header">Lightning Network</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="table-cell">Transaction Speed</td>
+            <td class="table-cell">
+              ~10 minutes for first confirmation, often waiting for multiple confirmations (30-60 minutes)
+            </td>
+            <td class="table-cell highlight-cell">
+              Near-instant (milliseconds)
+            </td>
+          </tr>
+          <tr>
+            <td class="table-cell">Transaction Fees</td>
+            <td class="table-cell">
+              Variable, can range from $0.50 to $50+ during high congestion periods
+            </td>
+            <td class="table-cell highlight-cell">
+              Typically less than $0.01, often fractions of a cent
+            </td>
+          </tr>
+          <tr>
+            <td class="table-cell">Scalability</td>
+            <td class="table-cell">
+              Limited to ~7 transactions per second with current block size limits
+            </td>
+            <td class="table-cell highlight-cell">
+              Theoretically millions to billions of transactions per second
+            </td>
+          </tr>
+          <tr>
+            <td class="table-cell">Privacy</td>
+            <td class="table-cell">
+              Pseudonymous; all transactions are public on the blockchain
+            </td>
+            <td class="table-cell highlight-cell">
+              Improved privacy; only channel open/close transactions are recorded on-chain
+            </td>
+          </tr>
+          <tr>
+            <td class="table-cell">Use Cases</td>
+            <td class="table-cell">
+              Better for large value transfers and final settlement
+            </td>
+            <td class="table-cell highlight-cell">
+              Ideal for small payments, micropayments, and frequent transactions
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="diagram-container">
+        <h3 class="diagram-title">How the Lightning Network Works</h3>
+        
+        <!-- Simplified visual representation of Lightning Network -->
+        <div class="diagram-node" style="left: 15%; top: 50%; transform: translateY(-50%);">
+          <span style="font-size: 1.5rem;">📱</span>
+          <div style="font-size: 0.9rem; margin-top: 5px;">Alice</div>
+        </div>
+        
+        <div class="diagram-node" style="right: 15%; top: 50%; transform: translateY(-50%);">
+          <span style="font-size: 1.5rem;">📱</span>
+          <div style="font-size: 0.9rem; margin-top: 5px;">Bob</div>
+        </div>
+        
+        <div class="diagram-channel" style="left: 22%; right: 22%; top: 50%; transform: translateY(-50%);"></div>
+        
+        <div class="channel-state" style="left: 25%; top: 30%;">
+          Initial State: Alice 0.1 BTC, Bob 0.1 BTC
+        </div>
+        
+        <div class="channel-state" style="right: 25%; top: 70%;">
+          After payments: Alice 0.08 BTC, Bob 0.12 BTC
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>2. How Payment Channels Work</h2>
+      
+      <p>
+        The Lightning Network's magic happens through payment channels. Here's a step-by-step explanation
+        of how they work:
+      </p>
+      
+      <ol>
+        <li>
+          <strong>Channel Opening:</strong> Two users create a multi-signature wallet and commit funds to it
+          with an on-chain Bitcoin transaction. This is the only transaction that needs to be confirmed on the
+          blockchain to start using Lightning.
+        </li>
+        <li>
+          <strong>Creating Balance States:</strong> The users create and sign transactions that represent the
+          current balance allocation between them. These transactions are not broadcast to the blockchain but
+          are kept by the participants.
+        </li>
+        <li>
+          <strong>Making Payments:</strong> When a payment is made, the participants update and sign a new
+          balance allocation. This happens off-chain and is nearly instant.
+        </li>
+        <li>
+          <strong>Channel Closing:</strong> When users want to settle their final balances, they broadcast
+          the most recent balance allocation to the blockchain, closing the channel and distributing the funds
+          according to the final state.
+        </li>
+      </ol>
+      
+      <div class="info-box">
+        <h3 class="info-title">
+          <span style="font-size: 1.3rem;">🔑</span>
+          Key Innovation: Hash Time-Locked Contracts (HTLCs)
+        </h3>
+        <div class="info-content">
+          <p>
+            Lightning uses special contracts called HTLCs that enable routing payments across multiple channels.
+            This means you don't need a direct channel with someone to pay them - your payment can hop through 
+            multiple channels to reach its destination.
+          </p>
+        </div>
+      </div>
+      
+      <h3>Real-world Use Cases</h3>
+      
+      <div class="card-grid">
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-icon">🛒</div>
+            <h3 class="feature-title">Micropayments</h3>
+          </div>
+          <div class="feature-description">
+            <p>
+              Lightning enables payments as small as a fraction of a cent, opening up possibilities for:
+            </p>
+            <ul>
+              <li>Pay-per-article content instead of subscriptions</li>
+              <li>Per-second video streaming</li>
+              <li>Pay-as-you-go API calls and web services</li>
+              <li>Tipping content creators with minimal fees</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-icon">🎮</div>
+            <h3 class="feature-title">Gaming & Apps</h3>
+          </div>
+          <div class="feature-description">
+            <p>
+              The speed and low cost of Lightning transactions enable new experiences like:
+            </p>
+            <ul>
+              <li>In-game economies with real value</li>
+              <li>Bitcoin-powered social networks</li>
+              <li>Play-to-earn gaming models</li>
+              <li>Real-time incentives and rewards</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-icon">🌍</div>
+            <h3 class="feature-title">Global Payments</h3>
+          </div>
+          <div class="feature-description">
+            <p>
+              Lightning is transforming international payments by offering:
+            </p>
+            <ul>
+              <li>Near-zero fee cross-border transfers</li>
+              <li>Instant settlement regardless of distance</li>
+              <li>No need for traditional banking infrastructure</li>
+              <li>Remittances without excessive fees</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>3. The Future of Bitcoin</h2>
+      
+      <p>
+        Beyond Lightning, Bitcoin continues to evolve with new technologies and improvements.
+        Here's a look at some of the most important developments on the horizon:
+      </p>
+      
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+        
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-date">Recent</div>
+            <div class="timeline-dot" style="top: 20px;"></div>
+            <h3 class="timeline-title">Taproot Upgrade</h3>
+            <p class="timeline-description">
+              Activated in November 2021, Taproot improved Bitcoin's privacy, efficiency, and smart
+              contract capabilities. It introduced Schnorr signatures, which allow multiple signatures to be
+              aggregated into one, saving block space and fees.
+            </p>
+          </div>
+        </div>
+        
+        <div class="timeline-item timeline-item-right">
+          <div class="timeline-content">
+            <div class="timeline-date">Near-term</div>
+            <div class="timeline-dot" style="top: 20px;"></div>
+            <h3 class="timeline-title">Lightning Network Improvements</h3>
+            <p class="timeline-description">
+              Ongoing development of better routing algorithms, improved channel management, and
+              user experience enhancements are making Lightning more accessible and reliable for everyday
+              use cases.
+            </p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-date">Mid-term</div>
+            <div class="timeline-dot" style="top: 20px;"></div>
+            <h3 class="timeline-title">RGB Protocol</h3>
+            <p class="timeline-description">
+              A smart contracts and digital asset system built on Bitcoin and Lightning. RGB allows for
+              the issuance, transfer, and management of digital assets like tokens, NFTs, and more complex
+              financial instruments on Bitcoin's secure base layer.
+            </p>
+          </div>
+        </div>
+        
+        <div class="timeline-item timeline-item-right">
+          <div class="timeline-content">
+            <div class="timeline-date">Long-term</div>
+            <div class="timeline-dot" style="top: 20px;"></div>
+            <h3 class="timeline-title">Quantum Resistance</h3>
+            <p class="timeline-description">
+              Research into quantum-resistant cryptography to ensure Bitcoin remains secure even as
+              quantum computing advances. Several proposals for transitioning Bitcoin's cryptographic
+              primitives to post-quantum algorithms are under development.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="conclusion-box">
+        <h3 class="conclusion-title">Bitcoin's Layered Future</h3>
+        <p class="conclusion-text">
+          Bitcoin's future appears to be one of specialized layers, each optimized for different properties:
+        </p>
+        <ul>
+          <li>The base blockchain layer providing security, decentralization, and final settlement</li>
+          <li>The Lightning Network enabling fast, low-cost payments and micropayments</li>
+          <li>Additional layers and sidechains for specific use cases like smart contracts, privacy, and asset issuance</li>
+        </ul>
+        <p class="conclusion-text">
+          This approach allows Bitcoin to maintain its core principles of security and decentralization while
+          expanding its capabilities through purpose-built secondary layers. It's a vision of "slow and steady"
+          development that prioritizes security and reliability over rapid feature addition.
+        </p>
+      </div>
+    </div>
+
+    <a href="/realm/2" class="continue-button">
+      Return to Realm Map →
+    </a>
+  </div>
+</body>
+</html>
