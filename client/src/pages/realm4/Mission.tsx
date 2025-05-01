@@ -22,6 +22,7 @@ import {
 import { mountainForgeTheme } from '@/lib/realm-themes';
 import { realm4Missions } from '@/lib/realm4-missions';
 import { MiningBasicsSimulator } from '@/components/simulations/MiningBasicsSimulator';
+import BitcoinMiningSimulator from '@/components/simulations/BitcoinMiningSimulator';
 
 // Mission component for Realm 4
 export default function Realm4Mission() {
@@ -98,10 +99,13 @@ export default function Realm4Mission() {
         );
       // Add other simulation types as they are implemented
       case 'miningConsensus':
+      case 'halving':
+        return (
+          <BitcoinMiningSimulator onComplete={handleMissionComplete} />
+        );
       case 'energyUsage':
       case 'africanMining':
       case 'miningChallenge':
-      case 'halving':
         return (
           <div className="bg-white rounded-xl p-8 shadow-lg max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-amber-800 mb-4">
