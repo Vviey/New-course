@@ -22,6 +22,10 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Explicitly serve static files from the public directory
+// This should make the static HTML files directly accessible
+app.use(express.static('public'));
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -66,6 +70,28 @@ app.use((req, res, next) => {
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
+  // Add a custom 404 handler for any routes not matched by the previous handlers
+  app.use((req, res, next) => {
+    // Skip API routes, let them continue to error handlers
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    
+    // Check if the request is for a static HTML file we know about
+    if (['/index.html', '/demo.html', '/realm2-mission4.html', 
+         '/realm2-mission5.html', '/realm2-mission6.html', 
+         '/realm2-missionbonus.html'].includes(req.path)) {
+      
+      const filePath = path.resolve('./public', req.path.substring(1));
+      if (fs.existsSync(filePath)) {
+        return res.sendFile(filePath);
+      }
+    }
+    
+    // If this point is reached, the route wasn't handled, continue to Vite
+    next();
+  });
+  
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {

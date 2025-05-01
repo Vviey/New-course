@@ -1,4 +1,4 @@
-import type { Express, Request, Response } from "express";
+import express, { type Express, type Request, type Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertUserSchema } from "@shared/schema";
@@ -8,35 +8,50 @@ import fs from "fs";
 import { setupAuth } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Root route - redirect to direct access page
-  app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: './public' });
+  // Add a middleware to log all incoming requests for debugging
+  app.use((req, res, next) => {
+    console.log(`[DEBUG] Received request: ${req.method} ${req.url}`);
+    next();
   });
 
-  // Serve the demo page for testing
+  // Explicitly serve static files from the public directory before any other routes
+  const staticPath = path.resolve('./public');
+  console.log(`[DEBUG] Serving static files from: ${staticPath}`);
+  
+  app.use(express.static(staticPath));
+  
+  // Root route - direct access landing page
+  app.get('/', (req, res) => {
+    console.log('[DEBUG] Serving root route');
+    res.sendFile('index.html', { root: path.resolve('./public') });
+  });
+
+  // Serve demo page
   app.get('/demo', (req, res) => {
-    res.sendFile('demo.html', { root: './public' });
+    console.log('[DEBUG] Serving demo route');
+    res.sendFile('demo.html', { root: path.resolve('./public') });
   });
   
-  // Direct access to static HTML mission pages
-  app.get('/demo.html', (req, res) => {
-    res.sendFile('demo.html', { root: './public' });
-  });
+  // Create explicit routes for each HTML file with absolute paths
+  const staticFiles = [
+    'demo.html',
+    'realm2-mission4.html',
+    'realm2-mission5.html',
+    'realm2-mission6.html',
+    'realm2-missionbonus.html'
+  ];
   
-  app.get('/realm2-mission4.html', (req, res) => {
-    res.sendFile('realm2-mission4.html', { root: './public' });
-  });
-  
-  app.get('/realm2-mission5.html', (req, res) => {
-    res.sendFile('realm2-mission5.html', { root: './public' });
-  });
-  
-  app.get('/realm2-mission6.html', (req, res) => {
-    res.sendFile('realm2-mission6.html', { root: './public' });
-  });
-  
-  app.get('/realm2-missionbonus.html', (req, res) => {
-    res.sendFile('realm2-missionbonus.html', { root: './public' });
+  staticFiles.forEach(file => {
+    const absolutePath = path.resolve('./public', file);
+    app.get(`/${file}`, (req, res) => {
+      console.log(`[DEBUG] Serving static file: ${file}`);
+      if (fs.existsSync(absolutePath)) {
+        res.sendFile(absolutePath);
+      } else {
+        console.error(`[ERROR] File not found: ${absolutePath}`);
+        res.status(404).send('File not found');
+      }
+    });
   });
   
   // Serve the African Currency Education demo page
