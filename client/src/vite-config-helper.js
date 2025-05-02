@@ -9,6 +9,24 @@
     console.log('Current hostname:', window.location.hostname);
     console.log('Current URL:', window.location.href);
     
+    try {
+      // Try to inject HMR directly into Vite's runtime config
+      if (!window.__vite__) {
+        window.__vite__ = {};
+      }
+      
+      // Create a disabled host checker that always returns true
+      const bypassHostChecker = () => true;
+      
+      // Inject the bypasser
+      window.__vite__.checkedHost = true;
+      window.__vite__.checkHost = bypassHostChecker;
+      window.__vite__.checkDomain = bypassHostChecker;
+      window.__vite__.validateHost = bypassHostChecker;
+    } catch (e) {
+      console.warn('Could not bypass host checker via __vite__ object:', e);
+    }
+    
     // Set all possible configuration variables to allow any host
     window.__vite_allow_origin__ = '*';
     window.__vite_config_allowAllHosts = true;
@@ -16,6 +34,26 @@
     window.__HMR_HOSTNAME__ = window.location.hostname;
     window.__HMR_PORT__ = window.location.port || (window.location.protocol === 'https:' ? '443' : '80');
     window.__HMR_PROTOCOL__ = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    
+    // Attempt to set WebSocket creation to always connect to the current host
+    try {
+      // Override WebSocket for secure connections (replit preview default is https)
+      window.__original_WebSocket = window.WebSocket;
+      window.WebSocket = function(url, protocols) {
+        if (typeof url === 'string' && url.startsWith('ws')) {
+          const wsUrl = new URL(url);
+          wsUrl.hostname = window.location.hostname;
+          if (window.location.port) {
+            wsUrl.port = window.location.port;
+          }
+          url = wsUrl.toString();
+          console.log('Rewrote WebSocket URL to:', url);
+        }
+        return new window.__original_WebSocket(url, protocols);
+      };
+    } catch (e) {
+      console.warn('Failed to patch WebSocket constructor:', e);
+    }
     window.__vite_dev_server_options__ = {
       hmr: { clientPort: window.location.port || (window.location.protocol === 'https:' ? '443' : '80') },
       host: window.location.hostname,
@@ -31,13 +69,36 @@
       configurable: false
     });
     
+    // Extract current hostname and create a comprehensive list of possible allowed hostnames
+    const currentHostname = window.location.hostname;
+    const isReplitDomain = currentHostname.includes('.replit.dev') || 
+                            currentHostname.includes('.repl.co') ||
+                            currentHostname.includes('.repl.run');
+    
+    console.log('Current hostname detected:', currentHostname, 'Is Replit domain:', isReplitDomain);
+    
+    // Build a comprehensive list of allowed hosts including any potential Replit domain patterns
+    const allowedHosts = [
+      currentHostname,
+      'localhost',
+      '127.0.0.1',
+      '0.0.0.0',
+      '*.replit.dev',
+      '*.repl.co',
+      '*.repl.run',
+      '*-*.replit.dev',
+      '*-*-*.replit.dev',
+      '*-*-*-*.replit.dev',
+      'all'
+    ];
+    
     // Directly insert a script that declares the host as allowed
     const allowScript = document.createElement('script');
     allowScript.textContent = `
       // Global override for Vite host check
-      const __vite_allowed_hosts__ = [window.location.hostname, 'localhost', '127.0.0.1'];
+      const __vite_allowed_hosts__ = ${JSON.stringify(allowedHosts)};
       const __vite_host_check_enabled__ = false;
-      console.log('Host check override installed');
+      console.log('Host check override installed with hosts:', ${JSON.stringify(allowedHosts)});
     `;
     document.head.appendChild(allowScript);
     

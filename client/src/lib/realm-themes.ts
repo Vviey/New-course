@@ -1,7 +1,5 @@
-// Realm-specific design tokens and themes
-
 export interface RealmTheme {
-  id?: number;
+  id: number;
   name: string;
   colors: {
     primary: string;
@@ -13,8 +11,6 @@ export interface RealmTheme {
     textLight: string;
     accent1?: string;
     accent2?: string;
-    highlight?: string;
-    alert?: string;
     primaryAccent?: string;
     darkText?: string;
     secondaryAccent?: string;
@@ -23,28 +19,17 @@ export interface RealmTheme {
     gradientEnd?: string;
   };
   patterns?: {
-    grid?: string;
-    cityscape?: string;
-    dots?: string;
-    circuits?: string;
     adinkra?: string;
   };
   gradients?: {
     sunset?: string;
     sand?: string;
-    blue?: string;
-    neon?: string;
-    tech?: string;
-    glow?: string;
   };
   shadows?: {
     card?: string;
     button?: string;
-    neon?: string;
-    inner?: string;
   };
   animations?: {
-    pulse?: string;
     glow?: string;
   };
   borderRadius?: {
@@ -55,17 +40,6 @@ export interface RealmTheme {
   };
   patternClass?: string;
   backgroundTexture?: string;
-  zIndex?: {
-    base?: number;
-    modal?: number;
-    tooltip?: number;
-    header?: number;
-  };
-  fonts?: {
-    heading?: string;
-    body?: string;
-    mono?: string;
-  };
 }
 
 // Realm of Origins Theme - Trade Festival at Sunset
@@ -124,144 +98,147 @@ export const originTheme: RealmTheme = {
   backgroundTexture: "url('/textures/woven-pattern.svg')"
 };
 
-export const forestTheme: RealmTheme = {
-  name: "The Forest of Sparks",
-  colors: {
-    primary: "#1E8E3E", // Green
-    secondary: "#D2E7D6", // Light green
-    background: "#0B2C13", // Dark forest green
-    backgroundLight: "#1D4D26", // Medium forest green
-    cardBackground: "#F2FFF5", // Very light mint
-    textDark: "#0B2C13", // Dark text
-    textLight: "#F2FFF5", // Light text
-    accent1: "#F9A826", // Gold accent
-    accent2: "#76BA7F", // Light green accent
-  },
-  // Other theme properties similar to originTheme
-};
-
-export const citadelTheme: RealmTheme = {
+// Central Citadel Theme
+export const centralbankTheme: RealmTheme = {
+  id: 2,
   name: "The Central Citadel",
   colors: {
-    primary: "#2563EB", // Vibrant blue
-    secondary: "#38BDF8", // Light blue
-    background: "#0F172A", // Dark tech blue (almost black)
-    backgroundLight: "#1E293B", // Slate blue
-    cardBackground: "#F8FAFC", // Light grayish blue
-    textDark: "#1E293B", // Dark text
-    textLight: "#F8FAFC", // Light text
-    accent1: "#FB7185", // Red-pink accent
-    accent2: "#60A5FA", // Medium blue accent
-    highlight: "#10B981", // Green accent for success/completion
-    alert: "#F43F5E", // Red accent for warnings
+    primary: "#00589B",
+    secondary: "#0076CE",
+    background: "#00243F",
+    backgroundLight: "#003660",
+    cardBackground: "#F0F7FF",
+    textDark: "#002C4E",
+    textLight: "#F0F7FF",
+    accent1: "#0076CE",
+    accent2: "#00A6ED",
+    gradientStart: "#00243F",
+    gradientEnd: "#003E70"
   },
-  patterns: {
-    grid: `linear-gradient(rgba(30, 41, 59, 0.3) 1px, transparent 1px),
-    linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px)`,
-    cityscape: `url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 v10 h10 v-5 h5 v5 h5 v-10 h5 v10 h5 v-5 h10 v5 h5 v-10 h10 v5 h5 v5 h5 v-10 h5 v10 h10 v-5 h5 v-5 h10 v10 h5 v-5 h5' fill='none' stroke='rgba(30, 41, 59, 0.2)' stroke-width='1'/%3E%3C/svg%3E")`,
-    dots: `radial-gradient(rgba(30, 41, 59, 0.4) 1px, transparent 1px)`,
-    circuits: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10,10 h20 v20 h20 v20 h-20 v20 h-20 z M60,10 h20 v20 h-20 z M60,50 h20 v20 h-20 z' fill='none' stroke='rgba(30, 41, 59, 0.15)' stroke-width='1'/%3E%3C/svg%3E")`,
-  },
-  gradients: {
-    blue: "linear-gradient(to right, #2563EB, #38BDF8)",
-    neon: "linear-gradient(to right, #FB7185, #60A5FA)",
-    tech: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
-    glow: "linear-gradient(to bottom, rgba(56, 189, 248, 0.1), transparent)",
-  },
-  shadows: {
-    card: "0 4px 12px rgba(15, 23, 42, 0.2), 0 1px 3px rgba(15, 23, 42, 0.1)",
-    button: "0 2px 4px rgba(37, 99, 235, 0.25), 0 0 10px rgba(56, 189, 248, 0.1)",
-    neon: "0 0 15px rgba(56, 189, 248, 0.3)",
-    inner: "inset 0 2px 4px rgba(15, 23, 42, 0.1)",
-  },
-  animations: {
-    pulse: "pulse 2s infinite",
-    glow: "glow 4s infinite alternate",
-  },
+  patternClass: "centralbank-pattern",
+  backgroundTexture: "url('/textures/marble-pattern.svg')"
 };
 
-export const forksTheme: RealmTheme = {
-  name: "The Council of Forks",
-  colors: {
-    primary: "#8B5CF6", // Purple
-    secondary: "#C4B5FD", // Light purple
-    background: "#2E1065", // Deep purple
-    backgroundLight: "#4C1D95", // Medium purple
-    textDark: "#2E1065", // Dark text
-    textLight: "#EDE9FE", // Light text
-    accent1: "#EC4899", // Pink accent
-    accent2: "#A78BFA", // Medium purple
-  },
-};
+// Aliases for themed components that reference the themes by different names
+export const citadelTheme = centralbankTheme;
 
-export const ubuntuTheme: RealmTheme = {
-  name: "The Ubuntu Village",
-  colors: {
-    primary: "#E9791D", // Ubuntu orange
-    secondary: "#77216F", // Ubuntu purple
-    background: "#2C001E", // Deep ubuntu purple
-    backgroundLight: "#5E2750", // Lighter ubuntu purple
-    textDark: "#2C001E", // Dark text
-    textLight: "#FFF6DD", // Light text
-    accent1: "#F1CB69", // Gold accent
-    accent2: "#AEA79F", // Ubuntu warm grey
-  },
-};
-
-export const groveTheme: RealmTheme = {
-  name: "The Summit of Knowledge",
-  colors: {
-    primary: "#10B981", // Green
-    secondary: "#D1FAE5", // Light green
-    background: "#064E3B", // Deep green
-    backgroundLight: "#065F46", // Medium green
-    textDark: "#064E3B", // Dark text
-    textLight: "#ECFDF5", // Light text
-    accent1: "#FBBF24", // Yellow accent
-    accent2: "#34D399", // Teal accent
-  },
-};
-
-export const bioluminescentTheme: RealmTheme = {
+// Forest of Sparks Theme
+export const cryptographyTheme: RealmTheme = {
+  id: 3,
   name: "The Forest of Sparks",
   colors: {
-    primary: "#06B6D4", // Cyan
-    secondary: "#67E8F9", // Light cyan
-    background: "#042F2E", // Deep teal
-    backgroundLight: "#134E4A", // Medium teal
-    textDark: "#042F2E", // Dark text
-    textLight: "#CCFBF1", // Light text
-    accent1: "#22D3EE", // Bright cyan
-    accent2: "#2DD4BF", // Teal
+    primary: "#1A8F60",
+    secondary: "#46D1A2",
+    background: "#0D3D29",
+    backgroundLight: "#134935",
+    cardBackground: "#F0FFF9",
+    textDark: "#0D3D29",
+    textLight: "#F0FFF9",
+    accent1: "#46D1A2",
+    accent2: "#16FFBD",
+    gradientStart: "#0D3D29",
+    gradientEnd: "#165E40"
   },
+  patternClass: "crypto-pattern",
+  backgroundTexture: "url('/textures/binary-pattern.svg')"
 };
 
-export const mountainForgeTheme: RealmTheme = {
+// Alias for Realm 3 components
+export const bioluminescentTheme = cryptographyTheme;
+
+// Mountain Forge Theme
+export const miningTheme: RealmTheme = {
+  id: 4,
   name: "The Mountain Forge",
   colors: {
-    primary: "#DB2777", // Pink
-    secondary: "#F9A8D4", // Light pink
-    background: "#5A0938", // Deep magenta
-    backgroundLight: "#831843", // Medium magenta
-    textDark: "#5A0938", // Dark text
-    textLight: "#FDF2F8", // Light text
-    accent1: "#F59E0B", // Amber accent
-    accent2: "#E11D48", // Red accent
+    primary: "#936C00",
+    secondary: "#FFD966",
+    background: "#3A2A00",
+    backgroundLight: "#553D00",
+    cardBackground: "#FFF9E5",
+    textDark: "#3A2A00",
+    textLight: "#FFF9E5",
+    accent1: "#FFD966",
+    accent2: "#FFC700",
+    gradientStart: "#3A2A00",
+    gradientEnd: "#725400"
   },
+  patternClass: "mining-pattern",
+  backgroundTexture: "url('/textures/forge-pattern.svg')"
 };
 
-// Collection of all realm themes
-export const realmThemes: Record<number, RealmTheme> = {
-  1: originTheme,      // Realm of Origins
-  2: citadelTheme,     // The Central Citadel
-  3: bioluminescentTheme, // The Forest of Sparks
-  4: mountainForgeTheme,  // The Mountain Forge
-  5: forksTheme,       // The Council of Forks
-  6: ubuntuTheme,      // The Ubuntu Village
-  7: groveTheme,       // The Summit of Knowledge
+// Council of Forks Theme
+export const governanceTheme: RealmTheme = {
+  id: 5,
+  name: "The Council of Forks",
+  colors: {
+    primary: "#8C3494",
+    secondary: "#C461CC",
+    background: "#42184A",
+    backgroundLight: "#5D2066",
+    cardBackground: "#FCF0FD",
+    textDark: "#42184A",
+    textLight: "#FCF0FD",
+    accent1: "#C461CC",
+    accent2: "#FF73FF",
+    gradientStart: "#42184A",
+    gradientEnd: "#6C3078"
+  },
+  patternClass: "governance-pattern",
+  backgroundTexture: "url('/textures/branch-pattern.svg')"
 };
 
-// Get a theme by realm ID, with fallback to a default
-export function getRealmTheme(realmId: number): RealmTheme {
-  return realmThemes[realmId] || originTheme;
-}
+// Ubuntu Village Theme
+export const utilityTheme: RealmTheme = {
+  id: 6,
+  name: "The Ubuntu Village",
+  colors: {
+    primary: "#D0330D",
+    secondary: "#FF6D4D",
+    background: "#541400",
+    backgroundLight: "#7A1E00",
+    cardBackground: "#FFF0EC",
+    textDark: "#541400",
+    textLight: "#FFF0EC",
+    accent1: "#FF6D4D",
+    accent2: "#FF9B85",
+    gradientStart: "#541400",
+    gradientEnd: "#A32D00"
+  },
+  patternClass: "utility-pattern",
+  backgroundTexture: "url('/textures/village-pattern.svg')"
+};
+
+// Summit of Knowledge Theme
+export const mastersTheme: RealmTheme = {
+  id: 7,
+  name: "The Summit of Knowledge",
+  colors: {
+    primary: "#3266CC",
+    secondary: "#6695F2",
+    background: "#122C59",
+    backgroundLight: "#193F80",
+    cardBackground: "#ECF3FF",
+    textDark: "#122C59",
+    textLight: "#ECF3FF",
+    accent1: "#6695F2",
+    accent2: "#99BDFF",
+    gradientStart: "#122C59",
+    gradientEnd: "#2652A3"
+  },
+  patternClass: "masters-pattern",
+  backgroundTexture: "url('/textures/summit-pattern.svg')"
+};
+
+export const getRealmTheme = (realmId: number): RealmTheme => {
+  switch (realmId) {
+    case 1: return originTheme;
+    case 2: return centralbankTheme;
+    case 3: return cryptographyTheme;
+    case 4: return miningTheme;
+    case 5: return governanceTheme;
+    case 6: return utilityTheme;
+    case 7: return mastersTheme;
+    default: return originTheme;
+  }
+};

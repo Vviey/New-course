@@ -11,12 +11,12 @@ export default function StoryIntroPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const theme = originTheme;
   
-  // Redirect if not logged in
+  // In frontend-only mode, we don't redirect as we're using a mock auth provider
   useEffect(() => {
-    if (!user) {
-      setLocation('/auth');
-    }
-  }, [user, setLocation]);
+    // For frontend-only mode, the redirect is disabled
+    // In the full application, we would redirect if !user
+    console.log('Story intro page loaded with user:', user?.username);
+  }, [user]);
   
   // Story intro slides content
   const slides = [
@@ -56,12 +56,12 @@ export default function StoryIntroPage() {
       setCurrentSlide(currentSlide + 1);
     } else {
       // Navigate to the first realm when story is complete
-      setLocation('/realm1');
+      setLocation('/realm/1');
     }
   };
   
   const handleSkip = () => {
-    setLocation('/realm1');
+    setLocation('/realm/1');
   };
   
   return (

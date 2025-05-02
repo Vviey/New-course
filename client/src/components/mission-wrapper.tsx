@@ -46,12 +46,28 @@ export default function MissionWrapper() {
   const [missionData, setMissionData] = useState<MissionData | null>(null);
   const [MissionComponent, setMissionComponent] = useState<React.ComponentType | null>(null);
 
-  // Optional: The following would be used if you want to extract mission metadata
-  const getMissionInfo = (missionId: string, realmId: string) => {
-    const title = `Mission ${missionId}`;
-    const subtitle = ""; // Could be populated from a mission data store
+  // Get mission title and description from our mission data API
+  const getMissionInfo = async (missionId: string, realmId: string) => {
+    try {
+      // Try to fetch mission data from our API
+      const response = await fetch(`/api/realms/${realmId}/missions/${missionId}`);
+      
+      if (response.ok) {
+        const missionData = await response.json();
+        return { 
+          title: missionData.title || `Mission ${missionId}`,
+          subtitle: missionData.description || ""
+        };
+      }
+    } catch (error) {
+      console.log('Could not fetch mission data from API:', error);
+    }
     
-    return { title, subtitle };
+    // Default values if API fetch fails
+    return { 
+      title: `Mission ${missionId}`, 
+      subtitle: `A learning journey in ${getRealmName(Number(realmId))}` 
+    };
   };
 
   useEffect(() => {
@@ -67,15 +83,25 @@ export default function MissionWrapper() {
     const loadMission = async () => {
       try {
         let missionModule;
-        // Standardized unified structure
+        
+        // Updated paths to match our actual file structure
         const loadPaths = [
-          // Standard mission structure
+          // Try mission-specific component if it exists
+          `../pages/realm${realmId}/mission${missionId}.tsx`,
+          
+          // Try generic mission page with ID parameter
+          `../pages/realm${realmId}/mission.tsx`,
+          
+          // Try fallback to related challenge or interactive components
+          `../pages/realm${realmId}/barter-web-challenge.tsx`,
+          `../pages/realm${realmId}/currency-value-simulator.tsx`,
+          `../pages/realm${realmId}/inflation-simulator.tsx`,
+          
+          // For older structure compatibility
           `../realms/Realm${realmId}/Mission${missionId}/index.tsx`,
-          // Bonus mission structure
-          missionId.toLowerCase() === 'bonus' 
-            ? `../realms/Realm${realmId}/MissionBonus/index.tsx` 
-            : null
         ];
+        
+        console.log(`Attempting to load mission from: ${loadPaths.join(', ')}`);
         
         for (const path of loadPaths) {
           if (!path) continue;
@@ -83,6 +109,7 @@ export default function MissionWrapper() {
           try {
             // @vite-ignore
             missionModule = await import(path);
+            console.log(`Successfully loaded mission from: ${path}`);
             break; // Stop if we found a valid module
           } catch (e) {
             // Continue to next path
@@ -96,10 +123,28 @@ export default function MissionWrapper() {
         
         if (isMounted) {
           setMissionComponent(() => missionModule.default);
+          
           // Get mission info if available, otherwise use defaults
-          const { title, subtitle } = getMissionInfo(missionId, realmId);
-          setMissionData({ title, subtitle });
-          setLoading(false);
+          try {
+            // Fetch mission data from the API
+            const missionInfo = await getMissionInfo(missionId, realmId);
+            if (isMounted) {
+              setMissionData({ 
+                title: missionInfo.title,
+                subtitle: missionInfo.subtitle 
+              });
+              setLoading(false);
+            }
+          } catch (error) {
+            console.error('Error fetching mission info:', error);
+            if (isMounted) {
+              setMissionData({ 
+                title: `Mission ${missionId}`,
+                subtitle: `A learning journey in ${getRealmName(Number(realmId))}` 
+              });
+              setLoading(false);
+            }
+          }
         }
       } catch (err) {
         console.error('Failed to load mission:', err);

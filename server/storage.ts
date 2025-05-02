@@ -1,9 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-import { users, type User, type InsertUser, realms, type Realm, type InsertRealm } from "@shared/schema";
+import { users, type User, type InsertUser, realms, type Realm, type InsertRealm, missions, type Mission, badges, type Badge, userBadges, type UserBadge } from "@shared/schema";
 import session from "express-session";
+import { eq } from 'drizzle-orm';
 import { db, pool } from './db';
 
 export interface IStorage {
+  // User methods
   getUser(id: number): Promise<User | undefined>;
   getUserByUserId(userId: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
@@ -11,9 +13,28 @@ export interface IStorage {
   createUser(user: Partial<InsertUser>): Promise<User>;
   updateUser(userId: string, userData: Partial<User>): Promise<User | undefined>;
   updateUserProgress(userId: string, progress: any): Promise<User | undefined>;
+  
+  // Realm methods
   getRealms(): Promise<Realm[]>;
   getRealmById(id: number): Promise<Realm | undefined>;
   initializeRealms(): Promise<void>;
+  
+  // Mission methods
+  getMissions(realmId: number): Promise<Mission[]>;
+  getMissionById(id: number): Promise<Mission | undefined>;
+  createMission(mission: Partial<Mission>): Promise<Mission>;
+  updateMission(id: number, mission: Partial<Mission>): Promise<Mission | undefined>;
+  
+  // Badge methods
+  getBadges(): Promise<Badge[]>;
+  getBadgesByRealm(realmId: number): Promise<Badge[]>;
+  getBadgeById(id: number): Promise<Badge | undefined>;
+  createBadge(badge: Partial<Badge>): Promise<Badge>;
+  
+  // User badge methods
+  getUserBadges(userId: string): Promise<UserBadge[]>;
+  awardBadgeToUser(userId: string, badgeId: number): Promise<UserBadge>;
+  
   sessionStore: session.Store;
 }
 
@@ -23,15 +44,31 @@ const MemoryStore = createMemoryStore(session);
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private realmsList: Map<number, Realm>;
+  private missionsList: Map<number, Mission>;
+  private badgesList: Map<number, Badge>;
+  private userBadgesList: Map<number, UserBadge>;
+  
   currentId: number;
   realmId: number;
+  missionId: number;
+  badgeId: number;
+  userBadgeId: number;
+  
   sessionStore: session.Store;
 
   constructor() {
     this.users = new Map();
     this.realmsList = new Map();
+    this.missionsList = new Map();
+    this.badgesList = new Map();
+    this.userBadgesList = new Map();
+    
     this.currentId = 1;
     this.realmId = 1;
+    this.missionId = 1;
+    this.badgeId = 1;
+    this.userBadgeId = 1;
+    
     this.sessionStore = new MemoryStore({
       checkPeriod: 86400000 // prune expired entries every 24h
     });
@@ -194,12 +231,121 @@ export class MemStorage implements IStorage {
       console.error('Failed to initialize memory realms:', error);
     }
   }
+  
+  // Mission methods
+  async getMissions(realmId: number): Promise<Mission[]> {
+    return Array.from(this.missionsList.values()).filter(
+      (mission) => mission.realmId === realmId
+    );
+  }
+
+  async getMissionById(id: number): Promise<Mission | undefined> {
+    return this.missionsList.get(id);
+  }
+
+  async createMission(missionData: Partial<Mission>): Promise<Mission> {
+    const id = this.missionId++;
+    
+    const mission = {
+      ...missionData,
+      id,
+      title: missionData.title || '',
+      description: missionData.description || '',
+      realmId: missionData.realmId || 1,
+      order: missionData.order || 1,
+      content: missionData.content || {}
+    } as Mission;
+    
+    this.missionsList.set(id, mission);
+    return mission;
+  }
+
+  async updateMission(id: number, missionData: Partial<Mission>): Promise<Mission | undefined> {
+    const mission = this.missionsList.get(id);
+    if (!mission) return undefined;
+    
+    const updatedMission = {
+      ...mission,
+      ...missionData
+    } as Mission;
+    
+    this.missionsList.set(id, updatedMission);
+    return updatedMission;
+  }
+
+  // Badge methods
+  async getBadges(): Promise<Badge[]> {
+    return Array.from(this.badgesList.values());
+  }
+
+  async getBadgesByRealm(realmId: number): Promise<Badge[]> {
+    return Array.from(this.badgesList.values()).filter(
+      (badge) => badge.realmId === realmId
+    );
+  }
+
+  async getBadgeById(id: number): Promise<Badge | undefined> {
+    return this.badgesList.get(id);
+  }
+
+  async createBadge(badgeData: Partial<Badge>): Promise<Badge> {
+    const id = this.badgeId++;
+    
+    const badge = {
+      ...badgeData,
+      id,
+      name: badgeData.name || '',
+      description: badgeData.description || '',
+      realmId: badgeData.realmId
+    } as Badge;
+    
+    this.badgesList.set(id, badge);
+    return badge;
+  }
+
+  // User badge methods
+  async getUserBadges(userId: string): Promise<UserBadge[]> {
+    return Array.from(this.userBadgesList.values()).filter((userBadge) => {
+      const user = this.users.get(userBadge.userId);
+      return user?.userId === userId;
+    });
+  }
+
+  async awardBadgeToUser(userId: string, badgeId: number): Promise<UserBadge> {
+    const id = this.userBadgeId++;
+    const user = await this.getUserByUserId(userId);
+    
+    if (!user) {
+      throw new Error('User not found');
+    }
+    
+    const badge = this.badgesList.get(badgeId);
+    if (!badge) {
+      throw new Error('Badge not found');
+    }
+    
+    const userBadge = {
+      id,
+      userId: user.id,
+      badgeId,
+      earned: new Date()
+    } as UserBadge;
+    
+    this.userBadgesList.set(id, userBadge);
+    
+    // Update user rewards
+    const rewards = user.rewards || { badges: [], tokens: 0 };
+    const updatedRewards = {
+      ...rewards,
+      badges: [...(rewards.badges || []), badgeId]
+    };
+    
+    await this.updateUser(userId, { rewards: updatedRewards });
+    
+    return userBadge;
+  }
 }
 
-
-
-import { db, pool } from './db';
-import { eq } from 'drizzle-orm';
 import connectPg from "connect-pg-simple";
 
 const PostgresSessionStore = connectPg(session);
@@ -331,6 +477,113 @@ export class DatabaseStorage implements IStorage {
       console.error('Failed to initialize realms:', error);
       throw error;
     }
+  }
+  
+  // Mission methods
+  async getMissions(realmId: number): Promise<Mission[]> {
+    return await db.select().from(missions).where(eq(missions.realmId, realmId));
+  }
+
+  async getMissionById(id: number): Promise<Mission | undefined> {
+    const [mission] = await db.select().from(missions).where(eq(missions.id, id));
+    return mission;
+  }
+
+  async createMission(missionData: Partial<Mission>): Promise<Mission> {
+    const data = {
+      title: missionData.title || '',
+      description: missionData.description || '',
+      imageUrl: missionData.imageUrl,
+      realmId: missionData.realmId || 1,
+      order: missionData.order || 1,
+      content: missionData.content || {}
+    };
+    
+    const [mission] = await db.insert(missions).values([data] as any).returning();
+    return mission;
+  }
+
+  async updateMission(id: number, missionData: Partial<Mission>): Promise<Mission | undefined> {
+    const mission = await this.getMissionById(id);
+    if (!mission) return undefined;
+    
+    const [updatedMission] = await db
+      .update(missions)
+      .set(missionData)
+      .where(eq(missions.id, id))
+      .returning();
+    
+    return updatedMission;
+  }
+
+  // Badge methods
+  async getBadges(): Promise<Badge[]> {
+    return await db.select().from(badges);
+  }
+
+  async getBadgesByRealm(realmId: number): Promise<Badge[]> {
+    return await db.select().from(badges).where(eq(badges.realmId, realmId));
+  }
+
+  async getBadgeById(id: number): Promise<Badge | undefined> {
+    const [badge] = await db.select().from(badges).where(eq(badges.id, id));
+    return badge;
+  }
+
+  async createBadge(badgeData: Partial<Badge>): Promise<Badge> {
+    const data = {
+      name: badgeData.name || '',
+      description: badgeData.description || '',
+      imageUrl: badgeData.imageUrl,
+      realmId: badgeData.realmId
+    };
+    
+    const [badge] = await db.insert(badges).values([data] as any).returning();
+    return badge;
+  }
+
+  // User badge methods
+  async getUserBadges(userId: string): Promise<UserBadge[]> {
+    const user = await this.getUserByUserId(userId);
+    if (!user) return [];
+    
+    return await db
+      .select()
+      .from(userBadges)
+      .where(eq(userBadges.userId, user.id));
+  }
+
+  async awardBadgeToUser(userId: string, badgeId: number): Promise<UserBadge> {
+    const user = await this.getUserByUserId(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    
+    const badge = await this.getBadgeById(badgeId);
+    if (!badge) {
+      throw new Error('Badge not found');
+    }
+    
+    // Insert the badge assignment
+    const [userBadge] = await db
+      .insert(userBadges)
+      .values([{
+        userId: user.id,
+        badgeId: badge.id,
+        earned: new Date()
+      }] as any)
+      .returning();
+    
+    // Update user rewards
+    const rewards = user.rewards || { badges: [], tokens: 0 };
+    const updatedRewards = {
+      ...rewards,
+      badges: [...(rewards.badges || []), badgeId]
+    };
+    
+    await this.updateUser(userId, { rewards: updatedRewards });
+    
+    return userBadge;
   }
 }
 

@@ -3,6 +3,10 @@ import App from "./App";
 import "./index.css";
 import { OfflineProvider } from "./context/OfflineContext";
 
+// Import mock API for frontend-only testing
+// Comment this out when using the real backend
+import "./lib/mockApi";
+
 // Create root element if it doesn't exist
 const rootElement = document.getElementById("root") || (() => {
   const el = document.createElement("div");

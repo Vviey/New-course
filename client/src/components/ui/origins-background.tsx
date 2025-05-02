@@ -36,6 +36,47 @@ export function OriginsBackground({
     background: `linear-gradient(to bottom, ${theme.colors.gradientStart}, ${theme.colors.gradientEnd})`,
   } : {};
   
+  // Pattern styling based on type
+  const getPatternStyle = () => {
+    switch (patternType) {
+      case 'adinkra':
+        return {
+          backgroundImage: `
+            radial-gradient(circle at 10px 10px, ${theme.colors.primary} 5px, transparent 5px),
+            radial-gradient(circle at 30px 30px, ${theme.colors.primary} 5px, transparent 5px),
+            radial-gradient(circle at 30px 10px, ${theme.colors.primary} 3px, transparent 3px),
+            radial-gradient(circle at 10px 30px, ${theme.colors.primary} 3px, transparent 3px)
+          `,
+          backgroundSize: '40px 40px',
+          opacity
+        };
+      case 'woven':
+        return {
+          backgroundImage: `
+            repeating-linear-gradient(
+              45deg,
+              rgba(238, 114, 11, 0.1),
+              rgba(238, 114, 11, 0.1) 10px,
+              rgba(238, 114, 11, 0.2) 10px,
+              rgba(238, 114, 11, 0.2) 20px
+            )
+          `,
+          opacity
+        };
+      case 'cowrie':
+        return {
+          backgroundImage: `
+            radial-gradient(ellipse at 30% 40%, ${theme.colors.secondary}33 0%, transparent 50%),
+            radial-gradient(ellipse at 70% 60%, ${theme.colors.secondary}33 0%, transparent 50%)
+          `,
+          backgroundSize: '30px 20px',
+          opacity
+        };
+      default:
+        return { opacity };
+    }
+  };
+  
   return (
     <div 
       className={`relative overflow-hidden ${roundedCorners ? 'rounded-xl' : ''} ${className}`}
@@ -45,7 +86,7 @@ export function OriginsBackground({
       {patternType !== 'none' && (
         <div 
           className={`absolute inset-0 ${getPatternClass()}`} 
-          style={{ opacity }}
+          style={getPatternStyle()}
         />
       )}
       

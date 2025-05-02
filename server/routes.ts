@@ -63,6 +63,161 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Mission routes
+  app.get("/api/realms/:realmId/missions", async (req, res) => {
+    try {
+      const realmId = parseInt(req.params.realmId, 10);
+      if (isNaN(realmId)) {
+        return res.status(400).json({ message: "Invalid realm ID" });
+      }
+      
+      const missions = await storage.getMissions(realmId);
+      res.status(200).json(missions);
+    } catch (error) {
+      res.status(500).json({ message: (error as Error).message });
+    }
+  });
+  
+  app.get("/api/missions/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid mission ID" });
+      }
+      
+      const mission = await storage.getMissionById(id);
+      if (!mission) {
+        return res.status(404).json({ message: "Mission not found" });
+      }
+      
+      res.status(200).json(mission);
+    } catch (error) {
+      res.status(500).json({ message: (error as Error).message });
+    }
+  });
+  
+  // Mission creation (admin only)
+  app.post("/api/missions", async (req, res) => {
+    try {
+      // Check authentication and admin role in a real application
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
+      
+      const missionData = req.body;
+      const mission = await storage.createMission(missionData);
+      
+      res.status(201).json(mission);
+    } catch (error) {
+      res.status(500).json({ message: (error as Error).message });
+    }
+  });
+  
+  // Mission update (admin only)
+  app.patch("/api/missions/:id", async (req, res) => {
+    try {
+      // Check authentication and admin role in a real application
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid mission ID" });
+      }
+      
+      const missionData = req.body;
+      const mission = await storage.updateMission(id, missionData);
+      
+      if (!mission) {
+        return res.status(404).json({ message: "Mission not found" });
+      }
+      
+      res.status(200).json(mission);
+    } catch (error) {
+      res.status(500).json({ message: (error as Error).message });
+    }
+  });
+  
+  // Badge routes
+  app.get("/api/badges", async (req, res) => {
+    try {
+      const badges = await storage.getBadges();
+      res.status(200).json(badges);
+    } catch (error) {
+      res.status(500).json({ message: (error as Error).message });
+    }
+  });
+  
+  app.get("/api/realms/:realmId/badges", async (req, res) => {
+    try {
+      const realmId = parseInt(req.params.realmId, 10);
+      if (isNaN(realmId)) {
+        return res.status(400).json({ message: "Invalid realm ID" });
+      }
+      
+      const badges = await storage.getBadgesByRealm(realmId);
+      res.status(200).json(badges);
+    } catch (error) {
+      res.status(500).json({ message: (error as Error).message });
+    }
+  });
+  
+  app.get("/api/badges/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid badge ID" });
+      }
+      
+      const badge = await storage.getBadgeById(id);
+      if (!badge) {
+        return res.status(404).json({ message: "Badge not found" });
+      }
+      
+      res.status(200).json(badge);
+    } catch (error) {
+      res.status(500).json({ message: (error as Error).message });
+    }
+  });
+  
+  // User badge routes
+  app.get("/api/user/badges", async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
+      
+      const userId = req.user!.userId;
+      const badges = await storage.getUserBadges(userId);
+      
+      res.status(200).json(badges);
+    } catch (error) {
+      res.status(500).json({ message: (error as Error).message });
+    }
+  });
+  
+  // Award badge to user (admin only or through completion logic)
+  app.post("/api/user/badges", async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
+      
+      const userId = req.user!.userId;
+      const { badgeId } = req.body;
+      
+      if (!badgeId) {
+        return res.status(400).json({ message: "Badge ID is required" });
+      }
+      
+      const userBadge = await storage.awardBadgeToUser(userId, badgeId);
+      res.status(201).json(userBadge);
+    } catch (error) {
+      res.status(500).json({ message: (error as Error).message });
+    }
+  });
+  
   // Create HTTP server
   const httpServer = createServer(app);
   
