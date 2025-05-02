@@ -24,14 +24,9 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Serve only needed static assets like images, but not HTML files
-// This will allow our React app to handle routing
+// Serve static assets from public directory
 console.log('[DEBUG] Serving static files from:', path.resolve('./public'));
-// Only serve specific file types, exclude HTML
-app.use(express.static(path.resolve('./public'), {
-  index: false, // Don't serve index.html automatically
-  extensions: ['jpg', 'png', 'gif', 'svg', 'css', 'js', 'ico'], // Only serve these file types
-}));
+app.use(express.static(path.resolve('./public')));
 
 app.use((req, res, next) => {
   const start = Date.now();

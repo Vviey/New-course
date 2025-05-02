@@ -1,313 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bitcoin Quest - Asha's Journey</title>
-  <style>
-    :root {
-      --primary: #d162db;
-      --primary-light: #e39be9;
-      --background: #0c0c14;
-      --background-alt: #16162a;
-      --foreground: #eaeaea;
-      --border: #2a2a36;
-      --muted: #6c6c7c;
-      --muted-foreground: #c0c0c6;
-      --radius: 0.5rem;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      background-color: var(--background);
-      color: var(--foreground);
-      line-height: 1.6;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
-    
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 3rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--primary);
-    }
-    
-    .main-heading {
-      font-size: 3rem;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(45deg, var(--primary), #9c4fd8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-    }
-    
-    .subtitle {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-      color: var(--muted-foreground);
-    }
-    
-    .button {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      background-color: var(--primary);
-      color: white !important;
-      border: none;
-      border-radius: var(--radius);
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .button:hover {
-      background-color: var(--primary-light);
-    }
-    
-    .button.secondary {
-      background-color: var(--background-alt);
-      border: 1px solid var(--border);
-      color: var(--foreground) !important;
-    }
-    
-    .button.secondary:hover {
-      background-color: var(--border);
-    }
-    
-    .realms-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-    
-    .realm-card {
-      background-color: var(--background-alt);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    
-    .realm-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    }
-    
-    .realm-image {
-      width: 100%;
-      height: 160px;
-      background-position: center;
-      background-size: cover;
-      position: relative;
-    }
-    
-    .realm-image::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 50%;
-      background: linear-gradient(to top, var(--background-alt), transparent);
-    }
-    
-    .realm-1 {
-      background-image: url('/realms/origins.jpg');
-    }
-    
-    .realm-2 {
-      background-image: url('/realms/citadel.jpg');
-    }
-    
-    .realm-3 {
-      background-image: url('/realms/forest.jpg');
-    }
-    
-    .realm-4 {
-      background-image: url('/realms/forks.jpg');
-    }
-    
-    .realm-content {
-      padding: 1.5rem;
-    }
-    
-    .realm-title {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-      color: var(--primary-light);
-    }
-    
-    .realm-description {
-      margin-bottom: 1.5rem;
-      color: var(--muted-foreground);
-    }
-    
-    .locked-indicator {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 0.25rem 0.75rem;
-      border-radius: var(--radius);
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
-    
-    .hero {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      margin-bottom: 4rem;
-    }
-    
-    .hero-content {
-      flex: 1;
-    }
-    
-    .hero-image {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
-    }
-    
-    .hero-image img {
-      max-width: 100%;
-      height: auto;
-      border-radius: var(--radius);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    
-    .notice {
-      padding: 1rem;
-      background-color: rgba(255, 255, 255, 0.05);
-      border-radius: var(--radius);
-      margin-bottom: 2rem;
-      border-left: 4px solid var(--primary);
-    }
-    
-    footer {
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.875rem;
-    }
-    
-    /* Mobile responsiveness */
-    @media (max-width: 768px) {
-      .hero {
-        flex-direction: column;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Bitcoin Quest</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background-color: #0c0c14;
+        color: #eaeaea;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+      
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 3rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #2a2a36;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #d162db;
       }
       
       .main-heading {
-        font-size: 2.5rem;
+        font-size: 3rem;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(45deg, #d162db, #9c4fd8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
       }
       
       .subtitle {
-        font-size: 1.25rem;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        color: #c0c0c6;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <div class="logo">Bitcoin Quest</div>
-      <a href="#" class="button secondary">Login</a>
-    </header>
-    
-    <div class="notice">
-      <strong>Static Content Mode:</strong> You're viewing a fallback version of the course. For the full interactive experience, please ensure you're connected to the internet.
-    </div>
-    
-    <div class="hero">
-      <div class="hero-content">
-        <h1 class="main-heading">Asha's Journey Through the Realms of Money</h1>
-        <p class="subtitle">Embark on an educational adventure to understand Bitcoin, cryptocurrency, and the future of money through an immersive, narrative-driven experience.</p>
-        <a href="/api/register" class="button">Begin Your Journey</a>
-      </div>
-      <div class="hero-image">
-        <img src="/asha-character.png" alt="Asha, the protagonist" onerror="this.src='/favicon.ico'; this.style.width='100px';">
-      </div>
-    </div>
-    
-    <h2 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--primary-light);">Explore the Realms</h2>
-    <div class="realms-grid">
-      <!-- Realm 1 -->
-      <div class="realm-card">
-        <div class="realm-image realm-1"></div>
-        <div class="realm-content">
-          <h3 class="realm-title">Realm of Origins</h3>
-          <p class="realm-description">Discover the foundations of money through African monetary systems, from bartering to indigenous currencies.</p>
-          <a href="/realm/1/mission/1" class="button">Enter Realm</a>
+      
+      .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background-color: #d162db;
+        color: white !important;
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      
+      .button:hover {
+        background-color: #e39be9;
+      }
+      
+      .hero {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 4rem;
+      }
+      
+      .hero-content {
+        flex: 1;
+      }
+      
+      .hero-image {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+      }
+      
+      .hero-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+      
+      footer {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #2a2a36;
+        text-align: center;
+        color: #6c6c7c;
+        font-size: 0.875rem;
+      }
+      
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        .hero {
+          flex-direction: column;
+        }
+        
+        .main-heading {
+          font-size: 2.5rem;
+        }
+        
+        .subtitle {
+          font-size: 1.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">Bitcoin Quest</div>
+        <a href="http://localhost:5000" class="button">Go to App</a>
+      </header>
+      
+      <div class="hero">
+        <div class="hero-content">
+          <h1 class="main-heading">Asha's Journey Through the Realms of Money</h1>
+          <p class="subtitle">Embark on an educational adventure to understand Bitcoin, cryptocurrency, and the future of money through an immersive, narrative-driven experience.</p>
+          <a href="http://localhost:5000" class="button">Launch Application</a>
+        </div>
+        <div class="hero-image">
+          <img src="/asha-character.png" alt="Asha, the protagonist" onerror="this.src='/favicon.ico'; this.style.width='100px';">
         </div>
       </div>
       
-      <!-- Realm 2 -->
-      <div class="realm-card">
-        <div class="realm-image realm-2"></div>
-        <div class="realm-content">
-          <h3 class="realm-title">Surveillance City</h3>
-          <p class="realm-description">Navigate the walled city-state where every transaction is monitored, exploring privacy and control.</p>
-          <a href="/realm/2/mission/1" class="button">Enter Realm</a>
-        </div>
-      </div>
-      
-      <!-- Realm 3 -->
-      <div class="realm-card">
-        <div class="realm-image realm-3">
-          <div class="locked-indicator">Coming Soon</div>
-        </div>
-        <div class="realm-content">
-          <h3 class="realm-title">The Luminous Forest</h3>
-          <p class="realm-description">Explore a forest where mathematical patterns form the foundation of a new digital ecosystem.</p>
-          <a href="#" class="button secondary">Locked</a>
-        </div>
-      </div>
-      
-      <!-- Realm 4 -->
-      <div class="realm-card">
-        <div class="realm-image realm-4">
-          <div class="locked-indicator">Coming Soon</div>
-        </div>
-        <div class="realm-content">
-          <h3 class="realm-title">The Mountain Forge</h3>
-          <p class="realm-description">Venture to the peaks where Bitcoin miners work to secure the network through competitive computation.</p>
-          <a href="#" class="button secondary">Locked</a>
-        </div>
-      </div>
+      <footer>
+        <p>Bitcoin Quest - Educational Platform © 2025</p>
+      </footer>
     </div>
-    
-    <footer>
-      <p>Bitcoin Quest - Educational Platform © 2025</p>
-    </footer>
-  </div>
-</body>
+  </body>
 </html>
