@@ -1,261 +1,275 @@
-// Mock API Implementation for testing frontend without backend
-import { User, Realm, Mission, Badge } from "@shared/schema";
-import { v4 as uuid } from "uuid";
+// Mock API implementation for frontend-only mode
+// Intercepts fetch calls to API endpoints and returns mock data
 
-// In-memory store of data for testing
-const store = {
-  user: null as User | null,
-  realms: [
-    {
-      id: 1,
-      name: "Realm of Origins",
-      description: "Discover how money began and evolved from shells to bills in this foundational chapter.",
-      moduleNumber: 1,
-      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-1.png",
-      isLocked: false
-    },
-    {
-      id: 2,
-      name: "The Central Citadel",
-      description: "Explore the towers of power where monetary decisions echo through the lands.",
-      moduleNumber: 2,
-      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-2.png", 
-      isLocked: true
-    },
-    {
-      id: 3,
-      name: "The Forest of Sparks",
-      description: "Enter the mystical forest where the spark of Bitcoin was first ignited.",
-      moduleNumber: 3,
-      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-3.png",
-      isLocked: true
-    },
-    {
-      id: 4,
-      name: "The Mountain Forge",
-      description: "Delve into the depths where miners create new blocks through proof of work.",
-      moduleNumber: 4,
-      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-4.png",
-      isLocked: true
-    },
-    {
-      id: 5,
-      name: "The Council of Forks",
-      description: "Witness the debates that shape the path of digital currencies at the Council.",
-      moduleNumber: 5,
-      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-5.png",
-      isLocked: true
-    },
-    {
-      id: 6,
-      name: "The Ubuntu Village",
-      description: "Discover how Bitcoin weaves into African traditions of community and shared prosperity.",
-      moduleNumber: 6,
-      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-6.png",
-      isLocked: true
-    },
-    {
-      id: 7,
-      name: "The Summit of Knowledge",
-      description: "Complete your journey and demonstrate your mastery of Bitcoin concepts.",
-      moduleNumber: 7,
-      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-7.png",
-      isLocked: true
-    }
-  ] as Realm[],
-  missions: [] as Mission[],
-  badges: [] as Badge[]
-};
+console.log("Mock API initialized for frontend-only mode");
 
-// Mock API Handlers
-export const mockHandlers = {
-  // Auth Endpoints
-  "/api/login": async (credentials: { username: string, password: string }) => {
-    // Simple login simulation - in a real app would verify password
-    if (credentials.username.length < 3) {
-      throw new Error("Username must be at least 3 characters");
-    }
-
-    // Create a mock user
-    const user: User = {
-      id: 1,
-      userId: uuid(),
-      username: credentials.username,
-      password: "hashed-password", // never expose real passwords
-      email: `${credentials.username}@example.com`,
-      progress: {
-        currentRealm: 1,
-        completedRealms: [],
-        chain: {
-          progress: 0,
-          lastUpdated: new Date().toISOString()
-        }
-      },
-      rewards: {
-        badges: [],
-        tokens: 0
-      }
-    };
-
-    // Store the user in our mock store
-    store.user = user;
-    return user;
+// Mock data for realms
+const mockRealms = [
+  {
+    id: 1,
+    name: "Realm of Origins",
+    description: "Learn about the foundations of money",
+    moduleNumber: 1,
+    imageUrl: "/assets/realms/origins.png",
+    isLocked: false
   },
-
-  "/api/register": async (userData: { username: string, password: string, email?: string }) => {
-    // Simple registration validation
-    if (userData.username.length < 3) {
-      throw new Error("Username must be at least 3 characters");
-    }
-    if (userData.password.length < 6) {
-      throw new Error("Password must be at least 6 characters");
-    }
-
-    // Create a mock user
-    const user: User = {
-      id: 1,
-      userId: uuid(),
-      username: userData.username,
-      password: "hashed-password", // never expose real passwords
-      email: userData.email || null,
-      progress: {
-        currentRealm: 1,
-        completedRealms: [],
-        chain: {
-          progress: 0,
-          lastUpdated: new Date().toISOString()
-        }
-      },
-      rewards: {
-        badges: [],
-        tokens: 0
-      }
-    };
-
-    // Store the user in our mock store
-    store.user = user;
-    return user;
+  {
+    id: 2,
+    name: "The Central Citadel",
+    description: "Discover how governments control the monetary system",
+    moduleNumber: 2,
+    imageUrl: "/assets/realms/central.png",
+    isLocked: false
   },
-
-  "/api/logout": async () => {
-    // Simply clear the user from store
-    store.user = null;
-    return true;
+  {
+    id: 3,
+    name: "The Forest of Sparks",
+    description: "Explore Bitcoin's birth and early development",
+    moduleNumber: 3,
+    imageUrl: "/assets/realms/forest.png",
+    isLocked: false
   },
-
-  "/api/user": async () => {
-    // Return the current user or null if not logged in
-    return store.user;
+  {
+    id: 4,
+    name: "The Mountain Forge",
+    description: "Understand how Bitcoin mining works",
+    moduleNumber: 4,
+    imageUrl: "/assets/realms/mountain.png",
+    isLocked: false
   },
-
-  // Realm Endpoints
-  "/api/realms": async () => {
-    return store.realms;
+  {
+    id: 5,
+    name: "The Council of Forks",
+    description: "Learn about Bitcoin's governance and consensus",
+    moduleNumber: 5,
+    imageUrl: "/assets/realms/council.png",
+    isLocked: false
   },
-
-  "/api/realms/:id": async (params: { id: string }) => {
-    const realmId = parseInt(params.id);
-    const realm = store.realms.find(r => r.id === realmId);
-    if (!realm) {
-      throw new Error(`Realm ${realmId} not found`);
-    }
-    return realm;
+  {
+    id: 6,
+    name: "The Ubuntu Village",
+    description: "Discover Bitcoin's practical applications in Africa",
+    moduleNumber: 6,
+    imageUrl: "/assets/realms/ubuntu.png",
+    isLocked: false
   },
+  {
+    id: 7,
+    name: "The Summit of Knowledge",
+    description: "Test your comprehensive understanding of Bitcoin",
+    moduleNumber: 7,
+    imageUrl: "/assets/realms/summit.png",
+    isLocked: false
+  }
+];
 
-  // Mission Endpoints
-  "/api/realms/:realmId/missions": async (params: { realmId: string }) => {
-    const realmId = parseInt(params.realmId);
-    // Generate some mock missions for this realm
-    return Array.from({ length: 5 }, (_, i) => ({
-      id: i + 1,
-      title: `Mission ${i + 1}`,
-      description: `This is mission ${i + 1} of realm ${realmId}`,
-      imageUrl: `https://bitcoiners.africa/wp-content/uploads/2025/04/mission-${i + 1}.png`,
-      realmId,
-      order: i + 1,
+// Mock data for missions
+const mockMissions = {
+  1: [
+    {
+      id: 101,
+      realmId: 1,
+      title: "The Barter System",
+      description: "Discover how trade began before money existed",
+      imageUrl: "/assets/missions/barter.png",
+      order: 1,
       content: {
-        type: "quiz",
         sections: [
           {
-            title: "Introduction",
-            content: "This is the introduction to the mission."
+            type: "text",
+            content: "Before money existed, people traded goods directly with each other through bartering."
           },
           {
-            title: "Challenge",
-            content: "This is the challenge part of the mission."
+            type: "image",
+            src: "/assets/missions/barter-illustration.png",
+            alt: "Illustration of barter trade"
           }
         ]
       }
-    }));
-  }
-};
-
-// Helper to extract URL parameters
-const extractParams = (pattern: string, url: string) => {
-  const paramNames: string[] = [];
-  const regexPattern = pattern.replace(/:[^/]+/g, match => {
-    paramNames.push(match.substring(1));
-    return "([^/]+)";
-  });
-  
-  const regex = new RegExp(`^${regexPattern}$`);
-  const matches = url.match(regex);
-  
-  if (!matches) return null;
-  
-  const params: Record<string, string> = {};
-  for (let i = 0; i < paramNames.length; i++) {
-    params[paramNames[i]] = matches[i + 1];
-  }
-  
-  return params;
-};
-
-// Mock fetch implementation to intercept API calls
-const originalFetch = window.fetch;
-window.fetch = async (url: RequestInfo | URL, init?: RequestInit) => {
-  const urlStr = url.toString();
-  
-  // Only intercept API calls
-  if (!urlStr.startsWith('/api/')) {
-    return originalFetch(url, init);
-  }
-  
-  console.log(`[Mock API] ${init?.method || 'GET'} ${urlStr}`);
-  
-  // Find matching handler
-  for (const [pattern, handler] of Object.entries(mockHandlers)) {
-    const params = extractParams(pattern, urlStr);
-    if (params) {
-      try {
-        // For simplicity, all handlers return success responses
-        let body = null;
-        if (init?.method !== 'GET' && init?.body) {
-          body = JSON.parse(init.body.toString());
-        }
-        
-        const result = await handler(body || params);
-        
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 300));
-        
-        return new Response(JSON.stringify(result), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' }
-        });
-      } catch (error: any) {
-        // Return error as the API would
-        return new Response(error.message || 'Unknown error', {
-          status: 400,
-          statusText: error.message || 'Unknown error'
-        });
+    },
+    {
+      id: 102,
+      realmId: 1,
+      title: "The Cowrie Shell Market",
+      description: "Explore how shells became an early form of money in Africa",
+      imageUrl: "/assets/missions/cowrie.png",
+      order: 2,
+      content: {
+        sections: [
+          {
+            type: "text",
+            content: "Cowrie shells were one of the earliest forms of currency in many parts of Africa."
+          }
+        ]
       }
+    },
+    {
+      id: 103,
+      realmId: 1,
+      title: "Properties of Good Money",
+      description: "Discover what makes something suitable to be used as money",
+      imageUrl: "/assets/missions/properties.png",
+      order: 3,
+      content: {
+        sections: [
+          {
+            type: "text",
+            content: "Good money should be durable, portable, divisible, uniform, limited in supply, and accepted."
+          }
+        ]
+      }
+    }
+  ],
+  // Add more missions for other realms as needed
+};
+
+// Mock data for the user
+const mockUser = {
+  id: 1,
+  userId: "demo-user-123",
+  username: "demouser",
+  email: "demo@example.com",
+  progress: {
+    currentRealm: 1,
+    completedRealms: [],
+    missionsCompleted: [],
+    chain: {
+      progress: 0,
+      lastUpdated: new Date().toISOString()
+    }
+  },
+  rewards: {
+    badges: [],
+    tokens: 0
+  }
+};
+
+// Mock badge data
+const mockBadges = [
+  {
+    id: 1,
+    name: "Origins Explorer",
+    description: "Completed all missions in the Realm of Origins",
+    imageUrl: "/assets/badges/origins.png",
+    realmId: 1
+  },
+  {
+    id: 2,
+    name: "Central Authority",
+    description: "Mastered the central banking system in The Central Citadel",
+    imageUrl: "/assets/badges/central.png",
+    realmId: 2
+  }
+];
+
+// Original fetch implementation
+const originalFetch = window.fetch;
+
+// Replace fetch with our mock implementation
+window.fetch = async function(input: RequestInfo | URL, init?: RequestInit) {
+  const url = typeof input === 'string' ? input : input.toString();
+  
+  console.log(`Intercepted fetch to: ${url}`);
+  
+  // API endpoint handling
+  if (url.includes('/api/realms')) {
+    if (url.match(/\/api\/realms\/\d+$/)) {
+      // Handle specific realm request
+      const realmId = parseInt(url.split('/').pop() || "0", 10);
+      const realm = mockRealms.find(r => r.id === realmId);
+      
+      return new Response(JSON.stringify(realm || null), {
+        status: realm ? 200 : 404,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } else {
+      // Return all realms
+      return new Response(JSON.stringify(mockRealms), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
   }
   
-  // If no matching handler, return 404
-  return new Response('Not found', { status: 404 });
+  if (url.includes('/api/missions')) {
+    if (url.match(/\/api\/missions\/\d+$/)) {
+      // Handle specific mission request
+      const missionId = parseInt(url.split('/').pop() || "0", 10);
+      let foundMission = null;
+      
+      // Search through all realms
+      for (const realmId in mockMissions) {
+        const missions = mockMissions[realmId as keyof typeof mockMissions];
+        const mission = missions.find(m => m.id === missionId);
+        if (mission) {
+          foundMission = mission;
+          break;
+        }
+      }
+      
+      return new Response(JSON.stringify(foundMission || null), {
+        status: foundMission ? 200 : 404,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } else if (url.includes('/api/missions/realm/')) {
+      // Handle missions by realm
+      const realmId = parseInt(url.split('/').pop() || "0", 10);
+      const missions = mockMissions[realmId as keyof typeof mockMissions] || [];
+      
+      return new Response(JSON.stringify(missions), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+  }
+  
+  if (url.includes('/api/badges')) {
+    return new Response(JSON.stringify(mockBadges), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+  
+  if (url === '/api/user') {
+    // Return user data for authenticated requests
+    return new Response(JSON.stringify(mockUser), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+  
+  if (url === '/api/login' && init?.method === 'POST') {
+    // Mock login endpoint
+    const body = init.body ? JSON.parse(init.body.toString()) : {};
+    
+    if (body.username === 'demouser' && body.password === 'password') {
+      return new Response(JSON.stringify(mockUser), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } else {
+      return new Response(JSON.stringify({ message: 'Invalid username or password' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+  }
+  
+  if (url === '/api/register' && init?.method === 'POST') {
+    // Mock register endpoint - always succeeds in frontend-only mode
+    return new Response(JSON.stringify(mockUser), {
+      status: 201,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+  
+  if (url === '/api/logout' && init?.method === 'POST') {
+    // Mock logout endpoint
+    return new Response(null, {
+      status: 200
+    });
+  }
+  
+  // Fall back to original fetch for non-API requests
+  return originalFetch(input, init);
 };
-
-// Export the mock store for direct manipulation in tests
-export { store };

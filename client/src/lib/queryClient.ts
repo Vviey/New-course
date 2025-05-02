@@ -1,59 +1,82 @@
 import { QueryClient } from "@tanstack/react-query";
 
-type FetcherOptions = {
-  on401?: "returnNull" | "redirect";
-};
-
-export const apiRequest = async (
-  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
-  url: string,
-  body?: any,
-  options?: RequestInit
-): Promise<Response> => {
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-    ...options?.headers,
-  };
-
-  const response = await fetch(url, {
-    method,
-    headers,
-    body: body ? JSON.stringify(body) : undefined,
-    credentials: "include",
-    ...options,
-  });
-
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(text || response.statusText);
-  }
-
-  return response;
-};
-
-export const getQueryFn = (options: FetcherOptions = {}) => {
-  return async ({ queryKey }: { queryKey: string[] }) => {
-    const [url] = queryKey;
-    try {
-      const res = await apiRequest("GET", url);
-      return await res.json();
-    } catch (error: any) {
-      if (error.message === "Unauthorized" && options.on401 === "returnNull") {
-        return null;
-      }
-      throw error;
-    }
-  };
-};
-
-export const defaultQueryFn = getQueryFn();
-
+// Create a client
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000, // 5 minutes
       retry: 1,
     },
   },
 });
+
+type FetchOptions = {
+  on401?: "returnNull" | "throw";
+};
+
+type ApiRequestMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+
+// Utility function for API requests
+export async function apiRequest(
+  method: ApiRequestMethod,
+  endpoint: string,
+  body?: any
+): Promise<Response> {
+  // Handle relative URLs
+  const url = endpoint.startsWith("/") ? `${endpoint}` : `/${endpoint}`;
+
+  const options: RequestInit = {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // Include cookies in the request
+  };
+
+  if (body && method !== "GET") {
+    options.body = JSON.stringify(body);
+  }
+
+  try {
+    return await fetch(url, options);
+  } catch (error) {
+    console.error(`API request failed (${method} ${url}):`, error);
+    throw error;
+  }
+}
+
+// Reusable query function for TanStack Query
+export function getQueryFn(options: FetchOptions = {}) {
+  return async function queryFn({ queryKey }: { queryKey: (string | number)[] }) {
+    const url = Array.isArray(queryKey) ? queryKey.join("/") : queryKey.toString();
+    
+    try {
+      const response = await apiRequest("GET", url);
+      
+      if (!response.ok) {
+        if (response.status === 401 && options.on401 === "returnNull") {
+          return null;
+        }
+        
+        let errorMessage = `API request failed with status ${response.status}`;
+        
+        try {
+          const errorData = await response.json();
+          if (errorData.message) {
+            errorMessage = errorData.message;
+          }
+        } catch {
+          // If we can't parse JSON, just use the status text
+          errorMessage = response.statusText || errorMessage;
+        }
+        
+        throw new Error(errorMessage);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error(`Query failed (${url}):`, error);
+      throw error;
+    }
+  };
+}

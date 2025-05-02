@@ -1,22 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { originTheme } from '@/lib/realm-themes';
 import { OriginsBackground } from '@/components/ui/origins-background';
-import { useAuth } from '@/hooks/use-auth';
 import { getRealmName } from '@/lib/realm-utils';
 
 export default function StoryIntroPage() {
   const [, setLocation] = useLocation();
-  const { user } = useAuth();
   const [currentSlide, setCurrentSlide] = useState(0);
   const theme = originTheme;
-  
-  // In frontend-only mode, we don't redirect as we're using a mock auth provider
-  useEffect(() => {
-    // For frontend-only mode, the redirect is disabled
-    // In the full application, we would redirect if !user
-    console.log('Story intro page loaded with user:', user?.username);
-  }, [user]);
   
   // Story intro slides content
   const slides = [
@@ -34,7 +25,7 @@ export default function StoryIntroPage() {
       content: `The next morning, Asha discovers an ornate wooden box at her doorstep. 
       Inside, she finds an ancient map and a peculiar coin unlike any she's seen before.
       
-      The map shows six distinct realms, each containing knowledge about money that 
+      The map shows seven distinct realms, each containing knowledge about money that 
       has been lost or forgotten by many. A note reads: "To understand tomorrow, 
       you must first understand yesterday."`,
       image: "https://bitcoiners.africa/wp-content/uploads/2025/04/intro-2.jpg"

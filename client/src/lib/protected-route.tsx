@@ -1,9 +1,8 @@
-import { useAuth } from "@/hooks/use-auth";
 import { Loader2 } from "lucide-react";
-import { Redirect, Route } from "wouter";
-import { ComponentType, ReactNode } from "react";
+import { Route } from "wouter";
+import { ComponentType } from "react";
 
-// Component for protecting routes that require authentication
+// Simplified ProtectedRoute that always allows access
 export function ProtectedRoute({
   path,
   component: Component,
@@ -11,30 +10,7 @@ export function ProtectedRoute({
   path: string;
   component: ComponentType<any>;
 }) {
-  const { user, isLoading } = useAuth();
-
-  // If still loading the user data, show a loading spinner
-  if (isLoading) {
-    return (
-      <Route path={path}>
-        <div className="flex items-center justify-center min-h-screen">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <span className="ml-2">Loading...</span>
-        </div>
-      </Route>
-    );
-  }
-
-  // If not authenticated, redirect to the auth page with the original path as redirect parameter
-  if (!user) {
-    return (
-      <Route path={path}>
-        <Redirect to={`/auth?redirect=${encodeURIComponent(path)}`} />
-      </Route>
-    );
-  }
-
-  // If authenticated, render the protected component
+  // Always render the protected component - no auth checks
   return (
     <Route path={path}>
       <Component />
@@ -42,7 +18,7 @@ export function ProtectedRoute({
   );
 }
 
-// Component for redirecting authenticated users away from certain pages (like auth page)
+// Simplified AuthRedirectRoute that always shows the component
 export function AuthRedirectRoute({
   path,
   component: Component,
@@ -52,30 +28,7 @@ export function AuthRedirectRoute({
   component: ComponentType<any>;
   redirectTo?: string;
 }) {
-  const { user, isLoading } = useAuth();
-
-  // If still loading the user data, show a loading spinner
-  if (isLoading) {
-    return (
-      <Route path={path}>
-        <div className="flex items-center justify-center min-h-screen">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <span className="ml-2">Loading...</span>
-        </div>
-      </Route>
-    );
-  }
-
-  // If authenticated, redirect to the specified path
-  if (user) {
-    return (
-      <Route path={path}>
-        <Redirect to={redirectTo} />
-      </Route>
-    );
-  }
-
-  // If not authenticated, render the component
+  // Always render the component - no auth checks
   return (
     <Route path={path}>
       <Component />

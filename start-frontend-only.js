@@ -2,10 +2,11 @@
  * Script for running the existing application without a database
  * Note: This doesn't create any new pages or components
  */
-const { exec } = require('child_process');
+import { exec } from 'child_process';
 
 // Simply run the regular npm dev command with environment variables that indicate no database
-const command = 'NODE_ENV=development npm run dev';
+// Use the local Vite config to handle host issues
+const command = 'NODE_ENV=development VITE_CONFIG_PATH=./client/vite.config.local.js npm run dev';
 
 console.log('Starting application in frontend-only mode (no database required)...');
 console.log('This will use the existing application code with MemStorage');

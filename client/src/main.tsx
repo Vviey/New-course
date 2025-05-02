@@ -7,6 +7,9 @@ import { OfflineProvider } from "./context/OfflineContext";
 // Comment this out when using the real backend
 import "./lib/mockApi";
 
+// Import Vite config helper to fix hostname issues in Replit
+import "./vite-config-helper.js";
+
 // Create root element if it doesn't exist
 const rootElement = document.getElementById("root") || (() => {
   const el = document.createElement("div");
