@@ -24,10 +24,14 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Explicitly serve static files from the public directory 
-// This should make the static HTML files directly accessible
+// Serve only needed static assets like images, but not HTML files
+// This will allow our React app to handle routing
 console.log('[DEBUG] Serving static files from:', path.resolve('./public'));
-app.use(express.static(path.resolve('./public')));
+// Only serve specific file types, exclude HTML
+app.use(express.static(path.resolve('./public'), {
+  index: false, // Don't serve index.html automatically
+  extensions: ['jpg', 'png', 'gif', 'svg', 'css', 'js', 'ico'], // Only serve these file types
+}));
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -73,25 +77,14 @@ app.use((req, res, next) => {
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
-  // Add a custom 404 handler for any routes not matched by the previous handlers
+  // Add a custom handler for routes that should always go to the React app
   app.use((req, res, next) => {
     // Skip API routes, let them continue to error handlers
     if (req.path.startsWith('/api')) {
       return next();
     }
     
-    // Check if the request is for a static HTML file we know about
-    if (['/index.html', '/demo.html', '/realm2-mission4.html', 
-         '/realm2-mission5.html', '/realm2-mission6.html', 
-         '/realm2-missionbonus.html'].includes(req.path)) {
-      
-      const filePath = path.resolve('./public', req.path.substring(1));
-      if (fs.existsSync(filePath)) {
-        return res.sendFile(filePath);
-      }
-    }
-    
-    // If this point is reached, the route wasn't handled, continue to Vite
+    // All other routes should be handled by Vite/React router
     next();
   });
   
