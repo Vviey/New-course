@@ -113,17 +113,27 @@ const shouldCache = url => {
 self.addEventListener('fetch', event => {
   // Skip cross-origin requests
   if (!event.request.url.startsWith(self.location.origin)) {
-    return;
+    return; // Don't handle cross-origin requests
   }
   
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
-    return;
+    return; // Don't handle non-GET requests
   }
   
   // Skip non-cacheable API routes (those that change frequently)
   if (isApiRoute(event.request.url)) {
-    return;
+    return; // Don't handle API routes
+  }
+  
+  // Skip development-specific URLs (like Vite HMR endpoints and node_modules)
+  const url = new URL(event.request.url);
+  if (url.pathname.includes('node_modules') || 
+      url.pathname.includes('@vite') || 
+      url.pathname.includes('@fs') ||
+      url.pathname.includes('?v=') ||
+      url.pathname.includes('hot-update')) {
+    return; // Don't handle development-specific URLs
   }
   
   // Handle the request with appropriate strategy
@@ -140,8 +150,8 @@ self.addEventListener('fetch', event => {
         return fetch(event.request)
           .then(response => {
             // Check if we received a valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              console.log('[Service Worker] Serving from network (no cache):', event.request.url);
+            if (!response || response.status !== 200) {
+              console.log('[Service Worker] Serving from network (non-success):', event.request.url, response?.status);
               return response;
             }
             
@@ -154,6 +164,9 @@ self.addEventListener('fetch', event => {
                 .then(cache => {
                   console.log('[Service Worker] Caching new resource:', event.request.url);
                   cache.put(event.request, responseToCache);
+                })
+                .catch(err => {
+                  console.warn('[Service Worker] Failed to cache:', event.request.url, err);
                 });
             }
             
@@ -161,14 +174,23 @@ self.addEventListener('fetch', event => {
             return response;
           })
           .catch(error => {
-            console.error('[Service Worker] Fetch failed:', error);
+            console.warn('[Service Worker] Fetch failed:', event.request.url);
+            
             // If fetch fails, return offline fallback page for navigation requests
             if (event.request.mode === 'navigate') {
-              return caches.match('/offline.html');
+              return caches.match('/offline.html').then(offlineResponse => {
+                return offlineResponse || new Response('Offline page not found', {
+                  status: 503,
+                  statusText: 'Service Unavailable'
+                });
+              });
             }
             
-            // Otherwise just propagate the error
-            throw error;
+            // For resource requests, return a simple error response instead of throwing
+            return new Response('Network request failed', {
+              status: 408,
+              statusText: 'Request Timeout'
+            });
           });
       })
   );

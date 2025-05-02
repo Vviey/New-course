@@ -80,6 +80,7 @@ export default function MissionWrapper() {
           if (!path) continue;
           
           try {
+            // @vite-ignore
             missionModule = await import(path);
             break; // Stop if we found a valid module
           } catch (e) {
