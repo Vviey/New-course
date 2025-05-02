@@ -1,0 +1,191 @@
+Current location: /
+AuthContext.tsx:43 
+            
+            
+           GET http://localhost:5000/api/user 401 (Unauthorized)
+checkAuth @ AuthContext.tsx:43
+(anonymous) @ AuthContext.tsx:61
+commitHookEffectListMount @ chunk-UPELNCPK.js?v=d16dbbb1:16915
+commitPassiveMountOnFiber @ chunk-UPELNCPK.js?v=d16dbbb1:18156
+commitPassiveMountEffects_complete @ chunk-UPELNCPK.js?v=d16dbbb1:18129
+commitPassiveMountEffects_begin @ chunk-UPELNCPK.js?v=d16dbbb1:18119
+commitPassiveMountEffects @ chunk-UPELNCPK.js?v=d16dbbb1:18109
+flushPassiveEffectsImpl @ chunk-UPELNCPK.js?v=d16dbbb1:19490
+flushPassiveEffects @ chunk-UPELNCPK.js?v=d16dbbb1:19447
+performSyncWorkOnRoot @ chunk-UPELNCPK.js?v=d16dbbb1:18868
+flushSyncCallbacks @ chunk-UPELNCPK.js?v=d16dbbb1:9119
+commitRootImpl @ chunk-UPELNCPK.js?v=d16dbbb1:19432
+commitRoot @ chunk-UPELNCPK.js?v=d16dbbb1:19277
+finishConcurrentRender @ chunk-UPELNCPK.js?v=d16dbbb1:18783
+performConcurrentWorkOnRoot @ chunk-UPELNCPK.js?v=d16dbbb1:18718
+workLoop @ chunk-UPELNCPK.js?v=d16dbbb1:197
+flushWork @ chunk-UPELNCPK.js?v=d16dbbb1:176
+performWorkUntilDeadline @ chunk-UPELNCPK.js?v=d16dbbb1:384Understand this error
+main.tsx:57 Global error: Error: useAuth must be used within an AuthProvider
+    at useAuth (use-auth.tsx:177:11)
+    at StoryIntroPage (StoryIntroPage.tsx:10:20)
+    at renderWithHooks (chunk-UPELNCPK.js?v=d16dbbb1:11548:26)
+    at updateFunctionComponent (chunk-UPELNCPK.js?v=d16dbbb1:14582:28)
+    at mountLazyComponent (chunk-UPELNCPK.js?v=d16dbbb1:14833:23)
+    at beginWork (chunk-UPELNCPK.js?v=d16dbbb1:15918:22)
+    at HTMLUnknownElement.callCallback2 (chunk-UPELNCPK.js?v=d16dbbb1:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-UPELNCPK.js?v=d16dbbb1:3699:24)
+    at invokeGuardedCallback (chunk-UPELNCPK.js?v=d16dbbb1:3733:39)
+    at beginWork$1 (chunk-UPELNCPK.js?v=d16dbbb1:19765:15)
+(anonymous) @ main.tsx:57
+invokeGuardedCallbackDev @ chunk-UPELNCPK.js?v=d16dbbb1:3699
+invokeGuardedCallback @ chunk-UPELNCPK.js?v=d16dbbb1:3733
+beginWork$1 @ chunk-UPELNCPK.js?v=d16dbbb1:19765
+performUnitOfWork @ chunk-UPELNCPK.js?v=d16dbbb1:19198
+workLoopConcurrent @ chunk-UPELNCPK.js?v=d16dbbb1:19189
+renderRootConcurrent @ chunk-UPELNCPK.js?v=d16dbbb1:19164
+performConcurrentWorkOnRoot @ chunk-UPELNCPK.js?v=d16dbbb1:18678
+workLoop @ chunk-UPELNCPK.js?v=d16dbbb1:197
+flushWork @ chunk-UPELNCPK.js?v=d16dbbb1:176
+performWorkUntilDeadline @ chunk-UPELNCPK.js?v=d16dbbb1:384Understand this error
+use-auth.tsx:177 Uncaught Error: useAuth must be used within an AuthProvider
+    at useAuth (use-auth.tsx:177:11)
+    at StoryIntroPage (StoryIntroPage.tsx:10:20)
+    at renderWithHooks (chunk-UPELNCPK.js?v=d16dbbb1:11548:26)
+    at updateFunctionComponent (chunk-UPELNCPK.js?v=d16dbbb1:14582:28)
+    at mountLazyComponent (chunk-UPELNCPK.js?v=d16dbbb1:14833:23)
+    at beginWork (chunk-UPELNCPK.js?v=d16dbbb1:15918:22)
+    at HTMLUnknownElement.callCallback2 (chunk-UPELNCPK.js?v=d16dbbb1:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-UPELNCPK.js?v=d16dbbb1:3699:24)
+    at invokeGuardedCallback (chunk-UPELNCPK.js?v=d16dbbb1:3733:39)
+    at beginWork$1 (chunk-UPELNCPK.js?v=d16dbbb1:19765:15)
+useAuth @ use-auth.tsx:177
+StoryIntroPage @ StoryIntroPage.tsx:10
+renderWithHooks @ chunk-UPELNCPK.js?v=d16dbbb1:11548
+updateFunctionComponent @ chunk-UPELNCPK.js?v=d16dbbb1:14582
+mountLazyComponent @ chunk-UPELNCPK.js?v=d16dbbb1:14833
+beginWork @ chunk-UPELNCPK.js?v=d16dbbb1:15918
+callCallback2 @ chunk-UPELNCPK.js?v=d16dbbb1:3674
+invokeGuardedCallbackDev @ chunk-UPELNCPK.js?v=d16dbbb1:3699
+invokeGuardedCallback @ chunk-UPELNCPK.js?v=d16dbbb1:3733
+beginWork$1 @ chunk-UPELNCPK.js?v=d16dbbb1:19765
+performUnitOfWork @ chunk-UPELNCPK.js?v=d16dbbb1:19198
+workLoopConcurrent @ chunk-UPELNCPK.js?v=d16dbbb1:19189
+renderRootConcurrent @ chunk-UPELNCPK.js?v=d16dbbb1:19164
+performConcurrentWorkOnRoot @ chunk-UPELNCPK.js?v=d16dbbb1:18678
+workLoop @ chunk-UPELNCPK.js?v=d16dbbb1:197
+flushWork @ chunk-UPELNCPK.js?v=d16dbbb1:176
+performWorkUntilDeadline @ chunk-UPELNCPK.js?v=d16dbbb1:384Understand this error
+main.tsx:57 Global error: Error: useAuth must be used within an AuthProvider
+    at useAuth (use-auth.tsx:177:11)
+    at StoryIntroPage (StoryIntroPage.tsx:10:20)
+    at renderWithHooks (chunk-UPELNCPK.js?v=d16dbbb1:11548:26)
+    at updateFunctionComponent (chunk-UPELNCPK.js?v=d16dbbb1:14582:28)
+    at mountLazyComponent (chunk-UPELNCPK.js?v=d16dbbb1:14833:23)
+    at beginWork (chunk-UPELNCPK.js?v=d16dbbb1:15918:22)
+    at HTMLUnknownElement.callCallback2 (chunk-UPELNCPK.js?v=d16dbbb1:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-UPELNCPK.js?v=d16dbbb1:3699:24)
+    at invokeGuardedCallback (chunk-UPELNCPK.js?v=d16dbbb1:3733:39)
+    at beginWork$1 (chunk-UPELNCPK.js?v=d16dbbb1:19765:15)
+(anonymous) @ main.tsx:57
+invokeGuardedCallbackDev @ chunk-UPELNCPK.js?v=d16dbbb1:3699
+invokeGuardedCallback @ chunk-UPELNCPK.js?v=d16dbbb1:3733
+beginWork$1 @ chunk-UPELNCPK.js?v=d16dbbb1:19765
+performUnitOfWork @ chunk-UPELNCPK.js?v=d16dbbb1:19198
+workLoopSync @ chunk-UPELNCPK.js?v=d16dbbb1:19137
+renderRootSync @ chunk-UPELNCPK.js?v=d16dbbb1:19116
+recoverFromConcurrentError @ chunk-UPELNCPK.js?v=d16dbbb1:18736
+performConcurrentWorkOnRoot @ chunk-UPELNCPK.js?v=d16dbbb1:18684
+workLoop @ chunk-UPELNCPK.js?v=d16dbbb1:197
+flushWork @ chunk-UPELNCPK.js?v=d16dbbb1:176
+performWorkUntilDeadline @ chunk-UPELNCPK.js?v=d16dbbb1:384Understand this error
+use-auth.tsx:177 Uncaught Error: useAuth must be used within an AuthProvider
+    at useAuth (use-auth.tsx:177:11)
+    at StoryIntroPage (StoryIntroPage.tsx:10:20)
+    at renderWithHooks (chunk-UPELNCPK.js?v=d16dbbb1:11548:26)
+    at updateFunctionComponent (chunk-UPELNCPK.js?v=d16dbbb1:14582:28)
+    at mountLazyComponent (chunk-UPELNCPK.js?v=d16dbbb1:14833:23)
+    at beginWork (chunk-UPELNCPK.js?v=d16dbbb1:15918:22)
+    at HTMLUnknownElement.callCallback2 (chunk-UPELNCPK.js?v=d16dbbb1:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-UPELNCPK.js?v=d16dbbb1:3699:24)
+    at invokeGuardedCallback (chunk-UPELNCPK.js?v=d16dbbb1:3733:39)
+    at beginWork$1 (chunk-UPELNCPK.js?v=d16dbbb1:19765:15)
+useAuth @ use-auth.tsx:177
+StoryIntroPage @ StoryIntroPage.tsx:10
+renderWithHooks @ chunk-UPELNCPK.js?v=d16dbbb1:11548
+updateFunctionComponent @ chunk-UPELNCPK.js?v=d16dbbb1:14582
+mountLazyComponent @ chunk-UPELNCPK.js?v=d16dbbb1:14833
+beginWork @ chunk-UPELNCPK.js?v=d16dbbb1:15918
+callCallback2 @ chunk-UPELNCPK.js?v=d16dbbb1:3674
+invokeGuardedCallbackDev @ chunk-UPELNCPK.js?v=d16dbbb1:3699
+invokeGuardedCallback @ chunk-UPELNCPK.js?v=d16dbbb1:3733
+beginWork$1 @ chunk-UPELNCPK.js?v=d16dbbb1:19765
+performUnitOfWork @ chunk-UPELNCPK.js?v=d16dbbb1:19198
+workLoopSync @ chunk-UPELNCPK.js?v=d16dbbb1:19137
+renderRootSync @ chunk-UPELNCPK.js?v=d16dbbb1:19116
+recoverFromConcurrentError @ chunk-UPELNCPK.js?v=d16dbbb1:18736
+performConcurrentWorkOnRoot @ chunk-UPELNCPK.js?v=d16dbbb1:18684
+workLoop @ chunk-UPELNCPK.js?v=d16dbbb1:197
+flushWork @ chunk-UPELNCPK.js?v=d16dbbb1:176
+performWorkUntilDeadline @ chunk-UPELNCPK.js?v=d16dbbb1:384Understand this error
+chunk-UPELNCPK.js?v=d16dbbb1:14032 The above error occurred in the <StoryIntroPage> component:
+
+    at StoryIntroPage (http://localhost:5000/src/pages/StoryIntroPage.tsx:26:27)
+    at Route (http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/wouter.js?v=d16dbbb1:323:16)
+    at Switch (http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/wouter.js?v=d16dbbb1:379:17)
+    at Suspense
+    at AuthProvider (http://localhost:5000/src/context/AuthContext.tsx:21:32)
+    at QueryClientProvider (http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/@tanstack_react-query.js?v=d16dbbb1:2805:3)
+    at App
+    at OfflineProvider (http://localhost:5000/src/context/OfflineContext.tsx?v=HVwppa4IcH2-weVTXbjG4:29:35)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+logCapturedError @ chunk-UPELNCPK.js?v=d16dbbb1:14032
+update.callback @ chunk-UPELNCPK.js?v=d16dbbb1:14052
+callCallback @ chunk-UPELNCPK.js?v=d16dbbb1:11248
+commitUpdateQueue @ chunk-UPELNCPK.js?v=d16dbbb1:11265
+commitLayoutEffectOnFiber @ chunk-UPELNCPK.js?v=d16dbbb1:17093
+commitLayoutMountEffects_complete @ chunk-UPELNCPK.js?v=d16dbbb1:17980
+commitLayoutEffects_begin @ chunk-UPELNCPK.js?v=d16dbbb1:17969
+commitLayoutEffects @ chunk-UPELNCPK.js?v=d16dbbb1:17920
+commitRootImpl @ chunk-UPELNCPK.js?v=d16dbbb1:19353
+commitRoot @ chunk-UPELNCPK.js?v=d16dbbb1:19277
+finishConcurrentRender @ chunk-UPELNCPK.js?v=d16dbbb1:18760
+performConcurrentWorkOnRoot @ chunk-UPELNCPK.js?v=d16dbbb1:18718
+workLoop @ chunk-UPELNCPK.js?v=d16dbbb1:197
+flushWork @ chunk-UPELNCPK.js?v=d16dbbb1:176
+performWorkUntilDeadline @ chunk-UPELNCPK.js?v=d16dbbb1:384Understand this error
+main.tsx:57 Global error: Error: useAuth must be used within an AuthProvider
+    at useAuth (use-auth.tsx:177:11)
+    at StoryIntroPage (StoryIntroPage.tsx:10:20)
+    at renderWithHooks (chunk-UPELNCPK.js?v=d16dbbb1:11548:26)
+    at updateFunctionComponent (chunk-UPELNCPK.js?v=d16dbbb1:14582:28)
+    at mountLazyComponent (chunk-UPELNCPK.js?v=d16dbbb1:14833:23)
+    at beginWork (chunk-UPELNCPK.js?v=d16dbbb1:15918:22)
+    at beginWork$1 (chunk-UPELNCPK.js?v=d16dbbb1:19753:22)
+    at performUnitOfWork (chunk-UPELNCPK.js?v=d16dbbb1:19198:20)
+    at workLoopSync (chunk-UPELNCPK.js?v=d16dbbb1:19137:13)
+    at renderRootSync (chunk-UPELNCPK.js?v=d16dbbb1:19116:15)
+(anonymous) @ main.tsx:57Understand this error
+chunk-UPELNCPK.js?v=d16dbbb1:19413 Uncaught Error: useAuth must be used within an AuthProvider
+    at useAuth (use-auth.tsx:177:11)
+    at StoryIntroPage (StoryIntroPage.tsx:10:20)
+    at renderWithHooks (chunk-UPELNCPK.js?v=d16dbbb1:11548:26)
+    at updateFunctionComponent (chunk-UPELNCPK.js?v=d16dbbb1:14582:28)
+    at mountLazyComponent (chunk-UPELNCPK.js?v=d16dbbb1:14833:23)
+    at beginWork (chunk-UPELNCPK.js?v=d16dbbb1:15918:22)
+    at beginWork$1 (chunk-UPELNCPK.js?v=d16dbbb1:19753:22)
+    at performUnitOfWork (chunk-UPELNCPK.js?v=d16dbbb1:19198:20)
+    at workLoopSync (chunk-UPELNCPK.js?v=d16dbbb1:19137:13)
+    at renderRootSync (chunk-UPELNCPK.js?v=d16dbbb1:19116:15)
+useAuth @ use-auth.tsx:177
+StoryIntroPage @ StoryIntroPage.tsx:10
+renderWithHooks @ chunk-UPELNCPK.js?v=d16dbbb1:11548
+updateFunctionComponent @ chunk-UPELNCPK.js?v=d16dbbb1:14582
+mountLazyComponent @ chunk-UPELNCPK.js?v=d16dbbb1:14833
+beginWork @ chunk-UPELNCPK.js?v=d16dbbb1:15918
+beginWork$1 @ chunk-UPELNCPK.js?v=d16dbbb1:19753
+performUnitOfWork @ chunk-UPELNCPK.js?v=d16dbbb1:19198
+workLoopSync @ chunk-UPELNCPK.js?v=d16dbbb1:19137
+renderRootSync @ chunk-UPELNCPK.js?v=d16dbbb1:19116
+recoverFromConcurrentError @ chunk-UPELNCPK.js?v=d16dbbb1:18736
+performConcurrentWorkOnRoot @ chunk-UPELNCPK.js?v=d16dbbb1:18684
+workLoop @ chunk-UPELNCPK.js?v=d16dbbb1:197
+flushWork @ chunk-UPELNCPK.js?v=d16dbbb1:176
+performWorkUntilDeadline @ chunk-UPELNCPK.js?v=d16dbbb1:384Understand this error

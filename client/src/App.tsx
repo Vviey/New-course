@@ -62,12 +62,15 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <OfflineProvider>
         <RouterListener />
         <Suspense fallback={<LoadingSpinner />}>
           <Switch>
             {/* Public routes */}
-            <Route path="/" component={StoryIntroPage} />
             <Route path="/auth" component={AuthPage} />
+            
+            {/* Story intro - not protected but needs auth context */}
+            <Route path="/" component={StoryIntroPage} />
             
             {/* Protected Routes - Require Authentication */}
             <ProtectedRoute path="/home" component={HomePage} />
@@ -137,6 +140,8 @@ function App() {
           </Switch>
         </Suspense>
         <Toaster />
+        <OfflineIndicator />
+        </OfflineProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
