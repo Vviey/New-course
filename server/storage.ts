@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { users, type User, type InsertUser, realms, type Realm, type InsertRealm } from "@shared/schema";
-
 import session from "express-session";
+import { db, pool } from './db';
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -334,8 +334,17 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-// Use DatabaseStorage to persist data to PostgreSQL
-export const storage = new DatabaseStorage();
+// Check if database connection is available to decide which storage implementation to use
+const isDbAvailable = (() => {
+  try {
+    return pool !== null && db !== null;
+  } catch {
+    return false;
+  }
+})();
+
+// Use DatabaseStorage if database is available, otherwise fall back to MemStorage
+export const storage = isDbAvailable ? new DatabaseStorage() : new MemStorage();
 
 // Initialize realms data
 storage.initializeRealms().catch(err => {
