@@ -1,4 +1,4 @@
-// Simple static file server to bypass Vite host configuration issues
+// A simple static server to serve our React application without Vite host restrictions
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -10,105 +10,79 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Static files from public directory
+// Serve static files from public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve client files
-app.use('/client', express.static(path.join(__dirname, 'client')));
-
-// Serve placeholder index.html if real one doesn't exist
-app.get('/', (req, res) => {
-  const indexPath = path.join(__dirname, 'public', 'index.html');
+// API endpoints for mock data
+app.get('/api/realms', (req, res) => {
+  const realmsData = [
+    {
+      id: 1,
+      name: "Realm of Origins",
+      description: "Discover how money began and evolved from shells to bills in this foundational chapter.",
+      moduleNumber: 1,
+      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-1.png",
+      isLocked: false
+    },
+    {
+      id: 2,
+      name: "The Central Citadel",
+      description: "Explore the towers of power where monetary decisions echo through the lands.",
+      moduleNumber: 2,
+      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-2.png",
+      isLocked: true
+    },
+    {
+      id: 3,
+      name: "The Forest of Sparks",
+      description: "Enter the mystical forest where the spark of Bitcoin was first ignited.",
+      moduleNumber: 3,
+      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-3.png",
+      isLocked: true
+    },
+    {
+      id: 4,
+      name: "The Mountain Forge",
+      description: "Delve into the depths where miners create new blocks through proof of work.",
+      moduleNumber: 4,
+      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-4.png",
+      isLocked: true
+    },
+    {
+      id: 5,
+      name: "The Council of Forks",
+      description: "Witness the debates that shape the path of digital currencies at the Council.",
+      moduleNumber: 5,
+      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-5.png",
+      isLocked: true
+    },
+    {
+      id: 6,
+      name: "The Ubuntu Village",
+      description: "Discover how Bitcoin weaves into African traditions of community and shared prosperity.",
+      moduleNumber: 6,
+      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-6.png",
+      isLocked: true
+    },
+    {
+      id: 7,
+      name: "The Summit of Knowledge",
+      description: "Complete your journey and demonstrate your mastery of Bitcoin concepts.",
+      moduleNumber: 7,
+      imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-7.png",
+      isLocked: true
+    }
+  ];
   
-  if (fs.existsSync(indexPath)) {
-    res.sendFile(indexPath);
-  } else {
-    // Generate a placeholder HTML that redirects to the actual server
-    const html = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Asha's Bitcoin Journey</title>
-        <style>
-          body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f5f5f5;
-            color: #333;
-          }
-          .container {
-            max-width: 600px;
-            padding: 2rem;
-            text-align: center;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          }
-          h1 {
-            color: #f59e0b;
-            margin-bottom: 1rem;
-          }
-          p {
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-          }
-          .button {
-            display: inline-block;
-            background-color: #f59e0b;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.2s;
-          }
-          .button:hover {
-            background-color: #d97706;
-          }
-          .loading {
-            margin-top: 2rem;
-            font-size: 0.9rem;
-            color: #666;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <h1>Asha's Bitcoin Journey</h1>
-          <p>Welcome to the gamified Bitcoin education platform. Your journey through the realms of cryptocurrency knowledge begins here.</p>
-          <a href="/api/health" class="button">Check Server Status</a>
-          <div class="loading">
-            <p>If the application doesn't load automatically, please try refreshing the page.</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `;
-    res.send(html);
-  }
+  res.json(realmsData);
 });
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    message: 'Static server is running',
-    timestamp: new Date().toISOString()
-  });
+// Handle 404
+app.use((req, res) => {
+  res.status(404).send('Not found');
 });
 
-// Catch-all route for other pages
-app.get('*', (req, res) => {
-  res.redirect('/');
-});
-
+// Start server
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Static server running on http://0.0.0.0:${PORT}`);
+  console.log(`Static server running on port ${PORT}`);
 });
