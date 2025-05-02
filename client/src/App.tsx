@@ -1,7 +1,8 @@
 import { Switch, Route, useLocation } from "wouter";
-import { Toaster } from "@/components/ui/toaster";
 import { Suspense, lazy, useEffect } from "react";
 import { Loader2 } from "lucide-react";
+import { Toaster } from "@/components/ui/toaster";
+import { AuthProvider } from "@/context/AuthContext"; 
 
 // Lazy load pages
 const HomePage = lazy(() => import("@/pages/HomePage"));
@@ -141,6 +142,22 @@ function App() {
       <Toaster />
     </>
   );
+  
 }
+function App() {
+  return (
+    <AuthProvider> {/* Wrap everything inside AuthProvider */}
+      <Suspense fallback={<LoadingSpinner />}>
+        <Switch>
+          <Route path="/" component={AuthPage} />
+          <Route path="/home" component={HomePage} />
+          {/* Other routes */}
+        </Switch>
+      </Suspense>
+      <Toaster />
+    </AuthProvider>
+  );
+}
+
 
 export default App;

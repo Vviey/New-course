@@ -34,7 +34,7 @@ export default function AuthPage() {
   
   const params = new URLSearchParams(window.location.search);
   const redirectTo = params.get("redirect") || "/";
-  
+
   // If user is already logged in, redirect
   if (user) {
     setTimeout(() => {
@@ -69,16 +69,24 @@ export default function AuthPage() {
     },
   });
   
-  const onLoginSubmit = (data: LoginFormValues) => {
-    loginMutation.mutate(data);
+  const onLoginSubmit = async (data: LoginFormValues) => {
+    try {
+      await loginMutation.mutateAsync(data);
+    } catch (error) {
+      console.error("Login failed", error);
+    }
   };
   
-  const onRegisterSubmit = (data: RegisterFormValues) => {
+  const onRegisterSubmit = async (data: RegisterFormValues) => {
     // Remove confirmPassword as it's not needed in the API call
     const { confirmPassword, ...registerData } = data;
-    registerMutation.mutate(registerData);
+    try {
+      await registerMutation.mutateAsync(registerData);
+    } catch (error) {
+      console.error("Registration failed", error);
+    }
   };
-  
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Authentication Form */}
@@ -89,12 +97,12 @@ export default function AuthPage() {
               {isLogin ? "Welcome Back" : "Join Asha's Journey"}
             </h1>
             <p className="mt-2 text-sm text-gray-600">
-              {isLogin 
+              {isLogin
                 ? "Sign in to continue your educational journey through Bitcoin" 
                 : "Register and begin your adventure in learning Bitcoin"}
             </p>
           </div>
-          
+
           {/* Tab Selector */}
           <div className="flex rounded-md border shadow-sm p-1 bg-gray-100">
             <button 
@@ -110,7 +118,7 @@ export default function AuthPage() {
               Register
             </button>
           </div>
-          
+
           {isLogin ? (
             /* Login Form */
             <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
@@ -129,7 +137,7 @@ export default function AuthPage() {
                   <p className="text-sm text-red-500">{loginForm.formState.errors.username.message}</p>
                 )}
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700" htmlFor="password">
                   Password
@@ -147,28 +155,20 @@ export default function AuthPage() {
                     className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-800"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? (
-                      <EyeOff className="h-5 w-5" />
-                    ) : (
-                      <Eye className="h-5 w-5" />
-                    )}
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
                 </div>
                 {loginForm.formState.errors.password && (
                   <p className="text-sm text-red-500">{loginForm.formState.errors.password.message}</p>
                 )}
               </div>
-              
+
               <button
                 type="submit"
                 disabled={loginMutation.isPending}
                 className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
               >
-                {loginMutation.isPending ? (
-                  <Loader2 className="h-5 w-5 animate-spin mx-auto" />
-                ) : (
-                  "Sign In"
-                )}
+                {loginMutation.isPending ? <Loader2 className="h-5 w-5 animate-spin mx-auto" /> : "Sign In"}
               </button>
             </form>
           ) : (
@@ -189,7 +189,7 @@ export default function AuthPage() {
                   <p className="text-sm text-red-500">{registerForm.formState.errors.username.message}</p>
                 )}
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700" htmlFor="register-email">
                   Email (optional)
@@ -205,7 +205,7 @@ export default function AuthPage() {
                   <p className="text-sm text-red-500">{registerForm.formState.errors.email.message}</p>
                 )}
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700" htmlFor="register-password">
                   Password
@@ -223,18 +223,14 @@ export default function AuthPage() {
                     className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-800"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? (
-                      <EyeOff className="h-5 w-5" />
-                    ) : (
-                      <Eye className="h-5 w-5" />
-                    )}
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
                 </div>
                 {registerForm.formState.errors.password && (
                   <p className="text-sm text-red-500">{registerForm.formState.errors.password.message}</p>
                 )}
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700" htmlFor="register-confirm-password">
                   Confirm Password
@@ -252,34 +248,26 @@ export default function AuthPage() {
                     className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-800"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
-                    {showConfirmPassword ? (
-                      <EyeOff className="h-5 w-5" />
-                    ) : (
-                      <Eye className="h-5 w-5" />
-                    )}
+                    {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
                 </div>
                 {registerForm.formState.errors.confirmPassword && (
                   <p className="text-sm text-red-500">{registerForm.formState.errors.confirmPassword.message}</p>
                 )}
               </div>
-              
+
               <button
                 type="submit"
                 disabled={registerMutation.isPending}
                 className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
               >
-                {registerMutation.isPending ? (
-                  <Loader2 className="h-5 w-5 animate-spin mx-auto" />
-                ) : (
-                  "Create Account"
-                )}
+                {registerMutation.isPending ? <Loader2 className="h-5 w-5 animate-spin mx-auto" /> : "Create Account"}
               </button>
             </form>
           )}
         </div>
       </div>
-      
+
       {/* Hero Section */}
       <div className="flex-1 bg-gradient-to-br from-primary/80 to-primary-dark p-6 md:p-12 flex items-center justify-center text-white">
         <div className="max-w-md space-y-6">
@@ -290,7 +278,7 @@ export default function AuthPage() {
               Join Asha as she navigates 7 distinct realms, each unfolding new knowledge about financial systems and cryptocurrency.
             </p>
           </div>
-          
+
           <div className="space-y-4">
             <div className="flex items-start space-x-3">
               <div className="flex-shrink-0 h-6 w-6 rounded-full bg-white/30 flex items-center justify-center text-sm font-semibold">1</div>
@@ -301,7 +289,7 @@ export default function AuthPage() {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-start space-x-3">
               <div className="flex-shrink-0 h-6 w-6 rounded-full bg-white/30 flex items-center justify-center text-sm font-semibold">2</div>
               <div>
@@ -311,7 +299,7 @@ export default function AuthPage() {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-start space-x-3">
               <div className="flex-shrink-0 h-6 w-6 rounded-full bg-white/30 flex items-center justify-center text-sm font-semibold">3</div>
               <div>
