@@ -46,24 +46,9 @@ export default function MissionWrapper() {
   const [missionData, setMissionData] = useState<MissionData | null>(null);
   const [MissionComponent, setMissionComponent] = useState<React.ComponentType | null>(null);
 
-  // Get mission title and description from our mission data API
-  const getMissionInfo = async (missionId: string, realmId: string) => {
-    try {
-      // Try to fetch mission data from our API
-      const response = await fetch(`/api/realms/${realmId}/missions/${missionId}`);
-      
-      if (response.ok) {
-        const missionData = await response.json();
-        return { 
-          title: missionData.title || `Mission ${missionId}`,
-          subtitle: missionData.description || ""
-        };
-      }
-    } catch (error) {
-      console.log('Could not fetch mission data from API:', error);
-    }
-    
-    // Default values if API fetch fails
+  // Get mission title and description from local data
+  const getMissionInfo = (missionId: string, realmId: string) => {
+    // Default values with the mission and realm information
     return { 
       title: `Mission ${missionId}`, 
       subtitle: `A learning journey in ${getRealmName(Number(realmId))}` 
@@ -124,27 +109,13 @@ export default function MissionWrapper() {
         if (isMounted) {
           setMissionComponent(() => missionModule.default);
           
-          // Get mission info if available, otherwise use defaults
-          try {
-            // Fetch mission data from the API
-            const missionInfo = await getMissionInfo(missionId, realmId);
-            if (isMounted) {
-              setMissionData({ 
-                title: missionInfo.title,
-                subtitle: missionInfo.subtitle 
-              });
-              setLoading(false);
-            }
-          } catch (error) {
-            console.error('Error fetching mission info:', error);
-            if (isMounted) {
-              setMissionData({ 
-                title: `Mission ${missionId}`,
-                subtitle: `A learning journey in ${getRealmName(Number(realmId))}` 
-              });
-              setLoading(false);
-            }
-          }
+          // Get mission info from local data
+          const missionInfo = getMissionInfo(missionId, realmId);
+          setMissionData({ 
+            title: missionInfo.title,
+            subtitle: missionInfo.subtitle 
+          });
+          setLoading(false);
         }
       } catch (err) {
         console.error('Failed to load mission:', err);

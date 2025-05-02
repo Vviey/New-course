@@ -68,33 +68,81 @@ const PLACEHOLDER_COLORS = [
   'bg-purple-900',  // 7: The Summit of Knowledge
 ];
 
+// Local realm data
+const LOCAL_REALMS: Realm[] = [
+  {
+    id: 1,
+    name: "Realm of Origins",
+    description: "Discover the foundations of money and its evolution throughout history, from barter systems to modern currencies.",
+    moduleNumber: 1,
+    imageUrl: "",
+    isLocked: false
+  },
+  {
+    id: 2,
+    name: "The Central Citadel",
+    description: "Explore modern monetary systems, central banking, and how traditional financial institutions operate.",
+    moduleNumber: 2,
+    imageUrl: "",
+    isLocked: false
+  },
+  {
+    id: 3,
+    name: "The Forest of Sparks",
+    description: "Learn about the birth of Bitcoin, blockchain technology, and the core principles behind cryptocurrencies.",
+    moduleNumber: 3,
+    imageUrl: "",
+    isLocked: false
+  },
+  {
+    id: 4,
+    name: "The Mountain Forge",
+    description: "Understand Bitcoin mining, consensus mechanisms, and the technical aspects that secure the network.",
+    moduleNumber: 4,
+    imageUrl: "",
+    isLocked: false
+  },
+  {
+    id: 5,
+    name: "The Council of Forks",
+    description: "Explore Bitcoin governance, community decisions, protocol upgrades, and historical forks.",
+    moduleNumber: 5,
+    imageUrl: "",
+    isLocked: false
+  },
+  {
+    id: 6,
+    name: "The Ubuntu Village",
+    description: "Discover practical applications of Bitcoin in Africa, financial inclusion, and real-world use cases.",
+    moduleNumber: 6,
+    imageUrl: "",
+    isLocked: false
+  },
+  {
+    id: 7,
+    name: "The Summit of Knowledge",
+    description: "Complete your journey with a comprehensive assessment of all you've learned about Bitcoin and monetary systems.",
+    moduleNumber: 7,
+    imageUrl: "",
+    isLocked: false
+  }
+];
+
 export function CourseJourney() {
   const [, setLocation] = useLocation();
   const [realms, setRealms] = useState<Realm[]>([]);
   const [activeRealmIndex, setActiveRealmIndex] = useState(0);
   const [loadingRealms, setLoadingRealms] = useState(true);
   
-  // Fetch realms data
+  // Use local realm data instead of fetching from API
   useEffect(() => {
-    async function fetchRealms() {
-      try {
-        const response = await fetch('/api/realms');
-        if (response.ok) {
-          const data = await response.json();
-          // Sort realms by moduleNumber
-          const sortedRealms = [...data].sort((a, b) => a.moduleNumber - b.moduleNumber);
-          setRealms(sortedRealms);
-        } else {
-          console.error('Failed to fetch realms');
-        }
-      } catch (error) {
-        console.error('Error fetching realms:', error);
-      } finally {
-        setLoadingRealms(false);
-      }
-    }
+    // Simulate loading for a smoother experience
+    const timer = setTimeout(() => {
+      setRealms(LOCAL_REALMS);
+      setLoadingRealms(false);
+    }, 800);
     
-    fetchRealms();
+    return () => clearTimeout(timer);
   }, []);
   
   // Handle navigation to a realm

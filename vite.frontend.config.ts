@@ -44,6 +44,7 @@ export default defineConfig({
     hmr: {
       clientPort: 443, // Use HTTPS port for WebSocket in Replit
     },
+    allowedHosts: ['all'], // Allow any host to access the development server
   },
   build: {
     outDir: "../dist/client",
