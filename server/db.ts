@@ -29,6 +29,25 @@ if (!process.env.DATABASE_URL &&
   console.log('DATABASE_URL generated from environment variables');
 }
 
+// Create dummy implementations for local development without a database
+class DummyPool {
+  query() { return Promise.resolve({ rows: [] }); }
+  connect() { return Promise.resolve(this); }
+  release() {}
+  end() { return Promise.resolve(); }
+}
+
+const dummyDb = {
+  select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
+  insert: () => ({ values: () => ({ returning: () => Promise.resolve([]) }) }),
+  update: () => ({ set: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }) }),
+  delete: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }),
+};
+
+// Export actual or dummy implementations based on DATABASE_URL availability
+let pool;
+let db;
+
 if (!process.env.DATABASE_URL) {
   if (isReplit) {
     throw new Error(
@@ -37,16 +56,12 @@ if (!process.env.DATABASE_URL) {
   } else {
     // Fall back to in-memory storage for local development or testing
     console.warn('DATABASE_URL not set, using in-memory storage for development purposes');
-    // Return dummy exports to prevent errors
-    module.exports = {
-      pool: null,
-      db: null
-    };
-    // Exit this module - the application will use in-memory storage
-    // if the MemStorage class is used in server/storage.ts
-    process.exit(0);
+    pool = new DummyPool();
+    db = dummyDb;
   }
+} else {
+  pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  db = drizzle(pool, { schema });
 }
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle(pool, { schema });
+export { pool, db };

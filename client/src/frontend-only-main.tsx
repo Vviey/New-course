@@ -11,6 +11,13 @@ const Realm1Home = lazy(() => import('./pages/realm1/home'));
 const Realm1Story = lazy(() => import('./pages/realm1/story-intro'));
 const MissionWrapper = lazy(() => import('./components/mission-wrapper'));
 
+// Import realm-specific pages
+const Realm2Home = lazy(() => import('./pages/realm2/home'));
+const Realm3Home = lazy(() => import('./pages/realm3/home'));
+const Realm4Home = lazy(() => import('./pages/realm4/home'));
+const Realm5Home = lazy(() => import('./pages/realm5/home'));
+const Realm6Home = lazy(() => import('./pages/realm6/home'));
+
 // LoadingSpinner for Suspense fallback
 const LoadingSpinner = () => (
   <div className="h-screen w-full flex flex-col items-center justify-center bg-amber-900">
@@ -152,6 +159,11 @@ const App = () => {
             {/* Realm-specific routes */}
             <Route path="/realm/1" component={Realm1Home} />
             <Route path="/realm/1/story" component={Realm1Story} />
+            <Route path="/realm/2" component={Realm2Home} />
+            <Route path="/realm/3" component={Realm3Home} />
+            <Route path="/realm/4" component={Realm4Home} />
+            <Route path="/realm/5" component={Realm5Home} />
+            <Route path="/realm/6" component={Realm6Home} />
             
             {/* Mission routes */}
             <Route path="/realm/:realmId/mission/:missionId">
