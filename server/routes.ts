@@ -221,21 +221,44 @@ const mockUser = {
 export async function registerRoutes(app: Express): Promise<Server> {
   console.log("Realms already initialized, skipping");
   
-  // Direct static file serving for frontend standalone version
-  app.use(express.static('public/frontend'));
-  
-  // Redirect root to the frontend app
-  app.get('/', (req, res) => {
-    res.redirect('/frontend/index.html');
+  // Setup API routes
+  app.get('/api/realms', (req, res) => {
+    res.json(mockRealms);
   });
   
-  // Fallback route for SPA navigation
-  app.get('*', (req, res) => {
-    if (!req.path.startsWith('/api/')) {
-      res.sendFile('index.html', { root: 'public/frontend' });
-    } else {
-      res.status(404).json({ message: "API route not found" });
+  app.get('/api/realms/:id', (req, res) => {
+    const realmId = parseInt(req.params.id);
+    const realm = mockRealms.find(r => r.id === realmId);
+    
+    if (!realm) {
+      return res.status(404).json({ message: "Realm not found" });
     }
+    
+    res.json(realm);
+  });
+  
+  app.get('/api/realms/:id/missions', (req, res) => {
+    const realmId = parseInt(req.params.id);
+    const missions = mockMissions[realmId] || [];
+    
+    res.json(missions);
+  });
+  
+  app.get('/api/user', (req, res) => {
+    res.json(mockUser);
+  });
+  
+  // Create user auth endpoints for the frontend Auth context
+  app.post('/api/login', (req, res) => {
+    res.json(mockUser);
+  });
+  
+  app.post('/api/register', (req, res) => {
+    res.json(mockUser);
+  });
+  
+  app.post('/api/logout', (req, res) => {
+    res.status(200).json({ message: "Logged out successfully" });
   });
   
   // Create HTTP server
