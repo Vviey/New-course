@@ -24,9 +24,11 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Serve static assets from public directory
+// Serve static assets from public directory, but don't serve index.html
 console.log('[DEBUG] Serving static files from:', path.resolve('./public'));
-app.use(express.static(path.resolve('./public')));
+app.use(express.static(path.resolve('./public'), {
+  index: false // Disable automatic serving of index.html
+}));
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -68,21 +70,21 @@ app.use((req, res, next) => {
     res.status(status).json({ message });
     throw err;
   });
-
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  // Add a custom handler for routes that should always go to the React app
-  app.use((req, res, next) => {
-    // Skip API routes, let them continue to error handlers
-    if (req.path.startsWith('/api')) {
+  
+  // Handle all non-API routes by letting Vite serve the React application
+  app.use('*', (req, res, next) => {
+    // Skip API routes
+    if (req.originalUrl.startsWith('/api')) {
       return next();
     }
     
-    // All other routes should be handled by Vite/React router
-    next();
+    // Log the non-API route being handled
+    console.log('[DEBUG] Forwarding to React app:', req.originalUrl);
+    
+    // In development, let Vite handle all routes
+    return next();
   });
-  
+
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {

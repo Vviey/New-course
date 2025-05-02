@@ -47,7 +47,13 @@ export async function setupVite(app: Express, server: Server) {
   app.use(vite.middlewares);
 
   app.use("*", async (req: Request, res: Response, next: NextFunction) => {
+    // Skip API routes
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    
     const url = req.originalUrl;
+    console.log('[DEBUG] Vite serving route:', url);
 
     try {
       const clientTemplate = path.resolve(__dirname, "..", "client", "index.html");
@@ -71,18 +77,34 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(__dirname, "public");
+  const distPath = path.resolve(__dirname, "..", "public");
+  const clientPath = path.resolve(__dirname, "..", "client");
 
-  if (!fs.existsSync(distPath)) {
-    throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`
-    );
+  // Serve static assets from public directory but don't auto-serve index.html
+  if (fs.existsSync(distPath)) {
+    app.use(express.static(distPath, { index: false }));
   }
 
-  app.use(express.static(distPath));
-
-  // Fall through to index.html if file isn't found
-  app.use("*", (_req: Request, res: Response) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+  // For all other routes, serve the client index.html
+  app.use("*", (req: Request, res: Response, next: NextFunction) => {
+    // Skip API routes
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    
+    console.log('[DEBUG] Serving root route from serveStatic');
+    
+    try {
+      const indexPath = path.resolve(clientPath, "index.html");
+      if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+      } else {
+        console.error('[ERROR] Client index.html not found at:', indexPath);
+        res.status(500).send('Application Error: Client index.html not found');
+      }
+    } catch (err) {
+      console.error('[ERROR] Error serving client index.html:', err);
+      next(err);
+    }
   });
 }

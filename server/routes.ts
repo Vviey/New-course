@@ -14,50 +14,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   });
 
-  // Explicitly serve static files from the public directory before any other routes
+  // Serve static assets from public directory but NOT HTML files
   const staticPath = path.resolve('./public');
-  console.log(`[DEBUG] Serving static files from: ${staticPath}`);
+  console.log(`[DEBUG] Serving static assets from: ${staticPath}`);
   
-  app.use(express.static(staticPath));
-  
-  // Root route - direct access landing page
-  app.get('/', (req, res) => {
-    console.log('[DEBUG] Serving root route');
-    res.sendFile('index.html', { root: path.resolve('./public') });
-  });
-
-  // Serve demo page
-  app.get('/demo', (req, res) => {
-    console.log('[DEBUG] Serving demo route');
-    res.sendFile('demo.html', { root: path.resolve('./public') });
-  });
-  
-  // Create explicit routes for each HTML file with absolute paths
-  const staticFiles = [
-    'demo.html',
-    'realm2-mission4.html',
-    'realm2-mission5.html',
-    'realm2-mission6.html',
-    'realm2-missionbonus.html'
-  ];
-  
-  staticFiles.forEach(file => {
-    const absolutePath = path.resolve('./public', file);
-    app.get(`/${file}`, (req, res) => {
-      console.log(`[DEBUG] Serving static file: ${file}`);
-      if (fs.existsSync(absolutePath)) {
-        res.sendFile(absolutePath);
-      } else {
-        console.error(`[ERROR] File not found: ${absolutePath}`);
-        res.status(404).send('File not found');
+  // Only serve specific asset types, not HTML files
+  app.use(express.static(staticPath, {
+    index: false, // Don't serve index.html automatically
+    setHeaders: (res, path) => {
+      // Don't serve HTML files from static directory
+      if (path.endsWith('.html')) {
+        return false;
       }
-    });
-  });
+    }
+  }));
   
-  // Serve the African Currency Education demo page
-  app.get('/african-currency-demo', (req, res) => {
-    res.sendFile('african-currency-demo.html', { root: './public' });
-  });
+  // Let all routes be handled by the React app
+  // We will just log so we can see what's happening
+  // No special handling needed for root route - Vite will handle it
   
   // Add a simple health check endpoint
   app.get('/api/health', (req, res) => {
@@ -74,6 +48,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } else {
       res.redirect('/');
     }
+  });
+  
+  // For all app routes, let Vite/Express serve the React application
+  app.get('*', (req, res, next) => {
+    // Skip API routes and static assets
+    if (req.path.startsWith('/api') || 
+        req.path.includes('.')) {  // This will catch most file extensions
+      return next();
+    }
+    
+    // Log that we're forwarding to the React app
+    console.log(`[DEBUG] Forwarding to React app: ${req.path}`);
+    
+    // Just pass through to the next middleware (Vite or static file server)
+    return next();
   });
   
   // Set up authentication with GitHub OAuth
