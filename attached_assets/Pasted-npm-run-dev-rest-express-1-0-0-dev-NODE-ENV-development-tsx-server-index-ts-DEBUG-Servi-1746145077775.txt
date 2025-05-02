@@ -1,0 +1,45 @@
+npm run dev
+
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+[DEBUG] Serving static files from: /mnt/c/Users/Admin/newcourse2/New-course/public
+3:16:16 AM [express] serving on port 5000
+[DEBUG] Received request: GET /@vite/client
+[DEBUG] Received request: GET /src/vite-config-helper.js
+[DEBUG] Received request: GET /@react-refresh
+[DEBUG] Received request: GET /src/lib/queryClient.ts
+[DEBUG] Received request: GET /src/lib/protected-route.tsx
+[DEBUG] Received request: GET /src/components/ui/toaster.tsx
+[DEBUG] Received request: GET /src/pages/LoginPage.tsx
+[DEBUG] Received request: GET /src/pages/HomePage.tsx
+[DEBUG] Received request: GET /src/pages/ForgotPasswordPage.tsx
+[DEBUG] Received request: GET /src/pages/auth-page.tsx
+[DEBUG] Received request: GET /src/pages/not-found.tsx
+[DEBUG] Received request: GET /src/pages/MapPage.tsx
+[DEBUG] Received request: GET /src/pages/StoryIntroPage.tsx
+[DEBUG] Received request: GET /src/pages/MissionPage.tsx
+[DEBUG] Received request: GET /src/pages/RealmPage.tsx
+[DEBUG] Received request: GET /src/pages/AfricaMapPage.tsx
+[DEBUG] Received request: GET /src/pages/BadgesPage.tsx
+[DEBUG] Received request: GET /src/pages/Realm%201/Missions.tsx
+[DEBUG] Received request: GET /src/pages/Realm%201/story-intro.tsx
+[DEBUG] Received request: GET /src/pages/Realm%201/home.tsx
+[DEBUG] Received request: GET /src/pages/realm2/Home.tsx
+[DEBUG] Received request: GET /src/pages/realm2/Mission.tsx
+[DEBUG] Received request: GET /src/pages/realm3/Home.tsx
+[DEBUG] Received request: GET /src/pages/realm3/Mission.tsx
+[DEBUG] Received request: GET /src/context/AuthContext.tsx
+[DEBUG] Received request: GET /@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/vite/dist/client/env.mjs
+[DEBUG] Received request: GET /src/pages/SignupPage.tsx
+[DEBUG] Received request: GET /src/hooks/use-auth.tsx
+[DEBUG] Received request: GET /src/components/ui/toast.tsx
+[DEBUG] Received request: GET /src/components/ui/theme.tsx
+[DEBUG] Received request: GET /src/hooks/use-toast.ts
+[DEBUG] Received request: GET /src/components/ui/origins-background.tsx
+[DEBUG] Received request: GET /src/lib/realm-data.ts
+[DEBUG] Received request: GET /src/lib/realm-themes.ts
+[DEBUG] Received request: GET /src/components/ui/glowing-chain.tsx
+[DEBUG] Received request: GET /src/components/ui/card.tsx
+3:17:38 AM [vite] Pre-transform error: Failed to resolve import "@/pages/realm4/Home" from "client/src/App.tsx". Does the file exist?
+ndicu@xxxxxxxxx:/mnt/c/Users/Admin/newcourse2/New-course$ 
