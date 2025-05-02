@@ -1,0 +1,50 @@
+[Service Worker] Serving from cache: http://localhost:5000/
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/main.tsx?v=PyhrK3y8Yiw7Zrzx8y5lY
+sw.js:135 [Service Worker] Serving from cache: http://localhost:5000/
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/vite-config-helper.js
+vite-config-helper.js:147 Vite config helper: Enhanced host configuration applied
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=46c66c15
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/react-dom_client.js?v=6e7bdcac
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/App.tsx?v=PyhrK3y8Yiw7Zrzx8y5lY
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/index.css?v=PyhrK3y8Yiw7Zrzx8y5lY
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/chunk-ZMLY2J2T.js?v=2ced216b
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/chunk-4B2QHNJT.js?v=2ced216b
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/chunk-UPELNCPK.js?v=cf266c6d
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@vite/client
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/chunk-BG45W2ER.js?v=cf266c6d
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@react-refresh
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/chunk-HXA6O6EE.js?v=cf266c6d
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/wouter.js?v=15f6840d
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/@tanstack_react-query.js?v=3948a525
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/react.js?v=46c66c15
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/.vite/deps/chunk-WKPQ4ZTV.js?v=cf266c6d
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/components/ui/toaster.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/lib/queryClient.ts
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/LoginPage.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/SignupPage.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/ForgotPasswordPage.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/lib/protected-route.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/auth-page.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/RealmPage.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/MapPage.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/HomePage.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/StoryIntroPage.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/not-found.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/MissionPage.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/AfricaMapPage.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/BadgesPage.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/Realm%201/Missions.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/Realm%201/home.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/Realm%201/story-intro.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/@fs/mnt/c/Users/Admin/newcourse2/New-course/node_modules/vite/dist/client/env.mjs
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/context/AuthContext.tsx
+vite-config-helper.js:57 Vite config helper: Redirecting WebSocket to ws://localhost:5000/?token=BXwiizz0p41O
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/realm3/Mission.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/realm3/Home.tsx
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/realm2/Home.tsx
+Home.tsx:1 Failed to load module script: Expected a JavaScript module script but the server responded with a MIME type of "text/html". Strict MIME type checking is enforced for module scripts per HTML spec.Understand this error
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/pages/realm2/Mission.tsx
+Mission.tsx:1 Failed to load module script: Expected a JavaScript module script but the server responded with a MIME type of "text/html". Strict MIME type checking is enforced for module scripts per HTML spec.Understand this error
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/hooks/use-toast.ts
+sw.js:160 [Service Worker] Serving from network: http://localhost:5000/src/components/ui/toast.tsx
+sw.js:135 [Service Worker] Serving from cache: http://localhost:5000/favicon.ico
