@@ -2,33 +2,36 @@ import { Switch, Route, useLocation } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
-import { useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { ProtectedRoute } from "@/lib/protected-route";
 import { useOffline } from "@/context/OfflineContext";
 
-// Pages
-import SignupPage from "@/pages/SignupPage";
-import LoginPage from "@/pages/LoginPage";
-import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
-import AuthPage from "@/pages/auth-page";
-import HomePage from "@/pages/HomePage";
-import MapPage from "@/pages/MapPage";
-import NotFound from "@/pages/not-found";
-import StoryIntroPage from "@/pages/StoryIntroPage";
-import RealmPage from "@/pages/RealmPage";
-import AfricaMapPage from "@/pages/AfricaMapPage";
-import BadgesPage from "@/pages/BadgesPage";
-import OfflineSettingsPage from "@/pages/OfflineSettingsPage";
-import JourneyPage from "@/pages/JourneyPage";
+// Loading component
+import { Loader2 } from "lucide-react";
 
-// Import Mission wrapper component
-import MissionWrapper from "@/components/mission-wrapper";
+// Lazy load pages
+const SignupPage = lazy(() => import("@/pages/SignupPage"));
+const LoginPage = lazy(() => import("@/pages/LoginPage"));
+const ForgotPasswordPage = lazy(() => import("@/pages/ForgotPasswordPage"));
+const AuthPage = lazy(() => import("@/pages/auth-page"));
+const HomePage = lazy(() => import("@/pages/HomePage"));
+const MapPage = lazy(() => import("@/pages/MapPage"));
+const NotFound = lazy(() => import("@/pages/not-found"));
+const StoryIntroPage = lazy(() => import("@/pages/StoryIntroPage"));
+const RealmPage = lazy(() => import("@/pages/RealmPage"));
+const AfricaMapPage = lazy(() => import("@/pages/AfricaMapPage"));
+const BadgesPage = lazy(() => import("@/pages/BadgesPage"));
+const OfflineSettingsPage = lazy(() => import("@/pages/OfflineSettingsPage"));
+const JourneyPage = lazy(() => import("@/pages/JourneyPage"));
 
-// Import Realm components
-import Realm1Story from "@/pages/Realm 1/story-intro";
-import Realm1Home from "@/pages/Realm 1/home";
-import Realm3Home from "@/pages/realm3/Home";
-import Realm4Home from "@/pages/realm4/Home";
+// Lazy load Mission wrapper component
+const MissionWrapper = lazy(() => import("@/components/mission-wrapper"));
+
+// Lazy load Realm components
+const Realm1Story = lazy(() => import("@/pages/Realm 1/story-intro"));
+const Realm1Home = lazy(() => import("@/pages/Realm 1/home"));
+const Realm3Home = lazy(() => import("@/pages/realm3/Home"));
+const Realm4Home = lazy(() => import("@/pages/realm4/Home"));
 
 // Context providers
 import { AuthProvider } from "@/context/AuthContext";
@@ -46,54 +49,64 @@ function RouterListener() {
   return null;
 }
 
+// Loading spinner component for Suspense fallback
+const LoadingSpinner = () => (
+  <div className="h-screen w-full flex flex-col items-center justify-center bg-background">
+    <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+    <p className="text-lg text-muted-foreground">Loading content...</p>
+  </div>
+);
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <RouterListener />
-        <Switch>
-          {/* Public routes */}
-          <Route path="/" component={StoryIntroPage} />
-          <Route path="/auth" component={AuthPage} />
-          <Route path="/signup" component={SignupPage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/forgot-password" component={ForgotPasswordPage} />
-          
-          {/* Protected Routes - Require Authentication */}
-          <ProtectedRoute path="/home" component={HomePage} />
-          <ProtectedRoute path="/map" component={MapPage} />
-          <ProtectedRoute path="/map/africa" component={AfricaMapPage} />
-          <ProtectedRoute path="/badges" component={BadgesPage} />
-          <ProtectedRoute path="/journey" component={JourneyPage} />
-          <ProtectedRoute path="/offline-settings" component={OfflineSettingsPage} />
-          
-          {/* Realm 1 specific routes */}
-          <ProtectedRoute path="/realm/1/story" component={Realm1Story} />
-          <ProtectedRoute path="/realm/1/home" component={Realm1Home} />
-          
-          {/* Realm 3 home */}
-          <ProtectedRoute path="/realm/3" component={Realm3Home} />
-          <ProtectedRoute path="/realm3" component={Realm3Home} />
-          
-          {/* Realm 4 home */}
-          <ProtectedRoute path="/realm/4" component={Realm4Home} />
-          <ProtectedRoute path="/realm4" component={Realm4Home} />
-          
-          {/* Universal realm routes */}
-          <ProtectedRoute path="/realm/:id" component={RealmPage} />
-          
-          {/* Universal mission routes - these will use our dynamic mission wrapper */}
-          <ProtectedRoute path="/realm/:realmId/mission/:missionId" component={MissionWrapper} />
-          <ProtectedRoute path="/realm/:realmId/missions/:missionId" component={MissionWrapper} />
-          
-          {/* Alternative mission route patterns for backwards compatibility */}
-          <ProtectedRoute path="/realm2/mission/:missionId" component={MissionWrapper} />
-          <ProtectedRoute path="/realm3/mission/:missionId" component={MissionWrapper} />
-          <ProtectedRoute path="/realm4/mission/:missionId" component={MissionWrapper} />
-          
-          {/* Fall back to NotFound for any other route */}
-          <Route component={NotFound} />
-        </Switch>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Switch>
+            {/* Public routes */}
+            <Route path="/" component={StoryIntroPage} />
+            <Route path="/auth" component={AuthPage} />
+            <Route path="/signup" component={SignupPage} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/forgot-password" component={ForgotPasswordPage} />
+            
+            {/* Protected Routes - Require Authentication */}
+            <ProtectedRoute path="/home" component={HomePage} />
+            <ProtectedRoute path="/map" component={MapPage} />
+            <ProtectedRoute path="/map/africa" component={AfricaMapPage} />
+            <ProtectedRoute path="/badges" component={BadgesPage} />
+            <ProtectedRoute path="/journey" component={JourneyPage} />
+            <ProtectedRoute path="/offline-settings" component={OfflineSettingsPage} />
+            
+            {/* Realm 1 specific routes */}
+            <ProtectedRoute path="/realm/1/story" component={Realm1Story} />
+            <ProtectedRoute path="/realm/1/home" component={Realm1Home} />
+            
+            {/* Realm 3 home */}
+            <ProtectedRoute path="/realm/3" component={Realm3Home} />
+            <ProtectedRoute path="/realm3" component={Realm3Home} />
+            
+            {/* Realm 4 home */}
+            <ProtectedRoute path="/realm/4" component={Realm4Home} />
+            <ProtectedRoute path="/realm4" component={Realm4Home} />
+            
+            {/* Universal realm routes */}
+            <ProtectedRoute path="/realm/:id" component={RealmPage} />
+            
+            {/* Universal mission routes - these will use our dynamic mission wrapper */}
+            <ProtectedRoute path="/realm/:realmId/mission/:missionId" component={MissionWrapper} />
+            <ProtectedRoute path="/realm/:realmId/missions/:missionId" component={MissionWrapper} />
+            
+            {/* Alternative mission route patterns for backwards compatibility */}
+            <ProtectedRoute path="/realm2/mission/:missionId" component={MissionWrapper} />
+            <ProtectedRoute path="/realm3/mission/:missionId" component={MissionWrapper} />
+            <ProtectedRoute path="/realm4/mission/:missionId" component={MissionWrapper} />
+            
+            {/* Fall back to NotFound for any other route */}
+            <Route component={NotFound} />
+          </Switch>
+        </Suspense>
         <Toaster />
       </AuthProvider>
     </QueryClientProvider>

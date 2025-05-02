@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useLocation } from 'wouter';
+import { LazyImage } from '@/components/ui/lazy-image';
 import { ParallaxSection } from './ui/parallax-section';
 import { originTheme } from '@/lib/realm-themes';
+import { Loader2 } from 'lucide-react';
 
 interface Realm {
   id: number;

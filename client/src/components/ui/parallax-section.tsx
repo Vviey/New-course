@@ -1,4 +1,5 @@
-import { useEffect, useRef, ReactNode } from 'react';
+import { useEffect, useRef, ReactNode, useState } from 'react';
+import { LazyImage } from '@/components/ui/lazy-image';
 
 interface ParallaxSectionProps {
   children: ReactNode;
@@ -68,13 +69,17 @@ export function ParallaxSection({
           ref={backgroundRef}
           className="absolute inset-0 w-full h-full"
           style={{ 
-            backgroundImage: `url(${backgroundImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition,
             opacity,
             zIndex
           }}
-        />
+        >
+          <LazyImage 
+            src={backgroundImage}
+            alt="Parallax background"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: backgroundPosition }}
+          />
+        </div>
       )}
       
       {/* Content layer */}
