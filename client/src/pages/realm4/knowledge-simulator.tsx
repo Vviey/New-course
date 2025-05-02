@@ -456,7 +456,7 @@ export default function KnowledgeSimulator({ onComplete }: KnowledgeSimulatorPro
               <div className="text-3xl font-bold text-gray-200">{score}/{questions.length}</div>
               <p className="text-gray-400 mt-1">
                 {score >= 7 
-                  ? 'Congratulations! You've demonstrated a solid understanding of Bitcoin mining concepts.'
+                  ? "Congratulations! You've demonstrated a solid understanding of Bitcoin mining concepts."
                   : 'You need to score at least 7/10 to pass. Try again after reviewing the material.'}
               </p>
             </div>

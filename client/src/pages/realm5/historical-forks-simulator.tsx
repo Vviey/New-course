@@ -85,7 +85,7 @@ export default function HistoricalForksSimulator({ onComplete }: HistoricalForks
         'Created a permanent split in the Bitcoin community and ecosystem',
         'Established a separate cryptocurrency with its own development path',
         'Demonstrated the difficulty of reaching consensus in decentralized systems',
-        'Highlighted the tension between different visions for Bitcoin's future'
+        'Highlighted the tension between different visions for Bitcoin\'s future'
       ],
       lessons: [
         'Hard forks can permanently split communities when there are fundamental disagreements about direction',
@@ -236,11 +236,11 @@ export default function HistoricalForksSimulator({ onComplete }: HistoricalForks
         },
         {
           title: 'MAST (Merkelized Abstract Syntax Trees)',
-          content: 'Taproot includes MAST, which allows complex spending conditions to be hidden until they're used, enhancing privacy and reducing transaction size.'
+          content: "Taproot includes MAST, which allows complex spending conditions to be hidden until they're used, enhancing privacy and reducing transaction size."
         },
         {
           title: 'Tapscript',
-          content: 'Taproot introduced an enhanced version of Bitcoin's scripting language, enabling more flexible and efficient smart contracts.'
+          content: "Taproot introduced an enhanced version of Bitcoin's scripting language, enabling more flexible and efficient smart contracts."
         }
       ],
       outcomes: [

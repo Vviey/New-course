@@ -173,7 +173,7 @@ export const realm6Missions: Mission[] = [
         "You can choose from various focus areas: education workshops, farming co-ops, local payment systems, or platforms for creative work. Each option explores different ways Bitcoin can address community needs."
       ),
       React.createElement("p", null, 
-        "This mission embodies the spirit of Ubuntu—"I thrive because we build together"—encouraging you to think about how Bitcoin enables collective empowerment and community growth."
+        "This mission embodies the spirit of Ubuntu—\"I thrive because we build together\"—encouraging you to think about how Bitcoin enables collective empowerment and community growth."
       ),
       React.createElement("h3", { className: "text-lg font-semibold mt-6 mb-2" }, "Project Areas:"),
       React.createElement("ul", { className: "list-disc pl-5 space-y-1" },

@@ -3,7 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { Suspense, lazy, useEffect } from "react";
-import { ProtectedRoute } from "@/lib/protected-route";
+import { ProtectedRoute, AuthRedirectRoute } from "@/lib/protected-route";
 import { useOffline } from "@/context/OfflineContext";
 
 // Loading component
@@ -51,16 +51,17 @@ function RouterListener() {
 }
 
 // Root route redirect component
-function RedirectToAuth() {
+function RedirectToHome() {
   const [, setLocation] = useLocation();
   
   useEffect(() => {
-    // For development mode: skip authentication and go directly to Realm 1
+    // In development mode: go directly to Realm 1 for testing
     if (import.meta.env.DEV) {
-      console.log('DEV MODE: Bypassing authentication, redirecting to Realm 1');
+      console.log('DEV MODE: Redirecting to Realm 1');
       setLocation('/realm/1');
     } else {
-      setLocation('/auth');
+      // In production, go to home page which will handle redirects if needed
+      setLocation('/home');
     }
   }, [setLocation]);
   
@@ -83,11 +84,11 @@ function App() {
         <RouterListener />
         <Suspense fallback={<LoadingSpinner />}>
           <Switch>
-            {/* Public routes */}
-            <Route path="/auth" component={AuthPage} />
+            {/* Auth route - redirects to home/realms if already logged in */}
+            <AuthRedirectRoute path="/auth" component={AuthPage} redirectTo="/realm/1" />
             
-            {/* Root route redirects to auth */}
-            <Route path="/" component={RedirectToAuth} />
+            {/* Root route redirects to home (or to realm 1 in dev mode) */}
+            <Route path="/" component={RedirectToHome} />
             
             {/* Story intro - protected to ensure auth context */}
             <ProtectedRoute path="/intro" component={StoryIntroPage} />

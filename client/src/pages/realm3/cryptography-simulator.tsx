@@ -37,7 +37,7 @@ export default function CryptographySimulator({ onComplete }: CryptographySimula
     const normalizedSolution = currentChallenge.solution.toUpperCase().replace(/\s/g, '');
     
     if (normalizedInput === normalizedSolution) {
-      setMessage('Correct! You've successfully decrypted the message.');
+      setMessage("Correct! You've successfully decrypted the message.");
       setCompleted(true);
       
       // Complete the challenge after a delay
@@ -45,7 +45,7 @@ export default function CryptographySimulator({ onComplete }: CryptographySimula
         onComplete();
       }, 2000);
     } else {
-      setMessage('That's not quite right. Try again!');
+      setMessage("That's not quite right. Try again!");
     }
   };
   

@@ -1,22 +1,12 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, FC } from "react";
 import {
   useQuery,
   useMutation,
   UseMutationResult,
 } from "@tanstack/react-query";
-import { insertUserSchema, User as SelectUser, InsertUser } from "@shared/schema";
-import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
+import { User } from "@shared/schema";
+import { getQueryFn, apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { useLocation } from "wouter";
-
-type AuthContextType = {
-  user: SelectUser | null;
-  isLoading: boolean;
-  error: Error | null;
-  loginMutation: UseMutationResult<SelectUser, Error, LoginData>;
-  logoutMutation: UseMutationResult<void, Error, void>;
-  registerMutation: UseMutationResult<SelectUser, Error, RegisterData>;
-};
 
 type LoginData = {
   username: string;
@@ -29,148 +19,64 @@ type RegisterData = {
   email?: string;
 };
 
+type AuthContextType = {
+  user: User | null;
+  isLoading: boolean;
+  error: Error | null;
+  loginMutation: UseMutationResult<User, Error, LoginData>;
+  logoutMutation: UseMutationResult<void, Error, void>;
+  registerMutation: UseMutationResult<User, Error, RegisterData>;
+};
+
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { toast } = useToast();
-  const [, setLocation] = useLocation();
   
-  // TEMPORARY: Creating a mock user for development until backend is implemented
-  const mockUser = {
-    id: 1,
-    userId: "dev-user-123",
-    username: "dev_user",
-    password: "********", // Hashed in real implementation
-    email: "dev@example.com",
-    githubId: null,
-    avatarUrl: null,
-    progress: {
-      currentRealm: 1,
-      completedRealms: [],
-      chain: {
-        progress: 0,
-        lastUpdated: new Date().toISOString()
-      }
-    },
-    rewards: {
-      badges: [],
-      tokens: 0
-    }
-  };
-  
+  // Fetch current user data
   const {
     data: user,
     error,
     isLoading,
-  } = useQuery<SelectUser | null, Error>({
+  } = useQuery<User | null, Error>({
     queryKey: ["/api/user"],
-    queryFn: async () => {
-      try {
-        // For development: return the mock user to avoid auth errors
-        // In production, this would call the actual API
-        if (import.meta.env.DEV) {
-          // Simulate network delay
-          await new Promise(resolve => setTimeout(resolve, 500));
-          return mockUser as SelectUser;
-        }
-        
-        const res = await apiRequest("GET", "/api/user");
-        if (!res.ok) {
-          if (res.status === 401) {
-            // User is not authenticated
-            return null;
-          }
-          throw new Error(`Failed to fetch user: ${res.statusText}`);
-        }
-        return await res.json();
-      } catch (err) {
-        console.error("Error fetching current user:", err);
-        return null;
-      }
-    },
+    queryFn: getQueryFn({ on401: "returnNull" }),
   });
 
-  const loginMutation = useMutation({
+  // Login mutation
+  const loginMutation = useMutation<User, Error, LoginData>({
     mutationFn: async (credentials: LoginData) => {
-      // For development: simulate successful login
-      if (import.meta.env.DEV) {
-        await new Promise(resolve => setTimeout(resolve, 800)); // Simulate network delay
-        return {
-          ...mockUser,
-          username: credentials.username
-        } as SelectUser;
-      }
-      
       const res = await apiRequest("POST", "/api/login", credentials);
       return await res.json();
     },
-    onSuccess: (userData: SelectUser) => {
-      // Store userId in localStorage for persistence
-      localStorage.setItem('userId', userData.userId);
-      // Update user data in cache
-      queryClient.setQueryData(["/api/user"], userData);
-      
+    onSuccess: (user: User) => {
+      queryClient.setQueryData(["/api/user"], user);
       toast({
         title: "Login successful",
-        description: `Welcome back, ${userData.username}!`,
+        description: `Welcome back, ${user.username}!`,
       });
-      
-      // Redirect to intro page
-      setLocation('/intro');
     },
     onError: (error: Error) => {
       toast({
         title: "Login failed",
-        description: error.message || "Invalid username or password",
+        description: error.message || "Invalid credentials. Please try again.",
         variant: "destructive",
       });
     },
   });
 
-  const registerMutation = useMutation({
+  // Register mutation
+  const registerMutation = useMutation<User, Error, RegisterData>({
     mutationFn: async (userData: RegisterData) => {
-      // For development: simulate successful registration
-      if (import.meta.env.DEV) {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
-        return {
-          ...mockUser,
-          username: userData.username,
-          email: userData.email
-        } as SelectUser;
-      }
-      
-      const res = await apiRequest("POST", "/api/register", {
-        username: userData.username,
-        password: userData.password,
-        email: userData.email,
-        progress: {
-          currentRealm: 1,
-          completedRealms: [],
-          chain: {
-            progress: 0,
-            lastUpdated: new Date().toISOString()
-          }
-        },
-        rewards: {
-          badges: [],
-          tokens: 0
-        }
-      });
+      const res = await apiRequest("POST", "/api/register", userData);
       return await res.json();
     },
-    onSuccess: (userData: SelectUser) => {
-      // Store userId in localStorage for persistence
-      localStorage.setItem('userId', userData.userId);
-      // Update user data in cache
-      queryClient.setQueryData(["/api/user"], userData);
-      
+    onSuccess: (user: User) => {
+      queryClient.setQueryData(["/api/user"], user);
       toast({
         title: "Registration successful",
-        description: `Welcome to Bitcoin Quest, ${userData.username}!`,
+        description: `Welcome to Asha's Journey, ${user.username}!`,
       });
-      
-      // Redirect to introduction page
-      setLocation('/intro');
     },
     onError: (error: Error) => {
       toast({
@@ -181,34 +87,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  // Logout mutation
   const logoutMutation = useMutation<void, Error, void>({
     mutationFn: async () => {
-      // For development: simulate successful logout
-      if (import.meta.env.DEV) {
-        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
-        localStorage.removeItem('userId');
-        return;
-      }
-      
       await apiRequest("POST", "/api/logout");
-      localStorage.removeItem('userId');
     },
     onSuccess: () => {
-      // Clear user data from cache
       queryClient.setQueryData(["/api/user"], null);
-      
       toast({
         title: "Logged out",
-        description: "You have been logged out successfully.",
+        description: "You have been successfully logged out.",
       });
-      
-      // Redirect to login page
-      setLocation('/auth');
     },
     onError: (error: Error) => {
       toast({
         title: "Logout failed",
-        description: error.message,
+        description: error.message || "Could not log out. Please try again.",
         variant: "destructive",
       });
     },
@@ -217,7 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext.Provider
       value={{
-        user: user ?? null,
+        user: user || null,
         isLoading,
         error,
         loginMutation,
@@ -228,7 +122,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
 export function useAuth() {
   const context = useContext(AuthContext);

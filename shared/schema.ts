@@ -1,15 +1,13 @@
-import { pgTable, text, serial, integer, boolean, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, jsonb, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  userId: text("user_id").notNull().unique(),
+  userId: text("userId").notNull().unique(),
   username: text("username").notNull(),
   password: text("password").notNull(),
   email: text("email"),
-  githubId: text("github_id"),
-  avatarUrl: text("avatar_url"),
   progress: jsonb("progress").notNull(),
   rewards: jsonb("rewards").notNull()
 });
@@ -19,8 +17,6 @@ export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
   email: true,
-  githubId: true,
-  avatarUrl: true,
   progress: true,
   rewards: true
 });
@@ -32,9 +28,9 @@ export const realms = pgTable("realms", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   description: text("description").notNull(),
-  moduleNumber: integer("module_number").notNull(),
-  imageUrl: text("image_url").notNull(),
-  isLocked: boolean("is_locked").notNull().default(true)
+  moduleNumber: integer("moduleNumber").notNull(),
+  imageUrl: text("imageUrl"),
+  isLocked: boolean("isLocked")
 });
 
 export const insertRealmSchema = createInsertSchema(realms).pick({
@@ -47,3 +43,59 @@ export const insertRealmSchema = createInsertSchema(realms).pick({
 
 export type InsertRealm = z.infer<typeof insertRealmSchema>;
 export type Realm = typeof realms.$inferSelect;
+
+export const missions = pgTable("missions", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  imageUrl: text("imageUrl"),
+  realmId: integer("realmId").notNull(),
+  order: integer("order").notNull(),
+  content: jsonb("content").notNull()
+});
+
+export const insertMissionSchema = createInsertSchema(missions).pick({
+  title: true,
+  description: true,
+  imageUrl: true,
+  realmId: true,
+  order: true,
+  content: true
+});
+
+export type InsertMission = z.infer<typeof insertMissionSchema>;
+export type Mission = typeof missions.$inferSelect;
+
+export const badges = pgTable("badges", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  imageUrl: text("imageUrl"),
+  realmId: integer("realmId")
+});
+
+export const insertBadgeSchema = createInsertSchema(badges).pick({
+  name: true,
+  description: true,
+  imageUrl: true,
+  realmId: true
+});
+
+export type InsertBadge = z.infer<typeof insertBadgeSchema>;
+export type Badge = typeof badges.$inferSelect;
+
+export const userBadges = pgTable("user_badges", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  badgeId: integer("badge_id").notNull(),
+  earned: timestamp("earned").notNull()
+});
+
+export const insertUserBadgeSchema = createInsertSchema(userBadges).pick({
+  userId: true,
+  badgeId: true,
+  earned: true
+});
+
+export type InsertUserBadge = z.infer<typeof insertUserBadgeSchema>;
+export type UserBadge = typeof userBadges.$inferSelect;
