@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asha's Journey - Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      padding: 2rem;
+      background: linear-gradient(135deg, #7928CA, #FF0080);
+      color: white;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      margin-bottom: 1.5rem;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      display: inline-block;
+      background: white;
+      color: #7928CA;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.25rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Asha's Journey - Test Page</h1>
+    
+    <div class="card">
+      <h2>Authentication Status</h2>
+      <div id="auth-status">Checking...</div>
+    </div>
+    
+    <div class="card">
+      <h2>LocalStorage Test</h2>
+      <div id="storage-status">Checking...</div>
+      <button id="storage-test" class="btn">Test Storage</button>
+    </div>
+    
+    <div class="card">
+      <h2>Quick Links</h2>
+      <p>
+        <a href="/" class="btn">Home Page</a>
+        <a href="/auth" class="btn">Auth Page</a>
+      </p>
+    </div>
+  </div>
+  
+  <script>
+    // Check authentication status
+    const authStatusEl = document.getElementById('auth-status');
+    const storageStatusEl = document.getElementById('storage-status');
+    const storageTestBtn = document.getElementById('storage-test');
+    
+    // Check if user data exists in localStorage
+    const userData = localStorage.getItem('ashaJourneyUserData');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        authStatusEl.innerHTML = `
+          <p>✅ User authenticated</p>
+          <p>Username: ${user.username}</p>
+          <p>Unlocked Realms: ${user.unlockedRealms.join(', ')}</p>
+          <p>Completed Missions: ${user.completedMissions.length}</p>
+          <p>Earned Badges: ${user.earnedBadges.length}</p>
+        `;
+      } catch (e) {
+        authStatusEl.innerHTML = `❌ Error parsing user data: ${e.message}`;
+      }
+    } else {
+      authStatusEl.innerHTML = '❌ No user data found. Please log in.';
+    }
+    
+    // Test localStorage functionality
+    storageStatusEl.innerHTML = 'Click button to test localStorage';
+    
+    storageTestBtn.addEventListener('click', () => {
+      try {
+        // Write test data
+        localStorage.setItem('testKey', 'Test value: ' + new Date().toISOString());
+        
+        // Read test data
+        const testValue = localStorage.getItem('testKey');
+        
+        if (testValue) {
+          storageStatusEl.innerHTML = `✅ LocalStorage working! Retrieved: ${testValue}`;
+        } else {
+          storageStatusEl.innerHTML = '❌ LocalStorage write succeeded but read failed';
+        }
+      } catch (e) {
+        storageStatusEl.innerHTML = `❌ LocalStorage error: ${e.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
