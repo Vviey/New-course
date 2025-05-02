@@ -24,6 +24,8 @@ A comprehensive, gamified Bitcoin education platform that transforms complex cry
 
 ## Getting Started
 
+### For Local Development (No Database Required)
+
 1. Install dependencies:
 ```bash
 npm install
@@ -33,6 +35,15 @@ npm install
 ```bash
 npm run dev
 ```
+
+The application will automatically use in-memory storage when no database connection is available, making it easy to explore all realms and missions without needing to set up PostgreSQL.
+
+### Important Notes for Local Testing
+
+- When running locally, the application uses MemStorage by default
+- User progress is stored in memory and will be lost when the server restarts
+- All realms and missions are accessible without database configuration
+- The DB connection in server/db.ts has been configured to use dummy implementations when DATABASE_URL is not set
 
 ## Built With
 

@@ -1,3 +1,7 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 /* Realm-specific patterns */
 .origins-pattern {
   background-color: transparent;
@@ -74,10 +78,6 @@
   box-shadow: 0 4px 8px rgba(238, 114, 11, 0.4);
   transform: translateY(-1px);
 }
-
-/* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 .font-lora {
   font-family: 'Lora', serif;

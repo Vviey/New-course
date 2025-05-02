@@ -49,16 +49,10 @@ let pool;
 let db;
 
 if (!process.env.DATABASE_URL) {
-  if (isReplit) {
-    throw new Error(
-      "DATABASE_URL must be set. Did you forget to provision a database?",
-    );
-  } else {
-    // Fall back to in-memory storage for local development or testing
-    console.warn('DATABASE_URL not set, using in-memory storage for development purposes');
-    pool = new DummyPool();
-    db = dummyDb;
-  }
+  // Fall back to in-memory storage for development purposes, even on Replit
+  console.warn('DATABASE_URL not set, using in-memory storage for development purposes');
+  pool = new DummyPool();
+  db = dummyDb;
 } else {
   pool = new Pool({ connectionString: process.env.DATABASE_URL });
   db = drizzle(pool, { schema });
