@@ -56,12 +56,12 @@ export default function StoryIntroPage() {
       setCurrentSlide(currentSlide + 1);
     } else {
       // Navigate to the first realm when story is complete
-      setLocation('/realm/1');
+      setLocation('/realm1');
     }
   };
   
   const handleSkip = () => {
-    setLocation('/realm/1');
+    setLocation('/realm1');
   };
   
   return (

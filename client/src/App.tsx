@@ -69,8 +69,19 @@ function App() {
             {/* Public routes */}
             <Route path="/auth" component={AuthPage} />
             
-            {/* Story intro - not protected but needs auth context */}
-            <Route path="/" component={StoryIntroPage} />
+            {/* Root route redirects to auth */}
+            <Route path="/">
+              {() => {
+                const [, setLocation] = useLocation();
+                useEffect(() => {
+                  setLocation('/auth');
+                }, [setLocation]);
+                return <LoadingSpinner />;
+              }}
+            </Route>
+            
+            {/* Story intro - protected to ensure auth context */}
+            <ProtectedRoute path="/intro" component={StoryIntroPage} />
             
             {/* Protected Routes - Require Authentication */}
             <ProtectedRoute path="/home" component={HomePage} />

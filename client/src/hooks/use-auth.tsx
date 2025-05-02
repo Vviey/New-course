@@ -40,14 +40,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     error,
     isLoading,
   } = useQuery<SelectUser | null, Error>({
-    queryKey: ["/api/users/current"],
+    queryKey: ["/api/user"],
     queryFn: async () => {
       try {
-        // Try to get the current user from stored userId
-        const storedUserId = localStorage.getItem('userId');
-        if (!storedUserId) return null;
-        
-        const res = await apiRequest("GET", `/api/users/${storedUserId}`);
+        const res = await apiRequest("GET", "/api/user");
         return await res.json();
       } catch (err) {
         console.error("Error fetching current user:", err);
@@ -58,22 +54,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
-      const res = await apiRequest("POST", "/api/auth/login", credentials);
+      const res = await apiRequest("POST", "/api/login", credentials);
       return await res.json();
     },
     onSuccess: (userData: SelectUser) => {
       // Store userId in localStorage for persistence
       localStorage.setItem('userId', userData.userId);
       // Update user data in cache
-      queryClient.setQueryData(["/api/users/current"], userData);
+      queryClient.setQueryData(["/api/user"], userData);
       
       toast({
         title: "Login successful",
         description: `Welcome back, ${userData.username}!`,
       });
       
-      // Redirect to home page
-      setLocation('/');
+      // Redirect to intro page
+      setLocation('/intro');
     },
     onError: (error: Error) => {
       toast({
@@ -86,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const registerMutation = useMutation({
     mutationFn: async (userData: RegisterData) => {
-      const res = await apiRequest("POST", "/api/auth/signup", {
+      const res = await apiRequest("POST", "/api/register", {
         username: userData.username,
         password: userData.password,
         email: userData.email,
@@ -109,7 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Store userId in localStorage for persistence
       localStorage.setItem('userId', userData.userId);
       // Update user data in cache
-      queryClient.setQueryData(["/api/users/current"], userData);
+      queryClient.setQueryData(["/api/user"], userData);
       
       toast({
         title: "Registration successful",
@@ -130,13 +126,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      // No need for server logout with simple auth
-      // Just clear local storage
+      const res = await apiRequest("POST", "/api/logout");
       localStorage.removeItem('userId');
+      return res;
     },
     onSuccess: () => {
       // Clear user data from cache
-      queryClient.setQueryData(["/api/users/current"], null);
+      queryClient.setQueryData(["/api/user"], null);
       
       toast({
         title: "Logged out",
