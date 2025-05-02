@@ -119,16 +119,20 @@ export default function Realm1Mission() {
   };
   
   if (loading || !missionData) {
+    // Define fallback colors in case theme properties are undefined
+    const bgColor = originTheme?.colors?.background || "#38290E";
+    const primaryColor = originTheme?.colors?.primary || "#B87F31";
+    
     return (
       <div 
         className="min-h-screen flex items-center justify-center"
         style={{
-          backgroundColor: originTheme.colors.background
+          backgroundColor: bgColor
         }}
       >
         <div className="animate-pulse flex flex-col items-center">
-          <div className="h-32 w-32 bg-amber-600 rounded-full mb-4"></div>
-          <div className="h-6 w-48 bg-amber-600 rounded-full"></div>
+          <div className="h-32 w-32 rounded-full mb-4" style={{ backgroundColor: primaryColor }}></div>
+          <div className="h-6 w-48 rounded-full" style={{ backgroundColor: primaryColor }}></div>
         </div>
       </div>
     );
@@ -188,12 +192,19 @@ export default function Realm1Mission() {
     setContentRead(true);
   };
   
+  // Define theme colors with fallbacks to ensure they're always defined
+  const bgColor = originTheme?.colors?.background || "#38290E";
+  const bgLightColor = originTheme?.colors?.backgroundLight || "#694E1E";
+  const primaryColor = originTheme?.colors?.primary || "#B87F31";
+  const secondaryColor = originTheme?.colors?.secondary || "#E6A23C";
+  const textColor = originTheme?.colors?.textDark || "#4B3621";
+
   return (
     <div 
       className="min-h-screen py-8 px-4"
       style={{
-        backgroundColor: "#FBF4D2", // Lighter background for better contrast
-        color: "#4B3621", // Darker text color for better readability
+        background: `linear-gradient(to bottom, ${bgColor}, ${bgLightColor})`,
+        color: textColor,
         backgroundImage: "radial-gradient(circle at 10% 20%, rgba(238, 114, 11, 0.05) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(255, 197, 103, 0.05) 0%, transparent 40%)"
       }}
     >
@@ -201,7 +212,8 @@ export default function Realm1Mission() {
       <header className="max-w-4xl mx-auto mb-6">
         <button 
           onClick={() => setLocation('/realm/1/home')} 
-          className="flex items-center text-amber-800 hover:text-amber-600 transition-colors font-medium"
+          className="flex items-center transition-colors font-medium"
+          style={{ color: secondaryColor }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
@@ -220,17 +232,23 @@ export default function Realm1Mission() {
       {/* Mission content */}
       <main className="max-w-4xl mx-auto">
         {!contentRead ? (
-          <div className="bg-white p-8 rounded-xl border-2 border-amber-600/40 shadow-xl">
+          <div className="bg-black/40 p-8 rounded-xl border-2 shadow-xl"
+            style={{ borderColor: `${primaryColor}40` }}>
             <Mission 
               mission={missionData}
               onComplete={handleMissionComplete}
+              realmTheme="amber"
             />
             
             {/* Challenge button */}
             <div className="mt-8 flex justify-center">
               <button
                 onClick={handleStartChallenge}
-                className="px-6 py-3 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
+                className="px-6 py-3 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
+                style={{ 
+                  background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
+                  boxShadow: `0 0 15px ${primaryColor}80`
+                }}
               >
                 Start Challenge
                 <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -240,12 +258,14 @@ export default function Realm1Mission() {
         ) : (
           <>
             {/* Challenge section */}
-            <div className="bg-white p-8 rounded-xl border-2 border-amber-600/40 shadow-xl">
-              <h2 className="text-2xl font-bold text-amber-700 mb-4">
+            <div className="bg-black/40 p-8 rounded-xl border-2 shadow-xl"
+              style={{ borderColor: `${primaryColor}40` }}>
+              <h2 className="text-2xl font-bold mb-4"
+                style={{ color: primaryColor }}>
                 Challenge: {missionData?.title}
               </h2>
               
-              <p className="text-amber-900 mb-6">
+              <p className="text-gray-300 mb-6">
                 Complete this challenge to unlock the next mission and continue your journey through the Realm of Origins.
               </p>
               
@@ -258,10 +278,18 @@ export default function Realm1Mission() {
             {/* Social media sharing section */}
             {showShareModal && (
               <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-                <div className="bg-white rounded-xl p-6 max-w-md w-full">
-                  <h3 className="text-2xl font-bold text-amber-700 mb-4">Share Your Insight</h3>
+                <div className="rounded-xl p-6 max-w-md w-full" 
+                  style={{ backgroundColor: bgLightColor }}>
+                  <h3 className="text-2xl font-bold mb-4" style={{ color: secondaryColor }}>
+                    Share Your Insight
+                  </h3>
                   <textarea
-                    className="w-full p-3 bg-white text-gray-800 rounded-lg border-2 border-amber-300 mb-4"
+                    className="w-full p-3 rounded-lg border-2 mb-4"
+                    style={{ 
+                      borderColor: `${primaryColor}40`,
+                      backgroundColor: 'rgba(0,0,0,0.3)',
+                      color: 'white'
+                    }}
                     rows={5}
                     value={shareContent}
                     onChange={(e) => setShareContent(e.target.value)}
@@ -284,7 +312,11 @@ export default function Realm1Mission() {
                     </button>
                     <button
                       onClick={handleMissionComplete}
-                      className="px-4 py-2 bg-amber-600 text-white rounded-lg shadow-md hover:bg-amber-700 transition-colors"
+                      className="px-4 py-2 text-white rounded-lg shadow-md transition-colors"
+                      style={{ 
+                        backgroundColor: primaryColor,
+                        boxShadow: `0 0 10px ${primaryColor}80`
+                      }}
                     >
                       Continue Journey
                     </button>

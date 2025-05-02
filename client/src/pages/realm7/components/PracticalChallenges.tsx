@@ -547,7 +547,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'governance-3d',
               text: 'Making development easier for application builders',
               isCorrect: false,
-              explanation: 'While developer experience is valuable, it's a secondary consideration compared to the security and integrity of the protocol itself, especially for base layer changes.'
+              explanation: "While developer experience is valuable, it's a secondary consideration compared to the security and integrity of the protocol itself, especially for base layer changes."
             }
           ],
           selectedOption: null
@@ -609,13 +609,13 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'adoption-2b',
               text: 'Detailed technical explanations of blockchain technology and cryptography',
               isCorrect: false,
-              explanation: 'Highly technical explanations create barriers to entry and aren't necessary for basic Bitcoin use, potentially intimidating users with limited technical background.'
+              explanation: "Highly technical explanations create barriers to entry and aren't necessary for basic Bitcoin use, potentially intimidating users with limited technical background."
             },
             {
               id: 'adoption-2c',
               text: 'Investment-focused seminars highlighting price potential',
               isCorrect: false,
-              explanation: 'Emphasizing speculative price action can promote a gambling mindset rather than understanding Bitcoin's fundamental utility, potentially leading to financial harm during volatility.'
+              explanation: "Emphasizing speculative price action can promote a gambling mindset rather than understanding Bitcoin's fundamental utility, potentially leading to financial harm during volatility."
             },
             {
               id: 'adoption-2d',
@@ -640,19 +640,19 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'adoption-3b',
               text: 'Focusing exclusively on Bitcoin as a savings technology',
               isCorrect: false,
-              explanation: 'While valuable, treating Bitcoin only as savings ignores its payment utility and doesn't solve the merchant adoption problem or create the network effects needed for a circular economy.'
+              explanation: "While valuable, treating Bitcoin only as savings ignores its payment utility and doesn't solve the merchant adoption problem or create the network effects needed for a circular economy."
             },
             {
               id: 'adoption-3c',
               text: 'Lobbying for government mandates requiring Bitcoin acceptance',
               isCorrect: false,
-              explanation: 'Top-down mandates typically create resistance and don't address the underlying education and infrastructure needs. They can also backfire if implementation is rushed.'
+              explanation: "Top-down mandates typically create resistance and don't address the underlying education and infrastructure needs. They can also backfire if implementation is rushed."
             },
             {
               id: 'adoption-3d',
               text: 'Focusing only on remittance use cases',
               isCorrect: false,
-              explanation: 'While remittances are an important use case, they typically involve immediate conversion to local currency rather than creating local Bitcoin circulation and merchant adoption.'
+              explanation: "While remittances are an important use case, they typically involve immediate conversion to local currency rather than creating local Bitcoin circulation and merchant adoption."
             }
           ],
           selectedOption: null

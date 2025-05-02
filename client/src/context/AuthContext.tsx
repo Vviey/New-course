@@ -16,6 +16,17 @@ interface AuthContextType {
   // Authentication state
   isAuthenticated: boolean;
   username: string | null;
+  loading: boolean;
+  
+  // User object for compatibility with existing components
+  user: {
+    username: string | null;
+    progress?: {
+      completedRealms?: number[];
+      completedMissions?: number[];
+      unlockedRealms?: number[];
+    }
+  } | null;
   
   // Auth methods
   login: (username: string, password: string) => void;
@@ -37,7 +48,26 @@ interface AuthContextType {
   earnBadge: (badgeId: number) => void;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+// Create default context value
+const initialAuthContext: AuthContextType = {
+  isAuthenticated: false,
+  username: null,
+  loading: true,
+  user: null,
+  login: () => {},
+  register: () => {},
+  logout: () => {},
+  currentRealm: 1,
+  setCurrentRealm: () => {},
+  completedMissions: [],
+  unlockedRealms: [1, 2, 3, 4, 5, 6, 7],
+  earnedBadges: [],
+  completeMission: () => {},
+  unlockRealm: () => {},
+  earnBadge: () => {}
+};
+
+const AuthContext = createContext<AuthContextType>(initialAuthContext);
 
 // Local storage key
 const USER_STORAGE_KEY = 'ashaJourneyUserData';
@@ -55,6 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [username, setUsername] = useState<string | null>(null);
   const [currentRealm, setCurrentRealm] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
   
   // Progress state
   const [completedMissions, setCompletedMissions] = useState<number[]>([]);
@@ -80,6 +111,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Failed to load user data from localStorage:', error);
     }
+    // Set loading to false after initialization completes
+    setLoading(false);
   }, []);
   
   // Save user data to localStorage whenever it changes
@@ -171,9 +204,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Create a user object that matches what components are expecting
+  const user = isAuthenticated ? {
+    username,
+    progress: {
+      completedRealms: [], // We don't track this separately currently
+      completedMissions,
+      unlockedRealms
+    }
+  } : null;
+
   const value = {
     isAuthenticated,
     username,
+    loading,
+    user,
     login,
     register,
     logout,
@@ -195,9 +240,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth() {
+  // Since we've provided a default value for our context, it should never be null
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
   return context;
 }

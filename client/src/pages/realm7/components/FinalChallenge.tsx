@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Check, CheckCircle, ChevronDown, ChevronUp, Circle, Coins, Dollar, Hexagon, Key, Lock, Shield, Trophy, Wallet, X, Zap } from 'lucide-react';
+import { ArrowRight, Check, CheckCircle, ChevronDown, ChevronUp, Circle, Coins, CircleDollarSign, Hexagon, Key, Lock, Shield, Trophy, Wallet, X, Zap } from 'lucide-react';
 import { getRealmName } from '@/lib/realm-utils';
 
 interface FinalChallengeProps {
@@ -143,7 +143,7 @@ export default function FinalChallenge({ onComplete }: FinalChallengeProps) {
       id: 'mining',
       title: 'Local Mining Strategy',
       realm: 4,
-      description: 'Evaluate the potential role of local Bitcoin mining in the region's Bitcoin adoption strategy.',
+      description: "Evaluate the potential role of local Bitcoin mining in the region's Bitcoin adoption strategy.",
       question: "What approach to Bitcoin mining would be most beneficial for a developing region with some renewable energy resources but limited infrastructure?",
       options: [
         {
@@ -335,7 +335,7 @@ export default function FinalChallenge({ onComplete }: FinalChallengeProps) {
       case 5: // The Council of Forks
         return <Hexagon className="h-5 w-5" />;
       case 6: // The Ubuntu Village
-        return <Dollar className="h-5 w-5" />;
+        return <CircleDollarSign className="h-5 w-5" />;
       default: // The Summit of Knowledge
         return <Circle className="h-5 w-5" />;
     }

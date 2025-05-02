@@ -75,11 +75,10 @@ export default function Realm4Home() {
       return;
     }
     
-    // In a real app, we would fetch the user's progress for this realm
-    // For now, we'll use mock data
+    // Use user progress data from AuthContext
     if (user?.progress) {
       setRealmProgress({
-        completedMissions: user.progress.completedRealms || [],
+        completedMissions: user.progress.completedMissions || [],
         currentMission: 1,
         totalMissions: realm4Missions.length,
       });

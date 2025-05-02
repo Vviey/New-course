@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { realm2Missions } from '@/lib/realm2-missions';
 import { Mission } from '@/components/ui/mission';
+import { citadelTheme } from '@/lib/realm-themes';
 
 // Lazy load simulation components to improve performance
 const SurveillanceSimulator = lazy(() => import('./surveillance-simulator'));
@@ -17,7 +18,7 @@ const SelfCustodySimulator = lazy(() => import('./self-custody-simulator'));
 export default function Realm2Missions() {
   const [, setLocation] = useLocation();
   const { missionId } = useParams<{ missionId: string }>();
-  const { user, error, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const [missionComplete, setMissionComplete] = useState(false);
   
   // Parse mission ID from URL
@@ -27,12 +28,18 @@ export default function Realm2Missions() {
   // Current mission data
   const missionData = realm2Missions.find(m => m.id === missionDataId);
   
+  // Add required content property for Mission component compatibility
+  const missionWithContent = missionData ? {
+    ...missionData,
+    content: typeof missionData.description === 'string' ? missionData.description : ''
+  } : null;
+  
   // Redirect if not authenticated
   useEffect(() => {
-    if (!isLoading && !user) {
+    if (!loading && !user) {
       setLocation('/auth');
     }
-  }, [user, isLoading, setLocation]);
+  }, [user, loading, setLocation]);
   
   // Generate social media sharing message based on mission
   const generateSharingMessage = () => {
@@ -142,36 +149,47 @@ export default function Realm2Missions() {
     );
   };
   
-  if (isLoading || !missionData) {
+  if (loading || !missionData) {
+    // Define fallback colors in case theme properties are undefined
+    const bgColor = citadelTheme?.colors?.background || "#00243F";
+    const primaryColor = citadelTheme?.colors?.primary || "#00589B";
+    
     return (
       <div 
         className="min-h-screen flex items-center justify-center"
         style={{
-          backgroundColor: "#0c0c14"
+          backgroundColor: bgColor
         }}
       >
         <div className="animate-pulse flex flex-col items-center">
-          <div className="h-32 w-32 bg-purple-600 rounded-full mb-4"></div>
-          <div className="h-6 w-48 bg-purple-600 rounded-full"></div>
+          <div className="h-32 w-32 rounded-full mb-4" style={{ backgroundColor: primaryColor }}></div>
+          <div className="h-6 w-48 rounded-full" style={{ backgroundColor: primaryColor }}></div>
         </div>
       </div>
     );
   }
   
+  // Define theme colors with fallbacks to ensure they're always defined
+  const bgColor = citadelTheme?.colors?.background || "#00243F";
+  const bgLightColor = citadelTheme?.colors?.backgroundLight || "#003660";
+  const primaryColor = citadelTheme?.colors?.primary || "#00589B";
+  const secondaryColor = citadelTheme?.colors?.secondary || "#0076CE";
+
   return (
     <div 
       className="min-h-screen py-8 px-4"
       style={{
-        backgroundColor: "#0c0c14",
+        background: `linear-gradient(to bottom, ${bgColor}, ${bgLightColor})`,
         color: "#eaeaea",
-        backgroundImage: "radial-gradient(circle at 10% 20%, rgba(128, 0, 128, 0.05) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(76, 0, 160, 0.05) 0%, transparent 40%)"
+        backgroundImage: "radial-gradient(circle at 10% 20%, rgba(0, 118, 206, 0.05) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(0, 166, 237, 0.05) 0%, transparent 40%)"
       }}
     >
       {/* Mission navigation header */}
       <header className="max-w-4xl mx-auto mb-6">
         <button 
           onClick={() => setLocation('/realm/2')} 
-          className="flex items-center text-purple-400 hover:text-purple-300 transition-colors font-medium"
+          className="flex items-center transition-colors font-medium"
+          style={{ color: secondaryColor }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
@@ -190,9 +208,10 @@ export default function Realm2Missions() {
       {/* Mission content */}
       <main className="max-w-4xl mx-auto">
         {!contentRead ? (
-          <div className="bg-black/40 p-8 rounded-xl border-2 border-purple-600/40 shadow-xl">
+          <div className="bg-black/40 p-8 rounded-xl border-2 shadow-xl"
+            style={{ borderColor: `${primaryColor}40` }}>
             <Mission 
-              mission={missionData}
+              mission={missionWithContent as any}
               onComplete={handleMissionComplete}
               realmTheme="purple"
             />
@@ -201,7 +220,11 @@ export default function Realm2Missions() {
             <div className="mt-8 flex justify-center">
               <button
                 onClick={handleStartChallenge}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
+                className="px-6 py-3 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
+                style={{ 
+                  background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
+                  boxShadow: `0 0 15px ${primaryColor}80`
+                }}
               >
                 Start Challenge
                 <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -211,8 +234,10 @@ export default function Realm2Missions() {
         ) : (
           <>
             {/* Challenge section */}
-            <div className="bg-black/40 p-8 rounded-xl border-2 border-purple-600/40 shadow-xl">
-              <h2 className="text-2xl font-bold text-purple-400 mb-4">
+            <div className="bg-black/40 p-8 rounded-xl border-2 shadow-xl"
+              style={{ borderColor: `${primaryColor}40` }}>
+              <h2 className="text-2xl font-bold mb-4"
+                style={{ color: primaryColor }}>
                 Challenge: {missionData?.title}
               </h2>
               
@@ -229,10 +254,13 @@ export default function Realm2Missions() {
             {/* Social media sharing section */}
             {showShareModal && (
               <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-                <div className="bg-black/90 rounded-xl p-6 max-w-md w-full border border-purple-600/40">
-                  <h3 className="text-2xl font-bold text-purple-400 mb-4">Share Your Insight</h3>
+                <div className="bg-black/90 rounded-xl p-6 max-w-md w-full border"
+                  style={{ borderColor: `${primaryColor}40` }}>
+                  <h3 className="text-2xl font-bold mb-4" 
+                    style={{ color: primaryColor }}>Share Your Insight</h3>
                   <textarea
-                    className="w-full p-3 bg-black/60 text-gray-200 rounded-lg border-2 border-purple-500/30 mb-4"
+                    className="w-full p-3 bg-black/60 text-gray-200 rounded-lg border-2 mb-4"
+                    style={{ borderColor: `${primaryColor}30` }}
                     rows={5}
                     value={shareContent}
                     onChange={(e) => setShareContent(e.target.value)}
@@ -255,7 +283,11 @@ export default function Realm2Missions() {
                     </button>
                     <button
                       onClick={handleMissionComplete}
-                      className="px-4 py-2 bg-purple-600 text-white rounded-lg shadow-md hover:bg-purple-700 transition-colors"
+                      className="px-4 py-2 text-white rounded-lg shadow-md transition-colors"
+                      style={{ 
+                        background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
+                        boxShadow: `0 0 15px ${primaryColor}80`
+                      }}
                     >
                       Continue Journey
                     </button>

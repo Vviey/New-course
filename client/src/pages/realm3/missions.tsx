@@ -16,7 +16,7 @@ const ConsensusSimulator = lazy(() => import('./consensus-simulator'));
 export default function Realm3Missions() {
   const [, setLocation] = useLocation();
   const { missionId } = useParams<{ missionId: string }>();
-  const { user, error, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const [missionComplete, setMissionComplete] = useState(false);
   
   // Parse mission ID from URL
@@ -26,12 +26,18 @@ export default function Realm3Missions() {
   // Current mission data
   const missionData = realm3Missions.find(m => m.id === missionNumber);
   
+  // Add required content property for Realm2MissionData compatibility
+  const missionWithContent = missionData ? {
+    ...missionData,
+    content: typeof missionData.description === 'string' ? missionData.description : ''
+  } : null;
+  
   // Redirect if not authenticated
   useEffect(() => {
-    if (!isLoading && !user) {
+    if (!loading && !user) {
       setLocation('/auth');
     }
-  }, [user, isLoading, setLocation]);
+  }, [user, loading, setLocation]);
   
   // Generate social media sharing message based on mission
   const generateSharingMessage = () => {
@@ -108,7 +114,7 @@ export default function Realm3Missions() {
     return (
       <Suspense fallback={
         <div className="flex justify-center items-center h-64">
-          <Loader2 className="h-8 w-8 animate-spin" style={{ color: bioluminescentTheme.colors.primary }} />
+          <Loader2 className="h-8 w-8 animate-spin" style={{ color: primaryColor }} />
         </div>
       }>
         {(() => {
@@ -122,7 +128,7 @@ export default function Realm3Missions() {
             case 'consensus':
               return <ConsensusSimulator onComplete={handleChallengeComplete} />;
             default:
-              return <div className="text-center py-10" style={{ color: bioluminescentTheme.colors.secondary }}>
+              return <div className="text-center py-10" style={{ color: secondaryColor }}>
                 <p>Challenge not found for this mission type.</p>
               </div>;
           }
@@ -131,27 +137,38 @@ export default function Realm3Missions() {
     );
   };
   
-  if (isLoading || !missionData) {
+  if (loading || !missionData) {
+    // Define fallback colors in case theme properties are undefined
+    const bgColor = bioluminescentTheme?.colors?.background || "#0D3D29";
+    const bgLightColor = bioluminescentTheme?.colors?.backgroundLight || "#134935";
+    const primaryColor = bioluminescentTheme?.colors?.primary || "#1A8F60";
+    
     return (
       <div 
         className="min-h-screen flex items-center justify-center"
         style={{
-          background: `linear-gradient(to bottom, ${bioluminescentTheme.colors.background}, ${bioluminescentTheme.colors.backgroundLight})`
+          background: `linear-gradient(to bottom, ${bgColor}, ${bgLightColor})`
         }}
       >
         <div className="animate-pulse flex flex-col items-center">
-          <div className="h-32 w-32 rounded-full mb-4" style={{ backgroundColor: bioluminescentTheme.colors.primary }}></div>
-          <div className="h-6 w-48 rounded-full" style={{ backgroundColor: bioluminescentTheme.colors.primary }}></div>
+          <div className="h-32 w-32 rounded-full mb-4" style={{ backgroundColor: primaryColor }}></div>
+          <div className="h-6 w-48 rounded-full" style={{ backgroundColor: primaryColor }}></div>
         </div>
       </div>
     );
   }
   
+  // Define theme colors with fallbacks to ensure they're always defined
+  const bgColor = bioluminescentTheme?.colors?.background || "#0D3D29";
+  const bgLightColor = bioluminescentTheme?.colors?.backgroundLight || "#134935";
+  const primaryColor = bioluminescentTheme?.colors?.primary || "#1A8F60";
+  const secondaryColor = bioluminescentTheme?.colors?.secondary || "#46D1A2";
+
   return (
     <div 
       className="min-h-screen py-8 px-4"
       style={{
-        background: `linear-gradient(to bottom, ${bioluminescentTheme.colors.background}, ${bioluminescentTheme.colors.backgroundLight})`,
+        background: `linear-gradient(to bottom, ${bgColor}, ${bgLightColor})`,
         color: "#eaeaea",
         backgroundImage: "radial-gradient(circle at 10% 20%, rgba(6, 214, 160, 0.05) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(17, 138, 178, 0.05) 0%, transparent 40%)"
       }}
@@ -161,7 +178,7 @@ export default function Realm3Missions() {
         <button 
           onClick={() => setLocation('/realm/3')} 
           className="flex items-center transition-colors font-medium"
-          style={{ color: bioluminescentTheme.colors.secondary }}
+          style={{ color: secondaryColor }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
@@ -173,7 +190,7 @@ export default function Realm3Missions() {
       {/* Mission completion message */}
       {missionComplete && (
         <div className="fixed top-0 left-0 right-0 text-white p-3 text-center z-50"
-          style={{ backgroundColor: bioluminescentTheme.colors.success }}
+          style={{ backgroundColor: "#22c55e" }} // Using a green color directly instead of theme.success
         >
           Mission complete! Great job! Redirecting to Realm...
         </div>
@@ -183,12 +200,12 @@ export default function Realm3Missions() {
       <main className="max-w-4xl mx-auto">
         {!contentRead ? (
           <div className="bg-black/40 p-8 rounded-xl border-2 shadow-xl"
-            style={{ borderColor: `${bioluminescentTheme.colors.primary}40` }}
+            style={{ borderColor: `${primaryColor}40` }}
           >
             <Mission 
-              mission={missionData}
+              mission={missionWithContent as any}
               onComplete={handleMissionComplete}
-              realmTheme="teal"
+              realmTheme="blue"
             />
             
             {/* Challenge button */}
@@ -197,8 +214,8 @@ export default function Realm3Missions() {
                 onClick={handleStartChallenge}
                 className="px-6 py-3 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
                 style={{ 
-                  background: bioluminescentTheme.gradients.glow,
-                  boxShadow: bioluminescentTheme.shadows.button
+                  background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
+                  boxShadow: `0 0 15px ${primaryColor}80`
                 }}
               >
                 Start Challenge
@@ -210,10 +227,10 @@ export default function Realm3Missions() {
           <>
             {/* Challenge section */}
             <div className="bg-black/40 p-8 rounded-xl border-2 shadow-xl"
-              style={{ borderColor: `${bioluminescentTheme.colors.primary}40` }}
+              style={{ borderColor: `${primaryColor}40` }}
             >
               <h2 className="text-2xl font-bold mb-4"
-                style={{ color: bioluminescentTheme.colors.primary }}
+                style={{ color: primaryColor }}
               >
                 Challenge: {missionData?.title}
               </h2>
@@ -232,16 +249,16 @@ export default function Realm3Missions() {
             {showShareModal && (
               <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
                 <div className="bg-black/90 rounded-xl p-6 max-w-md w-full border"
-                  style={{ borderColor: `${bioluminescentTheme.colors.primary}40` }}
+                  style={{ borderColor: `${primaryColor}40` }}
                 >
                   <h3 className="text-2xl font-bold mb-4"
-                    style={{ color: bioluminescentTheme.colors.primary }}
+                    style={{ color: primaryColor }}
                   >
                     Share Your Insight
                   </h3>
                   <textarea
                     className="w-full p-3 bg-black/60 text-gray-200 rounded-lg border-2 mb-4"
-                    style={{ borderColor: `${bioluminescentTheme.colors.primary}30` }}
+                    style={{ borderColor: `${primaryColor}30` }}
                     rows={5}
                     value={shareContent}
                     onChange={(e) => setShareContent(e.target.value)}
@@ -266,8 +283,8 @@ export default function Realm3Missions() {
                       onClick={handleMissionComplete}
                       className="px-4 py-2 text-white rounded-lg shadow-md transition-colors"
                       style={{ 
-                        background: bioluminescentTheme.gradients.glow,
-                        boxShadow: bioluminescentTheme.shadows.button
+                        background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
+                        boxShadow: `0 0 15px ${primaryColor}80`
                       }}
                     >
                       Continue Journey

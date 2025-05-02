@@ -8,6 +8,12 @@ export const users = pgTable("users", {
   username: text("username").notNull(),
   password: text("password").notNull(),
   email: text("email"),
+  emailVerified: boolean("emailVerified").default(false),
+  verificationCode: text("verificationCode"),
+  verificationCodeExpiry: timestamp("verificationCodeExpiry"),
+  resetToken: text("resetToken"),
+  resetTokenExpiry: timestamp("resetTokenExpiry"),
+  lastLogin: timestamp("lastLogin"),
   progress: jsonb("progress").notNull(),
   rewards: jsonb("rewards").notNull()
 });
@@ -17,6 +23,12 @@ export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
   email: true,
+  emailVerified: true,
+  verificationCode: true,
+  verificationCodeExpiry: true,
+  resetToken: true,
+  resetTokenExpiry: true,
+  lastLogin: true,
   progress: true,
   rewards: true
 });

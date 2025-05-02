@@ -14,9 +14,10 @@ import { ReflectionExercise } from '@/components/simulations/ReflectionExercise'
 interface MissionProps {
   mission: MissionContent;
   onComplete?: () => void;
+  realmTheme?: string;
 }
 
-export function Mission({ mission, onComplete }: MissionProps) {
+export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionProps) {
   const [isSimulationComplete, setIsSimulationComplete] = useState(false);
   const [currentSection, setCurrentSection] = useState<'intro' | 'simulation' | 'reflection'>('intro');
   
