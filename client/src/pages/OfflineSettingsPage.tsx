@@ -5,6 +5,7 @@ import { OfflineStatus } from '@/components/ui/offline-status';
 import { RealmData } from '@/lib/realm-data';
 import { Button } from '@/components/ui/button';
 import { Download, Trash2, ArrowLeft } from 'lucide-react';
+import { getRealmName } from '@/lib/realm-utils';
 
 export default function OfflineSettingsPage() {
   const [, setLocation] = useLocation();
@@ -80,7 +81,7 @@ export default function OfflineSettingsPage() {
                     className="flex items-center justify-between p-3 bg-amber-900/20 border border-amber-700/20 rounded-lg"
                   >
                     <div>
-                      <h3 className="font-medium text-amber-300">{realm.name}</h3>
+                      <h3 className="font-medium text-amber-300">{getRealmName(realm.id)}</h3>
                       <p className="text-sm text-amber-200">{realm.description}</p>
                     </div>
                     <Button

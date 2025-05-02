@@ -125,7 +125,7 @@ export const originTheme: RealmTheme = {
 };
 
 export const forestTheme: RealmTheme = {
-  name: "Forest Theme",
+  name: "The Forest of Sparks",
   colors: {
     primary: "#1E8E3E", // Green
     secondary: "#D2E7D6", // Light green
@@ -141,7 +141,7 @@ export const forestTheme: RealmTheme = {
 };
 
 export const citadelTheme: RealmTheme = {
-  name: "Citadel Theme",
+  name: "The Central Citadel",
   colors: {
     primary: "#2563EB", // Vibrant blue
     secondary: "#38BDF8", // Light blue
@@ -181,7 +181,7 @@ export const citadelTheme: RealmTheme = {
 };
 
 export const forksTheme: RealmTheme = {
-  name: "Forks Theme",
+  name: "The Council of Forks",
   colors: {
     primary: "#8B5CF6", // Purple
     secondary: "#C4B5FD", // Light purple
@@ -195,7 +195,7 @@ export const forksTheme: RealmTheme = {
 };
 
 export const ubuntuTheme: RealmTheme = {
-  name: "Ubuntu Theme",
+  name: "The Ubuntu Village",
   colors: {
     primary: "#E9791D", // Ubuntu orange
     secondary: "#77216F", // Ubuntu purple
@@ -209,7 +209,7 @@ export const ubuntuTheme: RealmTheme = {
 };
 
 export const groveTheme: RealmTheme = {
-  name: "Grove Theme",
+  name: "The Summit of Knowledge",
   colors: {
     primary: "#10B981", // Green
     secondary: "#D1FAE5", // Light green
@@ -223,7 +223,7 @@ export const groveTheme: RealmTheme = {
 };
 
 export const bioluminescentTheme: RealmTheme = {
-  name: "Bioluminescent Theme",
+  name: "The Forest of Sparks",
   colors: {
     primary: "#06B6D4", // Cyan
     secondary: "#67E8F9", // Light cyan
@@ -237,7 +237,7 @@ export const bioluminescentTheme: RealmTheme = {
 };
 
 export const mountainForgeTheme: RealmTheme = {
-  name: "Mountain Forge Theme",
+  name: "The Mountain Forge",
   colors: {
     primary: "#DB2777", // Pink
     secondary: "#F9A8D4", // Light pink
@@ -252,11 +252,13 @@ export const mountainForgeTheme: RealmTheme = {
 
 // Collection of all realm themes
 export const realmThemes: Record<number, RealmTheme> = {
-  1: originTheme,
-  2: citadelTheme,
-  3: bioluminescentTheme,
-  4: mountainForgeTheme,
-  // Add more realms as they are developed
+  1: originTheme,      // Realm of Origins
+  2: citadelTheme,     // The Central Citadel
+  3: bioluminescentTheme, // The Forest of Sparks
+  4: mountainForgeTheme,  // The Mountain Forge
+  5: forksTheme,       // The Council of Forks
+  6: ubuntuTheme,      // The Ubuntu Village
+  7: groveTheme,       // The Summit of Knowledge
 };
 
 // Get a theme by realm ID, with fallback to a default

@@ -4,6 +4,7 @@ import { LazyImage } from '@/components/ui/lazy-image';
 import { ParallaxSection } from './ui/parallax-section';
 import { originTheme } from '@/lib/realm-themes';
 import { Loader2 } from 'lucide-react';
+import { getRealmName } from '@/lib/realm-utils';
 
 interface Realm {
   id: number;
@@ -15,6 +16,9 @@ interface Realm {
 }
 
 // Realm background images with parallax layers
+// Aligned with standardized realm names: 
+// 1. Realm of Origins, 2. The Central Citadel, 3. The Forest of Sparks, 
+// 4. The Mountain Forge, 5. The Council of Forks, 6. The Ubuntu Village, 7. The Summit of Knowledge
 const REALM_PARALLAX_IMAGES = {
   1: {
     main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/origins-main.jpg',
@@ -22,40 +26,46 @@ const REALM_PARALLAX_IMAGES = {
     background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/origins-background.jpg',
   },
   2: {
-    main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/sparks-main.jpg',
-    foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/sparks-foreground.png',
-    background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/sparks-background.jpg',
-  },
-  3: {
     main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/citadel-main.jpg',
     foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/citadel-foreground.png',
     background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/citadel-background.jpg',
   },
+  3: {
+    main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/sparks-main.jpg',
+    foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/sparks-foreground.png',
+    background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/sparks-background.jpg',
+  },
   4: {
+    main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/forge-main.jpg',
+    foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/forge-foreground.png',
+    background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/forge-background.jpg',
+  },
+  5: {
     main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/forks-main.jpg',
     foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/forks-foreground.png',
     background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/forks-background.jpg',
   },
-  5: {
+  6: {
     main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/ubuntu-main.jpg',
     foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/ubuntu-foreground.png',
     background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/ubuntu-background.jpg',
   },
-  6: {
-    main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/grove-main.jpg',
-    foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/grove-foreground.png',
-    background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/grove-background.jpg',
+  7: {
+    main: 'https://bitcoiners.africa/wp-content/uploads/2025/04/summit-main.jpg',
+    foreground: 'https://bitcoiners.africa/wp-content/uploads/2025/04/summit-foreground.png',
+    background: 'https://bitcoiners.africa/wp-content/uploads/2025/04/summit-background.jpg',
   }
 };
 
 // Fallback placeholders for when images don't load
 const PLACEHOLDER_COLORS = [
-  'bg-amber-900', // Origins
-  'bg-emerald-900', // Sparks
-  'bg-slate-900', // Citadel
-  'bg-indigo-900', // Forks
-  'bg-orange-900', // Ubuntu
-  'bg-purple-900', // Grove
+  'bg-amber-900',   // 1: Realm of Origins
+  'bg-slate-900',   // 2: The Central Citadel
+  'bg-emerald-900', // 3: The Forest of Sparks
+  'bg-pink-900',    // 4: The Mountain Forge
+  'bg-indigo-900',  // 5: The Council of Forks
+  'bg-orange-900',  // 6: The Ubuntu Village
+  'bg-purple-900',  // 7: The Summit of Knowledge
 ];
 
 export function CourseJourney() {
@@ -146,7 +156,7 @@ export function CourseJourney() {
                 ? 'bg-amber-500 scale-125 shadow-lg shadow-amber-500/50'
                 : 'bg-gray-400 hover:bg-amber-400'
             }`}
-            aria-label={`Navigate to ${realm.name}`}
+            aria-label={`Navigate to ${getRealmName(realm.moduleNumber)}`}
           />
         ))}
       </div>
@@ -200,7 +210,7 @@ export function CourseJourney() {
                   </div>
                   
                   <h2 className="text-3xl md:text-4xl font-bold mb-4 font-lora" style={{ color: originTheme.colors.darkText }}>
-                    {realm.name}
+                    {getRealmName(realm.moduleNumber)}
                   </h2>
                   
                   <p className="text-lg mb-6" style={{ color: `${originTheme.colors.darkText}DD` }}>

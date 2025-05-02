@@ -2,6 +2,7 @@ import { Link, useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/context/AuthContext';
 import { RealmData } from '@/lib/realm-data';
+import { getRealmName } from '@/lib/realm-utils';
 
 export default function HomePage() {
   const [, setLocation] = useLocation();
@@ -76,7 +77,7 @@ export default function HomePage() {
             <h3 className="font-medium text-lg">Continue your progress</h3>
             <p className="text-amber-200 text-sm">
               {user?.progress?.currentRealm ? 
-                `You're currently in Realm ${user.progress.currentRealm}` : 
+                `You're currently in ${getRealmName(user.progress.currentRealm)}` : 
                 'Start your journey from the beginning'}
             </p>
           </div>
@@ -121,7 +122,7 @@ export default function HomePage() {
                   <div className="aspect-[2/1] relative">
                     <img 
                       src={realm.imageUrl || `/images/realm${realm.id}.jpg`} 
-                      alt={realm.name}
+                      alt={getRealmName(realm.moduleNumber)}
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
@@ -140,7 +141,7 @@ export default function HomePage() {
                       <div className="text-xs font-medium text-amber-400 mb-1">
                         {getModuleLabel(realm.focus || 'Money & Value', realm.moduleNumber)}
                       </div>
-                      <h3 className="text-xl font-bold text-white">{realm.name}</h3>
+                      <h3 className="text-xl font-bold text-white">{getRealmName(realm.moduleNumber)}</h3>
                     </div>
                   </div>
                   

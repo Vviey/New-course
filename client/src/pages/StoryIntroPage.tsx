@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import { originTheme } from '@/lib/realm-themes';
 import { OriginsBackground } from '@/components/ui/origins-background';
 import { useAuth } from '@/hooks/use-auth';
+import { getRealmName } from '@/lib/realm-utils';
 
 export default function StoryIntroPage() {
   const [, setLocation] = useLocation();
@@ -41,7 +42,7 @@ export default function StoryIntroPage() {
     {
       title: "The First Step",
       content: `As Asha traces her fingers over the map, the first realm begins to glow - 
-      The Realm of Origins. This is where her journey begins, in the ancient marketplaces 
+      ${getRealmName(1)}. This is where her journey begins, in the ancient marketplaces 
       where humans first developed the concept of trade and value.
       
       Here, she will learn how the earliest forms of money emerged from necessity and invention,

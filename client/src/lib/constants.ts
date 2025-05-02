@@ -1,4 +1,5 @@
 import { Realm } from "./types";
+import { getRealmName, getRealmDescription } from "./realm-utils";
 
 export const DEFAULT_AVATAR = "A";
 
@@ -29,10 +30,11 @@ export const BACKPACK_ITEMS = [
   }
 ];
 
+// Generate realm entries using the centralized utility functions
 export const INITIAL_REALMS: Realm[] = [
   {
     id: 1,
-    name: "Realm of Origins",
+    name: getRealmName(1),
     description: "Discover how money began and evolved from shells to bills in this foundational chapter.",
     moduleNumber: 1,
     imageUrl: "/realm-origins.svg",
@@ -40,41 +42,49 @@ export const INITIAL_REALMS: Realm[] = [
   },
   {
     id: 2,
-    name: "The Forest of Sparks",
+    name: getRealmName(2),
     description: "Enter the mystical forest where the spark of Bitcoin was first ignited.",
-    moduleNumber: 4, // Note: Number changed to match the UI design
+    moduleNumber: 2, // Using consistent moduleNumber matching realm number
     imageUrl: "/realm-forest.svg",
     isLocked: true
   },
   {
     id: 3,
-    name: "The Central Citadel",
+    name: getRealmName(3),
     description: "Explore the towers of power where monetary decisions echo through the lands.",
-    moduleNumber: 6, // Note: Number changed to match the UI design
+    moduleNumber: 3, // Using consistent moduleNumber matching realm number
     imageUrl: "/realm-citadel.svg",
     isLocked: true
   },
   {
     id: 4,
-    name: "The Council of Forks",
+    name: getRealmName(4),
     description: "Witness the debates that shape the path of digital currencies at the Council.",
-    moduleNumber: 6, // Note: Number changed to match the UI design
+    moduleNumber: 4, // Using consistent moduleNumber matching realm number
     imageUrl: "/realm-council.svg",
     isLocked: true
   },
   {
     id: 5,
-    name: "The Ubuntu Village",
-    description: "Discover how Bitcoin weaves into African traditions of community and shared prosperity.",
-    moduleNumber: 7, // Note: Number changed to match the UI design
-    imageUrl: "/realm-ubuntu.svg",
+    name: getRealmName(5),
+    description: "Witness the debates that shape the path of digital currencies at the Council.",
+    moduleNumber: 5, // Using consistent moduleNumber matching realm number
+    imageUrl: "/realm-council.svg",
     isLocked: true
   },
   {
     id: 6,
-    name: "The Grove of Becoming",
+    name: getRealmName(6),
+    description: "Discover how Bitcoin weaves into African traditions of community and shared prosperity.",
+    moduleNumber: 6, // Using consistent moduleNumber matching realm number
+    imageUrl: "/realm-ubuntu.svg",
+    isLocked: true
+  },
+  {
+    id: 7,
+    name: getRealmName(7),
     description: "Complete your journey and discover your role in the future of money.",
-    moduleNumber: 8, // Note: Number adjusted for sequence
+    moduleNumber: 7, // Using consistent moduleNumber matching realm number
     imageUrl: "/realm-grove.svg",
     isLocked: true
   }
@@ -84,28 +94,49 @@ export const REWARDS = [
   {
     id: 1,
     name: "Origins Explorer",
-    description: "Completed Module 1",
+    description: `Completed ${getRealmName(1)}`,
     imageUrl: "https://images.unsplash.com/photo-1609726494499-27d3e942456c?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80",
     isEarned: true
   },
   {
     id: 2,
     name: "Spark Finder",
-    description: "Completed Module 2",
+    description: `Completed ${getRealmName(2)}`,
     imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80",
     isEarned: true
   },
   {
     id: 3,
     name: "Central Banker",
-    description: "Complete Module 3",
+    description: `Completed ${getRealmName(3)}`,
     imageUrl: "https://images.unsplash.com/photo-1561414927-6d86591d0c4f?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80",
     isEarned: false
   },
   {
     id: 4,
-    name: "???",
-    description: "Continue your journey",
+    name: "Mountain Explorer",
+    description: `Completed ${getRealmName(4)}`,
+    imageUrl: "",
+    isEarned: false
+  },
+  {
+    id: 5,
+    name: "Fork Mediator",
+    description: `Completed ${getRealmName(5)}`,
+    imageUrl: "",
+    isEarned: false
+  },
+  {
+    id: 6,
+    name: "Community Builder",
+    description: `Completed ${getRealmName(6)}`,
+    imageUrl: "",
+    isEarned: false
+  },
+  {
+    id: 7,
+    name: "Knowledge Master",
+    description: `Completed ${getRealmName(7)}`,
     imageUrl: "",
     isEarned: false
   }

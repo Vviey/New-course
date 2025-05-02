@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { ArrowLeft, Home } from 'lucide-react';
+import { getRealmName } from '@/lib/realm-utils';
 
 interface MissionLayoutProps {
   children: ReactNode;
@@ -58,7 +59,7 @@ export default function MissionLayout({
               className="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-              <span>Back to Realm {realmId}</span>
+              <span>Back to {getRealmName(Number(realmId))}</span>
             </button>
             
             <button 

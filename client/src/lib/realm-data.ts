@@ -1,50 +1,72 @@
 // This file contains static data for the realms and missions
 // In a production app, this would be retrieved from an API
+import { getRealmName, getRealmDescription } from "./realm-utils";
 
+// Standardized realm names and order:
+// 1. Realm of Origins, 2. The Central Citadel, 3. The Forest of Sparks, 
+// 4. The Mountain Forge, 5. The Council of Forks, 6. The Ubuntu Village, 7. The Summit of Knowledge
 export const RealmData = [
   {
     id: 1,
-    name: "Realm of Origins",
+    name: getRealmName(1), // Realm of Origins
     description: "Discover the foundational stories of money at the grand trade festival. Learn about barter, early forms of value exchange, and the dawn of monetary systems.",
-    focus: "Foundations of Money",
+    focus: getRealmDescription(1), // Foundations of Money
     moduleNumber: 1,
     imageUrl: "/realms/origins.jpg",
     isLocked: false
   },
   {
     id: 2,
-    name: "Realm of Systems",
+    name: getRealmName(2), // The Central Citadel
     description: "Explore the intricate systems of modern money, central banks, and the evolution of currencies from physical coins to digital tokens.",
-    focus: "Monetary Systems",
+    focus: getRealmDescription(2), // Governance
     moduleNumber: 2,
-    imageUrl: "/realms/systems.jpg",
+    imageUrl: "/realms/citadel.jpg",
     isLocked: false
   },
   {
     id: 3,
-    name: "Realm of Crypto",
+    name: getRealmName(3), // The Forest of Sparks
     description: "Venture into the blockchain frontier where cryptographic technology has revolutionized the concept of money and trust-based systems.",
-    focus: "Cryptocurrency Basics",
+    focus: getRealmDescription(3), // Bitcoin's Birth
     moduleNumber: 3,
-    imageUrl: "/realms/crypto.jpg",
+    imageUrl: "/realms/sparks.jpg",
     isLocked: true
   },
   {
     id: 4,
-    name: "Realm of Bitcoin",
-    description: "Master the fundamentals of Bitcoin, the first cryptocurrency that changed how we think about money, trust, and decentralization.",
-    focus: "Bitcoin Fundamentals",
+    name: getRealmName(4), // The Mountain Forge
+    description: "Master the fundamentals of Bitcoin mining and how proof-of-work secures the blockchain network.",
+    focus: getRealmDescription(4), // Mining and Consensus
     moduleNumber: 4,
-    imageUrl: "/realms/bitcoin.jpg", 
+    imageUrl: "/realms/forge.jpg", 
     isLocked: true
   },
   {
     id: 5,
-    name: "Realm of Future",
-    description: "Glimpse into the future of finance, exploring emerging trends in decentralized finance, digital identity, and global economic shifts.",
-    focus: "Future of Money",
+    name: getRealmName(5), // The Council of Forks
+    description: "Glimpse into the governance of Bitcoin, exploring protocol upgrades, consensus changes, and the history of forks.",
+    focus: getRealmDescription(5), // Bitcoin Governance and Forks
     moduleNumber: 5,
-    imageUrl: "/realms/future.jpg",
+    imageUrl: "/realms/forks.jpg",
+    isLocked: true
+  },
+  {
+    id: 6,
+    name: getRealmName(6), // The Ubuntu Village
+    description: "Discover how Bitcoin weaves into African traditions of community and shared prosperity.",
+    focus: getRealmDescription(6), // Bitcoin in Africa
+    moduleNumber: 6,
+    imageUrl: "/realms/ubuntu.jpg",
+    isLocked: true
+  },
+  {
+    id: 7,
+    name: getRealmName(7), // The Summit of Knowledge
+    description: "Complete your journey and demonstrate your mastery of Bitcoin concepts through comprehensive challenges.",
+    focus: getRealmDescription(7), // Comprehensive Bitcoin Mastery
+    moduleNumber: 7,
+    imageUrl: "/realms/summit.jpg",
     isLocked: true
   }
 ];
@@ -88,7 +110,7 @@ export const missionData = [
     points: 100
   },
   
-  // Realm 2: Realm of Systems Missions
+  // Realm 2: The Central Citadel Missions
   {
     id: 201,
     title: "Banks & Trust",
@@ -126,7 +148,7 @@ export const missionData = [
     points: 100
   },
   
-  // Realm 3: Realm of Crypto Missions
+  // Realm 3: The Forest of Sparks Missions
   {
     id: 301,
     title: "Cryptography Basics",
@@ -164,7 +186,7 @@ export const missionData = [
     points: 75
   },
   
-  // Realm 4: Realm of Bitcoin Missions
+  // Realm 4: The Mountain Forge Missions
   {
     id: 401,
     title: "Satoshi's Vision",
@@ -202,7 +224,7 @@ export const missionData = [
     points: 75
   },
   
-  // Realm 5: Realm of Future Missions
+  // Realm 5: The Council of Forks Missions
   {
     id: 501,
     title: "Global Impact",
@@ -238,5 +260,27 @@ export const missionData = [
     imageUrl: "/missions/future.jpg",
     duration: 20,
     points: 75
+  },
+  
+  // Realm 6: The Ubuntu Village Missions
+  {
+    id: 601,
+    title: "African Bitcoin Economy",
+    description: "Discover how Bitcoin is being adopted across different African countries and communities.",
+    realmId: 6,
+    imageUrl: "/missions/africa-bitcoin.jpg",
+    duration: 20,
+    points: 75
+  },
+  
+  // Realm 7: The Summit of Knowledge Missions
+  {
+    id: 701,
+    title: "Comprehensive Review",
+    description: "Test your knowledge across all realms with a comprehensive assessment.",
+    realmId: 7,
+    imageUrl: "/missions/review.jpg",
+    duration: 30,
+    points: 150
   }
 ];

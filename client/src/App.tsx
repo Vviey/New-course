@@ -10,9 +10,6 @@ import { useOffline } from "@/context/OfflineContext";
 import { Loader2 } from "lucide-react";
 
 // Lazy load pages
-const SignupPage = lazy(() => import("@/pages/SignupPage"));
-const LoginPage = lazy(() => import("@/pages/LoginPage"));
-const ForgotPasswordPage = lazy(() => import("@/pages/ForgotPasswordPage"));
 const AuthPage = lazy(() => import("@/pages/auth-page"));
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const MapPage = lazy(() => import("@/pages/MapPage"));
@@ -28,10 +25,14 @@ const JourneyPage = lazy(() => import("@/pages/JourneyPage"));
 const MissionWrapper = lazy(() => import("@/components/mission-wrapper"));
 
 // Lazy load Realm components
-const Realm1Story = lazy(() => import("@/pages/Realm 1/story-intro"));
-const Realm1Home = lazy(() => import("@/pages/Realm 1/home"));
-const Realm3Home = lazy(() => import("@/pages/realm3/Home"));
-const Realm4Home = lazy(() => import("@/pages/realm4/Home"));
+const Realm1Story = lazy(() => import("@/pages/realm1/story-intro"));
+const Realm1Home = lazy(() => import("@/pages/realm1/home"));
+const Realm2Home = lazy(() => import("@/pages/realm2/home"));
+const Realm3Home = lazy(() => import("@/pages/realm3/home"));
+const Realm4Home = lazy(() => import("@/pages/realm4/home"));
+const Realm5Home = lazy(() => import("@/pages/realm5/home"));
+const Realm6Home = lazy(() => import("@/pages/realm6/home"));
+const Realm7Home = lazy(() => import("@/pages/realm7/home"));
 
 // Context providers
 import { AuthProvider } from "@/context/AuthContext";
@@ -67,9 +68,6 @@ function App() {
             {/* Public routes */}
             <Route path="/" component={StoryIntroPage} />
             <Route path="/auth" component={AuthPage} />
-            <Route path="/signup" component={SignupPage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/forgot-password" component={ForgotPasswordPage} />
             
             {/* Protected Routes - Require Authentication */}
             <ProtectedRoute path="/home" component={HomePage} />
@@ -82,6 +80,12 @@ function App() {
             {/* Realm 1 specific routes */}
             <ProtectedRoute path="/realm/1/story" component={Realm1Story} />
             <ProtectedRoute path="/realm/1/home" component={Realm1Home} />
+            <ProtectedRoute path="/realm/1" component={Realm1Home} />
+            <ProtectedRoute path="/realm1" component={Realm1Home} />
+            
+            {/* Realm 2 home */}
+            <ProtectedRoute path="/realm/2" component={Realm2Home} />
+            <ProtectedRoute path="/realm2" component={Realm2Home} />
             
             {/* Realm 3 home */}
             <ProtectedRoute path="/realm/3" component={Realm3Home} />
@@ -91,6 +95,18 @@ function App() {
             <ProtectedRoute path="/realm/4" component={Realm4Home} />
             <ProtectedRoute path="/realm4" component={Realm4Home} />
             
+            {/* Realm 5 home */}
+            <ProtectedRoute path="/realm/5" component={Realm5Home} />
+            <ProtectedRoute path="/realm5" component={Realm5Home} />
+            
+            {/* Realm 6 home */}
+            <ProtectedRoute path="/realm/6" component={Realm6Home} />
+            <ProtectedRoute path="/realm6" component={Realm6Home} />
+            
+            {/* Realm 7 home */}
+            <ProtectedRoute path="/realm/7" component={Realm7Home} />
+            <ProtectedRoute path="/realm7" component={Realm7Home} />
+            
             {/* Universal realm routes */}
             <ProtectedRoute path="/realm/:id" component={RealmPage} />
             
@@ -99,9 +115,22 @@ function App() {
             <ProtectedRoute path="/realm/:realmId/missions/:missionId" component={MissionWrapper} />
             
             {/* Alternative mission route patterns for backwards compatibility */}
+            <ProtectedRoute path="/realm1/mission/:missionId" component={MissionWrapper} />
             <ProtectedRoute path="/realm2/mission/:missionId" component={MissionWrapper} />
             <ProtectedRoute path="/realm3/mission/:missionId" component={MissionWrapper} />
             <ProtectedRoute path="/realm4/mission/:missionId" component={MissionWrapper} />
+            <ProtectedRoute path="/realm5/mission/:missionId" component={MissionWrapper} />
+            <ProtectedRoute path="/realm6/mission/:missionId" component={MissionWrapper} />
+            <ProtectedRoute path="/realm7/mission/:missionId" component={MissionWrapper} />
+            
+            {/* Missions index pages */}
+            <ProtectedRoute path="/realm1/missions" component={lazy(() => import("@/pages/realm1/missions"))} />
+            <ProtectedRoute path="/realm2/missions" component={lazy(() => import("@/pages/realm2/missions"))} />
+            <ProtectedRoute path="/realm3/missions" component={lazy(() => import("@/pages/realm3/missions"))} />
+            <ProtectedRoute path="/realm4/missions" component={lazy(() => import("@/pages/realm4/missions"))} />
+            <ProtectedRoute path="/realm5/missions" component={lazy(() => import("@/pages/realm5/missions"))} />
+            <ProtectedRoute path="/realm6/missions" component={lazy(() => import("@/pages/realm6/missions"))} />
+            <ProtectedRoute path="/realm7/missions" component={lazy(() => import("@/pages/realm7/missions"))} />
             
             {/* Fall back to NotFound for any other route */}
             <Route component={NotFound} />

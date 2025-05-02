@@ -75,7 +75,7 @@ export interface Route {
   value: number;
 }
 
-// Mission Data for Realm 1 - The Origin of Money
+// Mission Data for Realm of Origins (Realm 1) - Foundations of Money
 export const realm1Missions: MissionContent[] = [
   {
     id: 101,

@@ -2,6 +2,7 @@ import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useParams, useLocation } from 'wouter';
 import { Loader2 } from 'lucide-react';
 import MissionLayout from './mission-layout';
+import { getRealmName } from '@/lib/realm-utils';
 
 // Component to show while loading a mission
 const Loading = () => (
@@ -25,7 +26,7 @@ const ErrorMessage = ({ realmId, missionId }: { realmId: string, missionId: stri
         onClick={() => setLocation(`/realm/${realmId}`)}
         className="px-4 py-2 bg-amber-600 hover:bg-amber-700 rounded-md text-white transition-colors"
       >
-        Return to Realm {realmId}
+        Return to {getRealmName(Number(realmId))}
       </button>
     </div>
   );

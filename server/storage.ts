@@ -109,38 +109,45 @@ export class MemStorage implements IStorage {
         isLocked: false
       },
       {
-        name: "The Forest of Sparks",
-        description: "Enter the mystical forest where the spark of Bitcoin was first ignited.",
+        name: "The Central Citadel",
+        description: "Explore the towers of power where monetary decisions echo through the lands.",
         moduleNumber: 2,
         imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-2.png",
         isLocked: true
       },
       {
-        name: "The Central Citadel",
-        description: "Explore the towers of power where monetary decisions echo through the lands.",
+        name: "The Forest of Sparks",
+        description: "Enter the mystical forest where the spark of Bitcoin was first ignited.",
         moduleNumber: 3,
         imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-3.png",
         isLocked: true
       },
       {
-        name: "The Council of Forks",
-        description: "Witness the debates that shape the path of digital currencies at the Council.",
+        name: "The Mountain Forge",
+        description: "Delve into the depths where miners create new blocks through proof of work.",
         moduleNumber: 4,
         imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-4.png",
         isLocked: true
       },
       {
-        name: "The Ubuntu Village",
-        description: "Discover how Bitcoin weaves into African traditions of community and shared prosperity.",
+        name: "The Council of Forks",
+        description: "Witness the debates that shape the path of digital currencies at the Council.",
         moduleNumber: 5,
         imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-5.png",
         isLocked: true
       },
       {
-        name: "The Grove of Becoming",
-        description: "Complete your journey and discover your role in the future of money.",
+        name: "The Ubuntu Village",
+        description: "Discover how Bitcoin weaves into African traditions of community and shared prosperity.",
         moduleNumber: 6,
         imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-6.png",
+        isLocked: true
+      },
+      {
+        name: "The Summit of Knowledge",
+        description: "Complete your journey and demonstrate your mastery of Bitcoin concepts.",
+        moduleNumber: 7,
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-7.png",
         isLocked: true
       }
     ];
