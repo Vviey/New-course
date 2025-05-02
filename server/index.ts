@@ -24,9 +24,10 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Explicitly serve static files from the public directory
+// Explicitly serve static files from the public directory 
 // This should make the static HTML files directly accessible
-app.use(express.static('public'));
+console.log('[DEBUG] Serving static files from:', path.resolve('./public'));
+app.use(express.static(path.resolve('./public')));
 
 app.use((req, res, next) => {
   const start = Date.now();
