@@ -1,19 +1,17 @@
 import { Link, useLocation } from 'wouter';
-import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { RealmData } from '@/lib/realm-data';
 import { getRealmName } from '@/lib/realm-utils';
 
 export default function HomePage() {
   const [, setLocation] = useLocation();
-  const { user } = useAuth();
-
-  // For now, use the static data instead of API calls
-  const { data: realms = RealmData, isLoading, error } = useQuery({
-    queryKey: ['/api/realms'],
-    queryFn: () => Promise.resolve(RealmData),
-    enabled: true
-  });
+  const { currentRealm } = useAuth();
+  
+  // Use static data directly without query hooks
+  const [realms, setRealms] = useState(RealmData);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   const handleRealmClick = (realmId: number, isLocked: boolean) => {
     if (!isLocked) {
@@ -64,7 +62,7 @@ export default function HomePage() {
       </header>
       
       <div className="pt-8 pb-4 px-6">
-        <h1 className="text-4xl font-semibold mb-2">Welcome Back{user ? `, ${user.username}` : ""}!</h1>
+        <h1 className="text-4xl font-semibold mb-2">Welcome Back, Learner!</h1>
         <p className="text-amber-200 mb-8">Continue your journey through the history of money</p>
         
         <div className="bg-amber-900/30 border border-amber-700/30 rounded-xl p-4 mb-8 flex items-center">
@@ -76,15 +74,15 @@ export default function HomePage() {
           <div>
             <h3 className="font-medium text-lg">Continue your progress</h3>
             <p className="text-amber-200 text-sm">
-              {user?.progress?.currentRealm ? 
-                `You're currently in ${getRealmName(user.progress.currentRealm)}` : 
+              {currentRealm > 1 ? 
+                `You're currently in ${getRealmName(currentRealm)}` : 
                 'Start your journey from the beginning'}
             </p>
           </div>
           <button 
             className="ml-auto bg-amber-600 hover:bg-amber-500 text-white py-2 px-4 rounded-lg shadow-md transition-colors"
-            onClick={() => user?.progress?.currentRealm ? 
-              setLocation(`/realm/${user.progress.currentRealm}`) : 
+            onClick={() => currentRealm > 1 ? 
+              setLocation(`/realm/${currentRealm}`) : 
               setLocation('/realm/1/story')}
           >
             Continue
@@ -106,9 +104,9 @@ export default function HomePage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {realms.map((realm) => {
-              // Check if this realm is locked based on user progress
-              const isLocked = user?.progress?.currentRealm ? 
-                realm.moduleNumber > user.progress.currentRealm : 
+              // Check if this realm is locked based on current realm progress
+              const isLocked = currentRealm ? 
+                realm.moduleNumber > currentRealm : 
                 realm.moduleNumber > 1;
               
               return (

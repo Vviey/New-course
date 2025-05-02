@@ -3,224 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Asha's Bitcoin Journey</title>
-  <meta name="description" content="A gamified Bitcoin education platform">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Redirecting to Asha's Journey</title>
   <style>
-    :root {
-      --primary: #f59e0b;
-      --primary-dark: #d97706;
-      --background: #f8f8f8;
-      --text: #333333;
-      --border: #e5e5e5;
-    }
-    
-    body, html {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: var(--background);
-      color: var(--text);
-      line-height: 1.6;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    
-    header {
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
       text-align: center;
-      margin-bottom: 3rem;
-    }
-    
-    h1 {
-      font-family: 'Lora', serif;
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-    }
-    
-    .subtitle {
-      font-size: 1.2rem;
-      color: #666;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    
-    .main-content {
+      padding: 2rem;
+      background: linear-gradient(135deg, #7928CA, #FF0080);
+      color: white;
+      height: 100vh;
+      margin: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2rem;
+      justify-content: center;
     }
-    
-    .card {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      padding: 2rem;
-      width: 100%;
-      max-width: 800px;
-    }
-    
-    .card h2 {
-      font-family: 'Lora', serif;
-      color: var(--primary);
-      margin-top: 0;
-    }
-    
-    .button {
-      display: inline-block;
-      background-color: var(--primary);
-      color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: background-color 0.2s;
-    }
-    
-    .button:hover {
-      background-color: var(--primary-dark);
-    }
-    
-    .realms {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      width: 100%;
-      max-width: 800px;
-    }
-    
-    .realm-card {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .realm-card h3 {
-      font-family: 'Lora', serif;
-      color: var(--primary);
-      margin-top: 0;
-    }
-    
-    .realm-card p {
-      flex-grow: 1;
+    h1 {
+      font-size: 2.5rem;
       margin-bottom: 1rem;
     }
-    
-    footer {
-      text-align: center;
-      margin-top: 4rem;
-      padding: 2rem;
-      border-top: 1px solid var(--border);
-      color: #666;
+    p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
     }
-    
-    @media (max-width: 768px) {
-      .container {
-        padding: 1rem;
-      }
-      
-      h1 {
-        font-size: 2rem;
-      }
-      
-      .realms {
-        grid-template-columns: 1fr;
-      }
+    .btn {
+      display: inline-block;
+      background: white;
+      color: #7928CA;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+    .loader {
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 5px solid white;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Asha's Journey Through the Realms of Money</h1>
-      <p class="subtitle">A gamified Bitcoin education platform that transforms complex cryptocurrency learning into an engaging narrative experience.</p>
-    </header>
-    
-    <div class="main-content">
-      <div class="card">
-        <h2>Your Adventure Awaits</h2>
-        <p>Join Asha as she explores the seven realms of Bitcoin knowledge, from the foundations of money to the technical aspects of cryptocurrency. Complete interactive missions, earn badges, and deepen your understanding of Bitcoin through an immersive story.</p>
-        <a href="/start" class="button">Begin Your Journey</a>
-      </div>
-      
-      <div class="realms">
-        <div class="realm-card">
-          <h3>Realm of Origins</h3>
-          <p>Discover the foundations of money and exchange systems.</p>
-          <a href="/realm/1" class="button">Enter</a>
-        </div>
-        
-        <div class="realm-card">
-          <h3>The Central Citadel</h3>
-          <p>Learn about centralized financial governance.</p>
-          <a href="/realm/2" class="button">Enter</a>
-        </div>
-        
-        <div class="realm-card">
-          <h3>The Forest of Sparks</h3>
-          <p>Explore Bitcoin's birth and early development.</p>
-          <a href="/realm/3" class="button">Enter</a>
-        </div>
-        
-        <div class="realm-card">
-          <h3>The Mountain Forge</h3>
-          <p>Understand Bitcoin mining and consensus.</p>
-          <a href="/realm/4" class="button">Enter</a>
-        </div>
-        
-        <div class="realm-card">
-          <h3>The Council of Forks</h3>
-          <p>Dive into Bitcoin governance and development.</p>
-          <a href="/realm/5" class="button">Enter</a>
-        </div>
-        
-        <div class="realm-card">
-          <h3>The Ubuntu Village</h3>
-          <p>See practical applications of Bitcoin in Africa.</p>
-          <a href="/realm/6" class="button">Enter</a>
-        </div>
-        
-        <div class="realm-card">
-          <h3>The Summit of Knowledge</h3>
-          <p>Comprehensive assessment of your Bitcoin journey.</p>
-          <a href="/realm/7" class="button">Enter</a>
-        </div>
-      </div>
-    </div>
-    
-    <footer>
-      <p>© 2025 Asha's Bitcoin Journey. All rights reserved.</p>
-    </footer>
-  </div>
-
+  <div class="loader"></div>
+  <h1>Asha's Journey</h1>
+  <p>Redirecting to the Bitcoin education experience...</p>
+  <a href="/frontend/index.html" class="btn">Click here if not redirected</a>
+  
   <script>
-    // Simple script to handle navigation
-    document.addEventListener('DOMContentLoaded', () => {
-      const buttons = document.querySelectorAll('.button');
-      
-      buttons.forEach(button => {
-        button.addEventListener('click', (e) => {
-          e.preventDefault();
-          const href = button.getAttribute('href');
-          
-          if (href === '/start') {
-            window.location.href = '/api/health?redirect=true';
-          } else {
-            alert('This is a static HTML page. The actual React application is not yet accessible due to CORS configuration issues. Please use the server status link instead.');
-          }
-        });
-      });
-    });
+    // Redirect to standalone app after 2 seconds
+    setTimeout(() => {
+      window.location.href = '/frontend/index.html';
+    }, 2000);
   </script>
 </body>
 </html>

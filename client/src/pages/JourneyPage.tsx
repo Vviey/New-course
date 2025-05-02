@@ -1,25 +1,25 @@
 import { CourseJourney } from '@/components/course-journey';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/context/AuthContext';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 
 export default function JourneyPage() {
   const [, setLocation] = useLocation();
-  const { user, isLoading } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [journeyStarted, setJourneyStarted] = useState(false);
   
   // Redirect if not authenticated
   useEffect(() => {
-    if (!isLoading && !user) {
+    if (!isAuthenticated) {
       setLocation('/auth');
     }
-  }, [user, isLoading, setLocation]);
+  }, [isAuthenticated, setLocation]);
   
   const handleStartJourney = () => {
     setJourneyStarted(true);
   };
   
-  if (isLoading) {
+  if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900">
         <div className="animate-pulse flex flex-col items-center">

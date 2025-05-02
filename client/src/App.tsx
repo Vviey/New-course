@@ -60,7 +60,7 @@ const LoadingSpinner = () => (
 
 function App() {
   return (
-    <>
+    <AuthProvider> {/* Wrap everything inside AuthProvider */}
       <RouterListener />
       <Suspense fallback={<LoadingSpinner />}>
         <Switch>
@@ -137,21 +137,6 @@ function App() {
           
           {/* Fall back to NotFound for any other route */}
           <Route component={NotFound} />
-        </Switch>
-      </Suspense>
-      <Toaster />
-    </>
-  );
-  
-}
-function App() {
-  return (
-    <AuthProvider> {/* Wrap everything inside AuthProvider */}
-      <Suspense fallback={<LoadingSpinner />}>
-        <Switch>
-          <Route path="/" component={AuthPage} />
-          <Route path="/home" component={HomePage} />
-          {/* Other routes */}
         </Switch>
       </Suspense>
       <Toaster />

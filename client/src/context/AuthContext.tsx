@@ -1,68 +1,190 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { MissionType, BadgeType } from '@/lib/realm-utils';
 
-// This is a mock authentication context for frontend-only mode
-// It allows navigation through the app without requiring a backend
+// This is a purely frontend implementation of authentication context using localStorage
+// It does not connect to any backend or use mock data
 
-interface User {
-  id: number;
-  userId: string;
+// User progress interface to track progress through the journey
+interface UserProgress {
   username: string;
-  email: string | null;
-  progress: any;
-  rewards: any;
+  completedMissions: number[];
+  unlockedRealms: number[];
+  earnedBadges: number[];
 }
 
 interface AuthContextType {
-  user: User | null;
-  isLoading: boolean;
-  error: Error | null;
-  loginMutation: any;
-  registerMutation: any;
-  logoutMutation: any;
+  // Authentication state
+  isAuthenticated: boolean;
+  username: string | null;
+  
+  // Auth methods
+  login: (username: string, password: string) => void;
+  register: (username: string, password: string, email?: string) => void;
+  logout: () => void;
+  
+  // Progress tracking
+  currentRealm: number;
+  setCurrentRealm: (realm: number) => void;
+  
+  // Mission and badge progress
+  completedMissions: number[];
+  unlockedRealms: number[];
+  earnedBadges: number[];
+  
+  // Progress update methods
+  completeMission: (missionId: number) => void;
+  unlockRealm: (realmId: number) => void;
+  earnBadge: (badgeId: number) => void;
 }
-
-const defaultUser: User = {
-  id: 1,
-  userId: "sample-user-id",
-  username: "demouser",
-  email: "demo@example.com",
-  progress: {
-    currentRealm: 1,
-    completedRealms: [],
-    missionsCompleted: [],
-    chain: {
-      progress: 0,
-      lastUpdated: new Date().toISOString()
-    }
-  },
-  rewards: {
-    badges: [],
-    tokens: 0
-  }
-};
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+// Local storage key
+const USER_STORAGE_KEY = 'ashaJourneyUserData';
+
+// Default starting state
+const initialProgress: UserProgress = {
+  username: '',
+  completedMissions: [],
+  unlockedRealms: [1], // Realm 1 is always unlocked by default
+  earnedBadges: []
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // In frontend-only mode, we always provide a mock user
-  const mockUser = defaultUser;
+  // Auth state
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [username, setUsername] = useState<string | null>(null);
+  const [currentRealm, setCurrentRealm] = useState<number>(1);
   
-  const value = {
-    user: mockUser,
-    isLoading: false,
-    error: null,
-    loginMutation: { 
-      mutate: () => {}, 
-      isPending: false 
-    },
-    registerMutation: { 
-      mutate: () => {}, 
-      isPending: false 
-    },
-    logoutMutation: { 
-      mutate: () => {}, 
-      isPending: false 
+  // Progress state
+  const [completedMissions, setCompletedMissions] = useState<number[]>([]);
+  const [unlockedRealms, setUnlockedRealms] = useState<number[]>([1]); // Realm 1 is always unlocked
+  const [earnedBadges, setEarnedBadges] = useState<number[]>([]);
+  
+  // Load user data from localStorage on mount
+  useEffect(() => {
+    try {
+      const savedUserData = localStorage.getItem(USER_STORAGE_KEY);
+      if (savedUserData) {
+        const userData: UserProgress = JSON.parse(savedUserData);
+        
+        // Set authenticated if we have saved data
+        setIsAuthenticated(true);
+        setUsername(userData.username);
+        
+        // Load progress data
+        setCompletedMissions(userData.completedMissions || []);
+        setUnlockedRealms(userData.unlockedRealms || [1]);
+        setEarnedBadges(userData.earnedBadges || []);
+      }
+    } catch (error) {
+      console.error('Failed to load user data from localStorage:', error);
     }
+  }, []);
+  
+  // Save user data to localStorage whenever it changes
+  useEffect(() => {
+    if (isAuthenticated && username) {
+      try {
+        const userData: UserProgress = {
+          username: username,
+          completedMissions,
+          unlockedRealms,
+          earnedBadges
+        };
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userData));
+      } catch (error) {
+        console.error('Failed to save user data to localStorage:', error);
+      }
+    }
+  }, [isAuthenticated, username, completedMissions, unlockedRealms, earnedBadges]);
+  
+  // Login function - saves user data to localStorage
+  const login = (username: string, password: string) => {
+    console.log(`Login functionality for ${username}`);
+    
+    // Check if user exists in localStorage
+    try {
+      const savedUserData = localStorage.getItem(USER_STORAGE_KEY);
+      if (savedUserData) {
+        const userData: UserProgress = JSON.parse(savedUserData);
+        if (userData.username === username) {
+          // Real app would verify password here
+          setIsAuthenticated(true);
+          setUsername(username);
+          setCompletedMissions(userData.completedMissions);
+          setUnlockedRealms(userData.unlockedRealms);
+          setEarnedBadges(userData.earnedBadges);
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('Error checking existing user:', error);
+    }
+    
+    // If no existing user, create a new one
+    setIsAuthenticated(true);
+    setUsername(username);
+    // For a new user, initialize with default progress
+    setCompletedMissions([]);
+    setUnlockedRealms([1]); // Start with only Realm 1 unlocked
+    setEarnedBadges([]);
+  };
+  
+  // Register function - creates a new user in localStorage
+  const register = (username: string, password: string, email?: string) => {
+    console.log(`Registration functionality for ${username}`);
+    setIsAuthenticated(true);
+    setUsername(username);
+    
+    // Initialize new user with default progress
+    setCompletedMissions([]);
+    setUnlockedRealms([1]); // Start with only Realm 1 unlocked
+    setEarnedBadges([]);
+  };
+  
+  // Logout function - clears current session
+  const logout = () => {
+    setIsAuthenticated(false);
+    setUsername(null);
+    // Don't clear localStorage - just end the session
+  };
+  
+  // Update mission progress
+  const completeMission = (missionId: number) => {
+    if (!completedMissions.includes(missionId)) {
+      setCompletedMissions(prev => [...prev, missionId]);
+    }
+  };
+  
+  // Unlock a new realm
+  const unlockRealm = (realmId: number) => {
+    if (!unlockedRealms.includes(realmId)) {
+      setUnlockedRealms(prev => [...prev, realmId]);
+    }
+  };
+  
+  // Award a badge
+  const earnBadge = (badgeId: number) => {
+    if (!earnedBadges.includes(badgeId)) {
+      setEarnedBadges(prev => [...prev, badgeId]);
+    }
+  };
+
+  const value = {
+    isAuthenticated,
+    username,
+    login,
+    register,
+    logout,
+    currentRealm,
+    setCurrentRealm,
+    completedMissions,
+    unlockedRealms,
+    earnedBadges,
+    completeMission,
+    unlockRealm,
+    earnBadge
   };
 
   return (

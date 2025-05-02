@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@/context/AuthContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -29,22 +29,20 @@ export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { loginMutation, registerMutation, user } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { login, register, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
   
-  const params = new URLSearchParams(window.location.search);
-  const redirectTo = params.get("redirect") || "/";
-
-  // If user is already logged in, redirect
-  if (user) {
+  // If user is authenticated, redirect to home page
+  if (isAuthenticated) {
     setTimeout(() => {
-      setLocation(redirectTo);
+      setLocation("/home");
     }, 0);
     
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <span className="ml-2">Redirecting...</span>
+        <span className="ml-2">Redirecting to home page...</span>
       </div>
     );
   }
@@ -69,21 +67,29 @@ export default function AuthPage() {
     },
   });
   
-  const onLoginSubmit = async (data: LoginFormValues) => {
+  const onLoginSubmit = (data: LoginFormValues) => {
+    setIsSubmitting(true);
     try {
-      await loginMutation.mutateAsync(data);
+      login(data.username, data.password);
+      setLocation("/intro"); // Navigate to story intro page after login
     } catch (error) {
       console.error("Login failed", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   
-  const onRegisterSubmit = async (data: RegisterFormValues) => {
-    // Remove confirmPassword as it's not needed in the API call
-    const { confirmPassword, ...registerData } = data;
+  const onRegisterSubmit = (data: RegisterFormValues) => {
+    setIsSubmitting(true);
     try {
-      await registerMutation.mutateAsync(registerData);
+      // Remove confirmPassword as it's not needed
+      const { confirmPassword, ...registerData } = data;
+      register(registerData.username, registerData.password, registerData.email || undefined);
+      setLocation("/intro"); // Navigate to story intro page after registration
     } catch (error) {
       console.error("Registration failed", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -165,10 +171,10 @@ export default function AuthPage() {
 
               <button
                 type="submit"
-                disabled={loginMutation.isPending}
+                disabled={isSubmitting}
                 className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
               >
-                {loginMutation.isPending ? <Loader2 className="h-5 w-5 animate-spin mx-auto" /> : "Sign In"}
+                {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin mx-auto" /> : "Sign In"}
               </button>
             </form>
           ) : (
@@ -258,10 +264,10 @@ export default function AuthPage() {
 
               <button
                 type="submit"
-                disabled={registerMutation.isPending}
+                disabled={isSubmitting}
                 className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
               >
-                {registerMutation.isPending ? <Loader2 className="h-5 w-5 animate-spin mx-auto" /> : "Create Account"}
+                {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin mx-auto" /> : "Create Account"}
               </button>
             </form>
           )}

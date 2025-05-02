@@ -1,11 +1,6 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import { OfflineProvider } from "./context/OfflineContext";
-
-// Import mock API for frontend-only testing
-// Comment this out when using the real backend
-import "./lib/mockApi";
 
 // Import Vite config helper to fix hostname issues in Replit
 import "./vite-config-helper.js";
@@ -24,12 +19,8 @@ console.log("Application starting - initializing React...");
 // Custom error handler for React rendering
 const renderApp = () => {
   try {
-    // Wrap the entire app in the OfflineProvider to enable offline capabilities
-    createRoot(rootElement).render(
-      <OfflineProvider>
-        <App />
-      </OfflineProvider>
-    );
+    // Directly render the App component
+    createRoot(rootElement).render(<App />);
     console.log("React app rendered successfully");
   } catch (error) {
     console.error("Error rendering React app:", error);

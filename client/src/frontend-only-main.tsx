@@ -1,10 +1,6 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import { OfflineProvider } from "./context/OfflineContext";
-
-// Import mock API for frontend-only testing
-import "./lib/mockApi";
 
 // Create root element if it doesn't exist
 const rootElement = document.getElementById("root") || (() => {
@@ -19,12 +15,8 @@ console.log("Frontend-only version starting - initializing React...");
 
 // Render the React app
 try {
-  // Wrap the entire app in the OfflineProvider to enable offline capabilities
-  createRoot(rootElement).render(
-    <OfflineProvider>
-      <App />
-    </OfflineProvider>
-  );
+  // Directly mount the App component - no additional providers needed
+  createRoot(rootElement).render(<App />);
   console.log("Frontend-only React app rendered successfully");
 } catch (error) {
   console.error("Error rendering React app:", error);
