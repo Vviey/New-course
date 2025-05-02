@@ -35,6 +35,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   
+  // TEMPORARY: Creating a mock user for development until backend is implemented
+  const mockUser = {
+    id: 1,
+    userId: "dev-user-123",
+    username: "dev_user",
+    password: "********", // Hashed in real implementation
+    email: "dev@example.com",
+    githubId: null,
+    avatarUrl: null,
+    progress: {
+      currentRealm: 1,
+      completedRealms: [],
+      chain: {
+        progress: 0,
+        lastUpdated: new Date().toISOString()
+      }
+    },
+    rewards: {
+      badges: [],
+      tokens: 0
+    }
+  };
+  
   const {
     data: user,
     error,
@@ -43,7 +66,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryKey: ["/api/user"],
     queryFn: async () => {
       try {
+        // For development: return the mock user to avoid auth errors
+        // In production, this would call the actual API
+        if (import.meta.env.DEV) {
+          // Simulate network delay
+          await new Promise(resolve => setTimeout(resolve, 500));
+          return mockUser as SelectUser;
+        }
+        
         const res = await apiRequest("GET", "/api/user");
+        if (!res.ok) {
+          if (res.status === 401) {
+            // User is not authenticated
+            return null;
+          }
+          throw new Error(`Failed to fetch user: ${res.statusText}`);
+        }
         return await res.json();
       } catch (err) {
         console.error("Error fetching current user:", err);
@@ -54,6 +92,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
+      // For development: simulate successful login
+      if (import.meta.env.DEV) {
+        await new Promise(resolve => setTimeout(resolve, 800)); // Simulate network delay
+        return {
+          ...mockUser,
+          username: credentials.username
+        } as SelectUser;
+      }
+      
       const res = await apiRequest("POST", "/api/login", credentials);
       return await res.json();
     },
@@ -82,6 +129,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const registerMutation = useMutation({
     mutationFn: async (userData: RegisterData) => {
+      // For development: simulate successful registration
+      if (import.meta.env.DEV) {
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+        return {
+          ...mockUser,
+          username: userData.username,
+          email: userData.email
+        } as SelectUser;
+      }
+      
       const res = await apiRequest("POST", "/api/register", {
         username: userData.username,
         password: userData.password,
@@ -124,11 +181,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
-  const logoutMutation = useMutation({
+  const logoutMutation = useMutation<void, Error, void>({
     mutationFn: async () => {
-      const res = await apiRequest("POST", "/api/logout");
+      // For development: simulate successful logout
+      if (import.meta.env.DEV) {
+        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
+        localStorage.removeItem('userId');
+        return;
+      }
+      
+      await apiRequest("POST", "/api/logout");
       localStorage.removeItem('userId');
-      return res;
     },
     onSuccess: () => {
       // Clear user data from cache
@@ -154,7 +217,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext.Provider
       value={{
-        user,
+        user: user ?? null,
         isLoading,
         error,
         loginMutation,

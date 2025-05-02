@@ -35,7 +35,7 @@ const Realm6Home = lazy(() => import("@/pages/realm6/home"));
 const Realm7Home = lazy(() => import("@/pages/realm7/home"));
 
 // Context providers
-import { AuthProvider } from "@/context/AuthContext";
+import { AuthProvider } from "@/hooks/use-auth";
 import { OfflineProvider } from "@/context/OfflineContext";
 
 // Router wrapper to handle navigation
@@ -48,6 +48,23 @@ function RouterListener() {
   }, [location]);
 
   return null;
+}
+
+// Root route redirect component
+function RedirectToAuth() {
+  const [, setLocation] = useLocation();
+  
+  useEffect(() => {
+    // For development mode: skip authentication and go directly to Realm 1
+    if (import.meta.env.DEV) {
+      console.log('DEV MODE: Bypassing authentication, redirecting to Realm 1');
+      setLocation('/realm/1');
+    } else {
+      setLocation('/auth');
+    }
+  }, [setLocation]);
+  
+  return <LoadingSpinner />;
 }
 
 // Loading spinner component for Suspense fallback
@@ -70,15 +87,7 @@ function App() {
             <Route path="/auth" component={AuthPage} />
             
             {/* Root route redirects to auth */}
-            <Route path="/">
-              {() => {
-                const [, setLocation] = useLocation();
-                useEffect(() => {
-                  setLocation('/auth');
-                }, [setLocation]);
-                return <LoadingSpinner />;
-              }}
-            </Route>
+            <Route path="/" component={RedirectToAuth} />
             
             {/* Story intro - protected to ensure auth context */}
             <ProtectedRoute path="/intro" component={StoryIntroPage} />

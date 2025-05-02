@@ -65,68 +65,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     return next();
   });
   
-  // Set up authentication with GitHub OAuth
+  // Set up authentication with Passport.js
   setupAuth(app);
   
   // Initialize realms data
   await storage.initializeRealms();
-
-  // User routes
-  app.post('/api/auth/signup', async (req, res) => {
-    try {
-      const userData = req.body;
-      
-      // Validate user data
-      const validatedData = insertUserSchema
-        .omit({ userId: true })
-        .safeParse(userData);
-      
-      if (!validatedData.success) {
-        return res.status(400).json({ 
-          message: 'Invalid user data', 
-          errors: validatedData.error.errors 
-        });
-      }
-      
-      // Check if username already exists
-      const existingUser = await storage.getUserByUsername(userData.username);
-      if (existingUser) {
-        return res.status(409).json({ message: 'Username already exists' });
-      }
-      
-      const user = await storage.createUser(userData);
-      
-      // Return user without password
-      const { password, ...userWithoutPassword } = user;
-      res.status(201).json(userWithoutPassword);
-    } catch (error) {
-      console.error('Error creating user:', error);
-      res.status(500).json({ message: 'Error creating user' });
-    }
-  });
-
-  app.post('/api/auth/login', async (req, res) => {
-    try {
-      const { username, password } = req.body;
-      
-      if (!username || !password) {
-        return res.status(400).json({ message: 'Username and password are required' });
-      }
-      
-      const user = await storage.getUserByUsername(username);
-      
-      if (!user || user.password !== password) {
-        return res.status(401).json({ message: 'Invalid username or password' });
-      }
-      
-      // Return user without password
-      const { password: _, ...userWithoutPassword } = user;
-      res.status(200).json(userWithoutPassword);
-    } catch (error) {
-      console.error('Error logging in:', error);
-      res.status(500).json({ message: 'Error logging in' });
-    }
-  });
 
   // Get user by userId
   app.get('/api/users/:userId', async (req, res) => {

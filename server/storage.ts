@@ -161,6 +161,148 @@ export class MemStorage implements IStorage {
 
 
 
+import { db } from './db';
+import { eq } from 'drizzle-orm';
+
+export class DatabaseStorage implements IStorage {
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async getUserByUserId(userId: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.userId, userId));
+    return user;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async createUser(insertUserData: Omit<InsertUser, 'userId'>): Promise<User> {
+    const userId = uuidv4();
+    
+    const initialProgress = {
+      currentRealm: 1,
+      completedRealms: [],
+      chain: {
+        progress: 0,
+        lastUpdated: new Date().toISOString()
+      }
+    };
+    
+    const initialRewards = {
+      badges: [],
+      tokens: 0
+    };
+    
+    const userData = {
+      userId,
+      ...insertUserData,
+      progress: insertUserData.progress || initialProgress,
+      rewards: insertUserData.rewards || initialRewards
+    };
+    
+    const [user] = await db.insert(users).values(userData).returning();
+    return user;
+  }
+
+  async updateUserProgress(userId: string, progress: any): Promise<User | undefined> {
+    const user = await this.getUserByUserId(userId);
+    if (!user) return undefined;
+    
+    const updatedProgress = {
+      ...(user.progress || {}),
+      ...progress
+    };
+    
+    const [updatedUser] = await db
+      .update(users)
+      .set({ progress: updatedProgress })
+      .where(eq(users.userId, userId))
+      .returning();
+    
+    return updatedUser;
+  }
+
+  async getRealms(): Promise<Realm[]> {
+    return await db.select().from(realms);
+  }
+
+  async getRealmById(id: number): Promise<Realm | undefined> {
+    const [realm] = await db.select().from(realms).where(eq(realms.id, id));
+    return realm;
+  }
+
+  async initializeRealms(): Promise<void> {
+    // Check if realms table is empty
+    const existingRealms = await db.select().from(realms);
+    if (existingRealms.length > 0) {
+      console.log('Realms already initialized, skipping');
+      return;
+    }
+    
+    // Add initial realms data
+    const realmsData: InsertRealm[] = [
+      {
+        name: "Realm of Origins",
+        description: "Discover how money began and evolved from shells to bills in this foundational chapter.",
+        moduleNumber: 1,
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-1.png",
+        isLocked: false
+      },
+      {
+        name: "The Central Citadel",
+        description: "Explore the towers of power where monetary decisions echo through the lands.",
+        moduleNumber: 2,
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-2.png",
+        isLocked: true
+      },
+      {
+        name: "The Forest of Sparks",
+        description: "Enter the mystical forest where the spark of Bitcoin was first ignited.",
+        moduleNumber: 3,
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-3.png",
+        isLocked: true
+      },
+      {
+        name: "The Mountain Forge",
+        description: "Delve into the depths where miners create new blocks through proof of work.",
+        moduleNumber: 4,
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-4.png",
+        isLocked: true
+      },
+      {
+        name: "The Council of Forks",
+        description: "Witness the debates that shape the path of digital currencies at the Council.",
+        moduleNumber: 5,
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-5.png",
+        isLocked: true
+      },
+      {
+        name: "The Ubuntu Village",
+        description: "Discover how Bitcoin weaves into African traditions of community and shared prosperity.",
+        moduleNumber: 6,
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-6.png",
+        isLocked: true
+      },
+      {
+        name: "The Summit of Knowledge",
+        description: "Complete your journey and demonstrate your mastery of Bitcoin concepts.",
+        moduleNumber: 7,
+        imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/04/realm-7.png",
+        isLocked: true
+      }
+    ];
+
+    await db.insert(realms).values(realmsData);
+    console.log('Realms initialized successfully');
+  }
+}
+
+// Always use MemStorage for development purposes
 export const storage = new MemStorage();
+
 // Initialize realms data
 storage.initializeRealms();

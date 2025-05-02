@@ -10,6 +10,12 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ path, component: Component }: ProtectedRouteProps): ReactElement {
   const { user, isLoading } = useAuth();
+  
+  // In development mode, just render the component without checking auth
+  if (import.meta.env.DEV) {
+    console.log('DEV MODE: Bypassing authentication check');
+    return <Route path={path} component={Component} />;
+  }
 
   if (isLoading) {
     return (
