@@ -31,7 +31,7 @@ export const RealmData = [
     focus: getRealmDescription(3), // Bitcoin's Birth
     moduleNumber: 3,
     imageUrl: "/realms/sparks.jpg",
-    isLocked: true
+    isLocked: false
   },
   {
     id: 4,
@@ -40,7 +40,7 @@ export const RealmData = [
     focus: getRealmDescription(4), // Mining and Consensus
     moduleNumber: 4,
     imageUrl: "/realms/forge.jpg", 
-    isLocked: true
+    isLocked: false
   },
   {
     id: 5,
@@ -49,7 +49,7 @@ export const RealmData = [
     focus: getRealmDescription(5), // Bitcoin Governance and Forks
     moduleNumber: 5,
     imageUrl: "/realms/forks.jpg",
-    isLocked: true
+    isLocked: false
   },
   {
     id: 6,
@@ -58,7 +58,7 @@ export const RealmData = [
     focus: getRealmDescription(6), // Bitcoin in Africa
     moduleNumber: 6,
     imageUrl: "/realms/ubuntu.jpg",
-    isLocked: true
+    isLocked: false
   },
   {
     id: 7,
@@ -67,7 +67,7 @@ export const RealmData = [
     focus: getRealmDescription(7), // Comprehensive Bitcoin Mastery
     moduleNumber: 7,
     imageUrl: "/realms/summit.jpg",
-    isLocked: true
+    isLocked: false
   }
 ];
 

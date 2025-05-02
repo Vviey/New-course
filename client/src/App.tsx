@@ -38,13 +38,13 @@ function RouterListener() {
 }
 
 // Root route redirect component  
-function RedirectToAuth() {
+function RedirectToHome() {
   const [, setLocation] = useLocation();
   
   useEffect(() => {
-    // Redirect to auth page as shown in the screen recording
-    console.log('Redirecting to auth page');
-    setLocation('/auth');
+    // Redirect directly to home page
+    console.log('Redirecting to home page');
+    setLocation('/home');
   }, [setLocation]);
   
   return <LoadingSpinner />;
@@ -64,8 +64,8 @@ function App() {
       <RouterListener />
       <Suspense fallback={<LoadingSpinner />}>
         <Switch>
-          {/* Root route redirects to auth page */}
-          <Route path="/" component={RedirectToAuth} />
+          {/* Root route redirects to home page */}
+          <Route path="/" component={RedirectToHome} />
           
           {/* Auth page comes next */}
           <Route path="/auth" component={AuthPage} />

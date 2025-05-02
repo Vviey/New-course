@@ -587,17 +587,9 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-// Check if database connection is available to decide which storage implementation to use
-const isDbAvailable = (() => {
-  try {
-    return pool !== null && db !== null;
-  } catch {
-    return false;
-  }
-})();
-
-// Use DatabaseStorage if database is available, otherwise fall back to MemStorage
-export const storage = isDbAvailable ? new DatabaseStorage() : new MemStorage();
+// Always use in-memory storage for frontend-only mode
+console.log('Using in-memory storage (MemStorage) for frontend-only mode');
+export const storage = new MemStorage();
 
 // Initialize realms data
 storage.initializeRealms().catch(err => {

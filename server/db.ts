@@ -44,18 +44,9 @@ const dummyDb = {
   delete: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }),
 };
 
-// Export actual or dummy implementations based on DATABASE_URL availability
-let pool;
-let db;
-
-if (!process.env.DATABASE_URL) {
-  // Fall back to in-memory storage for development purposes, even on Replit
-  console.warn('DATABASE_URL not set, using in-memory storage for development purposes');
-  pool = new DummyPool();
-  db = dummyDb;
-} else {
-  pool = new Pool({ connectionString: process.env.DATABASE_URL });
-  db = drizzle(pool, { schema });
-}
+// Always use dummy implementations for frontend-only mode
+console.log('USING IN-MEMORY STORAGE FOR FRONTEND-ONLY MODE');
+const pool = new DummyPool();
+const db = dummyDb;
 
 export { pool, db };

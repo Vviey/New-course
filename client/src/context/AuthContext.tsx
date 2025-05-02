@@ -46,7 +46,7 @@ const USER_STORAGE_KEY = 'ashaJourneyUserData';
 const initialProgress: UserProgress = {
   username: '',
   completedMissions: [],
-  unlockedRealms: [1], // Realm 1 is always unlocked by default
+  unlockedRealms: [1, 2, 3, 4, 5, 6, 7], // All realms unlocked by default
   earnedBadges: []
 };
 
@@ -58,7 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   
   // Progress state
   const [completedMissions, setCompletedMissions] = useState<number[]>([]);
-  const [unlockedRealms, setUnlockedRealms] = useState<number[]>([1]); // Realm 1 is always unlocked
+  const [unlockedRealms, setUnlockedRealms] = useState<number[]>([1, 2, 3, 4, 5, 6, 7]); // All realms unlocked
   const [earnedBadges, setEarnedBadges] = useState<number[]>([]);
   
   // Load user data from localStorage on mount
@@ -74,7 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         
         // Load progress data
         setCompletedMissions(userData.completedMissions || []);
-        setUnlockedRealms(userData.unlockedRealms || [1]);
+        setUnlockedRealms(userData.unlockedRealms || [1, 2, 3, 4, 5, 6, 7]);
         setEarnedBadges(userData.earnedBadges || []);
       }
     } catch (error) {
@@ -127,7 +127,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUsername(username);
     // For a new user, initialize with default progress
     setCompletedMissions([]);
-    setUnlockedRealms([1]); // Start with only Realm 1 unlocked
+    setUnlockedRealms([1, 2, 3, 4, 5, 6, 7]); // All realms unlocked
     setEarnedBadges([]);
   };
   
@@ -139,7 +139,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     
     // Initialize new user with default progress
     setCompletedMissions([]);
-    setUnlockedRealms([1]); // Start with only Realm 1 unlocked
+    setUnlockedRealms([1, 2, 3, 4, 5, 6, 7]); // All realms unlocked
     setEarnedBadges([]);
   };
   

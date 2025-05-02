@@ -261,6 +261,72 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.status(200).json({ message: "Logged out successfully" });
   });
   
+  // Direct entry point for the application to bypass Vite host restrictions
+  app.get('/frontend', (req, res) => {
+    res.send(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Asha's Journey - Bitcoin Education</title>
+        <meta name="description" content="Learn about Bitcoin through an interactive, narrative-driven educational experience with African cultural influences.">
+        <style>
+          body {
+            margin: 0;
+            background-color: #1E1814;
+            color: #f5f5f5;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+          }
+          #root {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+          }
+          .loading {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+          }
+          .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 200, 100, 0.2);
+            border-radius: 50%;
+            border-top-color: #FFC867;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 1rem;
+          }
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        </style>
+      </head>
+      <body>
+        <div id="root">
+          <div class="loading">
+            <div class="loading-spinner"></div>
+            <h1>Asha's Journey</h1>
+            <p>Loading the adventure...</p>
+          </div>
+        </div>
+        <script>
+          // Redirect to the actual application
+          window.location.href = '/';
+        </script>
+      </body>
+      </html>
+    `);
+  });
+  
+  // Also provide an HTML-only index page that redirects to the app
+  app.get('/frontend/index.html', (req, res) => {
+    res.redirect('/frontend');
+  });
+
   // Create HTTP server
   const httpServer = createServer(app);
   
