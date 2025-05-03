@@ -17,6 +17,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   username: string | null;
   loading: boolean;
+  isLoading: boolean; // Alias for loading for backward compatibility
   
   // User object for compatibility with existing components
   user: {
@@ -53,6 +54,7 @@ const initialAuthContext: AuthContextType = {
   isAuthenticated: false,
   username: null,
   loading: true,
+  isLoading: true,
   user: null,
   login: () => {},
   register: () => {},
@@ -218,6 +220,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isAuthenticated,
     username,
     loading,
+    isLoading: loading, // Provide the alias for backward compatibility
     user,
     login,
     register,

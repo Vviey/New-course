@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Wallet, Lightbulb, ArrowRight, Shield, Zap, Coins, MessageSquare, ChevronDown, ChevronUp, Globe } from 'lucide-react';
+import { Check, Wallet, Lightbulb, ArrowRight, Shield, Zap, Coins, MessageSquare, ChevronDown, ChevronUp, Globe, X } from 'lucide-react';
 import { getRealmName } from '@/lib/realm-utils';
 
 interface PracticalChallengesProps {
@@ -84,7 +84,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'wallet-2b',
               text: 'Moving funds from cold storage for each transaction',
               isCorrect: false,
-              explanation: 'This is impractical for frequent business operations, as it's time-consuming and increases security risks through repeated exposure of the cold storage device.'
+              explanation: "This is impractical for frequent business operations, as it's time-consuming and increases security risks through repeated exposure of the cold storage device."
             },
             {
               id: 'wallet-2c',
@@ -103,7 +103,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
         },
         {
           id: 'wallet-3',
-          description: 'If Maria's phone with her hot wallet is lost or stolen, which of these is NOT a necessary security step?',
+          description: "If Maria's phone with her hot wallet is lost or stolen, which of these is NOT a necessary security step?",
           options: [
             {
               id: 'wallet-3a',
@@ -127,7 +127,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'wallet-3d',
               text: 'If the wallet was PIN-protected, transferring funds to a new wallet as a precaution',
               isCorrect: false,
-              explanation: 'Even with PIN protection, it's a good security practice to move funds to a entirely new wallet if physical security was compromised.'
+              explanation: "Even with PIN protection, it's a good security practice to move funds to a entirely new wallet if physical security was compromised."
             }
           ],
           selectedOption: null
@@ -146,7 +146,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
       tasks: [
         {
           id: 'privacy-1',
-          description: 'Which approach would best protect Ahmed's privacy when receiving Bitcoin donations?',
+          description: "Which approach would best protect Ahmed's privacy when receiving Bitcoin donations?",
           options: [
             {
               id: 'privacy-1a',
@@ -183,13 +183,13 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'privacy-2a',
               text: 'Using a peer-to-peer exchange with no KYC requirements',
               isCorrect: true,
-              explanation: 'P2P exchanges with no KYC requirements allow for more private transactions between individuals without centralized record-keeping, maintaining the separation between Ahmed's identity and his Bitcoin activity.'
+              explanation: "P2P exchanges with no KYC requirements allow for more private transactions between individuals without centralized record-keeping, maintaining the separation between Ahmed's identity and his Bitcoin activity."
             },
             {
               id: 'privacy-2b',
               text: 'Withdrawing to his bank account through a major exchange',
               isCorrect: false,
-              explanation: 'Major exchanges implement strict KYC/AML procedures and would create a clear link between Ahmed's identity and his Bitcoin holdings, compromising privacy.'
+              explanation: "Major exchanges implement strict KYC/AML procedures and would create a clear link between Ahmed's identity and his Bitcoin holdings, compromising privacy."
             },
             {
               id: 'privacy-2c',
@@ -214,7 +214,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'privacy-3a',
               text: 'Connecting through Tor or a VPN when making Bitcoin transactions',
               isCorrect: true,
-              explanation: 'Tor or VPNs mask IP addresses, preventing the linking of Bitcoin transactions to Ahmed's physical location or internet identity, adding a crucial layer of network privacy.'
+              explanation: "Tor or VPNs mask IP addresses, preventing the linking of Bitcoin transactions to Ahmed's physical location or internet identity, adding a crucial layer of network privacy."
             },
             {
               id: 'privacy-3b',
@@ -226,13 +226,13 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'privacy-3c',
               text: 'Connecting through his home ISP during off-peak hours',
               isCorrect: false,
-              explanation: 'The timing of internet usage doesn't provide privacy protection, as his home ISP would still have records linking his identity to Bitcoin-related activity.'
+              explanation: "The timing of internet usage doesn't provide privacy protection, as his home ISP would still have records linking his identity to Bitcoin-related activity."
             },
             {
               id: 'privacy-3d',
               text: 'Using his mobile data plan for all Bitcoin transactions',
               isCorrect: false,
-              explanation: 'Mobile data connections are still linked to his identity through his service provider and don't provide meaningful privacy protection.'
+              explanation: "Mobile data connections are still linked to his identity through his service provider and don't provide meaningful privacy protection."
             }
           ],
           selectedOption: null
@@ -247,7 +247,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
       description: 'Analyze mining profitability and strategic considerations.',
       realm: 4,
       icon: <Coins className="h-6 w-6" />,
-      scenario: 'Wei is considering investing in a small Bitcoin mining operation using excess renewable energy from her family's hydroelectric generator. She needs to understand the economics and technical considerations.',
+      scenario: "Wei is considering investing in a small Bitcoin mining operation using excess renewable energy from her family's hydroelectric generator. She needs to understand the economics and technical considerations.",
       tasks: [
         {
           id: 'mining-1',
@@ -275,7 +275,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'mining-1d',
               text: 'Maximum hash rate of the mining equipment',
               isCorrect: false,
-              explanation: 'Hash rate alone doesn't account for energy consumption. After a halving, less efficient equipment with high hash rates may become unprofitable due to electricity costs.'
+              explanation: "Hash rate alone doesn't account for energy consumption. After a halving, less efficient equipment with high hash rates may become unprofitable due to electricity costs."
             }
           ],
           selectedOption: null
@@ -306,14 +306,14 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'mining-2d',
               text: 'Always joining the largest pool to ensure the most consistent returns',
               isCorrect: false,
-              explanation: 'While large pools do provide consistent returns, exclusively supporting the largest pool contributes to mining centralization, which poses risks to Bitcoin's security and decentralization.'
+              explanation: "While large pools do provide consistent returns, exclusively supporting the largest pool contributes to mining centralization, which poses risks to Bitcoin's security and decentralization."
             }
           ],
           selectedOption: null
         },
         {
           id: 'mining-3',
-          description: 'Which cooling solution would be most appropriate for Wei's small hydroelectric-powered mining operation?',
+          description: "Which cooling solution would be most appropriate for Wei's small hydroelectric-powered mining operation?",
           options: [
             {
               id: 'mining-3a',
@@ -356,13 +356,13 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
       tasks: [
         {
           id: 'lightning-1',
-          description: 'For Carlos's business, what would be the best approach to set up Lightning Network channels?',
+          description: "For Carlos's business, what would be the best approach to set up Lightning Network channels?",
           options: [
             {
               id: 'lightning-1a',
               text: 'Opening several channels with well-connected, reliable nodes with good uptime',
               isCorrect: true,
-              explanation: 'Multiple channels with reliable, well-connected nodes provides redundancy and good routing options, ensuring Carlos's business can reliably receive payments even if some channels have issues.'
+              explanation: "Multiple channels with reliable, well-connected nodes provides redundancy and good routing options, ensuring Carlos's business can reliably receive payments even if some channels have issues."
             },
             {
               id: 'lightning-1b',
@@ -387,7 +387,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
         },
         {
           id: 'lightning-2',
-          description: 'Which liquidity management strategy would be most appropriate for Carlos's business?',
+          description: "Which liquidity management strategy would be most appropriate for Carlos's business?",
           options: [
             {
               id: 'lightning-2a',
@@ -467,7 +467,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'governance-1a',
               text: 'Soft forks implemented with broad community consensus',
               isCorrect: true,
-              explanation: 'Soft forks maintain backward compatibility and minimize chain splits while allowing protocol improvements. When implemented with broad community consensus, they've been the most successful approach to Bitcoin upgrades, as demonstrated by upgrades like SegWit.'
+              explanation: "Soft forks maintain backward compatibility and minimize chain splits while allowing protocol improvements. When implemented with broad community consensus, they've been the most successful approach to Bitcoin upgrades, as demonstrated by upgrades like SegWit."
             },
             {
               id: 'governance-1b',
@@ -479,7 +479,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'governance-1c',
               text: 'Emergency changes pushed by core developers',
               isCorrect: false,
-              explanation: 'Emergency changes without proper review and consensus building have high risk and undermine Bitcoin's decentralized governance model, potentially introducing bugs or security vulnerabilities.'
+              explanation: "Emergency changes without proper review and consensus building have high risk and undermine Bitcoin's decentralized governance model, potentially introducing bugs or security vulnerabilities."
             },
             {
               id: 'governance-1d',
@@ -504,7 +504,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'governance-2b',
               text: 'As a hard fork with a specific activation date when all users must upgrade',
               isCorrect: false,
-              explanation: 'Mandatory upgrade deadlines risk splitting the network if significant portions of users don't upgrade in time, potentially creating two competing chains and fragmenting the ecosystem.'
+              explanation: "Mandatory upgrade deadlines risk splitting the network if significant portions of users don't upgrade in time, potentially creating two competing chains and fragmenting the ecosystem."
             },
             {
               id: 'governance-2c',
@@ -516,7 +516,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'governance-2d',
               text: 'Through a miner-activated upgrade requiring 95% hash power support for one day',
               isCorrect: false,
-              explanation: 'A very short signaling period with a high threshold could be gamed or blocked by a small minority of miners, and doesn't allow sufficient time for community evaluation and consensus building.'
+              explanation: "A very short signaling period with a high threshold could be gamed or blocked by a small minority of miners, and doesn't allow sufficient time for community evaluation and consensus building."
             }
           ],
           selectedOption: null
@@ -529,7 +529,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'governance-3a',
               text: 'Security implications and potential for unintended consequences',
               isCorrect: true,
-              explanation: 'Security is Bitcoin's foundational value proposition. Changes that might introduce vulnerabilities or have unforeseen consequences could undermine the entire system, making this consideration paramount in protocol development.'
+              explanation: "Security is Bitcoin's foundational value proposition. Changes that might introduce vulnerabilities or have unforeseen consequences could undermine the entire system, making this consideration paramount in protocol development."
             },
             {
               id: 'governance-3b',
@@ -541,7 +541,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
               id: 'governance-3c',
               text: 'Adding new features requested by businesses',
               isCorrect: false,
-              explanation: 'Bitcoin's value comes from its stability, security, and neutrality - not from constantly adding new features to satisfy specific business use cases, which are better built as layers on top of the protocol.'
+              explanation: "Bitcoin's value comes from its stability, security, and neutrality - not from constantly adding new features to satisfy specific business use cases, which are better built as layers on top of the protocol."
             },
             {
               id: 'governance-3d',
@@ -562,7 +562,7 @@ export default function PracticalChallenges({ onComplete }: PracticalChallengesP
       description: 'Design practical Bitcoin adoption approaches for different global contexts.',
       realm: 6,
       icon: <Globe className="h-6 w-6" />,
-      scenario: 'You're advising a non-profit organization that wants to promote Bitcoin adoption in regions with limited banking access, unstable currencies, and varied technology infrastructure.',
+      scenario: "You're advising a non-profit organization that wants to promote Bitcoin adoption in regions with limited banking access, unstable currencies, and varied technology infrastructure.",
       tasks: [
         {
           id: 'adoption-1',

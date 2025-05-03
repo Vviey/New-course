@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Network, Check, X, ArrowRight, Shield } from 'lucide-react';
+import { Network, Check, X, ArrowRight, Shield, RefreshCw } from 'lucide-react';
 import { bioluminescentTheme } from '@/lib/realm-themes';
 
 interface ConsensusSimulatorProps {

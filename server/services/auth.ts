@@ -73,12 +73,12 @@ export class AuthService {
 
     // Generate verification code if email provided
     let verificationCode: string | undefined;
-    let verificationCodeExpiry: string | undefined;
+    let verificationCodeExpiry: Date | undefined;
     let verificationSent = false;
 
     if (email) {
       verificationCode = this.generateVerificationCode();
-      verificationCodeExpiry = new Date(Date.now() + config.auth.verificationCodeExpiry).toISOString();
+      verificationCodeExpiry = new Date(Date.now() + config.auth.verificationCodeExpiry);
       
       // Send verification email
       verificationSent = await EmailService.sendVerificationCode(email, verificationCode);
@@ -98,7 +98,7 @@ export class AuthService {
         completedRealms: [],
         chain: {
           progress: 0,
-          lastUpdated: new Date().toISOString()
+          lastUpdated: new Date()
         }
       },
       rewards: {
@@ -181,7 +181,7 @@ export class AuthService {
 
     // Generate new verification code
     const verificationCode = this.generateVerificationCode();
-    const verificationCodeExpiry = new Date(Date.now() + config.auth.verificationCodeExpiry).toISOString();
+    const verificationCodeExpiry = new Date(Date.now() + config.auth.verificationCodeExpiry);
 
     // Update user with new code
     await storage.updateUser(userId, {
@@ -209,7 +209,7 @@ export class AuthService {
 
     // Generate reset token
     const resetToken = uuidv4();
-    const resetTokenExpiry = new Date(Date.now() + config.auth.resetTokenExpiry).toISOString();
+    const resetTokenExpiry = new Date(Date.now() + config.auth.resetTokenExpiry);
 
     // Update user with reset token
     await storage.updateUser(user.userId, {
@@ -273,7 +273,7 @@ export class AuthService {
    */
   static async updateLastLogin(userId: string): Promise<User | undefined> {
     return await storage.updateUser(userId, {
-      lastLogin: new Date().toISOString()
+      lastLogin: new Date()
     });
   }
 }

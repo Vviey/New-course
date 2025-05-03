@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Clock, Code, ArrowRight, Check, ChevronRight, ChevronDown, Users, Info } from 'lucide-react';
+import { Clock, Code, ArrowRight, Check, ChevronRight, ChevronDown, Users, Info, X } from 'lucide-react';
 
 interface HistoricalForksSimulatorProps {
   onComplete: () => void;

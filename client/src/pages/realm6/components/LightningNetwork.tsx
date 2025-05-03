@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Zap, ArrowRight, Clock, DollarSign, Router, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { Zap, ArrowRight, Clock, DollarSign, Router, ShieldCheck, AlertTriangle, Check } from 'lucide-react';
 
 interface LightningNetworkProps {
   onComplete: () => void;
