@@ -142,7 +142,7 @@ export default function HashingSimulator({ onComplete }: HashingSimulatorProps) 
               className="font-mono text-sm p-3 rounded-md overflow-x-auto"
               style={{ 
                 backgroundColor: 'rgba(6, 214, 160, 0.1)',
-                color: hashedOutput ? bioluminescentTheme.colors.accent : 'gray'
+                color: hashedOutput ? bioluminescentTheme.colors.accent1 : 'gray'
               }}
             >
               {hashedOutput || '0000000000000000000000000000000000000000000000000000000000000000'}
@@ -155,19 +155,19 @@ export default function HashingSimulator({ onComplete }: HashingSimulatorProps) 
             </h4>
             <ul className="text-sm space-y-2 text-gray-300">
               <li className="flex items-start">
-                <span className="inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: bioluminescentTheme.colors.accent }}></span>
+                <span className="inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: bioluminescentTheme.colors.accent1 }}></span>
                 <span><strong>One-way function:</strong> You cannot derive the original input from the hash output.</span>
               </li>
               <li className="flex items-start">
-                <span className="inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: bioluminescentTheme.colors.accent }}></span>
+                <span className="inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: bioluminescentTheme.colors.accent1 }}></span>
                 <span><strong>Deterministic:</strong> The same input always produces the same hash.</span>
               </li>
               <li className="flex items-start">
-                <span className="inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: bioluminescentTheme.colors.accent }}></span>
+                <span className="inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: bioluminescentTheme.colors.accent1 }}></span>
                 <span><strong>Avalanche effect:</strong> A small change in input produces a completely different hash.</span>
               </li>
               <li className="flex items-start">
-                <span className="inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: bioluminescentTheme.colors.accent }}></span>
+                <span className="inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: bioluminescentTheme.colors.accent1 }}></span>
                 <span><strong>Collision resistance:</strong> It's extremely difficult to find two different inputs that produce the same hash.</span>
               </li>
             </ul>
