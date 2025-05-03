@@ -85,7 +85,8 @@
         const [, port, path] = match;
         // Use secure websocket if page is on https
         const wsProtocol = currentProtocol === 'https:' ? 'wss:' : 'ws:';
-        newUrl = `${wsProtocol}//${currentHostname}${path}`;
+        // Include port 5173 (Vite dev server port) explicitly
+        newUrl = `${wsProtocol}//${currentHostname}:5173${path}`;
         console.log(`Patched WebSocket URL from ${url} to ${newUrl}`);
       }
     }
@@ -97,7 +98,7 @@
   const originalFetch = window.fetch;
   window.fetch = function(resource, options) {
     if (typeof resource === 'string' && resource.includes('localhost')) {
-      resource = resource.replace(/https?:\/\/localhost:[0-9]+/g, `${currentProtocol}//${currentHostname}`);
+      resource = resource.replace(/https?:\/\/localhost:[0-9]+/g, `${currentProtocol}//${currentHostname}:5173`);
       console.log(`Patched fetch URL to ${resource}`);
     }
     return originalFetch(resource, options);
