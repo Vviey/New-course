@@ -48,7 +48,9 @@ export async function apiRequest(
 // Reusable query function for TanStack Query
 export function getQueryFn(options: FetchOptions = {}) {
   return async function queryFn({ queryKey }: { queryKey: (string | number)[] }) {
-    const url = Array.isArray(queryKey) ? queryKey.join("/") : queryKey.toString();
+    // Ensure queryKey is always treated as an array to prevent 'never' type issues
+    const key = Array.isArray(queryKey) ? queryKey : [queryKey];
+    const url = key.join("/");
     
     try {
       const response = await apiRequest("GET", url);

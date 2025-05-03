@@ -1,15 +1,17 @@
 // Adapted from shadcn/ui toast component
 // This file is used to create a toast notification system using React context
 
-import { Toast, ToastActionElement } from "@/components/ui/toast";
+import * as React from "react";
+import { Toast } from "@/components/ui/toast";
 import {
   useToast as useShadcnToast,
   type ToastProps,
+  type ToastActionElement,
 } from "@/components/ui/use-toast";
 
 export type ToastOptions = {
-  title?: string;
-  description?: string;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
   action?: ToastActionElement;
   variant?: "default" | "destructive";
   duration?: number;

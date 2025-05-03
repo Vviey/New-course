@@ -223,7 +223,8 @@ export class MemStorage implements IStorage {
 
       realmsData.forEach((realm) => {
         const id = this.realmId++;
-        this.realmsList.set(id, { ...realm, id } as Realm);
+        // Force all realms to be unlocked for development
+        this.realmsList.set(id, { ...realm, id, isLocked: false } as Realm);
       });
       
       console.log('Memory realms initialized successfully');
@@ -466,12 +467,12 @@ export class DatabaseStorage implements IStorage {
         INSERT INTO realms (name, description, "moduleNumber", "imageUrl", "isLocked")
         VALUES 
           ('Realm of Origins', 'Discover how money began and evolved from shells to bills in this foundational chapter.', 1, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-1.png', false),
-          ('The Central Citadel', 'Explore the towers of power where monetary decisions echo through the lands.', 2, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-2.png', true),
-          ('The Forest of Sparks', 'Enter the mystical forest where the spark of Bitcoin was first ignited.', 3, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-3.png', true),
-          ('The Mountain Forge', 'Delve into the depths where miners create new blocks through proof of work.', 4, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-4.png', true),
-          ('The Council of Forks', 'Witness the debates that shape the path of digital currencies at the Council.', 5, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-5.png', true),
-          ('The Ubuntu Village', 'Discover how Bitcoin weaves into African traditions of community and shared prosperity.', 6, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-6.png', true),
-          ('The Summit of Knowledge', 'Complete your journey and demonstrate your mastery of Bitcoin concepts.', 7, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-7.png', true)
+          ('The Central Citadel', 'Explore the towers of power where monetary decisions echo through the lands.', 2, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-2.png', false),
+          ('The Forest of Sparks', 'Enter the mystical forest where the spark of Bitcoin was first ignited.', 3, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-3.png', false),
+          ('The Mountain Forge', 'Delve into the depths where miners create new blocks through proof of work.', 4, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-4.png', false),
+          ('The Council of Forks', 'Witness the debates that shape the path of digital currencies at the Council.', 5, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-5.png', false),
+          ('The Ubuntu Village', 'Discover how Bitcoin weaves into African traditions of community and shared prosperity.', 6, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-6.png', false),
+          ('The Summit of Knowledge', 'Complete your journey and demonstrate your mastery of Bitcoin concepts.', 7, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-7.png', false)
       `);
       
       console.log('Realms initialized successfully');
@@ -597,7 +598,40 @@ export class DatabaseStorage implements IStorage {
 console.log('Using in-memory storage (MemStorage) for frontend-only mode');
 export const storage = new MemStorage();
 
-// Initialize realms data
-storage.initializeRealms().catch(err => {
-  console.error('Failed to initialize realms:', err);
-});
+// Helper function to unlock all realms
+async function unlockAllRealms() {
+  try {
+    const allRealms = await storage.getRealms();
+    
+    // Update each realm to be unlocked
+    for (const realm of allRealms) {
+      if (realm.isLocked) {
+        console.log(`Unlocking realm: ${realm.name}`);
+        
+        if (storage instanceof MemStorage) {
+          // For in-memory storage, directly update the map
+          const updatedRealm = { ...realm, isLocked: false };
+          (storage as MemStorage).realmsList.set(realm.id, updatedRealm as Realm);
+        } else if (storage instanceof DatabaseStorage) {
+          // For database storage, run an update query
+          await (pool.query as any)(`
+            UPDATE realms 
+            SET "isLocked" = false 
+            WHERE id = ${realm.id}
+          `);
+        }
+      }
+    }
+    
+    console.log('All realms unlocked successfully');
+  } catch (error) {
+    console.error('Failed to unlock realms:', error);
+  }
+}
+
+// Initialize realms data and unlock all realms
+storage.initializeRealms()
+  .then(unlockAllRealms)
+  .catch(err => {
+    console.error('Failed to initialize or unlock realms:', err);
+  });

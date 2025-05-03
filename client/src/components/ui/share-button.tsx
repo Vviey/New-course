@@ -28,6 +28,16 @@ export function ShareButton({
   const [showPlatforms, setShowPlatforms] = useState(false);
   const { toast } = useToast();
   
+  // Define button size styles
+  const buttonSizes = {
+    sm: "text-sm p-1",
+    md: "text-base p-2",
+    lg: "text-lg p-3"
+  };
+  
+  // Get the current size style
+  const sizeClass = buttonSizes[size];
+  
   const togglePlatforms = () => {
     setShowPlatforms(!showPlatforms);
   };

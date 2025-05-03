@@ -45,18 +45,30 @@ export function ThemeCard({ children, className }: ThemeCardProps) {
 interface ThemeHeadingProps {
   children: ReactNode;
   className?: string;
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
-export function ThemeHeading({ children, className }: ThemeHeadingProps) {
+export function ThemeHeading({ children, className, level = 2 }: ThemeHeadingProps) {
+  const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
+  
+  const fontSize = {
+    1: "text-3xl",
+    2: "text-2xl",
+    3: "text-xl",
+    4: "text-lg",
+    5: "text-base",
+    6: "text-sm"
+  }[level];
+  
   return (
-    <h2
-      className={cn("text-2xl font-bold", className)}
+    <HeadingTag
+      className={cn(`${fontSize} font-bold`, className)}
       style={{
         color: originTheme.colors.primary
       }}
     >
       {children}
-    </h2>
+    </HeadingTag>
   );
 }
 

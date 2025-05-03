@@ -24,6 +24,7 @@ export interface RealmTheme {
   gradients?: {
     sunset?: string;
     sand?: string;
+    blue?: string;
   };
   shadows?: {
     card?: string;
@@ -114,6 +115,15 @@ export const centralbankTheme: RealmTheme = {
     accent2: "#00A6ED",
     gradientStart: "#00243F",
     gradientEnd: "#003E70"
+  },
+  gradients: {
+    sunset: "linear-gradient(to right, #00589B, #0076CE)",
+    sand: "linear-gradient(to bottom, #F0F7FF, #D6E9FF)",
+    blue: "linear-gradient(to right, #0076CE, #00A6ED)"
+  },
+  shadows: {
+    card: "0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1)",
+    button: "0 2px 4px rgba(0, 89, 155, 0.3)"
   },
   patternClass: "centralbank-pattern",
   backgroundTexture: "url('/textures/marble-pattern.svg')"

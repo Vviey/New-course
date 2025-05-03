@@ -4,13 +4,17 @@
 import * as React from "react"
 import { Toast } from "@/components/ui/toast"
 
-export interface ToastProps extends React.ComponentPropsWithoutRef<typeof Toast> {
+// Create a custom type that doesn't include the original title property
+type ToastPropsBase = Omit<React.ComponentPropsWithoutRef<typeof Toast>, 'title'>;
+
+export interface ToastProps extends ToastPropsBase {
   id: string
   title?: React.ReactNode
   description?: React.ReactNode
   action?: React.ReactElement
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  duration?: number // Add duration property for compatibility
 }
 
 export type ToastActionElement = React.ReactElement
