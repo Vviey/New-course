@@ -31,17 +31,55 @@ if (!process.env.DATABASE_URL &&
 
 // Create dummy implementations for local development without a database
 class DummyPool {
+  totalCount = 0;
+  idleCount = 0;
+  waitingCount = 0;
+  on() { return this; }
   query() { return Promise.resolve({ rows: [] }); }
   connect() { return Promise.resolve(this); }
   release() {}
   end() { return Promise.resolve(); }
+  acquire() { return Promise.resolve(this); }
+  // Adding missing methods from Pool interface
+  removeAllListeners() { return this; }
+  listeners() { return []; }
+  addListener() { return this; }
+  off() { return this; }
+  once() { return this; }
+  removeListener() { return this; }
+  emit() { return true; }
+  eventNames() { return []; }
+  listenerCount() { return 0; }
+  getMaxListeners() { return 0; }
+  setMaxListeners() { return this; }
+  prependListener() { return this; }
+  prependOnceListener() { return this; }
+  rawListeners() { return []; }
 }
 
 const dummyDb = {
-  select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
-  insert: () => ({ values: () => ({ returning: () => Promise.resolve([]) }) }),
-  update: () => ({ set: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }) }),
-  delete: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }),
+  select: () => ({ 
+    from: (table: any) => ({ 
+      where: (condition: any) => Promise.resolve([]) 
+    })
+  }),
+  insert: (table: any) => ({ 
+    values: (data: any) => ({ 
+      returning: () => Promise.resolve([]) 
+    })
+  }),
+  update: (table: any) => ({ 
+    set: (data: any) => ({ 
+      where: (condition: any) => ({ 
+        returning: () => Promise.resolve([]) 
+      })
+    })
+  }),
+  delete: (table: any) => ({ 
+    where: (condition: any) => ({ 
+      returning: () => Promise.resolve([]) 
+    })
+  }),
 };
 
 // Always use dummy implementations for frontend-only mode

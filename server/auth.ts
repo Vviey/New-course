@@ -63,6 +63,12 @@ export function setupAuth(app: Express) {
         username: username || "demouser",
         password: "hashed.password",
         email: "demo@example.com",
+        emailVerified: false,
+        verificationCode: null,
+        verificationCodeExpiry: null,
+        resetToken: null,
+        resetTokenExpiry: null,
+        lastLogin: new Date(),
         progress: {
           currentRealm: 1,
           completedRealms: [],
@@ -76,7 +82,7 @@ export function setupAuth(app: Express) {
           badges: [],
           tokens: 0
         }
-      };
+      } as SelectUser;
       
       return done(null, mockUser);
     }),
@@ -95,6 +101,12 @@ export function setupAuth(app: Express) {
       username: "demouser",
       password: "hashed.password",
       email: "demo@example.com",
+      emailVerified: false,
+      verificationCode: null,
+      verificationCodeExpiry: null,
+      resetToken: null,
+      resetTokenExpiry: null,
+      lastLogin: new Date(),
       progress: {
         currentRealm: 1,
         completedRealms: [],
@@ -108,7 +120,7 @@ export function setupAuth(app: Express) {
         badges: [],
         tokens: 0
       }
-    };
+    } as SelectUser;
     done(null, mockUser);
   });
 
@@ -119,7 +131,14 @@ export function setupAuth(app: Express) {
       id: 1,
       userId: "demo-user-123",
       username: req.body.username || "demouser",
+      password: "hashed.password",
       email: req.body.email || "demo@example.com",
+      emailVerified: false,
+      verificationCode: null,
+      verificationCodeExpiry: null,
+      resetToken: null,
+      resetTokenExpiry: null,
+      lastLogin: new Date(),
       progress: {
         currentRealm: 1,
         completedRealms: [],
@@ -133,7 +152,7 @@ export function setupAuth(app: Express) {
         badges: [],
         tokens: 0
       }
-    };
+    } as SelectUser;
     
     // Return the mock user
     res.status(201).json(mockUser);
@@ -146,7 +165,14 @@ export function setupAuth(app: Express) {
       id: 1,
       userId: "demo-user-123",
       username: req.body.username || "demouser",
+      password: "hashed.password",
       email: req.body.email || "demo@example.com",
+      emailVerified: false,
+      verificationCode: null,
+      verificationCodeExpiry: null,
+      resetToken: null,
+      resetTokenExpiry: null,
+      lastLogin: new Date(),
       progress: {
         currentRealm: 1,
         completedRealms: [],
@@ -160,7 +186,7 @@ export function setupAuth(app: Express) {
         badges: [],
         tokens: 0
       }
-    };
+    } as SelectUser;
     
     res.status(200).json(mockUser);
   });
@@ -177,7 +203,14 @@ export function setupAuth(app: Express) {
       id: 1,
       userId: "demo-user-123",
       username: "demouser",
+      password: "hashed.password",
       email: "demo@example.com",
+      emailVerified: false,
+      verificationCode: null,
+      verificationCodeExpiry: null,
+      resetToken: null,
+      resetTokenExpiry: null,
+      lastLogin: new Date(),
       progress: {
         currentRealm: 1,
         completedRealms: [],
@@ -191,7 +224,7 @@ export function setupAuth(app: Express) {
         badges: [],
         tokens: 0
       }
-    };
+    } as SelectUser;
     
     res.json(mockUser);
   });
@@ -203,7 +236,14 @@ export function setupAuth(app: Express) {
       id: 1,
       userId: "demo-user-123",
       username: req.body.username || "demouser",
+      password: "hashed.password",
       email: req.body.email || "demo@example.com",
+      emailVerified: false,
+      verificationCode: null,
+      verificationCodeExpiry: null,
+      resetToken: null,
+      resetTokenExpiry: null,
+      lastLogin: new Date(),
       progress: {
         currentRealm: 1,
         completedRealms: [],
@@ -217,7 +257,7 @@ export function setupAuth(app: Express) {
         badges: [],
         tokens: 0
       }
-    };
+    } as SelectUser;
     
     res.status(200).json(mockUser);
   });
@@ -240,13 +280,20 @@ export function setupAuth(app: Express) {
       id: 1,
       userId: "demo-user-123",
       username: "demouser",
+      password: "hashed.password",
       email: "demo@example.com",
+      emailVerified: false,
+      verificationCode: null,
+      verificationCodeExpiry: null,
+      resetToken: null,
+      resetTokenExpiry: null,
+      lastLogin: new Date(),
       progress,
       rewards: {
         badges: [],
         tokens: 0
       }
-    };
+    } as SelectUser;
     
     res.status(200).json(mockUser);
   });
