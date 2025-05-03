@@ -1,14 +1,57 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaBitcoin, FaServer, FaTools, FaBolt, FaTemperatureHigh, FaChartLine, FaArrowUp, FaLock, FaCheck } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { mountainForgeTheme } from '@/lib/realm-themes';
+import { miningTheme } from '@/lib/realm-themes';
+
+// Define interfaces for our types
+interface MiningHardware {
+  id: string;
+  name: string;
+  hashrate: number;
+  power: number;
+  price: number;
+  description: string;
+  thermals: number;
+}
+
+interface HardwareUpgrade {
+  id: string;
+  name: string;
+  price: number;
+  effects: {
+    hashrate?: number;
+    power?: number;
+    thermals?: number;
+  };
+  description: string;
+}
+
+interface Miner {
+  id: number;
+  name: string;
+  hashrate: number;
+  power: number;
+  price: number;
+  description: string;
+  thermals: number;
+  upgrades: string[];
+  efficiency: number;
+  status: 'active' | 'inactive';
+}
+
+interface BlockHeader {
+  version: string;
+  previousHash: string;
+  merkleRoot: string;
+  timestamp: number;
+  bits: string;
+  nonce: number;
+}
 
 // Mining hardware templates
-const hardwareTemplates = [
+const hardwareTemplates: MiningHardware[] = [
   {
     id: 'basic-gpu',
     name: 'Basic GPU Miner',
@@ -66,7 +109,7 @@ const hardwareTemplates = [
 ];
 
 // Upgrades for miners
-const upgradeTemplates = [
+const upgradeTemplates: HardwareUpgrade[] = [
   {
     id: 'cooling-basic',
     name: 'Basic Cooling System',
@@ -140,7 +183,7 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
   const [totalHashRate, setTotalHashRate] = useState(0);
   const [powerUsage, setPowerUsage] = useState(0);
   const [electricityCost, setElectricityCost] = useState(0.12); // $ per kWh
-  const [miners, setMiners] = useState<any[]>([]);
+  const [miners, setMiners] = useState<Miner[]>([]);
   const [dayCount, setDayCount] = useState(1);
   const [running, setRunning] = useState(false);
   const [selectedTab, setSelectedTab] = useState('mine');
@@ -154,7 +197,7 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
   const [tutorial, setTutorial] = useState(true);
   
   // Blockchain simulation state
-  const [blockHeader, setBlockHeader] = useState<any>(null);
+  const [blockHeader, setBlockHeader] = useState<BlockHeader | null>(null);
   const [blocksMined, setBlocksMined] = useState(0);
   
   // Initialize block header when component mounts
@@ -291,7 +334,7 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
   }, [mining, blockHeader, totalHashRate, networkDifficulty, currentNonce, blockReward]);
   
   // Function to add a new mining rig
-  const addMiner = (hardwareTemplate: any) => {
+  const addMiner = (hardwareTemplate: MiningHardware) => {
     if (bitcoin < hardwareTemplate.price) {
       showNotification("Not enough Bitcoin to purchase this hardware!");
       return;
@@ -299,9 +342,15 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
     
     setBitcoin(prev => prev - hardwareTemplate.price);
     
-    const newMiner = {
+    // Create a new miner from the hardware template
+    const newMiner: Miner = {
       id: Date.now(),
-      ...hardwareTemplate,
+      name: hardwareTemplate.name,
+      hashrate: hardwareTemplate.hashrate,
+      power: hardwareTemplate.power,
+      price: hardwareTemplate.price,
+      description: hardwareTemplate.description,
+      thermals: hardwareTemplate.thermals,
       upgrades: [],
       efficiency: 1.0,
       status: 'active'
@@ -313,7 +362,7 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
   };
   
   // Function to add upgrade to a miner
-  const addUpgrade = (minerId: number, upgrade: any) => {
+  const addUpgrade = (minerId: number, upgrade: HardwareUpgrade) => {
     if (bitcoin < upgrade.price) {
       showNotification("Not enough Bitcoin to purchase this upgrade!");
       return;
@@ -321,10 +370,10 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
     
     setBitcoin(prev => prev - upgrade.price);
     
-    const updatedMiners = miners.map((miner: any) => {
+    const updatedMiners = miners.map((miner: Miner) => {
       if (miner.id === minerId) {
         // Apply upgrade effects
-        const updatedMiner = { ...miner };
+        const updatedMiner: Miner = { ...miner };
         updatedMiner.upgrades = [...miner.upgrades, upgrade.id];
         
         if (upgrade.effects.hashrate) {
@@ -348,7 +397,7 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
   };
   
   // Update total hashrate and power usage when miners change
-  const updateMiningStats = (currentMiners: any[]) => {
+  const updateMiningStats = (currentMiners: Miner[]) => {
     let totalHash = 0;
     let totalPower = 0;
     
@@ -365,12 +414,12 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
   
   // Toggle miner status (on/off)
   const toggleMinerStatus = (minerId: number) => {
-    const updatedMiners = miners.map((miner: any) => {
+    const updatedMiners = miners.map((miner: Miner) => {
       if (miner.id === minerId) {
         return {
           ...miner,
           status: miner.status === 'active' ? 'inactive' : 'active'
-        };
+        } as Miner;
       }
       return miner;
     });
@@ -421,7 +470,7 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
   };
   
   // Format block header for display
-  const formatBlockHeader = (header: any) => {
+  const formatBlockHeader = (header: BlockHeader | null) => {
     if (!header) return "";
     return (
       `Version: ${header.version}\n` +

@@ -7,12 +7,13 @@ import { Toast } from "@/components/ui/toast"
 // Create a custom type that doesn't include the original title property
 type ToastPropsBase = Omit<React.ComponentPropsWithoutRef<typeof Toast>, 'title'>;
 
-export interface ToastProps extends ToastPropsBase {
+export interface ToastProps {
   id: string
   title?: React.ReactNode
   description?: React.ReactNode
   action?: React.ReactElement
   open?: boolean
+  variant?: "default" | "destructive"
   onOpenChange?: (open: boolean) => void
   duration?: number // Add duration property for compatibility
 }
@@ -22,7 +23,7 @@ export type ToastActionElement = React.ReactElement
 const TOAST_LIMIT = 5
 const TOAST_REMOVE_DELAY = 1000000
 
-type ToasterToast = ToastProps & {
+export type ToasterToast = ToastProps & {
   id: string
   title?: React.ReactNode
   description?: React.ReactNode
@@ -63,7 +64,7 @@ type Action =
       toastId?: string
     }
 
-interface State {
+export interface ToastState {
   toasts: ToasterToast[]
 }
 
@@ -85,7 +86,7 @@ const addToRemoveQueue = (toastId: string) => {
   toastTimeouts.set(toastId, timeout)
 }
 
-export const reducer = (state: State, action: Action): State => {
+export const reducer = (state: ToastState, action: Action): ToastState => {
   switch (action.type) {
     case "ADD_TOAST":
       return {
@@ -96,7 +97,7 @@ export const reducer = (state: State, action: Action): State => {
     case "UPDATE_TOAST":
       return {
         ...state,
-        toasts: state.toasts.map((t) =>
+        toasts: state.toasts.map((t: ToasterToast) =>
           t.id === action.toast.id ? { ...t, ...action.toast } : t
         ),
       }
@@ -109,14 +110,14 @@ export const reducer = (state: State, action: Action): State => {
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
-        state.toasts.forEach((toast) => {
+        state.toasts.forEach((toast: ToasterToast) => {
           addToRemoveQueue(toast.id)
         })
       }
 
       return {
         ...state,
-        toasts: state.toasts.map((t) =>
+        toasts: state.toasts.map((t: ToasterToast) =>
           t.id === toastId || toastId === undefined
             ? {
                 ...t,
@@ -140,9 +141,9 @@ export const reducer = (state: State, action: Action): State => {
   }
 }
 
-const listeners: Array<(state: State) => void> = []
+const listeners: Array<(state: ToastState) => void> = []
 
-let memoryState: State = { toasts: [] }
+let memoryState: ToastState = { toasts: [] }
 
 function dispatch(action: Action) {
   memoryState = reducer(memoryState, action)
@@ -183,7 +184,7 @@ function toast({ ...props }: Toast) {
 }
 
 function useToast() {
-  const [state, setState] = React.useState<State>(memoryState)
+  const [state, setState] = React.useState<ToastState>(memoryState)
 
   React.useEffect(() => {
     listeners.push(setState)

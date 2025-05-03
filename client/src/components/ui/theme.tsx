@@ -12,9 +12,9 @@ export function ThemeContainer({ children, className }: ThemeContainerProps) {
     <div
       className={cn("min-h-screen", className)}
       style={{
-        backgroundColor: originTheme.colors.background,
-        color: originTheme.colors.textLight,
-        backgroundImage: originTheme.patterns.adinkra
+        backgroundColor: originTheme?.colors?.background || "#3E1E00",
+        color: originTheme?.colors?.textLight || "#FBF4D2",
+        backgroundImage: originTheme?.patterns?.adinkra || 'none'
       }}
     >
       {children}
@@ -32,9 +32,9 @@ export function ThemeCard({ children, className }: ThemeCardProps) {
     <div
       className={cn("p-6 rounded-xl shadow-lg", className)}
       style={{
-        backgroundColor: originTheme.colors.cardBackground,
-        color: originTheme.colors.textDark,
-        boxShadow: originTheme.shadows.card
+        backgroundColor: originTheme?.colors?.cardBackground || "#FBF4D2",
+        color: originTheme?.colors?.textDark || "#3E1E00",
+        boxShadow: originTheme?.shadows?.card || 'none'
       }}
     >
       {children}
@@ -64,7 +64,7 @@ export function ThemeHeading({ children, className, level = 2 }: ThemeHeadingPro
     <HeadingTag
       className={cn(`${fontSize} font-bold`, className)}
       style={{
-        color: originTheme.colors.primary
+        color: originTheme?.colors?.primary || "#EE720B"
       }}
     >
       {children}
@@ -98,8 +98,8 @@ export function GradientButton({
         className
       )}
       style={{
-        background: originTheme.gradients.sunset,
-        boxShadow: originTheme.shadows.button
+        background: originTheme?.gradients?.sunset || "linear-gradient(to right, #EE720B, #FFC567)",
+        boxShadow: originTheme?.shadows?.button || "0 2px 4px rgba(238, 114, 11, 0.3)"
       }}
     >
       {children}
@@ -133,8 +133,8 @@ export function OutlineButton({
         className
       )}
       style={{
-        borderColor: originTheme.colors.primary,
-        color: originTheme.colors.primary
+        borderColor: originTheme?.colors?.primary || "#EE720B",
+        color: originTheme?.colors?.primary || "#EE720B"
       }}
     >
       {children}
