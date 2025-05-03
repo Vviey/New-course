@@ -38,8 +38,8 @@ export default function MissionPage() {
             <Button 
               className="inline-flex items-center"
               style={{
-                background: bioluminescentTheme.gradients.glow,
-                boxShadow: bioluminescentTheme.shadows.button,
+                background: bioluminescentTheme.colors.primary,
+                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
               }}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -59,8 +59,8 @@ export default function MissionPage() {
         }}
       >
         <div className="max-w-2xl mx-auto bg-opacity-80 bg-black backdrop-blur rounded-lg p-8 text-center">
-          <h1 className="text-3xl font-bold mb-6 text-transparent bg-clip-text"
-            style={{ backgroundImage: bioluminescentTheme.gradients.glow }}
+          <h1 className="text-3xl font-bold mb-6"
+            style={{ color: bioluminescentTheme.colors.primary }}
           >
             Mission Complete!
           </h1>
@@ -77,8 +77,8 @@ export default function MissionPage() {
                   <Button
                     className="w-full sm:w-auto"
                     style={{
-                      background: bioluminescentTheme.gradients.glow,
-                      boxShadow: bioluminescentTheme.shadows.button,
+                      background: `linear-gradient(to right, ${bioluminescentTheme.colors.primary}, ${bioluminescentTheme.colors.secondary})`,
+                      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
                     }}
                   >
                     Next Mission
@@ -100,8 +100,8 @@ export default function MissionPage() {
                   <Button
                     className="w-full sm:w-auto"
                     style={{
-                      background: bioluminescentTheme.gradients.glow,
-                      boxShadow: bioluminescentTheme.shadows.button,
+                      background: `linear-gradient(to right, ${bioluminescentTheme.colors.primary}, ${bioluminescentTheme.colors.secondary})`,
+                      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
                     }}
                   >
                     Return to Map
@@ -145,7 +145,7 @@ export default function MissionPage() {
           {/* Glowing code pattern background */}
           <div className="absolute inset-0 opacity-5" 
             style={{ 
-              backgroundImage: bioluminescentTheme.patterns.code,
+              backgroundImage: `radial-gradient(${bioluminescentTheme.colors.secondary}20, transparent 60%)`,
               backgroundSize: '300px 300px',
               zIndex: -1 
             }}>
