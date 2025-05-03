@@ -77,7 +77,7 @@ export default function MiningSimulator({ onComplete }: MiningSimulatorProps) {
     
     const interval = setInterval(() => {
       let foundBlock = false;
-      const hashes = [];
+      const hashes: string[] = [];
       
       // Process X hashes per update based on hash power
       for (let i = 0; i < hashPower && !foundBlock; i++) {

@@ -1,9 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import cartographer from "@replit/vite-plugin-cartographer";
+import { cartographer } from "@replit/vite-plugin-cartographer";
 import runtimeErrorModal from "@replit/vite-plugin-runtime-error-modal";
 import shadowTheme from "@replit/vite-plugin-shadcn-theme-json";
-import { VitePluginOptions as CartographerOptions } from "@replit/vite-plugin-cartographer";
 import { fileURLToPath } from "url";
 import path from "path";
 
@@ -11,7 +10,7 @@ import path from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const cartographerOptions: CartographerOptions = {
+const cartographerOptions = {
   // Expose client folder via @
   mapClientSrc: {
     from: "./client/src",
@@ -32,7 +31,7 @@ const cartographerOptions: CartographerOptions = {
 export default defineConfig({
   plugins: [
     react(),
-    cartographer(cartographerOptions),
+    cartographer,
     runtimeErrorModal(),
     shadowTheme(),
   ],

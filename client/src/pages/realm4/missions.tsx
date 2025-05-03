@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { realm4Missions } from '@/lib/realm4-missions';
 import { Mission } from '@/components/ui/mission';
+import { Realm2MissionData } from '@/lib/realm2-missions';
 import { getRealmName } from '@/lib/realm-utils';
 
 // Lazy load simulation components to improve performance
@@ -231,7 +232,15 @@ export default function Realm4Missions() {
             style={{ borderColor: `${mountainForgeTheme.colors.primary}40` }}
           >
             <Mission 
-              mission={missionData}
+              mission={{
+                id: missionData?.id || 1,
+                title: missionData?.title || "Bitcoin Mining",
+                subtitle: missionData?.subtitle || "Bitcoin mining mechanics and technology", 
+                description: "Explore the mountain forge and learn about Bitcoin mining.",
+                objectives: ["Learn about proof-of-work mining", "Understand mining difficulty", "Complete the interactive simulation"],
+                simulationType: "bitcoin" as 'surveillance' | 'privacy' | 'cbdc' | 'bitcoin' | 'lightning' | 'selfcustody',
+                content: typeof missionData?.content === 'string' ? missionData.content : "Learn about Bitcoin mining and the Proof of Work consensus mechanism. Mining is the process of adding new blocks to the blockchain."
+              } as Realm2MissionData}
               onComplete={handleMissionComplete}
               realmTheme="amber"
             />

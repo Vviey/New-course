@@ -4,13 +4,14 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Mission as MissionComponent } from '@/components/missions/Mission';
 import { realm4Missions } from '@/lib/realm4-missions';
-import { MissionContent } from '@/lib/realm4-missions';
+import { MissionContent as Realm4MissionContent } from '@/lib/realm4-missions';
+import { MissionContent } from '@/lib/realm1-missions';
 import { getRealmName } from '@/lib/realm-utils';
 
 export default function MissionPage() {
   const [_, params] = useRoute('/realm4/mission/:id');
   const missionId = params?.id ? parseInt(params.id) : null;
-  const [mission, setMission] = useState<MissionContent | null>(null);
+  const [mission, setMission] = useState<Realm4MissionContent | null>(null);
   const [completed, setCompleted] = useState(false);
   
   // Define a theme for Realm 4 - {getRealmName(4)}
@@ -39,7 +40,7 @@ export default function MissionPage() {
   useEffect(() => {
     if (missionId) {
       const foundMission = realm4Missions.find(m => m.id === missionId);
-      setMission(foundMission || null);
+      setMission(foundMission as unknown as Realm4MissionContent || null);
     }
   }, [missionId]);
   
@@ -177,7 +178,13 @@ export default function MissionPage() {
           
           <div className="p-6">
             <MissionComponent 
-              mission={mission} 
+              mission={{
+                ...mission,
+                subtitle: mission.subtitle || "Bitcoin mining mechanics and technology",
+                description: "Explore Bitcoin mining and its technology",
+                objectives: ["Learn about proof-of-work mining", "Understand mining difficulty", "Complete the interactive simulation"],
+                simulationType: "quiz"
+              }} 
               onComplete={handleMissionComplete} 
               realmTheme="amber"
             />

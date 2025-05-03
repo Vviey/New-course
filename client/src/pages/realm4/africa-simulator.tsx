@@ -590,28 +590,28 @@ export default function AfricaSimulator({ onComplete }: AfricaSimulatorProps) {
                   <div className="flex items-center">
                     <div className="w-40 text-sm text-gray-400">Infrastructure Boost:</div>
                     <div className="text-lg text-gray-200">
-                      ${(miningOperation.investment * 0.3).toFixed(1)}M in supporting infrastructure
+                      ${(miningOperation.investment ? miningOperation.investment * 0.3 : 0).toFixed(1)}M in supporting infrastructure
                     </div>
                   </div>
                   
                   <div className="flex items-center">
                     <div className="w-40 text-sm text-gray-400">Tax Revenue:</div>
                     <div className="text-lg text-gray-200">
-                      ~${(miningOperation.hashrate * miningOperation.profitability * 0.2).toFixed(1)}M annual
+                      ~${((miningOperation.hashrate || 0) * (miningOperation.profitability || 0) * 0.2).toFixed(1)}M annual
                     </div>
                   </div>
                   
                   <div className="flex items-center">
                     <div className="w-40 text-sm text-gray-400">Energy Development:</div>
                     <div className="text-lg text-gray-200">
-                      Supports ${(miningOperation.energyCapacity * 0.5).toFixed(1)}M in energy infrastructure
+                      Supports ${((miningOperation.energyCapacity || 0) * 0.5).toFixed(1)}M in energy infrastructure
                     </div>
                   </div>
                   
                   <div className="flex items-center">
                     <div className="w-40 text-sm text-gray-400">Skills Training:</div>
                     <div className="text-lg text-gray-200">
-                      Technical training for {Math.round(miningOperation.jobs * 0.7)} workers
+                      Technical training for {Math.round((miningOperation.jobs ?? 0) * 0.7)} workers
                     </div>
                   </div>
                 </div>
@@ -621,13 +621,13 @@ export default function AfricaSimulator({ onComplete }: AfricaSimulatorProps) {
             <div className="bg-black/30 p-4 rounded-lg border border-gray-800">
               <h4 className="text-gray-300 font-medium mb-2">Analysis Summary</h4>
               <p className="text-sm text-gray-400">
-                A ${miningOperation.investment}M Bitcoin mining operation in {countries.find(c => c.id === miningOperation.countryId)?.name} using {
+                A ${miningOperation.investment ?? 0}M Bitcoin mining operation in {countries.find(c => c.id === miningOperation.countryId)?.name} using {
                   countries.find(c => c.id === miningOperation.countryId)?.energyResources.find(r => r.type === miningOperation.energyType)?.name
-                } energy would generate approximately {miningOperation.hashrate} EH/s of mining power with an estimated ROI of {miningOperation.profitability}%.
+                } energy would generate approximately {miningOperation.hashrate ?? 0} EH/s of mining power with an estimated ROI of {miningOperation.profitability ?? 0}%.
               </p>
               <p className="text-sm text-gray-400 mt-2">
-                This operation would create around {miningOperation.jobs} direct and indirect jobs while supporting local infrastructure development.
-                The mining facility would require {miningOperation.energyCapacity} MW of power capacity, providing a steady customer for local energy production.
+                This operation would create around {miningOperation.jobs ?? 0} direct and indirect jobs while supporting local infrastructure development.
+                The mining facility would require {miningOperation.energyCapacity ?? 0} MW of power capacity, providing a steady customer for local energy production.
               </p>
               <p className="text-sm text-gray-400 mt-2">
                 {miningOperation.score >= 30 
