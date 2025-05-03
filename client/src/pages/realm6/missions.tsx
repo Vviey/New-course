@@ -4,7 +4,7 @@ import { ChevronRight, Loader2, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { realm6Missions } from '@/lib/realm6-missions';
 import { getRealmName } from '@/lib/realm-utils';
-import Mission from './Mission';
+import { Mission } from '@/components/ui/mission';
 import RealUseCase from './components/RealUseCase';
 import LightningNetwork from './components/LightningNetwork';
 import Builders from './components/Builders';
@@ -25,6 +25,13 @@ export default function Realm6Missions() {
   
   // Current mission data
   const missionData = realm6Missions.find(m => m.id === missionDataId);
+  
+  // Add required content property for Mission component compatibility
+  const missionWithContent = missionData ? {
+    ...missionData,
+    content: typeof missionData.description === 'string' ? missionData.description : "Learn about Bitcoin's practical applications in Africa.",
+    simulationType: "bitcoin" as 'surveillance' | 'privacy' | 'cbdc' | 'bitcoin' | 'lightning' | 'selfcustody'
+  } : null;
   
   // Redirect if not authenticated
   useEffect(() => {
@@ -210,8 +217,9 @@ export default function Realm6Missions() {
             style={{ borderColor: `${ubuntuTheme.colors.primary}40` }}
           >
             <Mission 
-              mission={missionData}
+              mission={missionWithContent as any}
               onComplete={handleMissionComplete}
+              realmTheme="green"
             />
             
             {/* Challenge button */}

@@ -3,16 +3,17 @@ import { useLocation } from 'wouter';
 import { originTheme } from '@/lib/realm-themes';
 
 export interface MissionCardProps {
-  id: number;
+  id?: number;
   title: string;
   description: string;
-  imageUrl: string;
-  duration: number;
-  points: number;
+  imageUrl?: string;
+  duration?: number;
+  points?: number;
   isCompleted?: boolean;
   isRecommended?: boolean;
   isLocked?: boolean;
-  realmId: number;
+  realmId?: number;
+  onClick?: () => void;
 }
 
 export function MissionCard({
@@ -20,12 +21,13 @@ export function MissionCard({
   title,
   description,
   imageUrl,
-  duration,
-  points,
+  duration = 15,
+  points = 10,
   isCompleted = false,
   isRecommended = false,
   isLocked = false,
-  realmId
+  realmId,
+  onClick
 }: MissionCardProps) {
   const [, setLocation] = useLocation();
   const [isHovered, setIsHovered] = useState(false);
@@ -35,7 +37,11 @@ export function MissionCard({
   
   const handleClick = () => {
     if (!isLocked) {
-      setLocation(`/realms/${realmId}/missions/${id}`);
+      if (onClick) {
+        onClick();
+      } else if (id && realmId) {
+        setLocation(`/realms/${realmId}/missions/${id}`);
+      }
     }
   };
   
@@ -45,8 +51,8 @@ export function MissionCard({
         isLocked ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer hover:shadow-xl'
       } ${isCompleted ? 'origins-complete-animation' : ''}`}
       style={{ 
-        backgroundColor: isHovered && !isLocked ? theme.colors.highlight : theme.colors.backgroundLight,
-        borderColor: theme.colors.primaryAccent,
+        backgroundColor: isHovered && !isLocked ? `${theme.colors.primary}33` : theme.colors.backgroundLight,
+        borderColor: theme.colors.primaryAccent || theme.colors.primary,
         borderWidth: isRecommended ? '2px' : '1px',
         transform: isHovered && !isLocked ? 'translateY(-5px)' : 'none'
       }}
@@ -99,15 +105,15 @@ export function MissionCard({
       
       {/* Mission Content */}
       <div className="p-4">
-        <h3 className="text-lg font-semibold mb-2 font-lora" style={{ color: theme.colors.darkText }}>
+        <h3 className="text-lg font-semibold mb-2 font-lora" style={{ color: theme.colors.darkText || theme.colors.textDark }}>
           {title}
         </h3>
-        <p className="text-sm mb-4 line-clamp-2" style={{ color: `${theme.colors.darkText}CC` }}>
+        <p className="text-sm mb-4 line-clamp-2" style={{ color: theme.colors.darkText ? `${theme.colors.darkText}CC` : theme.colors.textDark }}>
           {description}
         </p>
         
         {/* Mission Details */}
-        <div className="flex justify-between items-center text-xs" style={{ color: theme.colors.darkText }}>
+        <div className="flex justify-between items-center text-xs" style={{ color: theme.colors.darkText || theme.colors.textDark }}>
           <div className="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />

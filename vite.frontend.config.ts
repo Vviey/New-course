@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { cartographer } from "@replit/vite-plugin-cartographer";
 import runtimeErrorModal from "@replit/vite-plugin-runtime-error-modal";
 import shadowTheme from "@replit/vite-plugin-shadcn-theme-json";
 import { fileURLToPath } from "url";
@@ -10,28 +9,26 @@ import path from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const cartographerOptions = {
-  // Expose client folder via @
-  mapClientSrc: {
-    from: "./client/src",
-    to: "@",
-  },
-  // Expose assets via @assets
-  mapAssets: {
-    from: "./attached_assets",
-    to: "@assets",
-  },
-  // Map shared folder
-  mapShared: {
-    from: "./shared",
-    to: "@shared",
-  },
+// Import cartographer dynamically to handle ESM/CJS compatibility issues
+const cartographerPlugin = () => {
+  try {
+    // Try to import with named export
+    const { cartographer } = require("@replit/vite-plugin-cartographer");
+    return cartographer({
+      mapClientSrc: { from: "./client/src", to: "@" },
+      mapAssets: { from: "./attached_assets", to: "@assets" },
+      mapShared: { from: "./shared", to: "@shared" },
+    });
+  } catch (e) {
+    console.warn("Failed to load cartographer:", e);
+    return [];
+  }
 };
 
 export default defineConfig({
   plugins: [
     react(),
-    cartographer,
+    cartographerPlugin(),
     runtimeErrorModal(),
     shadowTheme(),
   ],

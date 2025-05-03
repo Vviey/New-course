@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { realm5Missions } from '@/lib/realm5-missions';
 import { Mission } from '@/components/ui/mission';
+import { Realm2MissionData } from '@/lib/realm2-missions';
 import { getRealmName } from '@/lib/realm-utils';
 
 // Lazy load simulation components to improve performance
@@ -27,6 +28,13 @@ export default function Realm5Missions() {
   
   // Current mission data
   const missionData = realm5Missions.find(m => m.id === missionDataId);
+  
+  // Add required content property for Mission component compatibility
+  const missionWithContent = missionData ? {
+    ...missionData,
+    content: typeof missionData.description === 'string' ? missionData.description : "Learn about Bitcoin governance and how the network evolves over time",
+    simulationType: "bitcoin" as 'surveillance' | 'privacy' | 'cbdc' | 'bitcoin' | 'lightning' | 'selfcustody'
+  } : null;
   
   // Redirect if not authenticated
   useEffect(() => {
@@ -231,7 +239,7 @@ export default function Realm5Missions() {
             style={{ borderColor: `${councilTheme.colors.primary}40` }}
           >
             <Mission 
-              mission={missionData}
+              mission={missionWithContent as any}
               onComplete={handleMissionComplete}
               realmTheme="amber"
             />

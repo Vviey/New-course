@@ -10,6 +10,7 @@ interface UserProgress {
   completedMissions: number[];
   unlockedRealms: number[];
   earnedBadges: number[];
+  currentRealm?: number;
 }
 
 interface AuthContextType {
@@ -26,6 +27,7 @@ interface AuthContextType {
       completedRealms?: number[];
       completedMissions?: number[];
       unlockedRealms?: number[];
+      currentRealm?: number;
     }
   } | null;
   
@@ -79,7 +81,8 @@ const initialProgress: UserProgress = {
   username: '',
   completedMissions: [],
   unlockedRealms: [1, 2, 3, 4, 5, 6, 7], // All realms unlocked by default
-  earnedBadges: []
+  earnedBadges: [],
+  currentRealm: 1
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -109,6 +112,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setCompletedMissions(userData.completedMissions || []);
         setUnlockedRealms(userData.unlockedRealms || [1, 2, 3, 4, 5, 6, 7]);
         setEarnedBadges(userData.earnedBadges || []);
+        if (userData.currentRealm) {
+          setCurrentRealm(userData.currentRealm);
+        }
       }
     } catch (error) {
       console.error('Failed to load user data from localStorage:', error);
@@ -125,14 +131,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           username: username,
           completedMissions,
           unlockedRealms,
-          earnedBadges
+          earnedBadges,
+          currentRealm
         };
         localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userData));
       } catch (error) {
         console.error('Failed to save user data to localStorage:', error);
       }
     }
-  }, [isAuthenticated, username, completedMissions, unlockedRealms, earnedBadges]);
+  }, [isAuthenticated, username, completedMissions, unlockedRealms, earnedBadges, currentRealm]);
   
   // Login function - saves user data to localStorage
   const login = (username: string, password: string) => {
@@ -150,6 +157,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setCompletedMissions(userData.completedMissions);
           setUnlockedRealms(userData.unlockedRealms);
           setEarnedBadges(userData.earnedBadges);
+          if (userData.currentRealm) {
+            setCurrentRealm(userData.currentRealm);
+          }
           return;
         }
       }
@@ -212,7 +222,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     progress: {
       completedRealms: [], // We don't track this separately currently
       completedMissions,
-      unlockedRealms
+      unlockedRealms,
+      currentRealm  // Add the currentRealm property
     }
   } : null;
 
