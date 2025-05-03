@@ -28,16 +28,6 @@ export function ShareButton({
   const [showPlatforms, setShowPlatforms] = useState(false);
   const { toast } = useToast();
   
-  // Define button size styles
-  const buttonSizes = {
-    sm: "text-sm p-1",
-    md: "text-base p-2",
-    lg: "text-lg p-3"
-  };
-  
-  // Get the current size style
-  const sizeClass = buttonSizes[size];
-  
   const togglePlatforms = () => {
     setShowPlatforms(!showPlatforms);
   };
@@ -69,8 +59,7 @@ export function ShareButton({
           await navigator.clipboard.writeText(`${title}\n${text}\n${url}`);
           toast({
             title: "Link copied!",
-            description: "The share link has been copied to your clipboard",
-            duration: 3000,
+            description: "The share link has been copied to your clipboard"
           });
           setShowPlatforms(false);
           return;
@@ -79,8 +68,7 @@ export function ShareButton({
           toast({
             title: "Copy failed",
             description: "Please copy the link manually",
-            variant: "destructive",
-            action: <ToastAction altText="Try again">Try again</ToastAction>,
+            variant: "destructive"
           });
         }
         break;
@@ -92,13 +80,13 @@ export function ShareButton({
     }
   };
   
-  const sizeClasses = {
+  const sizeClasses: Record<string, string> = {
     sm: 'text-xs',
     md: 'text-sm',
     lg: 'text-base',
   };
   
-  const iconSizeClasses = {
+  const iconSizeClasses: Record<string, string> = {
     sm: 'w-4 h-4',
     md: 'w-5 h-5',
     lg: 'w-6 h-6',

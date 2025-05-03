@@ -17,6 +17,7 @@ export interface IStorage {
   // Realm methods
   getRealms(): Promise<Realm[]>;
   getRealmById(id: number): Promise<Realm | undefined>;
+  updateRealm(id: number, realmData: Partial<Realm>): Promise<Realm | undefined>;
   initializeRealms(): Promise<void>;
   
   // Mission methods
@@ -164,6 +165,19 @@ export class MemStorage implements IStorage {
 
   async getRealmById(id: number): Promise<Realm | undefined> {
     return this.realmsList.get(id);
+  }
+
+  async updateRealm(id: number, realmData: Partial<Realm>): Promise<Realm | undefined> {
+    const realm = this.realmsList.get(id);
+    if (!realm) return undefined;
+    
+    const updatedRealm = {
+      ...realm,
+      ...realmData
+    } as Realm;
+    
+    this.realmsList.set(id, updatedRealm);
+    return updatedRealm;
   }
 
   async initializeRealms(): Promise<void> {
@@ -452,6 +466,19 @@ export class DatabaseStorage implements IStorage {
     return realm;
   }
 
+  async updateRealm(id: number, realmData: Partial<Realm>): Promise<Realm | undefined> {
+    const realm = await this.getRealmById(id);
+    if (!realm) return undefined;
+    
+    const [updatedRealm] = await db
+      .update(realms)
+      .set(realmData)
+      .where(eq(realms.id, id))
+      .returning();
+    
+    return updatedRealm;
+  }
+
   async initializeRealms(): Promise<void> {
     try {
       // Check if realms table is empty
@@ -608,18 +635,8 @@ async function unlockAllRealms() {
       if (realm.isLocked) {
         console.log(`Unlocking realm: ${realm.name}`);
         
-        if (storage instanceof MemStorage) {
-          // For in-memory storage, directly update the map
-          const updatedRealm = { ...realm, isLocked: false };
-          (storage as MemStorage).realmsList.set(realm.id, updatedRealm as Realm);
-        } else if (storage instanceof DatabaseStorage) {
-          // For database storage, run an update query
-          await (pool.query as any)(`
-            UPDATE realms 
-            SET "isLocked" = false 
-            WHERE id = ${realm.id}
-          `);
-        }
+        // Use the storage interface method instead of direct access
+        await storage.updateRealm(realm.id, { isLocked: false });
       }
     }
     
