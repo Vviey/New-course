@@ -36,7 +36,41 @@ class DummyPool {
   waitingCount = 0;
   on() { return this; }
   query() { return Promise.resolve({ rows: [] }); }
-  connect() { return Promise.resolve(this); }
+  connect() { 
+    return Promise.resolve({ 
+      // Implement PoolClient interface
+      release: () => {},
+      query: () => Promise.resolve({ rows: [] }),
+      copyFrom: () => ({}),
+      copyTo: () => ({}),
+      pauseDrain: () => {},
+      resumeDrain: () => {},
+      connectionParameters: {},
+      escapeIdentifier: (str: string) => '',
+      escapeLiteral: (str: string) => '',
+      cancel: () => Promise.resolve(),
+      connection: {} as any,
+      connect: () => Promise.resolve({} as any),
+      setTypeParser: () => ({} as any),
+      getTypeParser: () => ({} as any),
+      // Event Emitter methods
+      addListener: () => ({} as any),
+      on: () => ({} as any),
+      once: () => ({} as any),
+      removeListener: () => ({} as any),
+      off: () => ({} as any),
+      removeAllListeners: () => ({} as any),
+      setMaxListeners: () => ({} as any),
+      getMaxListeners: () => 0,
+      listeners: () => [],
+      rawListeners: () => [],
+      emit: () => true,
+      listenerCount: () => 0,
+      prependListener: () => ({} as any),
+      prependOnceListener: () => ({} as any),
+      eventNames: () => []
+    });
+  }
   release() {}
   end() { return Promise.resolve(); }
   acquire() { return Promise.resolve(this); }
