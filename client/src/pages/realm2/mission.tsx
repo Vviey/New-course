@@ -1,5 +1,5 @@
 import { useParams, useLocation } from "wouter";
-import Realm2Missions from "./Missions";
+import Realm2Missions from "./missions";
 
 export default function Realm2Mission() {
   const params = useParams<{ missionId: string }>();
