@@ -43,7 +43,7 @@ export default defineConfig({
     allowedHosts: [
       'all', 
       '.replit.dev',
-      'a8c171c4-768d-425a-b69b-4cd1ad4c1947-00-icw0rst19wue.kirk.replit.dev'
+      'a8c171c4-768d-425a-b69b-4cd1ad4c1947-00-icw0rstl9wue.kirk.replit.dev'
     ], // Allow any host to access the development server
   },
   build: {
