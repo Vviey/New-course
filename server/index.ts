@@ -1,6 +1,7 @@
 import express from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { setupStaticServer } from "./proxy-server";
 import cors from "cors";
 import path from "path";
 
@@ -35,6 +36,9 @@ app.use(express.static(path.resolve('./public'), {
 (async () => {
   // Register routes with mock data
   const server = await registerRoutes(app);
+  
+  // Set up the static server for development
+  setupStaticServer(app);
   
   // All non-API routes will be handled by the catch-all handler below
 

@@ -750,7 +750,7 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {miners.map((miner: any) => (
+              {miners.map((miner: Miner) => (
                 <Card key={miner.id}>
                   <CardContent className="p-4">
                     <div className="flex justify-between items-center mb-4">
@@ -847,7 +847,7 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
             <p className="text-gray-500 mb-4">Your balance: {bitcoin.toFixed(8)} BTC (${(bitcoin * bitcoinPrice).toFixed(2)})</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-              {hardwareTemplates.map((hardware: any) => (
+              {hardwareTemplates.map((hardware: MiningHardware) => (
                 <Card key={hardware.id} className="border">
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start mb-3">
@@ -894,7 +894,7 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
             <p className="text-gray-500 mb-4">Install these upgrades on your existing hardware to improve performance</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {upgradeTemplates.map((upgrade: any) => (
+              {upgradeTemplates.map((upgrade: HardwareUpgrade) => (
                 <Card key={upgrade.id} className="border">
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start mb-3">

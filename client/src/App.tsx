@@ -42,9 +42,9 @@ function RedirectToHome() {
   const [, setLocation] = useLocation();
   
   useEffect(() => {
-    // Redirect directly to home page
-    console.log('Redirecting to home page');
-    setLocation('/home');
+    // Redirect directly to map page to bypass auth
+    console.log('Redirecting to map page');
+    setLocation('/map');
   }, [setLocation]);
   
   return <LoadingSpinner />;

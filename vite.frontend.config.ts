@@ -12,7 +12,6 @@ const __dirname = path.dirname(__filename);
 // Import cartographer dynamically to handle ESM/CJS compatibility issues
 const cartographerPlugin = () => {
   try {
-    // Try to import with named export
     const { cartographer } = require("@replit/vite-plugin-cartographer");
     return cartographer({
       mapClientSrc: { from: "./client/src", to: "@" },
@@ -20,27 +19,25 @@ const cartographerPlugin = () => {
       mapShared: { from: "./shared", to: "@shared" },
     });
   } catch (e) {
-    console.warn("Failed to load cartographer:", e);
+    console.warn("Failed to load cartographer plugin:", e);
     return [];
   }
 };
 
 export default defineConfig({
-  plugins: [
-    react(),
-    cartographerPlugin(),
-    runtimeErrorModal(),
-    shadowTheme(),
-  ],
+  plugins: [react(), cartographerPlugin(), runtimeErrorModal(), shadowTheme()],
   root: "./client",
   publicDir: "../public",
   server: {
-    host: "0.0.0.0", // Make server accessible externally
-    strictPort: false,
+    port: 5173, // ✅ Explicit dev port to avoid "undefined" in WebSocket
+    host: "0.0.0.0", // ✅ Accessible from any network (e.g. Replit)
+    strictPort: true, // ✅ Use the port strictly to avoid dynamic port issues
     hmr: {
-      clientPort: 443, // Use HTTPS port for WebSocket in Replit
+      protocol: "ws", // ✅ Explicit protocol to prevent fallback mismatch
+      host: "localhost", // ✅ Use local dev host (or your container's IP if Docker)
+      port: 5173, // ✅ Ensure WebSocket URL is built correctly
     },
-    allowedHosts: true, // Allow any host to access the development server
+    allowedHosts: "all", // ✅ Allow all hosts to connect (if needed externally)
   },
   build: {
     outDir: "../dist/client",

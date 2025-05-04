@@ -97,10 +97,8 @@ export default function HomePage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {realms.map((realm) => {
-              // Check if this realm is locked based on current realm progress
-              const isLocked = currentRealm ? 
-                realm.moduleNumber > currentRealm : 
-                realm.moduleNumber > 1;
+              // All realms should be unlocked during development
+              const isLocked = false; // Force all realms to be unlocked
               
               return (
                 <div 

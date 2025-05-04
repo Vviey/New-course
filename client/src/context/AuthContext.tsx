@@ -86,41 +86,37 @@ const initialProgress: UserProgress = {
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // Auth state
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [username, setUsername] = useState<string | null>(null);
+  // Auth state - initialize as authenticated for development
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [username, setUsername] = useState<string | null>("Developer");
   const [currentRealm, setCurrentRealm] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false); // Set loading to false initially
   
   // Progress state
   const [completedMissions, setCompletedMissions] = useState<number[]>([]);
   const [unlockedRealms, setUnlockedRealms] = useState<number[]>([1, 2, 3, 4, 5, 6, 7]); // All realms unlocked
   const [earnedBadges, setEarnedBadges] = useState<number[]>([]);
   
-  // Load user data from localStorage on mount
+  // For development, always initialize with default state
   useEffect(() => {
+    // Force a default development user
     try {
-      const savedUserData = localStorage.getItem(USER_STORAGE_KEY);
-      if (savedUserData) {
-        const userData: UserProgress = JSON.parse(savedUserData);
-        
-        // Set authenticated if we have saved data
-        setIsAuthenticated(true);
-        setUsername(userData.username);
-        
-        // Load progress data
-        setCompletedMissions(userData.completedMissions || []);
-        setUnlockedRealms(userData.unlockedRealms || [1, 2, 3, 4, 5, 6, 7]);
-        setEarnedBadges(userData.earnedBadges || []);
-        if (userData.currentRealm) {
-          setCurrentRealm(userData.currentRealm);
-        }
-      }
+      // Initialize with default values for development
+      const defaultUserData: UserProgress = {
+        username: "Developer",
+        completedMissions: [],
+        unlockedRealms: [1, 2, 3, 4, 5, 6, 7], // All realms unlocked
+        earnedBadges: [],
+        currentRealm: 1
+      };
+      
+      // Save to localStorage for persistence
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(defaultUserData));
+      
+      // No need to set states as they're already initialized with these values
     } catch (error) {
-      console.error('Failed to load user data from localStorage:', error);
+      console.error('Failed to initialize development user data:', error);
     }
-    // Set loading to false after initialization completes
-    setLoading(false);
   }, []);
   
   // Save user data to localStorage whenever it changes

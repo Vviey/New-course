@@ -31,8 +31,39 @@ async function comparePasswords(supplied: string, stored: string): Promise<boole
   return timingSafeEqual(hashedBuf, suppliedBuf);
 }
 
+// Create a development user with all realms unlocked
+function createDevUser(username = "demouser", email = "demo@example.com"): SelectUser {
+  return {
+    id: 1,
+    userId: "demo-user-123",
+    username,
+    password: "hashed.password",
+    email,
+    emailVerified: false,
+    verificationCode: null,
+    verificationCodeExpiry: null,
+    resetToken: null,
+    resetTokenExpiry: null,
+    lastLogin: new Date(),
+    progress: {
+      currentRealm: 1,
+      completedRealms: [],
+      unlockedRealms: [1, 2, 3, 4, 5, 6, 7],
+      missionsCompleted: [],
+      chain: {
+        progress: 0,
+        lastUpdated: new Date().toISOString()
+      }
+    },
+    rewards: {
+      badges: [],
+      tokens: 0
+    }
+  } as SelectUser;
+}
+
 export function setupAuth(app: Express) {
-  console.log("Setting up frontend-only authentication");
+  console.log("Setting up frontend-only authentication with auto-unlocked realms");
   
   // Simple session setup for frontend-only mode
   const sessionSettings: session.SessionOptions = {
@@ -56,35 +87,8 @@ export function setupAuth(app: Express) {
   // Simple pass-through authentication for frontend-only mode
   passport.use(
     new LocalStrategy(async (username, password, done) => {
-      // Create a mock user for frontend-only mode
-      const mockUser = {
-        id: 1,
-        userId: "demo-user-123",
-        username: username || "demouser",
-        password: "hashed.password",
-        email: "demo@example.com",
-        emailVerified: false,
-        verificationCode: null,
-        verificationCodeExpiry: null,
-        resetToken: null,
-        resetTokenExpiry: null,
-        lastLogin: new Date(),
-        progress: {
-          currentRealm: 1,
-          completedRealms: [],
-          missionsCompleted: [],
-          chain: {
-            progress: 0,
-            lastUpdated: new Date().toISOString()
-          }
-        },
-        rewards: {
-          badges: [],
-          tokens: 0
-        }
-      } as SelectUser;
-      
-      return done(null, mockUser);
+      // Create a development user with all realms unlocked
+      return done(null, createDevUser(username));
     }),
   );
 
@@ -94,101 +98,20 @@ export function setupAuth(app: Express) {
   });
 
   passport.deserializeUser((id: number, done) => {
-    // Always return a mock user for frontend-only mode
-    const mockUser = {
-      id: 1,
-      userId: "demo-user-123",
-      username: "demouser",
-      password: "hashed.password",
-      email: "demo@example.com",
-      emailVerified: false,
-      verificationCode: null,
-      verificationCodeExpiry: null,
-      resetToken: null,
-      resetTokenExpiry: null,
-      lastLogin: new Date(),
-      progress: {
-        currentRealm: 1,
-        completedRealms: [],
-        missionsCompleted: [],
-        chain: {
-          progress: 0,
-          lastUpdated: new Date().toISOString()
-        }
-      },
-      rewards: {
-        badges: [],
-        tokens: 0
-      }
-    } as SelectUser;
-    done(null, mockUser);
+    // Always return a development user with all realms unlocked
+    done(null, createDevUser());
   });
 
   // Simplified register route for frontend-only mode
   app.post("/api/register", (req: Request, res: Response) => {
-    // Create a mock user for frontend-only mode
-    const mockUser = {
-      id: 1,
-      userId: "demo-user-123",
-      username: req.body.username || "demouser",
-      password: "hashed.password",
-      email: req.body.email || "demo@example.com",
-      emailVerified: false,
-      verificationCode: null,
-      verificationCodeExpiry: null,
-      resetToken: null,
-      resetTokenExpiry: null,
-      lastLogin: new Date(),
-      progress: {
-        currentRealm: 1,
-        completedRealms: [],
-        missionsCompleted: [],
-        chain: {
-          progress: 0,
-          lastUpdated: new Date().toISOString()
-        }
-      },
-      rewards: {
-        badges: [],
-        tokens: 0
-      }
-    } as SelectUser;
-    
-    // Return the mock user
-    res.status(201).json(mockUser);
+    // Return a development user with all realms unlocked
+    res.status(201).json(createDevUser(req.body.username, req.body.email));
   });
 
   // Simplified login route for frontend-only mode
   app.post("/api/login", (req: Request, res: Response) => {
-    // Return a mock user for frontend-only mode
-    const mockUser = {
-      id: 1,
-      userId: "demo-user-123",
-      username: req.body.username || "demouser",
-      password: "hashed.password",
-      email: req.body.email || "demo@example.com",
-      emailVerified: false,
-      verificationCode: null,
-      verificationCodeExpiry: null,
-      resetToken: null,
-      resetTokenExpiry: null,
-      lastLogin: new Date(),
-      progress: {
-        currentRealm: 1,
-        completedRealms: [],
-        missionsCompleted: [],
-        chain: {
-          progress: 0,
-          lastUpdated: new Date().toISOString()
-        }
-      },
-      rewards: {
-        badges: [],
-        tokens: 0
-      }
-    } as SelectUser;
-    
-    res.status(200).json(mockUser);
+    // Return a development user with all realms unlocked
+    res.status(200).json(createDevUser(req.body.username, req.body.email));
   });
 
   // Simplified logout route for frontend-only mode
@@ -198,68 +121,14 @@ export function setupAuth(app: Express) {
 
   // Simplified get current user route for frontend-only mode
   app.get("/api/user", (req: Request, res: Response) => {
-    // Always return a mock user for frontend-only mode
-    const mockUser = {
-      id: 1,
-      userId: "demo-user-123",
-      username: "demouser",
-      password: "hashed.password",
-      email: "demo@example.com",
-      emailVerified: false,
-      verificationCode: null,
-      verificationCodeExpiry: null,
-      resetToken: null,
-      resetTokenExpiry: null,
-      lastLogin: new Date(),
-      progress: {
-        currentRealm: 1,
-        completedRealms: [],
-        missionsCompleted: [],
-        chain: {
-          progress: 0,
-          lastUpdated: new Date().toISOString()
-        }
-      },
-      rewards: {
-        badges: [],
-        tokens: 0
-      }
-    } as SelectUser;
-    
-    res.json(mockUser);
+    // Return a development user with all realms unlocked
+    res.json(createDevUser());
   });
 
   // Simplified update user profile route for frontend-only mode
   app.patch("/api/user", (req: Request, res: Response) => {
-    // Return updated mock user
-    const mockUser = {
-      id: 1,
-      userId: "demo-user-123",
-      username: req.body.username || "demouser",
-      password: "hashed.password",
-      email: req.body.email || "demo@example.com",
-      emailVerified: false,
-      verificationCode: null,
-      verificationCodeExpiry: null,
-      resetToken: null,
-      resetTokenExpiry: null,
-      lastLogin: new Date(),
-      progress: {
-        currentRealm: 1,
-        completedRealms: [],
-        missionsCompleted: [],
-        chain: {
-          progress: 0,
-          lastUpdated: new Date().toISOString()
-        }
-      },
-      rewards: {
-        badges: [],
-        tokens: 0
-      }
-    } as SelectUser;
-    
-    res.status(200).json(mockUser);
+    // Return updated development user with all realms unlocked
+    res.status(200).json(createDevUser(req.body.username, req.body.email));
   });
 
   // Simplified update user progress route for frontend-only mode
@@ -268,6 +137,7 @@ export function setupAuth(app: Express) {
     const progress = {
       currentRealm: req.body.currentRealm || 1,
       completedRealms: req.body.completedRealms || [],
+      unlockedRealms: [1, 2, 3, 4, 5, 6, 7], // Always unlock all realms
       missionsCompleted: req.body.missionsCompleted || [],
       chain: {
         progress: req.body.chain?.progress || 0,
@@ -275,7 +145,7 @@ export function setupAuth(app: Express) {
       }
     };
     
-    // Return updated mock user
+    // Return updated development user with all realms unlocked
     const mockUser = {
       id: 1,
       userId: "demo-user-123",
