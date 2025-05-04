@@ -12,8 +12,8 @@ interface BarterActivityProps {
   onComplete: () => void;
 }
 
-export function BarterActivity({ traders, onComplete }: BarterActivityProps) {
-  // correctOrder is provided but not used in the current implementation
+export function BarterActivity({ traders, correctOrder, onComplete }: BarterActivityProps) {
+  // correctOrder is available for future advanced validation logic
   const [selectedTraders, setSelectedTraders] = useState<Trader[]>([]);
   const [message, setMessage] = useState<string | null>(null);
   const [isComplete, setIsComplete] = useState(false);
