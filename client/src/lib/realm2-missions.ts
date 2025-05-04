@@ -12,6 +12,65 @@ export interface Realm2MissionData {
 
 export const realm2Missions: Realm2MissionData[] = [
   {
+    id: 200,
+    title: "Financial Surveillance: The Digital Lens",
+    subtitle: "Introduction to financial surveillance and privacy concerns",
+    description: "Learn the fundamentals of financial surveillance, its real-world applications, and why privacy matters.",
+    simulationType: 'surveillance',
+    content: `
+      ## What is Financial Surveillance?
+
+      Financial surveillance is the monitoring and tracking of financial transactions and activities. It occurs when 
+      governments, corporations, or other entities collect, analyze, and potentially share information about:
+      
+      - Who you send money to
+      - Who you receive money from
+      - How much money you have
+      - What you purchase
+      - When and where you make transactions
+      
+      ## Real-World Example: M-Pesa in Kenya
+      
+      M-Pesa, launched in 2007 by Safaricom in Kenya, revolutionized financial access for millions who previously had 
+      no banking services. Through a simple mobile phone, Kenyans can now deposit, withdraw, and transfer money, pay bills, 
+      and access micro-loans.
+      
+      ### The Benefits:
+      - Financial inclusion for the unbanked
+      - Reduced cash crime and corruption
+      - Economic growth and entrepreneurship opportunities
+      - Convenient remittances for families
+      
+      ### The Privacy Concerns:
+      - Every transaction is logged with time, amount, location, and participants
+      - Usage patterns can reveal sensitive personal information (medical visits, religious donations, etc.)
+      - Government can access complete financial histories
+      - Potential for social control through financial access restrictions
+      
+      In 2017, during a contested election, Kenyan authorities could theoretically have tracked political donations 
+      through M-Pesa, highlighting the dual nature of such systems: they provide essential services while creating 
+      potential surveillance mechanisms.
+      
+      ## Why Financial Privacy Matters
+      
+      Financial privacy isn't about hiding illegal activity—it's about:
+      
+      - **Personal autonomy**: Making economic choices without judgment or interference
+      - **Protection from discrimination**: Preventing unfair treatment based on spending patterns
+      - **Safety**: Shielding yourself from targeted theft or extortion
+      - **Business confidentiality**: Protecting sensitive business operations and competitive strategies
+      - **Avoiding manipulation**: Preventing targeted exploitation based on your financial behavior
+      
+      ## The Global Perspective
+      
+      Across Africa and worldwide, digital payment systems are creating unprecedented financial inclusion while 
+      simultaneously establishing the most comprehensive financial surveillance infrastructure in history.
+      
+      This tension - between convenience and privacy, between access and autonomy - forms the central challenge 
+      of our modern monetary systems.
+    `
+  },
+  {
     id: 201,
     title: "The Citadel's Shadows",
     subtitle: "Understanding financial surveillance",
@@ -40,6 +99,12 @@ export const realm2Missions: Realm2MissionData[] = [
 
       This mission introduces the concept of financial privacy and why it matters in a digital world. As we 
       move toward more digitized money, the question of who can see your transactions becomes increasingly important.
+      
+      <div class="mt-6">
+        <button id="next-button" class="px-6 py-2 bg-gradient-to-r from-ochre-light to-ochre-dark text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+          Continue to Next Mission
+        </button>
+      </div>
     `
   },
   {
@@ -55,6 +120,38 @@ export const realm2Missions: Realm2MissionData[] = [
       "The authorities claim complete financial transparency is necessary for security and preventing financial crimes," 
       Malik explains. "But in reality, it creates a system where the state has unprecedented power over individuals."
 
+      ## Understanding Financial Privacy
+
+      Financial privacy refers to your ability to conduct economic transactions without unwanted third-party surveillance. 
+      Throughout history, financial privacy has been a fundamental aspect of commerce and personal freedom.
+
+      ### Traditional Privacy Mechanisms
+      
+      In physical cash transactions, only the buyer and seller know the details of their exchange. Third parties don't 
+      automatically learn:
+      
+      - What was purchased
+      - For how much
+      - By whom
+      - When and where the transaction occurred
+      
+      In traditional African marketplaces, traders could conduct business without authorities tracking every sale. A person 
+      could save money under their mattress, and no one would know their wealth without physical inspection.
+
+      ### The Digital Shift
+      
+      With electronic payments becoming the norm, every transaction potentially creates a permanent record accessible to:
+      
+      - Payment processors and banks
+      - Governments
+      - Marketing companies
+      - Data brokers
+      - Hackers
+      
+      In Rwanda, for example, the push toward cashless payments through mobile money and cards means nearly all economic 
+      activity is now potentially trackable. This creates an unprecedented financial surveillance capability that never 
+      existed in cash-based economies.
+
       ## The Balancing Act
 
       Asha learns that any financial system must balance:
@@ -64,6 +161,25 @@ export const realm2Missions: Realm2MissionData[] = [
 
       ### Privacy
       Protecting individuals' financial information from unnecessary scrutiny
+
+      ## The Privacy Spectrum
+      
+      Financial systems exist on a privacy spectrum:
+      
+      **Complete Transparency**
+      - All transactions visible to everyone
+      - All personal financial details public
+      - No financial secrets
+      
+      **Reasonable Privacy**
+      - Transaction details known only to participants
+      - Verification possible without revealing details
+      - Oversight for legitimate law enforcement with due process
+      
+      **Absolute Privacy**
+      - No transaction trail
+      - Completely anonymous exchanges
+      - No possible oversight
 
       Through interactive simulations, Asha experiences how different levels of financial privacy affect citizens' 
       lives, from complete surveillance to total privacy, with the ideal system balancing legitimate oversight with personal privacy.
@@ -87,19 +203,100 @@ export const realm2Missions: Realm2MissionData[] = [
 
       ## What Are CBDCs?
 
-      CBDCs are digital versions of national currencies, issued and regulated by a nation's central bank. 
-      Unlike decentralized cryptocurrencies, CBDCs are centralized and give authorities significant control over the monetary system.
-
-      ### Potential CBDC Features
-      - Programmability - Money with conditions or expiration dates
-      - Direct monetary policy implementation
-      - Detailed tracking of all financial activity
-      - Potential for instant taxation or financial "rewards"
-      - Ability to instantly freeze or seize funds
-
+      CBDCs (Central Bank Digital Currencies) are digital versions of national currencies, issued and regulated by a nation's central bank. 
+      
+      ### In Everyday Terms:
+      
+      Imagine if your country's paper money (like dollars, naira, or shillings) became completely digital, but unlike private 
+      cryptocurrencies like Bitcoin:
+      
+      - It's created and controlled by your government's central bank
+      - It has the same value as the physical currency
+      - It's designed to work within the existing financial system
+      - It can be programmed with specific rules and conditions
+      
+      ### Real-Life Examples:
+      
+      - **Nigeria's eNaira** - Africa's first CBDC, launched in 2021, allows citizens to make digital payments directly through the central bank
+      - **China's Digital Yuan** - Being tested in major cities, allowing payment via mobile apps and even without internet connection
+      - **Ghana's e-Cedi** - In development to improve financial inclusion and reduce the costs of cash
+      
+      ## How CBDCs Would Affect Your Daily Life
+      
+      If your country adopted a CBDC, your daily financial activities might change in these ways:
+      
+      ### Shopping and Payments
+      - Pay for groceries directly from your government digital wallet
+      - No need for cash or private payment apps
+      - Instant settlements with no transaction fees (potentially)
+      - Merchants receive payment immediately
+      
+      ### Receiving Money
+      - Government benefits deposited directly to your CBDC wallet
+      - Paycheck instantly available without a bank
+      - Family remittances arriving instantly with minimal fees
+      - Automatic tax adjustments on income
+      
+      ### Financial Management
+      - All transactions automatically recorded and categorized
+      - Digital trail of all purchases and income
+      - Simplified tax filing as the system tracks everything
+      - Potential spending limits or restrictions on certain items
+      
+      ## What Makes CBDCs Different From Current Digital Money
+      
+      CBDCs aren't just mobile money or banking apps. They represent a fundamental change in how money works:
+      
+      | Current Digital Money | Central Bank Digital Currency |
+      |-----------------------|-------------------------------|
+      | Run by private companies | Created and controlled by government |
+      | Uses commercial bank money | Direct claim on the central bank |
+      | Limited programmability | Can be fully programmable |
+      | Separate systems that don't always connect | Single unified system |
+      | Usually requires bank account | Could work without banks |
+      | Transactions can take days to settle | Instant settlement possible |
+      
+      ## Potential CBDC Features
+      - **Programmability**: Money with conditions (can only be spent on food or expires after 3 months)
+      - **Automation**: Automatic tax collection, welfare distribution, or fine payment
+      - **Direct control**: Monetary policy applied instantly to all citizens
+      - **Offline functionality**: Works even without internet access
+      - **Detailed tracking**: Complete visibility of all financial activity
+      - **Targeted distribution**: Send money only to specific regions or demographics
+      - **Remote control**: Ability to freeze funds or reverse transactions
+      
+      ## Privacy Implications
+      
       Through simulation exercises, Asha explores how CBDCs could be designed with different privacy features, 
       from completely transparent to partially private transactions.
-
+      
+      ### Benefits in Daily Life:
+      - Reduced transaction costs for everyday purchases
+      - No more carrying cash or worrying about theft
+      - Simplified receiving of payments and government benefits
+      - Easier record-keeping for personal finances
+      - Protection from counterfeit money
+      
+      ### Privacy Concerns in Daily Life:
+      - Government could see every purchase you make
+      - Your spending habits could affect your "social score"
+      - Funds could be frozen if you're accused of wrongdoing
+      - Money could be programmed to expire or restricted to certain uses
+      - Complete financial visibility to authorities
+      
+      ## The African Context
+      
+      For African nations considering CBDCs, the implications are particularly significant:
+      
+      - **Financial inclusion**: Bringing banking to millions of unbanked citizens
+      - **Reduced corruption**: Transparent tracking of government spending
+      - **Lower remittance costs**: Cheaper way to receive money from relatives abroad
+      - **Currency stability**: Potential protection against inflation
+      - **Sovereignty concerns**: Independence from foreign payment systems
+      
+      However, without strong legal protections, these systems could also enable unprecedented 
+      financial surveillance and control in countries with authoritarian tendencies.
+      
       ## Privacy Trade-offs
 
       In the simulation, Asha must balance competing concerns:

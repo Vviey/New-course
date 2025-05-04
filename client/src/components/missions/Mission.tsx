@@ -1,5 +1,6 @@
 import { useState, lazy, Suspense } from 'react';
 import { MissionContent } from '@/lib/realm1-missions';
+import { Realm2MissionData } from '@/lib/realm2-missions';
 
 // Import Realm 1 simulation components
 import { BarterWebChallenge } from '@/components/simulations/BarterWebChallenge';
@@ -8,6 +9,14 @@ import { InflationSimulator } from '@/components/simulations/InflationSimulator'
 import { QuizChallenge } from '@/components/simulations/QuizChallenge';
 import { TradeRouteMap } from '@/components/simulations/TradeRouteMap';
 import { ReflectionExercise } from '@/components/simulations/ReflectionExercise';
+
+// Import Realm 2 simulation components
+import { FinancialSurveillanceSimulator } from '@/components/simulations/FinancialSurveillanceSimulator';
+import { PrivacyBalanceSimulator } from '@/components/simulations/PrivacyBalanceSimulator';
+import { CBDCSimulator } from '@/components/simulations/CBDCSimulator';
+import { BitcoinPrivacySimulator } from '@/components/simulations/BitcoinPrivacySimulator';
+import { LightningPrivacySimulator } from '@/components/simulations/LightningPrivacySimulator';
+import { SelfCustodySimulator } from '@/components/simulations/SelfCustodySimulator';
 
 // Lazy load additional simulation components
 const RolePlaySimulator = lazy(() => import('@/components/simulations/RolePlaySimulator').then(module => ({ default: module.RolePlaySimulator })));
@@ -98,7 +107,46 @@ export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionPr
             onComplete={handleSimulationComplete}
           />
         );
-      // New simulation types for Realm 2
+      
+      // Realm 2 simulation types
+      case 'surveillance':
+        return (
+          <FinancialSurveillanceSimulator
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'privacy':
+        return (
+          <PrivacyBalanceSimulator
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'cbdc':
+        return (
+          <CBDCSimulator
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'bitcoin':
+        return (
+          <BitcoinPrivacySimulator
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'lightning':
+        return (
+          <LightningPrivacySimulator
+            onComplete={handleSimulationComplete}
+          />
+        );
+      case 'selfcustody':
+        return (
+          <SelfCustodySimulator
+            onComplete={handleSimulationComplete}
+          />
+        );
+      
+      // Other simulation types
       case 'roleplay':
         return (
           <Suspense fallback={<div>Loading RolePlay Simulator...</div>}>
@@ -108,7 +156,7 @@ export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionPr
             />
           </Suspense>
         );
-      case 'privacy':
+      case 'paymentprivacy':
         return (
           <Suspense fallback={<div>Loading Payment Privacy Simulator...</div>}>
             <PaymentPrivacySimulator
