@@ -31,7 +31,8 @@ export function BudgetSimulation({ days, challenge, onComplete }: BudgetSimulati
     { name: "Yams", quantity: 30, sellPrice: 70 },
     { name: "Salt", quantity: 20, sellPrice: 30 }
   ]);
-  const [family, setFamily] = useState<FamilyMember[]>([
+  // Using family state but not updating it in this component
+  const [family] = useState<FamilyMember[]>([
     { name: "Child 1", breadNeeded: 1 },
     { name: "Child 2", breadNeeded: 1 },
     { name: "You", breadNeeded: 2 },

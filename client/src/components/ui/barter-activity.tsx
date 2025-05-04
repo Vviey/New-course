@@ -12,7 +12,8 @@ interface BarterActivityProps {
   onComplete: () => void;
 }
 
-export function BarterActivity({ traders, correctOrder, onComplete }: BarterActivityProps) {
+export function BarterActivity({ traders, onComplete }: BarterActivityProps) {
+  // correctOrder is provided but not used in the current implementation
   const [selectedTraders, setSelectedTraders] = useState<Trader[]>([]);
   const [message, setMessage] = useState<string | null>(null);
   const [isComplete, setIsComplete] = useState(false);
@@ -68,7 +69,7 @@ export function BarterActivity({ traders, correctOrder, onComplete }: BarterActi
       <div className="mb-6">
         <h4 className="text-lg text-amber-200 mb-3">Village Traders:</h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-          {traders.map((trader, index) => (
+          {traders.map((trader) => (
             <div 
               key={trader.name}
               className={`p-3 border rounded-md cursor-pointer transition-all 

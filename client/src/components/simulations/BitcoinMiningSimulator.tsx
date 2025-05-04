@@ -376,13 +376,13 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
         const updatedMiner: Miner = { ...miner };
         updatedMiner.upgrades = [...miner.upgrades, upgrade.id];
         
-        if (upgrade.effects.hashrate) {
+        if (upgrade.effects.hashrate !== undefined) {
           updatedMiner.hashrate += upgrade.effects.hashrate;
         }
-        if (upgrade.effects.power) {
+        if (upgrade.effects.power !== undefined) {
           updatedMiner.power += upgrade.effects.power;
         }
-        if (upgrade.effects.thermals) {
+        if (upgrade.effects.thermals !== undefined) {
           updatedMiner.thermals += upgrade.effects.thermals;
         }
         
