@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'wouter';
 import { Loader2 } from 'lucide-react';
 import MissionLayout from './mission-layout';
@@ -40,7 +40,7 @@ interface MissionData {
 
 export default function MissionWrapper() {
   const { realmId, missionId } = useParams<{ realmId: string, missionId: string }>();
-  const [, setLocation] = useLocation();
+  // Location navigation is handled by child components when needed
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [missionData, setMissionData] = useState<MissionData | null>(null);
@@ -96,7 +96,7 @@ export default function MissionWrapper() {
             missionModule = await import(path);
             console.log(`Successfully loaded mission from: ${path}`);
             break; // Stop if we found a valid module
-          } catch (e) {
+          } catch (error) {
             // Continue to next path
             console.log(`Path ${path} not found, trying next...`);
           }
@@ -142,7 +142,7 @@ export default function MissionWrapper() {
   }
 
   // Simply render the component if it uses its own layout
-  if (MissionComponent.hasOwnProperty('useCustomLayout') || 
+  if (Object.prototype.hasOwnProperty.call(MissionComponent, 'useCustomLayout') || 
      (missionId === '1' && realmId === '1')) {
     return <MissionComponent />;
   }

@@ -1,20 +1,24 @@
 import React from 'react';
 
-interface CryptographySimulatorProps {
+interface ScriptingSimulatorProps {
+  explanation?: string;
+  basics: any[];
   challenges: any[];
-  visualExplanations: any[];
+  advanced: any[];
   onComplete: () => void;
 }
 
-export function CryptographySimulator({
+export function ScriptingSimulator({
+  explanation,
+  basics,
   challenges,
-  visualExplanations,
+  advanced,
   onComplete
-}: CryptographySimulatorProps) {
+}: ScriptingSimulatorProps) {
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4">Cryptography Simulator</h2>
-      <p className="mb-6">This component is a placeholder for the Cryptography Simulator.</p>
+      <h2 className="text-2xl font-bold mb-4">Scripting Simulator</h2>
+      <p className="mb-6">This component is a placeholder for the Scripting Simulator.</p>
       <button 
         onClick={onComplete}
         className="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700 transition-colors"

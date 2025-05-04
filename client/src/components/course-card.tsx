@@ -4,7 +4,7 @@ import { LazyImage } from '@/components/ui/lazy-image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import { getRealmName } from '@/lib/realm-utils';
+// Realm utils imported directly where needed
 
 interface CourseCardProps {
   id: number;

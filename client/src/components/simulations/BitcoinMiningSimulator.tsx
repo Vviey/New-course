@@ -3,7 +3,7 @@ import { FaBitcoin, FaServer, FaTools, FaBolt, FaTemperatureHigh, FaChartLine, F
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { miningTheme } from '@/lib/realm-themes';
+// Theme defined inline in this component
 
 // Define interfaces for our types
 interface MiningHardware {
@@ -182,7 +182,7 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
   const [priceChangeDirection, setPriceChangeDirection] = useState(1);
   const [totalHashRate, setTotalHashRate] = useState(0);
   const [powerUsage, setPowerUsage] = useState(0);
-  const [electricityCost, setElectricityCost] = useState(0.12); // $ per kWh
+  const [electricityCost] = useState(0.12); // $ per kWh (fixed rate)
   const [miners, setMiners] = useState<Miner[]>([]);
   const [dayCount, setDayCount] = useState(1);
   const [running, setRunning] = useState(false);
@@ -277,7 +277,7 @@ const BitcoinMiningSimulator: React.FC<BitcoinMiningSimulatorProps> = ({ onCompl
     }, 2000); // 2 seconds = 1 day in simulation
     
     return () => clearInterval(gameInterval);
-  }, [running, bitcoinPrice, priceChangeDirection, totalHashRate, powerUsage, electricityCost, networkDifficulty, dayCount, miners]);
+  }, [running, bitcoinPrice, priceChangeDirection, totalHashRate, powerUsage, electricityCost, networkDifficulty, dayCount, miners, blockReward]);
   
   // Simulation of mining process
   useEffect(() => {

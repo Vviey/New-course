@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { MissionContent } from '@/lib/realm1-missions';
 
 // Import Realm 1 simulation components
@@ -9,7 +9,19 @@ import { QuizChallenge } from '@/components/simulations/QuizChallenge';
 import { TradeRouteMap } from '@/components/simulations/TradeRouteMap';
 import { ReflectionExercise } from '@/components/simulations/ReflectionExercise';
 
-// Note: Realm 2 and Realm 3 simulation components are dynamically imported in the renderSimulation function
+// Lazy load additional simulation components
+const RolePlaySimulator = lazy(() => import('@/components/simulations/RolePlaySimulator').then(module => ({ default: module.RolePlaySimulator })));
+const PaymentPrivacySimulator = lazy(() => import('@/components/simulations/PaymentPrivacySimulator').then(module => ({ default: module.PaymentPrivacySimulator })));
+const ExclusionWebGame = lazy(() => import('@/components/simulations/ExclusionWebGame').then(module => ({ default: module.ExclusionWebGame })));
+const GlobalMoneyWebSimulation = lazy(() => import('@/components/simulations/GlobalMoneyWebSimulation').then(module => ({ default: module.GlobalMoneyWebSimulation })));
+const EscapeSurveillanceGame = lazy(() => import('@/components/simulations/EscapeSurveillanceGame').then(module => ({ default: module.EscapeSurveillanceGame })));
+const CryptographySimulator = lazy(() => import('@/components/simulations/CryptographySimulator').then(module => ({ default: module.CryptographySimulator })));
+const HashFunctionSimulator = lazy(() => import('@/components/simulations/HashFunctionSimulator').then(module => ({ default: module.HashFunctionSimulator })));
+const MerkleTreeSimulator = lazy(() => import('@/components/simulations/MerkleTreeSimulator').then(module => ({ default: module.MerkleTreeSimulator })));
+const ConsensusSimulator = lazy(() => import('@/components/simulations/ConsensusSimulator').then(module => ({ default: module.ConsensusSimulator })));
+const NetworkSimulator = lazy(() => import('@/components/simulations/NetworkSimulator').then(module => ({ default: module.NetworkSimulator })));
+const ScriptingSimulator = lazy(() => import('@/components/simulations/ScriptingSimulator').then(module => ({ default: module.ScriptingSimulator })));
+const LightningNetworkSimulator = lazy(() => import('@/components/simulations/LightningNetworkSimulator').then(module => ({ default: module.LightningNetworkSimulator })));
 
 interface MissionProps {
   mission: MissionContent;
@@ -88,123 +100,135 @@ export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionPr
         );
       // New simulation types for Realm 2
       case 'roleplay':
-        const { RolePlaySimulator } = require('@/components/simulations/RolePlaySimulator');
         return (
-          <RolePlaySimulator
-            scenarios={mission.simulationData?.scenarios || []}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading RolePlay Simulator...</div>}>
+            <RolePlaySimulator
+              scenarios={mission.simulationData?.scenarios || []}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       case 'privacy':
-        const { PaymentPrivacySimulator } = require('@/components/simulations/PaymentPrivacySimulator');
         return (
-          <PaymentPrivacySimulator
-            paymentOptions={mission.simulationData?.paymentOptions || []}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading Payment Privacy Simulator...</div>}>
+            <PaymentPrivacySimulator
+              paymentOptions={mission.simulationData?.paymentOptions || []}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       case 'exclusion':
-        const { ExclusionWebGame } = require('@/components/simulations/ExclusionWebGame');
         return (
-          <ExclusionWebGame
-            barriers={mission.simulationData?.barriers || []}
-            groups={mission.simulationData?.groups || []}
-            correctMatches={mission.simulationData?.correctMatches || []}
-            stats={mission.simulationData?.stats || []}
-            caseStudies={mission.simulationData?.caseStudies || []}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading Exclusion Web Game...</div>}>
+            <ExclusionWebGame
+              barriers={mission.simulationData?.barriers || []}
+              groups={mission.simulationData?.groups || []}
+              correctMatches={mission.simulationData?.correctMatches || []}
+              stats={mission.simulationData?.stats || []}
+              caseStudies={mission.simulationData?.caseStudies || []}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       case 'globalflow':
-        const { GlobalMoneyWebSimulation } = require('@/components/simulations/GlobalMoneyWebSimulation');
         return (
-          <GlobalMoneyWebSimulation
-            globalFlow={mission.simulationData?.globalFlow || { nodes: [], correctConnections: [] }}
-            dollarShock={mission.simulationData?.dollarShock || { initialYear: 1971, events: [] }}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading Global Money Web Simulation...</div>}>
+            <GlobalMoneyWebSimulation
+              globalFlow={mission.simulationData?.globalFlow || { nodes: [], correctConnections: [] }}
+              dollarShock={mission.simulationData?.dollarShock || { initialYear: 1971, events: [] }}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       case 'escape':
-        const { EscapeSurveillanceGame } = require('@/components/simulations/EscapeSurveillanceGame');
         return (
-          <EscapeSurveillanceGame
-            playerStartFunds={mission.simulationData?.playerStartFunds || 1000}
-            routes={mission.simulationData?.routes || {}}
-            resistanceNetworks={mission.simulationData?.resistanceNetworks || []}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading Escape Surveillance Game...</div>}>
+            <EscapeSurveillanceGame
+              playerStartFunds={mission.simulationData?.playerStartFunds || 1000}
+              routes={mission.simulationData?.routes || {}}
+              resistanceNetworks={mission.simulationData?.resistanceNetworks || []}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       
       // Realm 3 simulation types
       case 'cryptography':
-        const { CryptographySimulator } = require('@/components/simulations/CryptographySimulator');
         return (
-          <CryptographySimulator
-            challenges={mission.simulationData?.challenges || []}
-            visualExplanations={mission.simulationData?.visualExplanations || []}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading Cryptography Simulator...</div>}>
+            <CryptographySimulator
+              challenges={mission.simulationData?.challenges || []}
+              visualExplanations={mission.simulationData?.visualExplanations || []}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       case 'hash':
-        const { HashFunctionSimulator } = require('@/components/simulations/HashFunctionSimulator');
         return (
-          <HashFunctionSimulator
-            challenges={mission.simulationData?.challenges || []}
-            visualizations={mission.simulationData?.visualizations || []}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading Hash Function Simulator...</div>}>
+            <HashFunctionSimulator
+              challenges={mission.simulationData?.challenges || []}
+              visualizations={mission.simulationData?.visualizations || []}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       case 'merkle':
-        const { MerkleTreeSimulator } = require('@/components/simulations/MerkleTreeSimulator');
         return (
-          <MerkleTreeSimulator
-            explanation={mission.simulationData?.explanation}
-            transactionData={mission.simulationData?.transactionData || []}
-            challenges={mission.simulationData?.challenges || []}
-            visualization={mission.simulationData?.visualization}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading Merkle Tree Simulator...</div>}>
+            <MerkleTreeSimulator
+              explanation={mission.simulationData?.explanation}
+              transactionData={mission.simulationData?.transactionData || []}
+              challenges={mission.simulationData?.challenges || []}
+              visualization={mission.simulationData?.visualization}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       case 'consensus':
-        const { ConsensusSimulator } = require('@/components/simulations/ConsensusSimulator');
         return (
-          <ConsensusSimulator
-            scenarios={mission.simulationData?.scenarios || []}
-            quizQuestions={mission.simulationData?.quizQuestions || []}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading Consensus Simulator...</div>}>
+            <ConsensusSimulator
+              scenarios={mission.simulationData?.scenarios || []}
+              quizQuestions={mission.simulationData?.quizQuestions || []}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       case 'network':
-        const { NetworkSimulator } = require('@/components/simulations/NetworkSimulator');
         return (
-          <NetworkSimulator
-            network={mission.simulationData?.network || { nodes: 50, connections: "random" }}
-            scenarios={mission.simulationData?.scenarios || []}
-            interactiveTests={mission.simulationData?.interactiveTests || []}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading Network Simulator...</div>}>
+            <NetworkSimulator
+              network={mission.simulationData?.network || { nodes: 50, connections: "random" }}
+              scenarios={mission.simulationData?.scenarios || []}
+              interactiveTests={mission.simulationData?.interactiveTests || []}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       case 'code':
-        const { ScriptingSimulator } = require('@/components/simulations/ScriptingSimulator');
         return (
-          <ScriptingSimulator
-            explanation={mission.simulationData?.explanation}
-            basics={mission.simulationData?.basics || []}
-            challenges={mission.simulationData?.challenges || []}
-            advanced={mission.simulationData?.advanced || []}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading Scripting Simulator...</div>}>
+            <ScriptingSimulator
+              explanation={mission.simulationData?.explanation}
+              basics={mission.simulationData?.basics || []}
+              challenges={mission.simulationData?.challenges || []}
+              advanced={mission.simulationData?.advanced || []}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       case 'lightning':
-        const { LightningNetworkSimulator } = require('@/components/simulations/LightningNetworkSimulator');
         return (
-          <LightningNetworkSimulator
-            explanation={mission.simulationData?.explanation}
-            scaling={mission.simulationData?.scaling}
-            interactive={mission.simulationData?.interactive || {}}
-            concepts={mission.simulationData?.concepts || []}
-            onComplete={handleSimulationComplete}
-          />
+          <Suspense fallback={<div>Loading Lightning Network Simulator...</div>}>
+            <LightningNetworkSimulator
+              explanation={mission.simulationData?.explanation}
+              scaling={mission.simulationData?.scaling}
+              interactive={mission.simulationData?.interactive || {}}
+              concepts={mission.simulationData?.concepts || []}
+              onComplete={handleSimulationComplete}
+            />
+          </Suspense>
         );
       default:
         return (
