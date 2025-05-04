@@ -16,6 +16,10 @@ const Loading = () => (
 const ErrorMessage = ({ realmId, missionId }: { realmId: string, missionId: string }) => {
   const [, setLocation] = useLocation();
   
+  // Make sure we have a valid number for the realm ID
+  const realmIdNumber = parseInt(realmId);
+  const realmName = !isNaN(realmIdNumber) ? getRealmName(realmIdNumber) : `Realm ${realmId}`;
+  
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-stone-900 text-amber-100 p-4">
       <h1 className="text-2xl font-bold mb-4 text-amber-400">Mission not found</h1>
@@ -26,7 +30,7 @@ const ErrorMessage = ({ realmId, missionId }: { realmId: string, missionId: stri
         onClick={() => setLocation(`/realm/${realmId}`)}
         className="px-4 py-2 bg-amber-600 hover:bg-amber-700 rounded-md text-white transition-colors"
       >
-        Return to {getRealmName(Number(realmId))}
+        Return to {realmName}
       </button>
     </div>
   );
