@@ -54,7 +54,81 @@ export interface Cryptography {
 // Main mission data for Realm 3
 export const realm3Missions: MissionContent[] = [
   {
-    id: 1,
+    id: 300,
+    title: "Lightning Network",
+    subtitle: "Enhanced privacy through Layer 2 solutions",
+    description: "Learn how Bitcoin's Layer 2 solutions enhance privacy and transaction efficiency.",
+    objectives: [
+      "Understand how the Lightning Network functions as a second layer solution",
+      "Explore how payment channels provide privacy benefits",
+      "Experience the speed and low fees of Lightning payments"
+    ],
+    simulationType: "lightning-network",
+    simulationData: {
+      channelState: "open",
+      balance: 100000,
+      transactions: [
+        { id: 1, type: "channel_open", amount: 100000, fee: 1000, time: "10:00 AM" },
+        { id: 2, type: "payment", amount: 5000, fee: 1, time: "10:05 AM", recipient: "Coffee Shop" },
+        { id: 3, type: "payment", amount: 10000, fee: 1, time: "10:15 AM", recipient: "Bookstore" }
+      ]
+    },
+    reflectionQuestion: "How does the Lightning Network's approach to privacy differ from on-chain Bitcoin transactions?",
+    content: `
+      In a bustling marketplace at the edge of the Forest of Sparks, Asha discovers merchants using an advanced payment system built on top of Bitcoin. 
+      This is her introduction to the Lightning Network - Bitcoin's Layer 2 scaling solution.
+
+      ## Beyond the Base Layer
+
+      A merchant explains that while Bitcoin's base layer provides transparent, censorship-resistant transactions, 
+      the Lightning Network adds speed, lower fees, and enhanced privacy.
+
+      ### Lightning Network Properties
+      - Near-instant settlement of payments
+      - Extremely low transaction fees
+      - Improved privacy - only channel open/close transactions are recorded on the blockchain
+      - Individual payments within channels aren't publicly visible
+      - Enables micropayments and new economic possibilities
+
+      Through an interactive demonstration, Asha opens a Lightning channel and makes several payments, experiencing 
+      how payments can be routed through multiple channels without revealing transaction details on the public blockchain.
+
+      ## Privacy Innovations
+
+      The merchant introduces Asha to additional privacy innovations being developed for Bitcoin and Lightning:
+
+      - Payment channels that mask transaction details
+      - Onion routing for payment paths
+      - Atomic swaps for cross-chain privacy
+      - Evolving standards to protect user privacy
+
+      Asha learns that layers of technology built on sound money foundations can create systems that are both efficient and privacy-preserving.
+    `,
+    questions: [
+      {
+        question: "What is the main advantage of the Lightning Network over the Bitcoin base layer?",
+        options: [
+          "It allows mining without specialized equipment",
+          "It enables near-instant transactions with low fees",
+          "It creates new bitcoins at a faster rate",
+          "It removes the need for private keys"
+        ],
+        correctIndex: 1
+      },
+      {
+        question: "How does the Lightning Network improve transaction privacy?",
+        options: [
+          "It encrypts all blockchain transactions",
+          "It makes all user identities anonymous",
+          "Only channel opening/closing is recorded on the blockchain, not individual payments",
+          "It erases transaction history after 24 hours"
+        ],
+        correctIndex: 2
+      }
+    ]
+  },
+  {
+    id: 301,
     title: "The Glowing Path",
     subtitle: "Understand the fundamentals of cryptography",
     description: "In the bioluminescent forest, patterns of light create secure messages. Learn how cryptography protects Bitcoin transactions through a series of code-breaking challenges.",
@@ -500,7 +574,7 @@ export const realm3Missions: MissionContent[] = [
       "Create payment channels with other participants",
       "Route payments through a network of channels"
     ],
-    simulationType: 'lightning',
+    simulationType: 'lightning-network',
     simulationData: {
       explanation: "The Lightning Network is a 'second layer' payment protocol that operates on top of Bitcoin. It enables fast transactions between participating nodes.",
       scaling: {

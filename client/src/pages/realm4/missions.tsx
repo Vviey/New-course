@@ -225,8 +225,22 @@ export default function Realm4Missions() {
         </div>
       )}
       
+      {/* Mission not found message */}
+      {!missionData && (
+        <div className="max-w-4xl mx-auto bg-orange-100 border-2 border-orange-500 p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-orange-900 mb-2">Mission Not Found</h2>
+          <p className="text-orange-800 mb-4">This mission doesn't exist yet or may have been moved.</p>
+          <button 
+            onClick={() => setLocation('/realm/4')} 
+            className="bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded transition-colors"
+          >
+            Return to Realm
+          </button>
+        </div>
+      )}
+      
       {/* Mission content */}
-      <main className="max-w-4xl mx-auto">
+      {missionData && <main className="max-w-4xl mx-auto">
         {!contentRead ? (
           <div className="backdrop-blur-md bg-black/60 p-8 rounded-xl border shadow-xl"
             style={{ borderColor: `${mountainForgeTheme.colors.primary}40` }}
@@ -332,7 +346,7 @@ export default function Realm4Missions() {
             )}
           </>
         )}
-      </main>
+      </main>}
     </div>
   );
 }

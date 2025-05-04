@@ -8,11 +8,13 @@ export interface MissionContent {
   imagePath?: string;
   simulationType: 'barter' | 'timeline' | 'inflation' | 'quiz' | 'map' | 'reflection' | 
                   'roleplay' | 'privacy' | 'exclusion' | 'globalflow' | 'escape' |
-                  'cryptography' | 'hash' | 'merkle' | 'consensus' | 'network' | 'code' | 'lightning' |
+                  'cryptography' | 'hash' | 'merkle' | 'consensus' | 'network' | 'code' | 'lightning' | 'lightning-network' |
                   'miningBasics' | 'miningConsensus' | 'energyUsage' | 'africanMining' | 'miningChallenge' | 'halving' |
                   'surveillance' | 'cbdc' | 'bitcoin' | 'selfcustody' | 'paymentprivacy';
   simulationData?: any;
   reflectionQuestion?: string;
+  content?: string;
+  questions?: any[];
 }
 
 // Types for Trader (Barter Web Challenge)

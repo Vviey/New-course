@@ -1,109 +1,219 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'wouter';
-import { ChevronLeft, Award } from 'lucide-react';
-import MissionLayout from '../../components/mission-layout';
-import { realm7Missions } from '../../lib/realm7-missions'; // Missions for The Summit of Knowledge (Realm 7)
-import { navigate } from '../../lib/router';
-import { getRealmName } from '../../lib/realm-utils'; // Utilities for standardized realm naming
-
-// Import mission components
-import ComprehensiveReview from './components/ComprehensiveReview';
-import PracticalChallenges from './components/PracticalChallenges';
-import TechnicalMastery from './components/TechnicalMastery';
-import FinalChallenge from './components/FinalChallenge';
-import Certification from './components/Certification';
+import { ChevronLeft, ChevronRight, Award } from 'lucide-react';
+import { realm7Missions } from '../../lib/realm7-missions';
+import { getRealmName } from '@/lib/realm-utils';
 
 export default function Realm7Mission() {
-  const params = useParams<{ id: string }>();
   const [_, setLocation] = useLocation();
-  const [mission, setMission] = useState(realm7Missions.find(m => m.id === parseInt(params.id)) || realm7Missions[0]);
-  const [isComplete, setIsComplete] = useState(false);
+  const { missionId } = useParams<{ missionId: string }>();
+  const [missionComplete, setMissionComplete] = useState(false);
+  const [contentRead, setContentRead] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [shareContent, setShareContent] = useState('');
   
-  useEffect(() => {
-    // Find mission data based on ID
-    const currentMission = realm7Missions.find(m => m.id === parseInt(params.id));
-    if (currentMission) {
-      setMission(currentMission);
-      setIsComplete(currentMission.completed);
+  // Parse mission ID from URL
+  const missionNumber = parseInt(missionId || '1');
+  
+  // Current mission data
+  const missionData = realm7Missions.find(m => m.id === missionNumber);
+  
+  // Define theme for Realm 7 - The Summit of Knowledge
+  const summitTheme = {
+    colors: {
+      primary: '#8b5cf6', // violet-500
+      secondary: '#a78bfa', // violet-400
+      background: '#0f172a', // slate-900
+      backgroundLight: '#1e293b', // slate-800
+      success: '#15803d', // green-700
+      textDark: '#4c1d95', // violet-900
+      textLight: '#f5f3ff', // violet-50
+      accent1: '#7c3aed', // violet-600
+      accent2: '#c4b5fd', // violet-300
+    },
+    gradients: {
+      main: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
+      glow: 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)',
+      subtle: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(109, 40, 217, 0.1) 100%)',
+    },
+    shadows: {
+      button: '0 10px 15px -3px rgba(139, 92, 246, 0.2), 0 4px 6px -4px rgba(139, 92, 246, 0.2)',
+      card: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2)',
     }
-  }, [params.id]);
-  
-  const handleComplete = () => {
-    setIsComplete(true);
+  };
+
+  // Handle mission completion
+  const handleMissionComplete = () => {
+    setMissionComplete(true);
+    
+    // Redirect to realm page after a delay
     setTimeout(() => {
-      navigate('/realm7/missions', setLocation);
-    }, 3000);
+      setLocation('/realm/7');
+    }, 2000);
   };
   
-  // Render specific mission component based on ID
-  const renderMissionContent = () => {
-    switch (parseInt(params.id)) {
-      case 1:
-        return <ComprehensiveReview onComplete={handleComplete} />;
-      case 2:
-        return <PracticalChallenges onComplete={handleComplete} />;
-      case 3:
-        return <TechnicalMastery onComplete={handleComplete} />;
-      case 4:
-        return <FinalChallenge onComplete={handleComplete} />;
-      case 5:
-        return <Certification onComplete={handleComplete} />;
-      default:
-        return (
-          <div className="text-center py-12">
-            <p className="text-gray-400">Mission content not found.</p>
-            <button
-              onClick={() => navigate('/realm7/missions', setLocation)}
-              className="mt-4 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-            >
-              Return to Missions
-            </button>
-          </div>
-        );
-    }
+  // Handle starting the challenge after reading content
+  const handleStartChallenge = () => {
+    setContentRead(true);
   };
   
-  if (!mission) {
-    return (
-      <div className="max-w-4xl mx-auto p-6 text-center">
-        <h2 className="text-2xl font-bold text-gray-300 mb-4">Mission Not Found</h2>
-        <p className="text-gray-400 mb-8">The mission you're looking for doesn't exist.</p>
-        <button
-          onClick={() => navigate('/realm7/missions', setLocation)}
-          className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-        >
-          Return to Missions
-        </button>
-      </div>
-    );
-  }
+  // Handle share button click
+  const handleShareClick = () => {
+    setShareContent(generateShareContent());
+    setShowShareModal(true);
+  };
+  
+  // Generate social media sharing content based on mission
+  const generateShareContent = () => {
+    if (!missionData) return '';
+    
+    return `I've just completed the "${missionData.title}: ${missionData.subtitle}" challenge in Asha's Bitcoin Journey! Learning about Bitcoin has been an incredible experience. #BitcoinEducation #BitcoinJourney`;
+  };
   
   return (
-    <MissionLayout
-      realmId={7}
-      title={mission.title}
-      subtitle={mission.subtitle}
-      progress={isComplete ? 100 : 0}
+    <div 
+      className="min-h-screen py-8 px-4"
+      style={{
+        background: `linear-gradient(to bottom, ${summitTheme.colors.background}, ${summitTheme.colors.backgroundLight})`,
+        backgroundImage: "url('/realms/summit.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        backgroundBlendMode: "overlay",
+        color: summitTheme.colors.textLight
+      }}
     >
-      {isComplete ? (
-        <div className="bg-green-900/20 border border-green-700 rounded-lg p-6 text-center">
-          <div className="inline-block bg-green-900/30 p-3 rounded-full mb-4">
-            <Award className="h-8 w-8 text-green-400" />
-          </div>
-          <h3 className="text-xl font-semibold text-green-400 mb-2">Mission Complete!</h3>
-          <p className="text-gray-300 mb-4">
-            You've successfully completed this mission and demonstrated your Bitcoin knowledge.
-          </p>
-          <button
-            onClick={() => navigate('/realm7/missions', setLocation)}
-            className="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+      {/* Mission navigation header */}
+      <header className="max-w-4xl mx-auto mb-6">
+        <button 
+          onClick={() => setLocation('/realm/7')} 
+          className="flex items-center transition-colors font-medium"
+          style={{ color: summitTheme.colors.secondary }}
+        >
+          <ChevronLeft className="h-5 w-5 mr-2" />
+          Back to {getRealmName(7)}
+        </button>
+      </header>
+      
+      {/* Mission completion message */}
+      {missionComplete && (
+        <div className="fixed top-0 left-0 right-0 text-white p-3 text-center z-50"
+          style={{ backgroundColor: summitTheme.colors.success }}
+        >
+          Mission complete! Great job! Redirecting to Realm...
+        </div>
+      )}
+      
+      {/* Mission not found message */}
+      {!missionData && (
+        <div className="max-w-4xl mx-auto bg-violet-100 border-2 border-violet-500 p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-violet-900 mb-2">Mission Not Found</h2>
+          <p className="text-violet-800 mb-4">This mission doesn't exist yet or may have been moved.</p>
+          <button 
+            onClick={() => setLocation('/realm/7')} 
+            className="bg-violet-600 hover:bg-violet-700 text-white font-medium py-2 px-4 rounded transition-colors"
           >
-            Continue Your Journey
+            Return to Realm
           </button>
         </div>
-      ) : (
-        renderMissionContent()
       )}
-    </MissionLayout>
+      
+      {/* Mission content */}
+      {missionData && (
+        <main className="max-w-4xl mx-auto">
+          <div className="backdrop-blur-md bg-black/60 p-8 rounded-xl border shadow-xl"
+            style={{ borderColor: `${summitTheme.colors.primary}40` }}
+          >
+            <h1 className="text-3xl font-bold mb-2" style={{ color: summitTheme.colors.primary }}>
+              {missionData.title}
+            </h1>
+            <h2 className="text-xl mb-6" style={{ color: summitTheme.colors.secondary }}>
+              {missionData.subtitle}
+            </h2>
+            
+            <div className="prose prose-invert max-w-none">
+              {missionData.description}
+            </div>
+            
+            <div className="mt-8 flex justify-end">
+              {!contentRead ? (
+                <button
+                  onClick={handleStartChallenge}
+                  className="px-6 py-3 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
+                  style={{ 
+                    background: summitTheme.gradients.main,
+                    boxShadow: summitTheme.shadows.button
+                  }}
+                >
+                  Start Challenge
+                  <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              ) : (
+                <button
+                  onClick={handleShareClick}
+                  className="px-6 py-3 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
+                  style={{ 
+                    background: summitTheme.gradients.main,
+                    boxShadow: summitTheme.shadows.button
+                  }}
+                >
+                  Complete & Share
+                  <Award className="ml-2 h-5 w-5" />
+                </button>
+              )}
+            </div>
+          </div>
+          
+          {/* Social media sharing section */}
+          {showShareModal && (
+            <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+              <div className="backdrop-blur-md bg-black/90 rounded-xl p-6 max-w-md w-full border"
+                style={{ borderColor: `${summitTheme.colors.primary}40` }}
+              >
+                <h3 className="text-2xl font-bold mb-4"
+                  style={{ color: summitTheme.colors.primary }}
+                >
+                  Share Your Achievement
+                </h3>
+                <textarea
+                  className="w-full p-3 bg-black/60 text-gray-200 rounded-lg border-2 mb-4"
+                  style={{ borderColor: `${summitTheme.colors.primary}30` }}
+                  rows={5}
+                  value={shareContent}
+                  onChange={(e) => setShareContent(e.target.value)}
+                />
+                
+                <div className="flex flex-wrap gap-3 mb-6">
+                  <button className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors">X (Twitter)</button>
+                  <button className="px-4 py-2 bg-blue-800 text-white rounded-lg shadow-md hover:bg-blue-900 transition-colors">Facebook</button>
+                  <button className="px-4 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition-colors">WhatsApp</button>
+                  <button className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-colors">Telegram</button>
+                  <button className="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md hover:bg-purple-800 transition-colors">Nostr</button>
+                </div>
+                
+                <div className="flex justify-end">
+                  <button 
+                    onClick={() => setShowShareModal(false)}
+                    className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 transition-colors mr-3"
+                  >
+                    Close
+                  </button>
+                  <button
+                    onClick={handleMissionComplete}
+                    className="px-4 py-2 text-white rounded-lg shadow-md transition-colors"
+                    style={{ 
+                      background: summitTheme.gradients.main,
+                      boxShadow: summitTheme.shadows.button
+                    }}
+                  >
+                    Continue Journey
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </main>
+      )}
+    </div>
   );
 }

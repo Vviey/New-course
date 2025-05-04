@@ -232,8 +232,22 @@ export default function Realm5Missions() {
         </div>
       )}
       
+      {/* Mission not found message */}
+      {!missionData && (
+        <div className="max-w-4xl mx-auto bg-green-100 border-2 border-green-500 p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-green-900 mb-2">Mission Not Found</h2>
+          <p className="text-green-800 mb-4">This mission doesn't exist yet or may have been moved.</p>
+          <button 
+            onClick={() => setLocation('/realm/5')} 
+            className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded transition-colors"
+          >
+            Return to Realm
+          </button>
+        </div>
+      )}
+      
       {/* Mission content */}
-      <main className="max-w-4xl mx-auto">
+      {missionData && <main className="max-w-4xl mx-auto">
         {!contentRead ? (
           <div className="backdrop-blur-md bg-black/60 p-8 rounded-xl border shadow-xl"
             style={{ borderColor: `${councilTheme.colors.primary}40` }}
@@ -331,7 +345,7 @@ export default function Realm5Missions() {
             )}
           </>
         )}
-      </main>
+      </main>}
     </div>
   );
 }

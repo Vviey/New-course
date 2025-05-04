@@ -196,106 +196,122 @@ export default function Realm3Missions() {
         </div>
       )}
       
-      {/* Mission content */}
-      <main className="max-w-4xl mx-auto">
-        {!contentRead ? (
-          <div className="bg-black/40 p-8 rounded-xl border-2 shadow-xl"
-            style={{ borderColor: `${primaryColor}40` }}
+      {/* Mission not found message */}
+      {!missionData && (
+        <div className="max-w-4xl mx-auto bg-blue-100 border-2 border-blue-500 p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-blue-900 mb-2">Mission Not Found</h2>
+          <p className="text-blue-800 mb-4">This mission doesn't exist yet or may have been moved.</p>
+          <button 
+            onClick={() => setLocation('/realm/3/home')} 
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors"
           >
-            <Mission 
-              mission={missionWithContent as any}
-              onComplete={handleMissionComplete}
-              realmTheme="blue"
-            />
-            
-            {/* Challenge button */}
-            <div className="mt-8 flex justify-center">
-              <button
-                onClick={handleStartChallenge}
-                className="px-6 py-3 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
-                style={{ 
-                  background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
-                  boxShadow: `0 0 15px ${primaryColor}80`
-                }}
-              >
-                Start Challenge
-                <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-          </div>
-        ) : (
-          <>
-            {/* Challenge section */}
+            Return to Realm
+          </button>
+        </div>
+      )}
+      
+      {/* Mission content */}
+      {missionData && (
+        <main className="max-w-4xl mx-auto">
+          {!contentRead ? (
             <div className="bg-black/40 p-8 rounded-xl border-2 shadow-xl"
               style={{ borderColor: `${primaryColor}40` }}
             >
-              <h2 className="text-2xl font-bold mb-4"
-                style={{ color: primaryColor }}
-              >
-                Challenge: {missionData?.title}
-              </h2>
+              <Mission 
+                mission={missionWithContent as any}
+                onComplete={handleMissionComplete}
+                realmTheme="blue"
+              />
               
-              <p className="text-gray-300 mb-6">
-                Complete this challenge to unlock the next mission and continue your journey through the Bioluminescent Forest.
-              </p>
-              
-              {/* Render appropriate simulation component */}
-              <div className="mt-4">
-                {renderSimulation()}
+              {/* Challenge button */}
+              <div className="mt-8 flex justify-center">
+                <button
+                  onClick={handleStartChallenge}
+                  className="px-6 py-3 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
+                  style={{ 
+                    background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
+                    boxShadow: `0 0 15px ${primaryColor}80`
+                  }}
+                >
+                  Start Challenge
+                  <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
             </div>
-            
-            {/* Social media sharing section */}
-            {showShareModal && (
-              <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-                <div className="bg-black/90 rounded-xl p-6 max-w-md w-full border"
-                  style={{ borderColor: `${primaryColor}40` }}
+          ) : (
+            <>
+              {/* Challenge section */}
+              <div className="bg-black/40 p-8 rounded-xl border-2 shadow-xl"
+                style={{ borderColor: `${primaryColor}40` }}
+              >
+                <h2 className="text-2xl font-bold mb-4"
+                  style={{ color: primaryColor }}
                 >
-                  <h3 className="text-2xl font-bold mb-4"
-                    style={{ color: primaryColor }}
-                  >
-                    Share Your Insight
-                  </h3>
-                  <textarea
-                    className="w-full p-3 bg-black/60 text-gray-200 rounded-lg border-2 mb-4"
-                    style={{ borderColor: `${primaryColor}30` }}
-                    rows={5}
-                    value={shareContent}
-                    onChange={(e) => setShareContent(e.target.value)}
-                  />
-                  
-                  <div className="flex flex-wrap gap-3 mb-6">
-                    <button className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors">X (Twitter)</button>
-                    <button className="px-4 py-2 bg-blue-800 text-white rounded-lg shadow-md hover:bg-blue-900 transition-colors">Facebook</button>
-                    <button className="px-4 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition-colors">WhatsApp</button>
-                    <button className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-colors">Telegram</button>
-                    <button className="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md hover:bg-purple-800 transition-colors">Nostr</button>
-                  </div>
-                  
-                  <div className="flex justify-end">
-                    <button 
-                      onClick={() => setShowShareModal(false)}
-                      className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 transition-colors mr-3"
-                    >
-                      Close
-                    </button>
-                    <button
-                      onClick={handleMissionComplete}
-                      className="px-4 py-2 text-white rounded-lg shadow-md transition-colors"
-                      style={{ 
-                        background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
-                        boxShadow: `0 0 15px ${primaryColor}80`
-                      }}
-                    >
-                      Continue Journey
-                    </button>
-                  </div>
+                  Challenge: {missionData?.title}
+                </h2>
+                
+                <p className="text-gray-300 mb-6">
+                  Complete this challenge to unlock the next mission and continue your journey through the Bioluminescent Forest.
+                </p>
+                
+                {/* Render appropriate simulation component */}
+                <div className="mt-4">
+                  {renderSimulation()}
                 </div>
               </div>
-            )}
-          </>
-        )}
-      </main>
+              
+              {/* Social media sharing section */}
+              {showShareModal && (
+                <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+                  <div className="bg-black/90 rounded-xl p-6 max-w-md w-full border"
+                    style={{ borderColor: `${primaryColor}40` }}
+                  >
+                    <h3 className="text-2xl font-bold mb-4"
+                      style={{ color: primaryColor }}
+                    >
+                      Share Your Insight
+                    </h3>
+                    <textarea
+                      className="w-full p-3 bg-black/60 text-gray-200 rounded-lg border-2 mb-4"
+                      style={{ borderColor: `${primaryColor}30` }}
+                      rows={5}
+                      value={shareContent}
+                      onChange={(e) => setShareContent(e.target.value)}
+                    />
+                    
+                    <div className="flex flex-wrap gap-3 mb-6">
+                      <button className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors">X (Twitter)</button>
+                      <button className="px-4 py-2 bg-blue-800 text-white rounded-lg shadow-md hover:bg-blue-900 transition-colors">Facebook</button>
+                      <button className="px-4 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition-colors">WhatsApp</button>
+                      <button className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-colors">Telegram</button>
+                      <button className="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md hover:bg-purple-800 transition-colors">Nostr</button>
+                    </div>
+                    
+                    <div className="flex justify-end">
+                      <button 
+                        onClick={() => setShowShareModal(false)}
+                        className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 transition-colors mr-3"
+                      >
+                        Close
+                      </button>
+                      <button
+                        onClick={handleMissionComplete}
+                        className="px-4 py-2 text-white rounded-lg shadow-md transition-colors"
+                        style={{ 
+                          background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
+                          boxShadow: `0 0 15px ${primaryColor}80`
+                        }}
+                      >
+                        Continue Journey
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </main>
+      )}
     </div>
   );
 }

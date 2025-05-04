@@ -3,34 +3,34 @@ import { MissionContent } from '@/lib/realm1-missions';
 import { Realm2MissionData } from '@/lib/realm2-missions';
 
 // Import Realm 1 simulation components
-import { BarterWebChallenge } from '@/components/simulations/BarterWebChallenge';
-import { TimelineChallenge } from '@/components/simulations/TimelineChallenge';
-import { InflationSimulator } from '@/components/simulations/InflationSimulator';
-import { QuizChallenge } from '@/components/simulations/QuizChallenge';
-import { TradeRouteMap } from '@/components/simulations/TradeRouteMap';
-import { ReflectionExercise } from '@/components/simulations/ReflectionExercise';
+import { BarterWebChallenge } from '../simulations/BarterWebChallenge';
+import { TimelineChallenge } from '../simulations/TimelineChallenge';
+import { InflationSimulator } from '../simulations/InflationSimulator';
+import { QuizChallenge } from '../simulations/QuizChallenge';
+import { TradeRouteMap } from '../simulations/TradeRouteMap';
+import { ReflectionExercise } from '../simulations/ReflectionExercise';
 
 // Import Realm 2 simulation components
-import { FinancialSurveillanceSimulator } from '@/components/simulations/FinancialSurveillanceSimulator';
-import { PrivacyBalanceSimulator } from '@/components/simulations/PrivacyBalanceSimulator';
-import { CBDCSimulator } from '@/components/simulations/CBDCSimulator';
-import { BitcoinPrivacySimulator } from '@/components/simulations/BitcoinPrivacySimulator';
-import { LightningPrivacySimulator } from '@/components/simulations/LightningPrivacySimulator';
-import { SelfCustodySimulator } from '@/components/simulations/SelfCustodySimulator';
+import { FinancialSurveillanceSimulator } from '../simulations/FinancialSurveillanceSimulator';
+import { PrivacyBalanceSimulator } from '../simulations/PrivacyBalanceSimulator';
+import { CBDCSimulator } from '../simulations/CBDCSimulator';
+import { BitcoinPrivacySimulator } from '../simulations/BitcoinPrivacySimulator';
+import { LightningPrivacySimulator } from '../simulations/LightningPrivacySimulator';
+import { SelfCustodySimulator } from '../simulations/SelfCustodySimulator';
 
 // Lazy load additional simulation components
-const RolePlaySimulator = lazy(() => import('@/components/simulations/RolePlaySimulator').then(module => ({ default: module.RolePlaySimulator })));
-const PaymentPrivacySimulator = lazy(() => import('@/components/simulations/PaymentPrivacySimulator').then(module => ({ default: module.PaymentPrivacySimulator })));
-const ExclusionWebGame = lazy(() => import('@/components/simulations/ExclusionWebGame').then(module => ({ default: module.ExclusionWebGame })));
-const GlobalMoneyWebSimulation = lazy(() => import('@/components/simulations/GlobalMoneyWebSimulation').then(module => ({ default: module.GlobalMoneyWebSimulation })));
-const EscapeSurveillanceGame = lazy(() => import('@/components/simulations/EscapeSurveillanceGame').then(module => ({ default: module.EscapeSurveillanceGame })));
-const CryptographySimulator = lazy(() => import('@/components/simulations/CryptographySimulator').then(module => ({ default: module.CryptographySimulator })));
-const HashFunctionSimulator = lazy(() => import('@/components/simulations/HashFunctionSimulator').then(module => ({ default: module.HashFunctionSimulator })));
-const MerkleTreeSimulator = lazy(() => import('@/components/simulations/MerkleTreeSimulator').then(module => ({ default: module.MerkleTreeSimulator })));
-const ConsensusSimulator = lazy(() => import('@/components/simulations/ConsensusSimulator').then(module => ({ default: module.ConsensusSimulator })));
-const NetworkSimulator = lazy(() => import('@/components/simulations/NetworkSimulator').then(module => ({ default: module.NetworkSimulator })));
-const ScriptingSimulator = lazy(() => import('@/components/simulations/ScriptingSimulator').then(module => ({ default: module.ScriptingSimulator })));
-const LightningNetworkSimulator = lazy(() => import('@/components/simulations/LightningNetworkSimulator').then(module => ({ default: module.LightningNetworkSimulator })));
+const RolePlaySimulator = lazy(() => import('../simulations/RolePlaySimulator').then(module => ({ default: module.RolePlaySimulator })));
+const PaymentPrivacySimulator = lazy(() => import('../simulations/PaymentPrivacySimulator').then(module => ({ default: module.PaymentPrivacySimulator })));
+const ExclusionWebGame = lazy(() => import('../simulations/ExclusionWebGame').then(module => ({ default: module.ExclusionWebGame })));
+const GlobalMoneyWebSimulation = lazy(() => import('../simulations/GlobalMoneyWebSimulation').then(module => ({ default: module.GlobalMoneyWebSimulation })));
+const EscapeSurveillanceGame = lazy(() => import('../simulations/EscapeSurveillanceGame').then(module => ({ default: module.EscapeSurveillanceGame })));
+const CryptographySimulator = lazy(() => import('../simulations/CryptographySimulator').then(module => ({ default: module.CryptographySimulator })));
+const HashFunctionSimulator = lazy(() => import('../simulations/HashFunctionSimulator').then(module => ({ default: module.HashFunctionSimulator })));
+const MerkleTreeSimulator = lazy(() => import('../simulations/MerkleTreeSimulator').then(module => ({ default: module.MerkleTreeSimulator })));
+const ConsensusSimulator = lazy(() => import('../simulations/ConsensusSimulator').then(module => ({ default: module.ConsensusSimulator })));
+const NetworkSimulator = lazy(() => import('../simulations/NetworkSimulator').then(module => ({ default: module.NetworkSimulator })));
+const ScriptingSimulator = lazy(() => import('../simulations/ScriptingSimulator').then(module => ({ default: module.ScriptingSimulator })));
+const LightningNetworkSimulator = lazy(() => import('../simulations/LightningNetworkSimulator').then(module => ({ default: module.LightningNetworkSimulator })));
 
 interface MissionProps {
   mission: MissionContent;
@@ -40,7 +40,7 @@ interface MissionProps {
 
 export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionProps) {
   const [isSimulationComplete, setIsSimulationComplete] = useState(false);
-  const [currentSection, setCurrentSection] = useState<'intro' | 'simulation' | 'reflection'>('intro');
+  const [currentSection, setCurrentSection] = useState<string>('intro');
   
   // Handle completion of the simulation
   const handleSimulationComplete = () => {
@@ -266,7 +266,7 @@ export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionPr
             />
           </Suspense>
         );
-      case 'lightning':
+      case 'lightning-network':
         return (
           <Suspense fallback={<div>Loading Lightning Network Simulator...</div>}>
             <LightningNetworkSimulator
@@ -332,135 +332,144 @@ export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionPr
               </ul>
             </div>
             
-            {/* Display content for all missions */}
+            {/* Display mission content */}
             <div className="mt-4 space-y-4">
-              {mission.id === 101 && (
+              {mission.content ? (
+                <div className="prose prose-amber max-w-none">
+                  <div dangerouslySetInnerHTML={{ __html: mission.content }} />
+                </div>
+              ) : (
+                // Hard-coded content for backward compatibility
                 <>
-                  <h3 className="text-xl font-semibold text-amber-800">Understanding Barter Systems</h3>
-                  <p className="text-gray-700">
-                    Before money existed, communities used barter systems to trade goods and services directly. In ancient Africa, communities would exchange valuable commodities like salt, gold, livestock, and textiles.
-                  </p>
-                  <p className="text-gray-700">
-                    However, barter systems faced significant challenges:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                    <li><strong>Double coincidence of wants</strong>: Both parties needed to want what the other offered.</li>
-                    <li><strong>Indivisibility</strong>: Some goods couldn't be divided into smaller units.</li>
-                    <li><strong>Standardization</strong>: No standardized way to determine value.</li>
-                    <li><strong>Storage</strong>: Perishable goods couldn't store value over time.</li>
-                  </ul>
-                  <p className="text-gray-700">
-                    These limitations led to the development of commodity money and eventually currency systems that simplified trade across the continent.
-                  </p>
-                </>
-              )}
-              
-              {mission.id === 102 && (
-                <>
-                  <h3 className="text-xl font-semibold text-amber-800">From Shells to Metal Coins</h3>
-                  <p className="text-gray-700">
-                    As African societies began to recognize the limitations of barter, they developed commodity money - items that had intrinsic value but also served as a medium of exchange. Cowrie shells became one of the most successful forms of currency across the continent.
-                  </p>
-                  <p className="text-gray-700">
-                    Cowrie shells were ideal as currency because:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                    <li><strong>Scarcity</strong>: The shells were not locally available in many regions, making them difficult to counterfeit</li>
-                    <li><strong>Durability</strong>: Their hard surface meant they wouldn't deteriorate over time</li>
-                    <li><strong>Portability</strong>: Their small size made them easy to carry for trade</li>
-                    <li><strong>Divisibility</strong>: They could be counted in any quantity needed for exchange</li>
-                  </ul>
-                  <p className="text-gray-700">
-                    By the early medieval period, kingdoms like Axum (in present-day Ethiopia) were minting their own coins, demonstrating Africa's independent development of advanced monetary systems.
-                  </p>
-                </>
-              )}
-              
-              {mission.id === 103 && (
-                <>
-                  <h3 className="text-xl font-semibold text-amber-800">Understanding Inflation Over Time</h3>
-                  <p className="text-gray-700">
-                    Money's value isn't fixed - it changes over time through inflation. In Africa, we've seen how inflation can drastically impact economies and ordinary people's lives.
-                  </p>
-                  <p className="text-gray-700">
-                    Zimbabwe provides a powerful example of hyperinflation's devastation. In 2008-2009, inflation reached over 79.6 billion percent, causing:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                    <li>Prices that doubled nearly every day</li>
-                    <li>Money that became essentially worthless</li>
-                    <li>The need to carry billions or trillions of dollars for basic purchases</li>
-                    <li>Widespread economic collapse and hardship</li>
-                  </ul>
-                  <p className="text-gray-700">
-                    This example shows why money supply matters. When governments print too much money, each unit buys less, demonstrating how scarcity helps maintain value - a principle central to understanding Bitcoin's design.
-                  </p>
-                </>
-              )}
-              
-              {mission.id === 104 && (
-                <>
-                  <h3 className="text-xl font-semibold text-amber-800">What Makes Good Money?</h3>
-                  <p className="text-gray-700">
-                    Throughout history, many items have been used as money - from salt blocks in Ethiopia to gold dust in West Africa. But what makes some forms of money more effective than others?
-                  </p>
-                  <p className="text-gray-700">
-                    The six key properties of sound money are:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                    <li><strong>Durability</strong>: Money should last over time without deteriorating</li>
-                    <li><strong>Portability</strong>: It should be easy to carry and transport</li>
-                    <li><strong>Divisibility</strong>: It should be easily divided into smaller units</li>
-                    <li><strong>Fungibility</strong>: Each unit should be interchangeable with other units</li>
-                    <li><strong>Scarcity</strong>: The supply should be limited and difficult to increase rapidly</li>
-                    <li><strong>Verifiability</strong>: It should be easy to authenticate and difficult to counterfeit</li>
-                  </ul>
-                  <p className="text-gray-700">
-                    Understanding these properties explains why gold became valuable worldwide and why many African societies used rare shells, beads, and metals as currency.
-                  </p>
-                </>
-              )}
-              
-              {mission.id === 105 && (
-                <>
-                  <h3 className="text-xl font-semibold text-amber-800">How Money Facilitates Trade</h3>
-                  <p className="text-gray-700">
-                    Africa's vast trade networks once connected the continent from the Mediterranean to the Cape, and from the Atlantic to the Indian Ocean. Money was the innovation that made this extensive trade possible.
-                  </p>
-                  <p className="text-gray-700">
-                    Key African trade routes included:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                    <li><strong>Trans-Saharan routes</strong>: Connecting West Africa's gold-producing regions to North Africa and beyond</li>
-                    <li><strong>East African coastal network</strong>: Linking Swahili city-states like Kilwa and Mombasa to the Arabian Peninsula and India</li>
-                    <li><strong>Inland routes</strong>: Connecting Great Zimbabwe and other interior kingdoms to coastal trading centers</li>
-                  </ul>
-                  <p className="text-gray-700">
-                    With standardized currency, traders no longer needed to find someone who specifically wanted their goods. Money acted as an intermediary, dramatically increasing trading efficiency and allowing for more complex economic systems to develop.
-                  </p>
-                </>
-              )}
-              
-              {mission.id === 106 && (
-                <>
-                  <h3 className="text-xl font-semibold text-amber-800">Ubuntu: Trust-Based Economics</h3>
-                  <p className="text-gray-700">
-                    While monetary systems evolved across Africa, many societies developed sophisticated economic systems based on trust and communal values rather than currency alone. This philosophy, known as Ubuntu, can be summarized as "I am because we are."
-                  </p>
-                  <p className="text-gray-700">
-                    Ubuntu economics was characterized by:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                    <li><strong>Collective resource management</strong>: Communities would share land, water, and other natural resources based on need rather than individual ownership</li>
-                    <li><strong>Gift economies</strong>: Goods and services were often provided without expectation of immediate repayment, but with the understanding that the community would support you when needed</li>
-                    <li><strong>Labor exchange systems</strong>: Communities would collectively work on farms, construction, and other major projects without monetary payment</li>
-                    <li><strong>Mutual aid networks</strong>: Formalized systems for supporting community members during hardship, illness, or celebration</li>
-                  </ul>
-                  <p className="text-gray-700">
-                    This trust-based approach didn't replace money but complemented it. Even in societies using currency, Ubuntu systems created resilience by ensuring resources flowed to those who needed them regardless of ability to pay.
-                  </p>
-                  <p className="text-gray-700">
-                    Modern mutual credit systems, time banks, and community currencies draw inspiration from these African economic models, demonstrating their continued relevance in creating sustainable and inclusive economies.
-                  </p>
+                  {mission.id === 101 && (
+                    <>
+                      <h3 className="text-xl font-semibold text-amber-800">Understanding Barter Systems</h3>
+                      <p className="text-gray-700">
+                        Before money existed, communities used barter systems to trade goods and services directly. In ancient Africa, communities would exchange valuable commodities like salt, gold, livestock, and textiles.
+                      </p>
+                      <p className="text-gray-700">
+                        However, barter systems faced significant challenges:
+                      </p>
+                      <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                        <li><strong>Double coincidence of wants</strong>: Both parties needed to want what the other offered.</li>
+                        <li><strong>Indivisibility</strong>: Some goods couldn't be divided into smaller units.</li>
+                        <li><strong>Standardization</strong>: No standardized way to determine value.</li>
+                        <li><strong>Storage</strong>: Perishable goods couldn't store value over time.</li>
+                      </ul>
+                      <p className="text-gray-700">
+                        These limitations led to the development of commodity money and eventually currency systems that simplified trade across the continent.
+                      </p>
+                    </>
+                  )}
+                  
+                  {mission.id === 102 && (
+                    <>
+                      <h3 className="text-xl font-semibold text-amber-800">From Shells to Metal Coins</h3>
+                      <p className="text-gray-700">
+                        As African societies began to recognize the limitations of barter, they developed commodity money - items that had intrinsic value but also served as a medium of exchange. Cowrie shells became one of the most successful forms of currency across the continent.
+                      </p>
+                      <p className="text-gray-700">
+                        Cowrie shells were ideal as currency because:
+                      </p>
+                      <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                        <li><strong>Scarcity</strong>: The shells were not locally available in many regions, making them difficult to counterfeit</li>
+                        <li><strong>Durability</strong>: Their hard surface meant they wouldn't deteriorate over time</li>
+                        <li><strong>Portability</strong>: Their small size made them easy to carry for trade</li>
+                        <li><strong>Divisibility</strong>: They could be counted in any quantity needed for exchange</li>
+                      </ul>
+                      <p className="text-gray-700">
+                        By the early medieval period, kingdoms like Axum (in present-day Ethiopia) were minting their own coins, demonstrating Africa's independent development of advanced monetary systems.
+                      </p>
+                    </>
+                  )}
+                  
+                  {mission.id === 103 && (
+                    <>
+                      <h3 className="text-xl font-semibold text-amber-800">Understanding Inflation Over Time</h3>
+                      <p className="text-gray-700">
+                        Money's value isn't fixed - it changes over time through inflation. In Africa, we've seen how inflation can drastically impact economies and ordinary people's lives.
+                      </p>
+                      <p className="text-gray-700">
+                        Zimbabwe provides a powerful example of hyperinflation's devastation. In 2008-2009, inflation reached over 79.6 billion percent, causing:
+                      </p>
+                      <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                        <li>Prices that doubled nearly every day</li>
+                        <li>Money that became essentially worthless</li>
+                        <li>The need to carry billions or trillions of dollars for basic purchases</li>
+                        <li>Widespread economic collapse and hardship</li>
+                      </ul>
+                      <p className="text-gray-700">
+                        This example shows why money supply matters. When governments print too much money, each unit buys less, demonstrating how scarcity helps maintain value - a principle central to understanding Bitcoin's design.
+                      </p>
+                    </>
+                  )}
+                  
+                  {mission.id === 104 && (
+                    <>
+                      <h3 className="text-xl font-semibold text-amber-800">What Makes Good Money?</h3>
+                      <p className="text-gray-700">
+                        Throughout history, many items have been used as money - from salt blocks in Ethiopia to gold dust in West Africa. But what makes some forms of money more effective than others?
+                      </p>
+                      <p className="text-gray-700">
+                        The six key properties of sound money are:
+                      </p>
+                      <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                        <li><strong>Durability</strong>: Money should last over time without deteriorating</li>
+                        <li><strong>Portability</strong>: It should be easy to carry and transport</li>
+                        <li><strong>Divisibility</strong>: It should be easily divided into smaller units</li>
+                        <li><strong>Fungibility</strong>: Each unit should be interchangeable with other units</li>
+                        <li><strong>Scarcity</strong>: The supply should be limited and difficult to increase rapidly</li>
+                        <li><strong>Verifiability</strong>: It should be easy to authenticate and difficult to counterfeit</li>
+                      </ul>
+                      <p className="text-gray-700">
+                        Understanding these properties explains why gold became valuable worldwide and why many African societies used rare shells, beads, and metals as currency.
+                      </p>
+                    </>
+                  )}
+                  
+                  {mission.id === 105 && (
+                    <>
+                      <h3 className="text-xl font-semibold text-amber-800">How Money Facilitates Trade</h3>
+                      <p className="text-gray-700">
+                        Africa's vast trade networks once connected the continent from the Mediterranean to the Cape, and from the Atlantic to the Indian Ocean. Money was the innovation that made this extensive trade possible.
+                      </p>
+                      <p className="text-gray-700">
+                        Key African trade routes included:
+                      </p>
+                      <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                        <li><strong>Trans-Saharan routes</strong>: Connecting West Africa's gold-producing regions to North Africa and beyond</li>
+                        <li><strong>East African coastal network</strong>: Linking Swahili city-states like Kilwa and Mombasa to the Arabian Peninsula and India</li>
+                        <li><strong>Inland routes</strong>: Connecting Great Zimbabwe and other interior kingdoms to coastal trading centers</li>
+                      </ul>
+                      <p className="text-gray-700">
+                        With standardized currency, traders no longer needed to find someone who specifically wanted their goods. Money acted as an intermediary, dramatically increasing trading efficiency and allowing for more complex economic systems to develop.
+                      </p>
+                    </>
+                  )}
+                  
+                  {mission.id === 106 && (
+                    <>
+                      <h3 className="text-xl font-semibold text-amber-800">Ubuntu: Trust-Based Economics</h3>
+                      <p className="text-gray-700">
+                        While monetary systems evolved across Africa, many societies developed sophisticated economic systems based on trust and communal values rather than currency alone. This philosophy, known as Ubuntu, can be summarized as "I am because we are."
+                      </p>
+                      <p className="text-gray-700">
+                        Ubuntu economics was characterized by:
+                      </p>
+                      <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                        <li><strong>Collective resource management</strong>: Communities would share land, water, and other natural resources based on need rather than individual ownership</li>
+                        <li><strong>Gift economies</strong>: Goods and services were often provided without expectation of immediate repayment, but with the understanding that the community would support you when needed</li>
+                        <li><strong>Labor exchange systems</strong>: Communities would collectively work on farms, construction, and other major projects without monetary payment</li>
+                        <li><strong>Mutual aid networks</strong>: Formalized systems for supporting community members during hardship, illness, or celebration</li>
+                      </ul>
+                      <p className="text-gray-700">
+                        This trust-based approach didn't replace money but complemented it. Even in societies using currency, Ubuntu systems created resilience by ensuring resources flowed to those who needed them regardless of ability to pay.
+                      </p>
+                      <p className="text-gray-700">
+                        Modern mutual credit systems, time banks, and community currencies draw inspiration from these African economic models, demonstrating their continued relevance in creating sustainable and inclusive economies.
+                      </p>
+                    </>
+                  )}
                 </>
               )}
               

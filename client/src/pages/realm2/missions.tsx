@@ -205,16 +205,31 @@ export default function Realm2Missions() {
         </div>
       )}
       
+      {/* Mission not found message */}
+      {!missionData && (
+        <div className="max-w-4xl mx-auto bg-purple-100 border-2 border-purple-500 p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-purple-900 mb-2">Mission Not Found</h2>
+          <p className="text-purple-800 mb-4">This mission doesn't exist yet or may have been moved.</p>
+          <button 
+            onClick={() => setLocation('/realm/2')} 
+            className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded transition-colors"
+          >
+            Return to Realm
+          </button>
+        </div>
+      )}
+      
       {/* Mission content */}
-      <main className="max-w-4xl mx-auto">
-        {!contentRead ? (
-          <div className="bg-black/40 p-8 rounded-xl border-2 shadow-xl"
-            style={{ borderColor: `${primaryColor}40` }}>
-            <Mission 
-              mission={missionWithContent as any}
-              onComplete={handleMissionComplete}
-              realmTheme="purple"
-            />
+      {missionData && (
+        <main className="max-w-4xl mx-auto">
+          {!contentRead ? (
+            <div className="bg-black/40 p-8 rounded-xl border-2 shadow-xl"
+              style={{ borderColor: `${primaryColor}40` }}>
+              <Mission 
+                mission={missionWithContent as any}
+                onComplete={handleMissionComplete}
+                realmTheme="purple"
+              />
             
             {/* Challenge button */}
             <div className="mt-8 flex justify-center">
@@ -298,6 +313,7 @@ export default function Realm2Missions() {
           </>
         )}
       </main>
+      )}
     </div>
   );
 }

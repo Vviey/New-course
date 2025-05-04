@@ -1,112 +1,174 @@
-import { useQuery } from '@tanstack/react-query';
+import React from 'react';
 import { useLocation } from 'wouter';
-import { GlowingChain } from '@/components/ui/glowing-chain';
+import { motion } from 'framer-motion';
+import { useAuth } from '@/context/AuthContext';
 import { RealmData } from '@/lib/realm-data';
+import { Share2, User } from 'lucide-react';
+import { ShareButton } from '@/components/ui/share-button';
 
 export default function MapPage() {
   const [, setLocation] = useLocation();
-
-  // Get realm data from our lib
-  const { data: realms = RealmData, isLoading: realmsLoading } = useQuery({
-    queryKey: ['/api/realms'],
-    queryFn: () => Promise.resolve(RealmData),
-    enabled: true
-  });
-
-  // For the demo, we'll set realm 1 as completed and realm 2 as active
-  const progress = 33; // 33% complete - 2 of 6 realms started
-  const completedRealms = [1];
-  const currentRealmId = 2;
-
-  const handleNodeClick = (nodeId: number) => {
-    if (completedRealms.includes(nodeId) || nodeId === currentRealmId) {
-      setLocation(`/realm/${nodeId}`);
-    } else {
-      // We could add a toast notification here
-      console.log("This realm is still locked. Complete previous realms to unlock.");
-    }
+  const { user } = useAuth();
+  
+  // Determine current progress (for demo, we'll just highlight the beginning of the chain)
+  const currentRealmId = user?.progress?.currentRealm || 1;
+  
+  // Chain data with proper names from the reference image
+  const chainRealmData = [
+    { id: 1, name: "Realm of Origins", position: { top: "20%", left: "5%" } },
+    { id: 3, name: "The Forest of Sparks", position: { top: "40%", left: "30%" } },
+    { id: 2, name: "The Central Citadel", position: { top: "70%", left: "20%" } },
+    { id: 4, name: "The Mountain Forge", position: { top: "55%", left: "50%" } },
+    { id: 5, name: "The Council of Forks", position: { top: "30%", left: "70%" } },
+    { id: 6, name: "The Ubuntu Village", position: { top: "60%", left: "80%" } },
+    { id: 7, name: "The Grove of Becoming", position: { top: "80%", left: "65%" } },
+  ];
+  
+  const navigateToRealm = (realmId: number) => {
+    setLocation(`/realm/${realmId}`);
   };
-
+  
+  const navigateToProfile = () => {
+    setLocation('/profile');
+  };
+  
   return (
-    <div className="min-h-screen bg-gray-950 text-amber-100 py-8 px-4">
-      {/* Header with back button */}
-      <header className="max-w-6xl mx-auto mb-8">
-        <button 
-          onClick={() => setLocation('/home')} 
-          className="flex items-center text-amber-300 hover:text-amber-200 transition-colors"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
-          </svg>
-          Back to Home
-        </button>
+    <div className="min-h-screen w-full bg-black overflow-hidden flex flex-col">
+      {/* Header with title and actions */}
+      <header className="p-6 flex justify-between items-center z-20">
+        <h1 className="text-2xl md:text-3xl font-serif font-bold text-amber-200">
+          Asha's Journey Through the Realms of Money
+        </h1>
+        
+        <div className="flex space-x-3">
+          <ShareButton 
+            title="Asha's Journey Through the Realms of Money" 
+            description="Join me on this educational adventure through the world of Bitcoin and cryptocurrency!" 
+            position="left"
+          />
+          
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={navigateToProfile}
+            className="w-10 h-10 rounded-full flex items-center justify-center bg-amber-800/50 text-amber-200 hover:bg-amber-700/60"
+          >
+            <User size={18} />
+          </motion.button>
+        </div>
       </header>
       
-      {/* Map Content */}
-      <div className="max-w-6xl mx-auto">
-        {realmsLoading ? (
-          <div className="text-center py-10">
-            <p>Loading journey map...</p>
-          </div>
-        ) : (
-          <div className="chain-container w-full">
-            <GlowingChain 
-              progress={progress}
-              nodes={realms.map(realm => ({
-                id: realm.id,
-                label: realm.name,
-                realmId: realm.id,
-                status: completedRealms.includes(realm.id) 
-                  ? 'completed' 
-                  : realm.id === currentRealmId 
-                    ? 'active' 
-                    : 'locked'
-              }))}
-              onNodeClick={handleNodeClick}
-              className="w-full"
-            />
-          </div>
-        )}
-        
-        {/* Additional info */}
-        <div className="mt-12 max-w-2xl mx-auto text-center">
-          <h2 className="text-xl font-medium text-amber-200 mb-3">Your Journey</h2>
-          <p className="text-sm text-amber-100/70 mb-6">
-            Follow the chain to navigate through Asha's journey across the realms of money. 
-            Each link represents a chapter in her quest for understanding.
-          </p>
+      {/* Main map area */}
+      <div className="flex-1 relative flex items-center justify-center p-6">
+        {/* Chain links connecting realms */}
+        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 600" preserveAspectRatio="none">
+          {/* Dynamic path that creates the chain pattern following the realm positions */}
+          <path
+            d="M120 150 Q 200 200, 300 240 Q 400 280, 500 300 Q 600 320, 700 250 Q 800 180, 850 300 Q 900 420, 800 400"
+            fill="none"
+            stroke="#555"
+            strokeWidth="20"
+            strokeLinecap="round"
+            className="chain-path"
+          />
           
-          <div className="flex justify-center space-x-8 mt-8">
-            <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-amber-400 mr-2"></div>
-              <span className="text-amber-200 text-sm">Completed</span>
-            </div>
-            <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-amber-400 animate-pulse mr-2"></div>
-              <span className="text-amber-200 text-sm">Current</span>
-            </div>
-            <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-gray-700 mr-2"></div>
-              <span className="text-amber-200 text-sm">Locked</span>
-            </div>
-          </div>
-        </div>
+          {/* Glowing path for completed realms - overlay using the same path */}
+          <path
+            d="M120 150 Q 200 200, 300 240"
+            fill="none"
+            stroke="#f59e0b"
+            strokeWidth="20"
+            strokeLinecap="round"
+            className="chain-glow"
+            style={{ 
+              filter: "drop-shadow(0 0 8px rgba(245, 158, 11, 0.8))",
+              strokeDasharray: currentRealmId > 1 ? "0" : "1000", 
+              strokeDashoffset: currentRealmId > 1 ? "0" : "750"
+            }}
+          />
+        </svg>
         
-        {/* Action buttons */}
-        <div className="mt-12 text-center">
-          <button 
-            onClick={() => setLocation('/home')}
-            className="px-5 py-2 bg-amber-800 rounded-full text-amber-200 font-semibold hover:bg-amber-700 transition-colors shadow-lg mx-2"
-          >
-            Return to Realms
-          </button>
+        {/* Realm nodes placed along the chain */}
+        {chainRealmData.map(realm => {
+          const isCompleted = realm.id < currentRealmId;
+          const isCurrent = realm.id === currentRealmId;
           
-          <button 
-            onClick={() => setLocation(`/realm/${currentRealmId}`)}
-            className="px-5 py-2 bg-amber-600 rounded-full text-amber-100 font-semibold hover:bg-amber-500 transition-colors shadow-lg mx-2"
-          >
-            Continue Your Journey
-          </button>
+          return (
+            <motion.div
+              key={realm.id}
+              className="absolute"
+              style={{ 
+                top: realm.position.top, 
+                left: realm.position.left 
+              }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <button 
+                onClick={() => navigateToRealm(realm.id)}
+                className={`relative p-1 rounded-full transition-all duration-300 ${isCurrent ? 'animate-pulse' : ''}`} 
+                style={{ 
+                  background: isCompleted || isCurrent 
+                    ? 'radial-gradient(circle, rgba(245,158,11,0.8) 0%, rgba(146,64,14,0.6) 70%, rgba(0,0,0,0) 100%)' 
+                    : 'none',
+                  boxShadow: isCompleted || isCurrent 
+                    ? '0 0 20px rgba(245, 158, 11, 0.6)' 
+                    : 'none'
+                }}
+              >
+                <div 
+                  className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center font-bold text-lg
+                              transition-colors duration-500 border-2 ${isCurrent ? 'animate-pulse' : ''}`}
+                  style={{ 
+                    backgroundColor: isCompleted 
+                      ? '#f59e0b' 
+                      : isCurrent 
+                        ? '#b45309' 
+                        : '#1e1e1e',
+                    borderColor: isCompleted || isCurrent 
+                      ? '#fcd34d' 
+                      : '#444',
+                    color: isCompleted || isCurrent 
+                      ? 'white' 
+                      : '#aaa'
+                  }}
+                >
+                  {realm.id}
+                </div>
+                
+                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                  <p 
+                    className={`text-sm md:text-base font-medium transition-colors duration-500`}
+                    style={{ 
+                      color: isCompleted || isCurrent 
+                        ? '#fcd34d' 
+                        : '#aaa'
+                    }}
+                  >
+                    {realm.name}
+                  </p>
+                </div>
+              </button>
+            </motion.div>
+          );
+        })}
+      </div>
+      
+      {/* Legend at the bottom */}
+      <div className="p-6 flex justify-center">
+        <div className="flex items-center space-x-8 text-gray-300">
+          <div className="flex items-center">
+            <div className="w-4 h-4 rounded-full bg-amber-500 mr-2"></div>
+            <span>Completed</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-4 h-4 rounded-full bg-amber-700 animate-pulse mr-2"></div>
+            <span>Current</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-4 h-4 rounded-full bg-gray-800 mr-2 border border-gray-600"></div>
+            <span>Locked</span>
+          </div>
         </div>
       </div>
     </div>

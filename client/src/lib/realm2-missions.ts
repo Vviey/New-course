@@ -351,43 +351,7 @@ export const realm2Missions: Realm2MissionData[] = [
       that users can enhance with proper techniques.
     `
   },
-  {
-    id: 205,
-    title: "Lightning Network",
-    subtitle: "Enhanced privacy through Layer 2 solutions",
-    description: "Learn how Bitcoin's Layer 2 solutions enhance privacy and transaction efficiency.",
-    simulationType: 'lightning',
-    content: `
-      In a bustling underground market, Asha discovers merchants using an advanced payment system built on top of Bitcoin. 
-      This is her introduction to the Lightning Network - Bitcoin's Layer 2 scaling solution.
 
-      ## Beyond the Base Layer
-
-      A merchant explains that while Bitcoin's base layer provides transparent, censorship-resistant transactions, 
-      the Lightning Network adds speed, lower fees, and enhanced privacy.
-
-      ### Lightning Network Properties
-      - Near-instant settlement of payments
-      - Extremely low transaction fees
-      - Improved privacy - only channel open/close transactions are recorded on the blockchain
-      - Individual payments within channels aren't publicly visible
-      - Enables micropayments and new economic possibilities
-
-      Through an interactive demonstration, Asha opens a Lightning channel and makes several payments, experiencing 
-      how payments can be routed through multiple channels without revealing transaction details on the public blockchain.
-
-      ## Privacy Innovations
-
-      The merchant introduces Asha to additional privacy innovations being developed for Bitcoin and Lightning:
-
-      - Payment channels that mask transaction details
-      - Onion routing for payment paths
-      - Atomic swaps for cross-chain privacy
-      - Evolving standards to protect user privacy
-
-      Asha learns that layers of technology built on sound money foundations can create systems that are both efficient and privacy-preserving.
-    `
-  },
   {
     id: 206,
     title: "Self-Custody",
