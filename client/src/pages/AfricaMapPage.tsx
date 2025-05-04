@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'wouter';
-import { ThemeContainer, ThemeHeading, GradientButton, OutlineButton } from '@/components/ui/theme';
+import { ThemeContainer, ThemeHeading, GradientButton } from '@/components/ui/theme';
 import { NavBar } from '@/components/ui/nav-bar';
 
 interface BitcoinProject {
@@ -178,7 +178,7 @@ export default function AfricaMapPage() {
                   top: `${project.coordinates.y}%` 
                 }}
                 title={project.name}
-              ></button>
+              />
             ))}
           </div>
           
@@ -188,7 +188,7 @@ export default function AfricaMapPage() {
             <div className="space-y-1">
               {Object.entries(projectTypeColors).filter(([key]) => key !== 'All').map(([type, color]) => (
                 <div key={type} className="flex items-center">
-                  <div className={`w-3 h-3 rounded-full ${color} mr-2`}></div>
+                  <div className={`w-3 h-3 rounded-full ${color} mr-2`} />
                   <span className="text-lightText/80 text-xs">{type}</span>
                 </div>
               ))}
@@ -207,7 +207,7 @@ export default function AfricaMapPage() {
                 className="bg-darkBg/50 border border-secondary/20 rounded-lg p-4 cursor-pointer hover:bg-darkBg/70"
               >
                 <div className="flex items-center">
-                  <div className={`w-3 h-3 rounded-full ${projectTypeColors[project.type]} mr-3`}></div>
+                  <div className={`w-3 h-3 rounded-full ${projectTypeColors[project.type]} mr-3`} />
                   <h4 className="font-bold text-lightText/90">{project.name}</h4>
                 </div>
                 <div className="text-sm text-lightText/70 mt-1">{project.country}</div>

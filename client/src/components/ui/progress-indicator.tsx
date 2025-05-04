@@ -1,4 +1,4 @@
-import { originTheme } from '@/lib/realm-themes';
+// Theme colors defined in CSS
 
 export interface ProgressIndicatorProps {
   progress: number;  // 0 to 100

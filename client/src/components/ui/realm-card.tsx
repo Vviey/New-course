@@ -15,7 +15,7 @@ export function RealmCard({ realm, className = '' }: RealmCardProps) {
           alt={realm.name} 
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-darkBg to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-darkBg to-transparent" />
         <div className="absolute bottom-4 left-4">
           <h3 className="text-xl font-cinzel font-bold text-secondary">{realm.name}</h3>
         </div>
@@ -28,12 +28,12 @@ export function RealmCard({ realm, className = '' }: RealmCardProps) {
           
           {realm.isLocked ? (
             <button className="text-secondary/50 font-montserrat font-medium text-sm cursor-not-allowed">
-              Locked <i className="fas fa-lock ml-1"></i>
+              Locked <i className="fas fa-lock ml-1" />
             </button>
           ) : (
             <Link to={`/realm/${realm.id}`}>
               <button className="text-secondary hover:text-primary font-montserrat font-medium text-sm">
-                Start <i className="fas fa-arrow-right ml-1"></i>
+                Start <i className="fas fa-arrow-right ml-1" />
               </button>
             </Link>
           )}

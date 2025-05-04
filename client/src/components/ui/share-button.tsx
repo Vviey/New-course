@@ -23,7 +23,7 @@ export function ShareButton({
   title,
   text,
   url = window.location.href,
-  imageUrl,
+  /* imageUrl is defined in props but not used in this component */
   hashtags = ['BitcoinQuest', 'LearnBitcoin'],
   className = '',
   variant = 'icon-and-text',
