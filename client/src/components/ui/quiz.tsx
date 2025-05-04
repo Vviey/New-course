@@ -87,7 +87,7 @@ export function Quiz({ quiz, themeClasses, onComplete }: QuizProps) {
                 <div 
                   className="bg-primary h-1.5 rounded-full" 
                   style={{ width: `${((currentQuestionIndex + 1) / quiz.questions.length) * 100}%` }}
-                ></div>
+                />
               </div>
               <span className="text-xs text-lightText/60">
                 Question {currentQuestionIndex + 1} of {quiz.questions.length}
@@ -128,10 +128,10 @@ export function Quiz({ quiz, themeClasses, onComplete }: QuizProps) {
                           : 'border-secondary/40'
                     }`}>
                       {(isSubmitted && option.isCorrect) && (
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500" />
                       )}
                       {(!isSubmitted && selectedOptions[currentQuestion.id] === option.id) && (
-                        <div className="w-3 h-3 rounded-full bg-primary"></div>
+                        <div className="w-3 h-3 rounded-full bg-primary" />
                       )}
                     </div>
                     <span className="text-lightText/90">{option.text}</span>

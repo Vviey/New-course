@@ -1,4 +1,4 @@
-import { useEffect, useRef, ReactNode, useState } from 'react';
+import { useEffect, useRef, ReactNode } from 'react';
 import { LazyImage } from '@/components/ui/lazy-image';
 
 interface ParallaxSectionProps {

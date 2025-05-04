@@ -13,8 +13,7 @@ export function ProgressIndicator({
   label = 'Progress',
   theme = 'origins'
 }: ProgressIndicatorProps) {
-  // Use the Origins theme colors
-  const themeColors = originTheme.colors;
+  // Theme colors defined in CSS now
   
   // Ensure progress is between 0 and 100
   const clampedProgress = Math.min(100, Math.max(0, progress));
