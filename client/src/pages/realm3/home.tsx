@@ -136,8 +136,7 @@ export default function Realm3Home() {
                   backdropFilter: 'blur(8px)'
                 }}
               >
-                <Link href={`/realm3/mission/${mission.id}`}>
-                  <a className="block p-6 h-full">
+                <div className="block p-6 h-full" onClick={() => window.location.href = `/realm3/mission/${mission.id % 300 === 0 ? mission.id : mission.id % 300}`}>
                     <div className="flex justify-between items-start mb-4">
                       <div className="p-2 rounded-lg" 
                         style={{ 
@@ -153,7 +152,7 @@ export default function Realm3Home() {
                           color: bioluminescentTheme.colors.secondary 
                         }}
                       >
-                        Mission {mission.id % 300}
+                        Mission {mission.id === 300 ? 1 : mission.id - 299}
                       </div>
                     </div>
                     
@@ -176,13 +175,12 @@ export default function Realm3Home() {
                         </span>
                       </div>
                       
-                      <div className="flex items-center text-teal-100 text-sm font-medium group-hover:text-teal-300 transition-colors">
+                      <div className="flex items-center text-teal-100 text-sm font-medium group-hover:text-teal-300 transition-colors cursor-pointer">
                         Begin
                         <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
-                  </a>
-                </Link>
+                </div>
                 
                 {/* Glowing border effect on hover */}
                 <motion.div
@@ -207,17 +205,17 @@ export default function Realm3Home() {
           transition={{ delay: 1, duration: 0.8 }}
           className="mt-16 text-center"
         >
-          <Link href="/map">
-            <a className="inline-flex items-center px-6 py-3 rounded-full text-teal-900 font-medium transition-all"
-              style={{ 
-                background: bioluminescentTheme.gradients?.glow || "linear-gradient(to right, #1A8F60, #46D1A2)",
-                boxShadow: bioluminescentTheme.shadows?.button || "0 2px 4px rgba(26, 143, 96, 0.3)",
-              }}
-            >
-              <ArrowRight className="mr-2 w-5 h-5 rotate-180" />
-              Return to Journey Map
-            </a>
-          </Link>
+          <button 
+            onClick={() => window.location.href = '/map'}
+            className="inline-flex items-center px-6 py-3 rounded-full text-teal-900 font-medium transition-all"
+            style={{ 
+              background: bioluminescentTheme.gradients?.glow || "linear-gradient(to right, #1A8F60, #46D1A2)",
+              boxShadow: bioluminescentTheme.shadows?.button || "0 2px 4px rgba(26, 143, 96, 0.3)",
+            }}
+          >
+            <ArrowRight className="mr-2 w-5 h-5 rotate-180" />
+            Return to Journey Map
+          </button>
         </motion.div>
       </div>
     </div>

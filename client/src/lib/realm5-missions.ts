@@ -22,53 +22,69 @@ export const realm5Missions: Mission[] = [
       React.createElement("p", null, 
         "Unlike traditional software projects with clear leadership hierarchies, Bitcoin evolves through a decentralized process where no single entity has control. BIPs provide structure to this process, allowing ideas to be proposed, discussed, refined, and eventually implemented or rejected."
       ),
+      
+      React.createElement("div", { className: "bg-purple-900/30 p-4 rounded-xl my-4 border border-purple-600/30" },
+        React.createElement("h3", { className: "text-lg font-semibold mb-3 text-purple-300" }, "BIP Process Overview"),
+        
+        React.createElement("div", { className: "grid md:grid-cols-3 gap-4" },
+          // BIP Categories
+          React.createElement("div", { className: "bg-purple-800/20 p-3 rounded-lg" },
+            React.createElement("h4", { className: "font-medium text-purple-300 mb-2 flex items-center" }, 
+              React.createElement("span", { className: "w-6 h-6 bg-purple-700/50 rounded-full flex justify-center items-center mr-2 text-sm" }, "1"),
+              "BIP Categories"
+            ),
+            React.createElement("ul", { className: "text-sm space-y-1 list-disc pl-4" },
+              React.createElement("li", null, "Standards Track"),
+              React.createElement("li", null, "Informational"),
+              React.createElement("li", null, "Process")
+            )
+          ),
+          
+          // BIP Lifecycle
+          React.createElement("div", { className: "bg-purple-800/20 p-3 rounded-lg" },
+            React.createElement("h4", { className: "font-medium text-purple-300 mb-2 flex items-center" }, 
+              React.createElement("span", { className: "w-6 h-6 bg-purple-700/50 rounded-full flex justify-center items-center mr-2 text-sm" }, "2"),
+              "BIP Lifecycle"
+            ),
+            React.createElement("ul", { className: "text-sm space-y-1 list-disc pl-4" },
+              React.createElement("li", null, "Idea & Discussion"),
+              React.createElement("li", null, "Draft"),
+              React.createElement("li", null, "Proposed"),
+              React.createElement("li", null, "Final/Active/Rejected")
+            )
+          ),
+          
+          // Key Stakeholders
+          React.createElement("div", { className: "bg-purple-800/20 p-3 rounded-lg" },
+            React.createElement("h4", { className: "font-medium text-purple-300 mb-2 flex items-center" }, 
+              React.createElement("span", { className: "w-6 h-6 bg-purple-700/50 rounded-full flex justify-center items-center mr-2 text-sm" }, "3"),
+              "Key Stakeholders"
+            ),
+            React.createElement("ul", { className: "text-sm space-y-1 list-disc pl-4" },
+              React.createElement("li", null, "Developers"),
+              React.createElement("li", null, "Miners"),
+              React.createElement("li", null, "Node Operators"),
+              React.createElement("li", null, "Users & Businesses")
+            )
+          )
+        )
+      ),
+      
       React.createElement("p", null, 
         "You'll explore the lifecycle of a BIP from initial idea to potential implementation, understanding the roles different stakeholders play and the challenges of achieving consensus in a decentralized system."
       ),
       
-      React.createElement("h3", { className: "text-xl font-semibold mt-6 mb-3 text-purple-400" }, "The BIP Process In Detail"),
-      
-      React.createElement("h4", { className: "text-lg font-medium mt-4 mb-2 text-purple-300" }, "What is a BIP?"),
-      React.createElement("p", null, 
-        "A Bitcoin Improvement Proposal (BIP) is a formal document that describes potential new features, processes, or environment changes to the Bitcoin protocol. It serves as the primary mechanism for proposing significant changes and documenting design decisions within the Bitcoin ecosystem."
-      ),
-      React.createElement("p", null, 
-        "BIPs follow a standardized format to ensure clarity and completeness. They include sections such as abstract, motivation, specification, rationale, and compatibility considerations. This structured approach helps the community evaluate proposals systematically."
-      ),
-      
-      React.createElement("h4", { className: "text-lg font-medium mt-4 mb-2 text-purple-300" }, "BIP Categories"),
-      React.createElement("p", null, "BIPs fall into three main categories:"),
-      React.createElement("ul", { className: "list-disc pl-5 space-y-2 my-3" },
-        React.createElement("li", null, React.createElement("span", { className: "font-medium text-purple-200" }, "Standards Track BIPs: "), "Changes to the Bitcoin network protocol, transaction validity rules, or other modifications that affect interoperability. Examples include BIP141 (SegWit) and BIP341 (Taproot)."),
-        React.createElement("li", null, React.createElement("span", { className: "font-medium text-purple-200" }, "Informational BIPs: "), "Design guidelines or information for the community that doesn't propose new features. For instance, BIP21 (URI scheme) and BIP44 (HD wallet structure)."),
-        React.createElement("li", null, React.createElement("span", { className: "font-medium text-purple-200" }, "Process BIPs: "), "Changes to processes surrounding Bitcoin development. Examples include BIP2 (the BIP process itself) and BIP8 (version bits deployment).")
-      ),
-      
-      React.createElement("h4", { className: "text-lg font-medium mt-4 mb-2 text-purple-300" }, "The BIP Lifecycle"),
-      React.createElement("p", null, "A BIP goes through several stages during its lifecycle:"),
-      
-      React.createElement("ol", { className: "list-decimal pl-5 space-y-2 my-3" },
-        React.createElement("li", null, React.createElement("span", { className: "font-medium text-purple-200" }, "Idea & Pre-proposal Discussion: "), "Before creating a formal BIP, developers typically discuss ideas on mailing lists, forums, and chat channels to gauge initial feedback."),
-        React.createElement("li", null, React.createElement("span", { className: "font-medium text-purple-200" }, "Draft: "), "The author submits a properly formatted BIP draft to the BIP repository. This stage involves refining the proposal based on community feedback."),
-        React.createElement("li", null, React.createElement("span", { className: "font-medium text-purple-200" }, "Proposed: "), "Once the draft meets formatting requirements and addresses initial feedback, it's assigned a BIP number by the BIP editor."),
-        React.createElement("li", null, React.createElement("span", { className: "font-medium text-purple-200" }, "Final/Active/Rejected: "), "After thorough review and discussion, a BIP may be accepted (Final/Active) or rejected. Implementation follows for accepted proposals."),
-      ),
-      
-      React.createElement("h4", { className: "text-lg font-medium mt-4 mb-2 text-purple-300" }, "Key Stakeholders"),
-      React.createElement("p", null, "Several stakeholders influence the BIP process:"),
-      React.createElement("ul", { className: "list-disc pl-5 space-y-2 my-3" },
-        React.createElement("li", null, React.createElement("span", { className: "font-medium text-purple-200" }, "Developers: "), "Write code, review proposals, and implement changes."),
-        React.createElement("li", null, React.createElement("span", { className: "font-medium text-purple-200" }, "Miners: "), "Signal support for protocol changes through version bits in mined blocks."),
-        React.createElement("li", null, React.createElement("span", { className: "font-medium text-purple-200" }, "Node Operators: "), "Choose which software to run, effectively voting on changes by adopting or rejecting them."),
-        React.createElement("li", null, React.createElement("span", { className: "font-medium text-purple-200" }, "Users & Businesses: "), "Influence decisions through economic activity and community participation.")
-      ),
-      
-      React.createElement("h4", { className: "text-lg font-medium mt-4 mb-2 text-purple-300" }, "Case Study: BIP141 (Segregated Witness)"),
-      React.createElement("p", null,
-        "SegWit (BIP141) provides an excellent case study of the BIP process. Proposed in December 2015, it aimed to solve transaction malleability and increase block capacity. Despite technical merit, it faced significant community debate."
-      ),
-      React.createElement("p", null, 
-        "The proposal went through multiple revisions and eventually activated in August 2017 after complex negotiations and the development of BIP91 and BIP148 to facilitate its activation. This example illustrates both the technical and social dimensions of Bitcoin governance."
+      // Notable BIPs with visual tag layout
+      React.createElement("div", { className: "my-5" },
+        React.createElement("h4", { className: "text-lg font-medium text-purple-300 mb-3" }, "Notable BIPs"),
+        React.createElement("div", { className: "flex flex-wrap gap-2" },
+          React.createElement("span", { className: "px-3 py-1 bg-purple-900/40 rounded-full text-xs font-medium" }, "BIP141: SegWit"),
+          React.createElement("span", { className: "px-3 py-1 bg-purple-900/40 rounded-full text-xs font-medium" }, "BIP341: Taproot"),
+          React.createElement("span", { className: "px-3 py-1 bg-purple-900/40 rounded-full text-xs font-medium" }, "BIP39: Mnemonics"),
+          React.createElement("span", { className: "px-3 py-1 bg-purple-900/40 rounded-full text-xs font-medium" }, "BIP32: HD Wallets"),
+          React.createElement("span", { className: "px-3 py-1 bg-purple-900/40 rounded-full text-xs font-medium" }, "BIP21: URI Scheme"),
+          React.createElement("span", { className: "px-3 py-1 bg-purple-900/40 rounded-full text-xs font-medium" }, "BIP8: Version Bits")
+        )
       ),
       
       React.createElement("h3", { className: "text-lg font-semibold mt-6 mb-2" }, "Key Concepts You'll Learn:"),

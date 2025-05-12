@@ -18,56 +18,119 @@ export const realm2Missions: Realm2MissionData[] = [
     description: "Learn the fundamentals of financial surveillance, its real-world applications, and why privacy matters.",
     simulationType: 'surveillance',
     content: `
-      ## What is Financial Surveillance?
+      <div style="background-color: rgba(255, 204, 0, 0.1); border: 1px solid rgba(255, 204, 0, 0.3); border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0;">What is Financial Surveillance?</h2>
+        <p>The monitoring and tracking of financial transactions and activities by governments, corporations, or other entities.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px;">
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 12px;">
+            <h4 style="color: #FFCC00; margin-top: 0;">What They Track</h4>
+            <ul>
+              <li>Senders & recipients</li>
+              <li>Account balances</li>
+              <li>Purchase history</li>
+              <li>Transaction times & locations</li>
+            </ul>
+          </div>
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 12px;">
+            <h4 style="color: #FFCC00; margin-top: 0;">Who Does The Tracking</h4>
+            <ul>
+              <li>Government agencies</li>
+              <li>Financial institutions</li>
+              <li>Payment processors</li>
+              <li>Tech platforms</li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-      Financial surveillance is the monitoring and tracking of financial transactions and activities. It occurs when 
-      governments, corporations, or other entities collect, analyze, and potentially share information about:
-      
-      - Who you send money to
-      - Who you receive money from
-      - How much money you have
-      - What you purchase
-      - When and where you make transactions
-      
-      ## Real-World Example: M-Pesa in Kenya
-      
-      M-Pesa, launched in 2007 by Safaricom in Kenya, revolutionized financial access for millions who previously had 
-      no banking services. Through a simple mobile phone, Kenyans can now deposit, withdraw, and transfer money, pay bills, 
-      and access micro-loans.
-      
-      ### The Benefits:
-      - Financial inclusion for the unbanked
-      - Reduced cash crime and corruption
-      - Economic growth and entrepreneurship opportunities
-      - Convenient remittances for families
-      
-      ### The Privacy Concerns:
-      - Every transaction is logged with time, amount, location, and participants
-      - Usage patterns can reveal sensitive personal information (medical visits, religious donations, etc.)
-      - Government can access complete financial histories
-      - Potential for social control through financial access restrictions
-      
-      In 2017, during a contested election, Kenyan authorities could theoretically have tracked political donations 
-      through M-Pesa, highlighting the dual nature of such systems: they provide essential services while creating 
-      potential surveillance mechanisms.
-      
-      ## Why Financial Privacy Matters
-      
-      Financial privacy isn't about hiding illegal activity—it's about:
-      
-      - **Personal autonomy**: Making economic choices without judgment or interference
-      - **Protection from discrimination**: Preventing unfair treatment based on spending patterns
-      - **Safety**: Shielding yourself from targeted theft or extortion
-      - **Business confidentiality**: Protecting sensitive business operations and competitive strategies
-      - **Avoiding manipulation**: Preventing targeted exploitation based on your financial behavior
-      
-      ## The Global Perspective
-      
-      Across Africa and worldwide, digital payment systems are creating unprecedented financial inclusion while 
-      simultaneously establishing the most comprehensive financial surveillance infrastructure in history.
-      
-      This tension - between convenience and privacy, between access and autonomy - forms the central challenge 
-      of our modern monetary systems.
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0;">Case Study: M-Pesa in Kenya</h2>
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+          <div style="flex: 1;">
+            <h3 style="color: #FFCC00;">Mobile Money Revolution</h3>
+            <p>Launched in 2007, M-Pesa allows Kenyans to deposit, withdraw, transfer money, pay bills, and access loans via mobile phones.</p>
+          </div>
+          <div style="background-color: rgba(255, 255, 255, 0.1); border-radius: 100%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+            📱
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div style="background-color: rgba(0, 180, 0, 0.1); border-radius: 6px; padding: 12px;">
+            <h4 style="color: #4CAF50; margin-top: 0;">Benefits</h4>
+            <ul>
+              <li>Financial inclusion</li>
+              <li>Reduced cash crime</li>
+              <li>Economic growth</li>
+              <li>Easy remittances</li>
+            </ul>
+          </div>
+          <div style="background-color: rgba(180, 0, 0, 0.1); border-radius: 6px; padding: 12px;">
+            <h4 style="color: #F44336; margin-top: 0;">Privacy Concerns</h4>
+            <ul>
+              <li>All transactions logged</li>
+              <li>Reveals personal habits</li>
+              <li>Government access</li>
+              <li>Potential restrictions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0;">Why Financial Privacy Matters</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px;">
+          <div style="text-align: center; background-color: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 12px;">
+            <div style="font-size: 24px; margin-bottom: 8px;">🛡️</div>
+            <h4 style="color: #FFCC00; margin: 0 0 8px 0;">Personal Autonomy</h4>
+            <p style="font-size: 12px; margin: 0;">Make economic choices without judgment</p>
+          </div>
+          <div style="text-align: center; background-color: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 12px;">
+            <div style="font-size: 24px; margin-bottom: 8px;">⚖️</div>
+            <h4 style="color: #FFCC00; margin: 0 0 8px 0;">Anti-Discrimination</h4>
+            <p style="font-size: 12px; margin: 0;">Prevent unfair treatment</p>
+          </div>
+          <div style="text-align: center; background-color: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 12px;">
+            <div style="font-size: 24px; margin-bottom: 8px;">🔒</div>
+            <h4 style="color: #FFCC00; margin: 0 0 8px 0;">Safety</h4>
+            <p style="font-size: 12px; margin: 0;">Protection from targeting</p>
+          </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+          <div style="text-align: center; background-color: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 12px;">
+            <div style="font-size: 24px; margin-bottom: 8px;">💼</div>
+            <h4 style="color: #FFCC00; margin: 0 0 8px 0;">Business Confidentiality</h4>
+            <p style="font-size: 12px; margin: 0;">Protect sensitive operations</p>
+          </div>
+          <div style="text-align: center; background-color: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 12px;">
+            <div style="font-size: 24px; margin-bottom: 8px;">🛑</div>
+            <h4 style="color: #FFCC00; margin: 0 0 8px 0;">Avoid Manipulation</h4>
+            <p style="font-size: 12px; margin: 0;">Prevent exploitation</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 16px;">
+        <h2 style="color: #FFA500; margin-top: 0;">The Privacy Paradox</h2>
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <div style="flex: 1; padding-right: 16px;">
+            <p>Digital payment systems create unprecedented financial inclusion while simultaneously establishing comprehensive surveillance infrastructure.</p>
+          </div>
+          <div style="background-color: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px; text-align: center; min-width: 100px;">
+            <div style="font-size: 24px;">⚖️</div>
+            <div style="font-size: 12px; margin-top: 8px;">Convenience vs. Privacy</div>
+          </div>
+        </div>
+        
+        <p style="font-style: italic; text-align: center; border-top: 1px solid rgba(255, 204, 0, 0.3); padding-top: 16px;">
+          "This tension - between convenience and privacy, between access and autonomy - forms the central challenge of our modern monetary systems."
+        </p>
+      </div>
     `
   },
   {
@@ -77,33 +140,95 @@ export const realm2Missions: Realm2MissionData[] = [
     description: "Learn how centralized monetary systems enable surveillance and financial control.",
     simulationType: 'surveillance',
     content: `
-      As Asha walks through the central plaza of the Citadel, large screens display citizens' financial status and spending habits. 
-      The authorities know exactly who has money, how much, and how they spend it.
-
-      When citizens make purchases, their entire financial history becomes available to merchants. The state controls who can 
-      and cannot participate in the economy based on their "citizen score."
-
-      ## The Privacy Challenge
-
-      As Asha explores further, she notices subtle resistance within the city. Some citizens are finding ways to conduct 
-      transactions outside the watchful eyes of the Citadel's financial surveillance system.
-
-      ### Key Concepts
-      - Financial surveillance as a tool for social control
-      - Privacy as a fundamental right rather than suspicious activity
-      - How traditional financial systems track and monitor transactions
-      - The balance between transparency and privacy in financial systems
-
-      In the Citadel, citizens must seek permission to make large purchases, and their spending habits directly 
-      affect their access to services and opportunities.
-
-      This mission introduces the concept of financial privacy and why it matters in a digital world. As we 
-      move toward more digitized money, the question of who can see your transactions becomes increasingly important.
+      <div style="position: relative; background-color: rgba(255, 204, 0, 0.05); border-radius: 12px; padding: 20px; margin-bottom: 24px; overflow: hidden;">
+        <div style="position: absolute; top: 0; right: 0; width: 150px; height: 150px; background: radial-gradient(circle at top right, rgba(255, 204, 0, 0.2), transparent 70%); z-index: 0;"></div>
+        
+        <h2 style="color: #FFA500; position: relative; z-index: 1;">Financial Control System</h2>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; position: relative; z-index: 1;">
+          <div style="flex: 1; min-width: 200px; background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px;">
+            <h3 style="color: #FFCC00; margin-top: 0;">Surveillance Methods</h3>
+            <ul style="padding-left: 20px;">
+              <li>Public financial status displays</li>
+              <li>Complete transaction history tracking</li>
+              <li>Merchant access to customer data</li>
+              <li>Location tracking for all purchases</li>
+            </ul>
+          </div>
+          
+          <div style="flex: 1; min-width: 200px; background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px;">
+            <h3 style="color: #FFCC00; margin-top: 0;">Control Mechanisms</h3>
+            <ul style="padding-left: 20px;">
+              <li>"Citizen score" based on spending</li>
+              <li>Permission required for large purchases</li>
+              <li>Access to services tied to financial behavior</li>
+              <li>Economic participation restrictions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
       
-      <div class="mt-6">
-        <button id="next-button" class="px-6 py-2 bg-gradient-to-r from-ochre-light to-ochre-dark text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
-          Continue to Next Mission
-        </button>
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0;">The Privacy Challenge</h2>
+        
+        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+          <div style="flex: 1;">
+            <p>Some citizens find creative ways to conduct transactions outside the watchful eyes of surveillance systems.</p>
+          </div>
+          <div style="min-width: 80px; height: 80px; background-color: rgba(0, 0, 0, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px;">
+            👁️
+          </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px;">
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 6px; padding: 12px; border-left: 3px solid #FFCC00;">
+            <h4 style="color: #FFCC00; margin-top: 0; font-size: 14px;">Social Control</h4>
+            <p style="font-size: 12px; margin-bottom: 0;">Financial data used to influence behavior</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 6px; padding: 12px; border-left: 3px solid #FFCC00;">
+            <h4 style="color: #FFCC00; margin-top: 0; font-size: 14px;">Privacy Rights</h4>
+            <p style="font-size: 12px; margin-bottom: 0;">Financial privacy as a fundamental right</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 6px; padding: 12px; border-left: 3px solid #FFCC00;">
+            <h4 style="color: #FFCC00; margin-top: 0; font-size: 14px;">System Tracking</h4>
+            <p style="font-size: 12px; margin-bottom: 0;">How financial systems monitor activity</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 6px; padding: 12px; border-left: 3px solid #FFCC00;">
+            <h4 style="color: #FFCC00; margin-top: 0; font-size: 14px;">Balance</h4>
+            <p style="font-size: 12px; margin-bottom: 0;">Transparency vs. privacy tradeoffs</p>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(255, 204, 0, 0.07); border-radius: 8px; padding: 16px; text-align: center;">
+        <h3 style="color: #FFA500;">Digital Money Privacy Challenge</h3>
+        <p>As money becomes increasingly digital, the question of who can see your transactions becomes critically important.</p>
+        
+        <div style="display: flex; justify-content: center; gap: 30px; margin-top: 16px;">
+          <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background-color: rgba(255, 204, 0, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 8px;">
+              💰
+            </div>
+            <div style="font-size: 12px;">Cash = Privacy</div>
+          </div>
+          
+          <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background-color: rgba(255, 204, 0, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 8px;">
+              💳
+            </div>
+            <div style="font-size: 12px;">Digital = Tracking</div>
+          </div>
+          
+          <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background-color: rgba(255, 204, 0, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 8px;">
+              ❓
+            </div>
+            <div style="font-size: 12px;">Future = ?</div>
+          </div>
+        </div>
       </div>
     `
   },
@@ -114,81 +239,133 @@ export const realm2Missions: Realm2MissionData[] = [
     description: "Explore the balance between financial transparency and personal privacy.",
     simulationType: 'privacy',
     content: `
-      In the Citadel's central district, Asha meets a researcher named Malik who explains how the city's surveillance system works.
-      Every transaction is logged, analyzed, and scored according to the city's values and priorities.
-
-      "The authorities claim complete financial transparency is necessary for security and preventing financial crimes," 
-      Malik explains. "But in reality, it creates a system where the state has unprecedented power over individuals."
-
-      ## Understanding Financial Privacy
-
-      Financial privacy refers to your ability to conduct economic transactions without unwanted third-party surveillance. 
-      Throughout history, financial privacy has been a fundamental aspect of commerce and personal freedom.
-
-      ### Traditional Privacy Mechanisms
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 16px;">
+          <div style="flex-grow: 1;">
+            <h2 style="color: #FFA500; margin-top: 0;">Understanding Financial Privacy</h2>
+            <p>Financial privacy is your ability to conduct economic transactions without unwanted third-party surveillance.</p>
+          </div>
+          <div style="min-width: 70px; height: 70px; background-color: rgba(0, 0, 0, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px;">
+            🔒
+          </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px;">
+            <h3 style="color: #FFCC00; margin-top: 0;">Traditional Cash Privacy</h3>
+            <p style="margin-bottom: 12px;">In physical cash transactions, only the buyer and seller know the details.</p>
+            <ul style="padding-left: 20px; margin-bottom: 0;">
+              <li>What was purchased</li>
+              <li>For how much</li>
+              <li>By whom</li>
+              <li>When and where</li>
+            </ul>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px;">
+            <h3 style="color: #FFCC00; margin-top: 0;">Digital Transaction Records</h3>
+            <p style="margin-bottom: 12px;">Electronic payments create permanent records accessible to:</p>
+            <ul style="padding-left: 20px; margin-bottom: 0;">
+              <li>Banks & payment processors</li>
+              <li>Governments</li>
+              <li>Marketing companies</li>
+              <li>Data brokers & hackers</li>
+            </ul>
+          </div>
+        </div>
+      </div>
       
-      In physical cash transactions, only the buyer and seller know the details of their exchange. Third parties don't 
-      automatically learn:
+      <div style="position: relative; background-color: rgba(255, 204, 0, 0.05); border-radius: 12px; padding: 20px; margin-bottom: 24px; overflow: hidden;">
+        <h2 style="color: #FFA500; margin-top: 0;">Africa's Digital Transition</h2>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 16px;">
+          <div style="flex-grow: 1; min-width: 250px;">
+            <p>In Rwanda, the push toward cashless payments through mobile money and cards means nearly all economic activity is now potentially trackable.</p>
+          </div>
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; align-items: center; min-width: 120px;">
+            <div style="font-size: 36px; margin-bottom: 8px;">📱 → 👁️</div>
+            <div style="font-size: 13px; text-align: center;">Mobile payments create digital trails</div>
+          </div>
+        </div>
+        
+        <p>Traditional African marketplaces operated with cash privacy, but digital systems create unprecedented financial surveillance capability.</p>
+      </div>
       
-      - What was purchased
-      - For how much
-      - By whom
-      - When and where the transaction occurred
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0; text-align: center;">The Balancing Act</h2>
+        
+        <div style="display: flex; justify-content: center; margin: 16px 0;">
+          <div style="width: 60%; height: 8px; background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; position: relative;">
+            <div style="position: absolute; left: 0; top: -30px; text-align: center; width: 33.3%;">
+              <div style="font-size: 20px;">🔍</div>
+              <div style="font-size: 12px;">Complete Transparency</div>
+            </div>
+            <div style="position: absolute; left: 33.3%; top: -30px; text-align: center; width: 33.3%;">
+              <div style="font-size: 20px;">⚖️</div>
+              <div style="font-size: 12px;">Reasonable Privacy</div>
+            </div>
+            <div style="position: absolute; right: 0; top: -30px; text-align: center; width: 33.3%;">
+              <div style="font-size: 20px;">🕵️</div>
+              <div style="font-size: 12px;">Absolute Privacy</div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 30px;">
+          <div style="background-color: rgba(255, 100, 100, 0.15); border-radius: 6px; padding: 12px;">
+            <h4 style="color: #FF6B6B; margin-top: 0; font-size: 14px; text-align: center;">Complete Transparency</h4>
+            <ul style="padding-left: 20px; font-size: 12px;">
+              <li>All transactions public</li>
+              <li>All financial details visible</li>
+              <li>No financial secrets</li>
+            </ul>
+          </div>
+          
+          <div style="background-color: rgba(100, 200, 100, 0.15); border-radius: 6px; padding: 12px;">
+            <h4 style="color: #64C864; margin-top: 0; font-size: 14px; text-align: center;">Reasonable Privacy</h4>
+            <ul style="padding-left: 20px; font-size: 12px;">
+              <li>Details known to participants</li>
+              <li>Verification without revealing all</li>
+              <li>Oversight with due process</li>
+            </ul>
+          </div>
+          
+          <div style="background-color: rgba(100, 100, 255, 0.15); border-radius: 6px; padding: 12px;">
+            <h4 style="color: #6464FF; margin-top: 0; font-size: 14px; text-align: center;">Absolute Privacy</h4>
+            <ul style="padding-left: 20px; font-size: 12px;">
+              <li>No transaction trail</li>
+              <li>Completely anonymous</li>
+              <li>No possible oversight</li>
+            </ul>
+          </div>
+        </div>
+      </div>
       
-      In traditional African marketplaces, traders could conduct business without authorities tracking every sale. A person 
-      could save money under their mattress, and no one would know their wealth without physical inspection.
-
-      ### The Digital Shift
-      
-      With electronic payments becoming the norm, every transaction potentially creates a permanent record accessible to:
-      
-      - Payment processors and banks
-      - Governments
-      - Marketing companies
-      - Data brokers
-      - Hackers
-      
-      In Rwanda, for example, the push toward cashless payments through mobile money and cards means nearly all economic 
-      activity is now potentially trackable. This creates an unprecedented financial surveillance capability that never 
-      existed in cash-based economies.
-
-      ## The Balancing Act
-
-      Asha learns that any financial system must balance:
-
-      ### Transparency
-      Allowing verification of transactions and preventing fraud
-
-      ### Privacy
-      Protecting individuals' financial information from unnecessary scrutiny
-
-      ## The Privacy Spectrum
-      
-      Financial systems exist on a privacy spectrum:
-      
-      **Complete Transparency**
-      - All transactions visible to everyone
-      - All personal financial details public
-      - No financial secrets
-      
-      **Reasonable Privacy**
-      - Transaction details known only to participants
-      - Verification possible without revealing details
-      - Oversight for legitimate law enforcement with due process
-      
-      **Absolute Privacy**
-      - No transaction trail
-      - Completely anonymous exchanges
-      - No possible oversight
-
-      Through interactive simulations, Asha experiences how different levels of financial privacy affect citizens' 
-      lives, from complete surveillance to total privacy, with the ideal system balancing legitimate oversight with personal privacy.
-
-      ### Key Questions
-      - Who should have access to your transaction history?
-      - Should financial privacy be a right or a privilege?
-      - How can a system prevent financial crimes while respecting privacy?
-      - What information should be required for different types of transactions?
+      <div style="background-color: rgba(255, 204, 0, 0.07); border-radius: 8px; padding: 16px;">
+        <h2 style="color: #FFA500; margin-top: 0; text-align: center;">Key Questions</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px;">
+          <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+            <div style="font-size: 24px;">❓</div>
+            <div>Who should access your transaction history?</div>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+            <div style="font-size: 24px;">🔐</div>
+            <div>Is financial privacy a right or privilege?</div>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+            <div style="font-size: 24px;">🛡️</div>
+            <div>How to prevent crimes while respecting privacy?</div>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+            <div style="font-size: 24px;">📋</div>
+            <div>What information should different transactions require?</div>
+          </div>
+        </div>
+      </div>
     `
   },
   {
