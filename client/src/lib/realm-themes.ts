@@ -149,6 +149,17 @@ export const cryptographyTheme: RealmTheme = {
     gradientStart: "#0D3D29",
     gradientEnd: "#165E40"
   },
+  gradients: {
+    glow: "linear-gradient(to right, #1A8F60, #46D1A2)",
+    blue: "linear-gradient(to bottom, #46D1A2, #16FFBD)",
+  },
+  shadows: {
+    card: "0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1)",
+    button: "0 2px 4px rgba(26, 143, 96, 0.3)"
+  },
+  animations: {
+    glow: "pulse 2s infinite",
+  },
   patternClass: "crypto-pattern",
   backgroundTexture: "url('/textures/binary-pattern.svg')"
 };
