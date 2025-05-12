@@ -74,7 +74,7 @@ export default function Realm3Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text"
             style={{ 
-              backgroundImage: bioluminescentTheme.gradients.glow,
+              backgroundImage: bioluminescentTheme.gradients?.glow || "linear-gradient(to right, #1A8F60, #46D1A2)",
               textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'
             }}
           >
@@ -96,7 +96,7 @@ export default function Realm3Home() {
           <div 
             className="absolute inset-0 z-0 opacity-10" 
             style={{ 
-              backgroundImage: bioluminescentTheme.patterns.code,
+              backgroundImage: bioluminescentTheme.patterns?.code || "url('/textures/code-pattern.svg')",
               backgroundSize: '200px 200px'
             }}
           ></div>
@@ -105,7 +105,7 @@ export default function Realm3Home() {
           <div 
             className="absolute inset-0 z-0"
             style={{
-              background: bioluminescentTheme.gradients.radial,
+              background: bioluminescentTheme.gradients?.radial || "radial-gradient(circle, rgba(13, 61, 41, 0.0) 0%, rgba(13, 61, 41, 0.8) 80%)",
               pointerEvents: 'none'
             }}
           ></div>
@@ -125,13 +125,13 @@ export default function Realm3Home() {
                 onMouseLeave={() => setHoveredMission(null)}
                 whileHover={{ 
                   scale: 1.03,
-                  boxShadow: bioluminescentTheme.shadows.glow,
+                  boxShadow: bioluminescentTheme.shadows?.glow || "0 0 20px rgba(6, 214, 160, 0.7)",
                   transition: { duration: 0.2 }
                 }}
                 className="bg-gradient-to-br rounded-xl overflow-hidden relative group"
                 style={{ 
                   backgroundImage: hoveredMission === mission.id 
-                    ? bioluminescentTheme.gradients.aurora 
+                    ? (bioluminescentTheme.gradients?.aurora || "linear-gradient(to bottom right, rgba(6, 214, 160, 0.7), rgba(17, 138, 178, 0.5))") 
                     : 'linear-gradient(to bottom right, rgba(7, 59, 76, 0.7), rgba(17, 138, 178, 0.4))',
                   backdropFilter: 'blur(8px)'
                 }}
@@ -210,8 +210,8 @@ export default function Realm3Home() {
           <Link href="/map">
             <a className="inline-flex items-center px-6 py-3 rounded-full text-teal-900 font-medium transition-all"
               style={{ 
-                background: bioluminescentTheme.gradients.glow,
-                boxShadow: bioluminescentTheme.shadows.button,
+                background: bioluminescentTheme.gradients?.glow || "linear-gradient(to right, #1A8F60, #46D1A2)",
+                boxShadow: bioluminescentTheme.shadows?.button || "0 2px 4px rgba(26, 143, 96, 0.3)",
               }}
             >
               <ArrowRight className="mr-2 w-5 h-5 rotate-180" />

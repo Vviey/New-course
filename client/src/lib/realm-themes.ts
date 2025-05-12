@@ -20,16 +20,20 @@ export interface RealmTheme {
   };
   patterns?: {
     adinkra?: string;
+    code?: string;
   };
   gradients?: {
     sunset?: string;
     sand?: string;
     blue?: string;
     glow?: string;
+    radial?: string;
+    aurora?: string;
   };
   shadows?: {
     card?: string;
     button?: string;
+    glow?: string;
   };
   animations?: {
     glow?: string;
@@ -150,13 +154,26 @@ export const cryptographyTheme: RealmTheme = {
     gradientStart: "#0D3D29",
     gradientEnd: "#165E40"
   },
+  patterns: {
+    adinkra: `repeating-linear-gradient(
+      45deg,
+      rgba(26, 143, 96, 0.1),
+      rgba(26, 143, 96, 0.1) 10px,
+      rgba(26, 143, 96, 0.2) 10px,
+      rgba(26, 143, 96, 0.2) 20px
+    )`,
+    code: `url('/textures/code-pattern.svg')` // Adding the code pattern
+  },
   gradients: {
     glow: "linear-gradient(to right, #1A8F60, #46D1A2)",
     blue: "linear-gradient(to bottom, #46D1A2, #16FFBD)",
+    radial: "radial-gradient(circle, rgba(13, 61, 41, 0.0) 0%, rgba(13, 61, 41, 0.8) 80%)",
+    aurora: "linear-gradient(to bottom right, rgba(6, 214, 160, 0.7), rgba(17, 138, 178, 0.5))",
   },
   shadows: {
     card: "0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1)",
-    button: "0 2px 4px rgba(26, 143, 96, 0.3)"
+    button: "0 2px 4px rgba(26, 143, 96, 0.3)",
+    glow: "0 0 20px rgba(6, 214, 160, 0.7)" // Glowing effect for hover
   },
   animations: {
     glow: "pulse 2s infinite",
