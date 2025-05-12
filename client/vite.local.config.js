@@ -1,18 +1,16 @@
 /**
- * Local Development Vite Configuration
+ * Local Development Vite Configuration 
+ * CommonJS format to avoid ESM-related TypeScript errors
  */
 
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
-import { fileURLToPath } from "url";
+const { defineConfig } = require("vite");
+const react = require("@vitejs/plugin-react");
+const path = require("path");
 
-// Fix for __dirname in ES module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Define project directories
 const projectRoot = path.resolve(__dirname, "..");
 
-export default defineConfig({
+module.exports = defineConfig({
   plugins: [react()],
   resolve: {
     alias: {

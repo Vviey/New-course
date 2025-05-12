@@ -1,30 +1,32 @@
 #!/bin/bash
 
-# Simple local development startup script for the Bitcoin Education Platform
+# Run-local shell script for Unix-based systems
+# This script starts both the backend and frontend servers for local development
 
-# Create package.json if it doesn't exist
-if [ ! -f "package.json" ]; then
-  echo "Copying local-package.json to package.json..."
-  cp local-package.json package.json
+# Set environment variables
+export NODE_ENV=development
+export LOCAL_DEV=true
+export SKIP_REPLIT=true
+
+# Display startup message
+echo "=================================================="
+echo "  STARTING LOCAL DEVELOPMENT ENVIRONMENT"
+echo "=================================================="
+echo ""
+echo "This will start:"
+echo " - Backend API server on port 5000"
+echo " - Frontend dev server on port 5173"
+echo ""
+echo "Access the application at: http://localhost:5173"
+echo "Press Ctrl+C to stop all servers"
+echo ""
+
+# Check if Node.js is installed
+if ! command -v node &> /dev/null; then
+    echo "Error: Node.js is not installed or not in PATH"
+    echo "Please install Node.js v18 or later"
+    exit 1
 fi
 
-# Create .env file if it doesn't exist
-if [ ! -f ".env" ]; then
-  echo "Creating default .env file..."
-  cat > .env << EOL
-NODE_ENV=development
-
-# PostgreSQL database connection (optional)
-# DATABASE_URL=postgresql://username:password@localhost:5432/database_name
-EOL
-fi
-
-# Check if dependencies are installed
-if [ ! -d "node_modules" ]; then
-  echo "Installing dependencies..."
-  npm install
-fi
-
-# Run the application
-echo "Starting the application..."
-node start-local.js
+# Run the JavaScript version
+node run-local.js

@@ -2,7 +2,7 @@ import { Switch, Route, useLocation } from "wouter";
 import { Suspense, lazy, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
-import { AuthProvider } from "@/context/AuthContext"; 
+import { AuthProvider, useAuth } from "@/context/AuthContext"; 
 
 // Lazy load pages
 const HomePage = lazy(() => import("@/pages/HomePage"));
@@ -40,12 +40,19 @@ function RouterListener() {
 // Root route redirect component  
 function RedirectToHome() {
   const [, setLocation] = useLocation();
+  const { isAuthenticated } = useAuth();
   
   useEffect(() => {
-    // Redirect directly to map page to bypass auth
-    console.log('Redirecting to map page');
-    setLocation('/map');
-  }, [setLocation]);
+    if (isAuthenticated) {
+      // If already authenticated, redirect to map
+      console.log('User is authenticated, redirecting to map page');
+      setLocation('/map');
+    } else {
+      // If not authenticated, redirect to auth page
+      console.log('User not authenticated, redirecting to auth page');
+      setLocation('/auth');
+    }
+  }, [setLocation, isAuthenticated]);
   
   return <LoadingSpinner />;
 }

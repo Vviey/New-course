@@ -12,16 +12,20 @@ import {
 import { motion } from 'framer-motion';
 import { realm5Missions } from '@/lib/realm5-missions';
 import { getRealmName } from '@/lib/realm-utils';
+import { useParams } from 'wouter';
 
 interface MissionProps {
-  mission: any;
-  onComplete: () => void;
+  mission?: any;
+  onComplete?: () => void;
 }
 
-export default function Mission({ mission, onComplete }: MissionProps) {
+export default function Mission({ mission: propMission, onComplete }: MissionProps) {
+  const { missionId } = useParams<{ missionId: string }>();
   const [showObjectives, setShowObjectives] = useState(false);
   const [expanded, setExpanded] = useState(true);
   const [animationComplete, setAnimationComplete] = useState(false);
+  // If mission is passed as prop, use it, otherwise find it by missionId
+  const mission = propMission || realm5Missions.find(m => m.id === parseInt(missionId || '1'));
   
   // Define theme colors for Realm 5 - {getRealmName(5)} (Amber theme)
   const councilTheme = {
@@ -57,6 +61,24 @@ export default function Mission({ mission, onComplete }: MissionProps) {
     }
   };
   
+  // Handle case where mission isn't found
+  if (!mission) {
+    return (
+      <div className="p-8 text-center">
+        <h2 className="text-2xl font-bold text-amber-600 mb-4">Mission Not Found</h2>
+        <p className="text-gray-300 mb-6">
+          We couldn't find the mission you're looking for. Please try going back to the realm page.
+        </p>
+        <button 
+          onClick={() => window.location.href = '/realm/5'}
+          className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700"
+        >
+          Return to {getRealmName(5)}
+        </button>
+      </div>
+    );
+  }
+
   // Get mission type icon
   const getMissionTypeIcon = () => {
     switch(mission.simulationType) {

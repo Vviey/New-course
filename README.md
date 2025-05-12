@@ -26,14 +26,38 @@ A comprehensive, gamified Bitcoin education platform that transforms complex cry
 
 ### For Local Development (No Database Required)
 
-1. Install dependencies:
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/bitcoin-quest.git
+cd bitcoin-quest
+```
+
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-2. Run the development server:
+3. Run the application locally:
 ```bash
-npm run dev
+node run-local.js
+```
+
+This will start both the backend API server and the frontend development server simultaneously. You can access the application at http://localhost:5173 in your web browser.
+
+### Running the Application Manually
+
+If you prefer to start the servers separately:
+
+1. Start the backend API server:
+```bash
+cd server
+npx tsx index.ts
+```
+
+2. In a separate terminal, start the frontend development server:
+```bash
+cd client
+npx vite
 ```
 
 The application will automatically use in-memory storage when no database connection is available, making it easy to explore all realms and missions without needing to set up PostgreSQL.
@@ -44,6 +68,7 @@ The application will automatically use in-memory storage when no database connec
 - User progress is stored in memory and will be lost when the server restarts
 - All realms and missions are accessible without database configuration
 - The DB connection in server/db.ts has been configured to use dummy implementations when DATABASE_URL is not set
+- No external API keys or services are required to run the application locally
 
 ## Built With
 

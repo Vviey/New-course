@@ -12,10 +12,6 @@ const path = require('path');
 const fs = require('fs');
 const { createInterface } = require('readline');
 
-// Fix __dirname for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 // Create .env file if it doesn't exist
 const envPath = path.join(__dirname, '.env');
 if (!fs.existsSync(envPath)) {
@@ -54,46 +50,6 @@ if (!fs.existsSync(localIndexPath)) {
 </body>
 </html>`;
   fs.writeFileSync(localIndexPath, htmlContent);
-}
-
-// Update Vite configuration for local development
-const localViteConfigPath = path.join(__dirname, 'client', 'vite.local.config.js');
-if (!fs.existsSync(localViteConfigPath)) {
-  console.log('Creating local Vite configuration...');
-  const viteConfig = `import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
-import { fileURLToPath } from "url";
-
-// Fix for __dirname in ES module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const projectRoot = path.resolve(__dirname, "..");
-
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "src"),
-      "@shared": path.resolve(projectRoot, "shared"),
-      "@assets": path.resolve(projectRoot, "attached_assets"),
-    },
-  },
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true
-      }
-    }
-  },
-  build: {
-    outDir: path.resolve(projectRoot, "dist/public"),
-    emptyOutDir: true,
-  }
-});`;
-  fs.writeFileSync(localViteConfigPath, viteConfig);
 }
 
 console.log(`
@@ -164,12 +120,6 @@ backendProcess.on('error', (error) => {
 backendProcess.on('exit', (code) => {
   console.log(`\x1b[31m[Backend]\x1b[0m Process exited with code ${code}`);
   process.exit(code || 0);
-});
-
-// Create interface for user input
-const rl = createInterface({
-  input: process.stdin,
-  output: process.stdout
 });
 
 console.log(`

@@ -18,16 +18,28 @@ const ErrorMessage = ({ realmId, missionId }: { realmId: string, missionId: stri
   
   // Make sure we have a valid number for the realm ID
   const realmIdNumber = parseInt(realmId);
-  const realmName = !isNaN(realmIdNumber) ? getRealmName(realmIdNumber) : `Realm ${realmId}`;
+  const validRealmId = !isNaN(realmIdNumber) && realmIdNumber >= 1 && realmIdNumber <= 7;
+  const realmName = validRealmId ? getRealmName(realmIdNumber) : "the Map";
+  const returnPath = validRealmId ? `/realm/${realmId}` : "/map";
+  
+  let errorMessage = "";
+  
+  if (!realmId || isNaN(Number(realmId))) {
+    errorMessage = "Invalid realm specified. Please return to the map and select a valid realm.";
+  } else if (!missionId || isNaN(Number(missionId))) {
+    errorMessage = "Invalid mission specified. Please return to the realm and select a valid mission.";  
+  } else {
+    errorMessage = `We couldn't find mission ${missionId} in ${realmName}. It may have been moved or doesn't exist.`;
+  }
   
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-stone-900 text-amber-100 p-4">
       <h1 className="text-2xl font-bold mb-4 text-amber-400">Mission not found</h1>
       <p className="mb-6 text-center max-w-md">
-        We couldn't find the mission you were looking for. It may have been moved or doesn't exist.
+        {errorMessage}
       </p>
       <button
-        onClick={() => setLocation(`/realm/${realmId}`)}
+        onClick={() => setLocation(returnPath)}
         className="px-4 py-2 bg-amber-600 hover:bg-amber-700 rounded-md text-white transition-colors"
       >
         Return to {realmName}
@@ -43,7 +55,13 @@ interface MissionData {
 }
 
 export default function MissionWrapper() {
-  const { realmId, missionId } = useParams<{ realmId: string, missionId: string }>();
+  const params = useParams<{ realmId: string, missionId: string }>();
+  const [, setLocation] = useLocation();
+  
+  // Validate the parameters
+  const realmId = params.realmId;
+  const missionId = params.missionId;
+  
   // Location navigation is handled by child components when needed
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -67,27 +85,51 @@ export default function MissionWrapper() {
     setMissionData(null);
     
     let isMounted = true;
+    
+    // Early validation to prevent "realmundefined" errors
+    if (!realmId || isNaN(Number(realmId)) || !missionId || isNaN(Number(missionId))) {
+      console.error('Invalid realm or mission ID:', { realmId, missionId });
+      setError(true);
+      setLoading(false);
+      return;
+    }
 
     // Dynamic import of mission content based on realm and mission IDs
     const loadMission = async () => {
       try {
         let missionModule;
         
+        // Validate realm and mission ID again
+        if (!realmId || !missionId || isNaN(Number(realmId)) || isNaN(Number(missionId))) {
+          throw new Error(`Invalid realm (${realmId}) or mission (${missionId}) ID`);
+        }
+        
+        const realmNum = Number(realmId);
+        const missionNum = Number(missionId);
+        
+        // Make sure realm is in valid range
+        if (realmNum < 1 || realmNum > 7) {
+          throw new Error(`Realm ${realmNum} is out of valid range (1-7)`);
+        }
+        
         // Updated paths to match our actual file structure
         const loadPaths = [
           // Try mission-specific component if it exists
-          `../pages/realm${realmId}/mission${missionId}.tsx`,
+          `../pages/realm${realmNum}/mission${missionNum}.tsx`,
           
           // Try generic mission page with ID parameter
-          `../pages/realm${realmId}/mission.tsx`,
+          `../pages/realm${realmNum}/mission.tsx`,
+          
+          // Try missions.tsx (used in realm1)
+          `../pages/realm${realmNum}/missions.tsx`,
           
           // Try fallback to related challenge or interactive components
-          `../pages/realm${realmId}/barter-web-challenge.tsx`,
-          `../pages/realm${realmId}/currency-value-simulator.tsx`,
-          `../pages/realm${realmId}/inflation-simulator.tsx`,
+          `../pages/realm${realmNum}/barter-web-challenge.tsx`,
+          `../pages/realm${realmNum}/currency-value-simulator.tsx`,
+          `../pages/realm${realmNum}/inflation-simulator.tsx`,
           
           // For older structure compatibility
-          `../realms/Realm${realmId}/Mission${missionId}/index.tsx`,
+          `../realms/Realm${realmNum}/Mission${missionNum}/index.tsx`,
         ];
         
         console.log(`Attempting to load mission from: ${loadPaths.join(', ')}`);
@@ -113,13 +155,19 @@ export default function MissionWrapper() {
         if (isMounted) {
           setMissionComponent(() => missionModule.default);
           
-          // Get mission info from local data
-          const missionInfo = getMissionInfo(missionId, realmId);
-          setMissionData({ 
-            title: missionInfo.title,
-            subtitle: missionInfo.subtitle 
-          });
-          setLoading(false);
+          try {
+            // Get mission info from local data
+            const missionInfo = getMissionInfo(missionId, realmId);
+            setMissionData({ 
+              title: missionInfo.title,
+              subtitle: missionInfo.subtitle 
+            });
+            setLoading(false);
+          } catch (err) {
+            console.error('Error loading mission info:', err);
+            setError(true);
+            setLoading(false);
+          }
         }
       } catch (err) {
         console.error('Failed to load mission:', err);

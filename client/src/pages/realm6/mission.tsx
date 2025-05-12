@@ -11,17 +11,22 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getRealmName } from '@/lib/realm-utils';
+import { useParams } from 'wouter';
+import { realm6Missions } from '@/lib/realm6-missions';
 
 interface MissionProps {
-  mission: any;
-  onComplete: () => void;
+  mission?: any;
+  onComplete?: () => void;
 }
 
-export default function Mission({ mission, onComplete }: MissionProps) {
+export default function Mission({ mission: propMission, onComplete }: MissionProps) {
+  const { missionId } = useParams<{ missionId: string }>();
   const [showObjectives, setShowObjectives] = useState(false);
   const [expanded, setExpanded] = useState(true);
   const [animationComplete, setAnimationComplete] = useState(false);
-
+  // If mission is passed as prop, use it, otherwise find it by missionId
+  const mission = propMission || realm6Missions.find(m => m.id === parseInt(missionId || '1'));
+  
   // Define theme colors for {getRealmName(6)} (Rose theme)
   const ubuntuTheme = {
     colors: {
@@ -45,6 +50,24 @@ export default function Mission({ mission, onComplete }: MissionProps) {
       card: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2)',
     }
   };
+  
+  // Handle case where mission isn't found
+  if (!mission) {
+    return (
+      <div className="p-8 text-center">
+        <h2 className="text-2xl font-bold text-rose-600 mb-4">Mission Not Found</h2>
+        <p className="text-gray-300 mb-6">
+          We couldn't find the mission you're looking for. Please try going back to the realm page.
+        </p>
+        <button 
+          onClick={() => window.location.href = '/realm/6'}
+          className="px-4 py-2 bg-rose-600 text-white rounded-md hover:bg-rose-700"
+        >
+          Return to Ubuntu Village
+        </button>
+      </div>
+    );
+  }
   
   // Animation variants for content blocks
   const contentVariants = {
@@ -104,6 +127,25 @@ export default function Mission({ mission, onComplete }: MissionProps) {
     
     return () => clearTimeout(timer);
   }, []);
+  
+  const handleComplete = () => {
+    if (onComplete) {
+      onComplete();
+    }
+    // Mark mission as complete in local storage
+    try {
+      const userData = localStorage.getItem('ashaJourneyUserData');
+      if (userData) {
+        const data = JSON.parse(userData);
+        if (!data.completedMissions.includes(mission.id)) {
+          data.completedMissions.push(mission.id);
+          localStorage.setItem('ashaJourneyUserData', JSON.stringify(data));
+        }
+      }
+    } catch (error) {
+      console.error('Error updating mission completion status:', error);
+    }
+  };
   
   return (
     <div className="space-y-6">
@@ -335,6 +377,20 @@ export default function Mission({ mission, onComplete }: MissionProps) {
           </div>
         </motion.div>
       )}
+      
+      {/* Complete Mission Button */}
+      <div className="flex justify-center mt-8">
+        <button
+          onClick={handleComplete}
+          className="px-6 py-3 rounded-lg text-white font-semibold transition-all"
+          style={{ 
+            background: ubuntuTheme.gradients.main,
+            boxShadow: ubuntuTheme.shadows.button
+          }}
+        >
+          Mark Mission as Complete
+        </button>
+      </div>
     </div>
   );
 }
