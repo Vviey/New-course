@@ -128,7 +128,8 @@ function App() {
           <Route path="/realm1/mission/:missionId" component={MissionWrapper} />
           <Route path="/realm2/mission/:missionId" component={MissionWrapper} />
           <Route path="/realm3/mission/:missionId" component={MissionWrapper} />
-          <Route path="/realm4/mission/:missionId" component={MissionWrapper} />
+          {/* Use custom wrapper for Realm 4 because it has conflicting mission file structure */}
+          <Route path="/realm4/mission/:missionId" component={lazy(() => import("@/pages/realm4/mission-wrapper"))} />
           <Route path="/realm5/mission/:missionId" component={MissionWrapper} />
           <Route path="/realm6/mission/:missionId" component={MissionWrapper} />
           <Route path="/realm7/mission/:missionId" component={MissionWrapper} />

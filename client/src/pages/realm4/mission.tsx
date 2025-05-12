@@ -6,6 +6,7 @@ import { Mission as MissionComponent } from '@/components/missions/Mission';
 import { realm4Missions } from '@/lib/realm4-missions';
 import { MissionContent as Realm4MissionContent } from '@/lib/realm4-missions';
 import { MissionContent } from '@/lib/realm1-missions';
+import { renderToString } from 'react-dom/server';
 import { getRealmName } from '@/lib/realm-utils';
 
 export default function MissionPage() {
@@ -39,8 +40,19 @@ export default function MissionPage() {
   
   useEffect(() => {
     if (missionId) {
+      // Log mission lookup process
+      console.log(`Realm 4: Looking for mission with ID ${missionId}`);
+      console.log('Available mission IDs:', realm4Missions.map(m => m.id));
+      
       const foundMission = realm4Missions.find(m => m.id === missionId);
-      setMission(foundMission as unknown as Realm4MissionContent || null);
+      
+      if (foundMission) {
+        console.log('Found mission:', foundMission.title);
+        setMission(foundMission as unknown as Realm4MissionContent);
+      } else {
+        console.error(`Mission with ID ${missionId} not found in Realm 4`);
+        setMission(null);
+      }
     }
   }, [missionId]);
   
@@ -179,11 +191,17 @@ export default function MissionPage() {
           <div className="p-6">
             <MissionComponent 
               mission={{
-                ...mission,
+                title: mission.title,
+                id: mission.id,
                 subtitle: mission.subtitle || "Bitcoin mining mechanics and technology",
                 description: "Explore Bitcoin mining and its technology",
                 objectives: ["Learn about proof-of-work mining", "Understand mining difficulty", "Complete the interactive simulation"],
-                simulationType: "quiz"
+                simulationType: "quiz",
+                content: typeof mission.content === 'string' 
+                  ? mission.content 
+                  : typeof mission.content === 'object' && mission.content !== null
+                    ? renderToString(mission.content)
+                    : ""
               }} 
               onComplete={handleMissionComplete} 
               realmTheme="amber"

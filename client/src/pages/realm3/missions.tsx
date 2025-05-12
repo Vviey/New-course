@@ -23,8 +23,8 @@ export default function Realm3Missions() {
   const missionNumber = parseInt(missionId || '1');
   const missionDataId = 300 + missionNumber;
   
-  // Current mission data
-  const missionData = realm3Missions.find(m => m.id === missionNumber);
+  // Current mission data - mission IDs in realm3 start at 300
+  const missionData = realm3Missions.find(m => m.id === missionDataId);
   
   // Add required content property for Realm2MissionData compatibility
   const missionWithContent = missionData ? {

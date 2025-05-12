@@ -70,10 +70,22 @@ export default function MissionWrapper() {
 
   // Get mission title and description from local data
   const getMissionInfo = (missionId: string, realmId: string) => {
+    // Calculate the full mission ID based on realm conventions
+    // Realm 1: 100+, Realm 2: 200+, Realm 3: 300+, etc.
+    // But Realms 4, 6, 7 use direct mission IDs (1, 2, 3)
+    let idToUse = Number(missionId);
+    const realmNum = Number(realmId);
+    
+    // For realms 1-3, use prefixed IDs
+    if (realmNum >= 1 && realmNum <= 3) {
+      idToUse = realmNum * 100 + Number(missionId);
+    }
+    
     // Default values with the mission and realm information
     return { 
       title: `Mission ${missionId}`, 
-      subtitle: `A learning journey in ${getRealmName(Number(realmId))}` 
+      subtitle: `A learning journey in ${getRealmName(Number(realmId))}`,
+      fullMissionId: idToUse
     };
   };
 
@@ -113,24 +125,45 @@ export default function MissionWrapper() {
         }
         
         // Updated paths to match our actual file structure
-        const loadPaths = [
-          // Try mission-specific component if it exists
-          `../pages/realm${realmNum}/mission${missionNum}.tsx`,
-          
-          // Try generic mission page with ID parameter
-          `../pages/realm${realmNum}/mission.tsx`,
-          
-          // Try missions.tsx (used in realm1)
-          `../pages/realm${realmNum}/missions.tsx`,
-          
-          // Try fallback to related challenge or interactive components
-          `../pages/realm${realmNum}/barter-web-challenge.tsx`,
-          `../pages/realm${realmNum}/currency-value-simulator.tsx`,
-          `../pages/realm${realmNum}/inflation-simulator.tsx`,
-          
-          // For older structure compatibility
-          `../realms/Realm${realmNum}/Mission${missionNum}/index.tsx`,
-        ];
+        let loadPaths = [];
+        
+        // For realm 4, prioritize mission.tsx over missions.tsx
+        if (realmNum === 4) {
+          loadPaths = [
+            // Try mission.tsx first for realm 4
+            `../pages/realm${realmNum}/mission.tsx`,
+            
+            // Then try missions.tsx
+            `../pages/realm${realmNum}/missions.tsx`,
+            
+            // Then try specific simulators based on mission type
+            `../pages/realm${realmNum}/mining-simulator.tsx`,
+            `../pages/realm${realmNum}/consensus-simulator.tsx`,
+            `../pages/realm${realmNum}/energy-simulator.tsx`,
+            `../pages/realm${realmNum}/africa-simulator.tsx`,
+            `../pages/realm${realmNum}/knowledge-simulator.tsx`,
+            `../pages/realm${realmNum}/halving-simulator.tsx`,
+          ];
+        } else {
+          loadPaths = [
+            // Try mission-specific component if it exists
+            `../pages/realm${realmNum}/mission${missionNum}.tsx`,
+            
+            // Try generic mission page with ID parameter
+            `../pages/realm${realmNum}/mission.tsx`,
+            
+            // Try missions.tsx (used in realm1)
+            `../pages/realm${realmNum}/missions.tsx`,
+            
+            // Try fallback to related challenge or interactive components
+            `../pages/realm${realmNum}/barter-web-challenge.tsx`,
+            `../pages/realm${realmNum}/currency-value-simulator.tsx`,
+            `../pages/realm${realmNum}/inflation-simulator.tsx`,
+          ];
+        }
+        
+        // For older structure compatibility
+        loadPaths.push(`../realms/Realm${realmNum}/Mission${missionNum}/index.tsx`);
         
         console.log(`Attempting to load mission from: ${loadPaths.join(', ')}`);
         
@@ -149,7 +182,7 @@ export default function MissionWrapper() {
         }
         
         if (!missionModule) {
-          throw new Error('Mission not found');
+          throw new Error(`Mission ${missionId} in Realm ${realmId} not found. Please try a different mission or return to the realm home.`);
         }
         
         if (isMounted) {

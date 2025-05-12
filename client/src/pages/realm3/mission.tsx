@@ -15,7 +15,9 @@ export default function MissionPage() {
   
   useEffect(() => {
     if (missionId) {
-      const foundMission = realm3Missions.find(m => m.id === missionId);
+      // Mission IDs in realm3 start at 300
+      const missionDataId = 300 + missionId;
+      const foundMission = realm3Missions.find(m => m.id === missionDataId);
       setMission(foundMission || null);
     }
   }, [missionId]);
@@ -137,7 +139,7 @@ export default function MissionPage() {
           </Link>
           
           <div className="text-teal-300 text-sm font-medium">
-            Mission {missionId !== null ? missionId % 300 : 0} of {realm3Missions.length}
+            Mission {missionId !== null ? missionId : 0} of {realm3Missions.length}
           </div>
         </div>
         

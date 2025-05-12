@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
-import { ChevronRight, Zap, Lightbulb, Globe, Coins, BookOpen } from 'lucide-react';
+import { ChevronRight, Zap, Lightbulb, Globe, Coins, BookOpen, Shield } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { realm4Missions } from '@/lib/realm4-missions';
 import { getRealmName } from '@/lib/realm-utils';
@@ -31,7 +31,7 @@ const THEME = {
 // Custom icon components for each mission type
 const MissionIcons = {
   mining: <Coins className="h-6 w-6 text-orange-500" />, // Fixed from Mining to Coins
-  consensus: <ShieldCheck className="h-6 w-6 text-orange-500" />,
+  consensus: <Shield className="h-6 w-6 text-orange-500" />, // Fixed ShieldCheck to Shield which is available in lucide-react
   energy: <Zap className="h-6 w-6 text-orange-500" />,
   africa: <Globe className="h-6 w-6 text-orange-500" />,
   halving: <Coins className="h-6 w-6 text-orange-500" />,

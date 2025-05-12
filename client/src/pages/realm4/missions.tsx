@@ -26,8 +26,18 @@ export default function Realm4Missions() {
   const missionNumber = parseInt(missionId || '1');
   const missionDataId = missionNumber;
   
+  // Log for debugging
+  console.log(`Realm 4 missions.tsx: Looking for mission with ID ${missionDataId}`);
+  console.log('Available mission IDs:', realm4Missions.map(m => m.id));
+  
   // Current mission data
   const missionData = realm4Missions.find(m => m.id === missionDataId);
+  
+  if (missionData) {
+    console.log('Found mission:', missionData.title);
+  } else {
+    console.error(`Mission with ID ${missionDataId} not found in Realm 4`);
+  }
   
   // Redirect if not authenticated
   useEffect(() => {
