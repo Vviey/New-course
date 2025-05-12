@@ -4,16 +4,23 @@ import { ChevronLeft, ChevronRight, Award } from 'lucide-react';
 import { realm7Missions } from '../../lib/realm7-missions';
 import { getRealmName } from '@/lib/realm-utils';
 
-export default function Realm7Mission() {
+interface MissionProps {
+  missionId?: string; // Can be passed explicitly from wrapper
+}
+
+export default function Realm7Mission({ missionId: explicitMissionId }: MissionProps) {
   const [_, setLocation] = useLocation();
-  const { missionId } = useParams<{ missionId: string }>();
+  const { missionId: urlMissionId } = useParams<{ missionId: string }>();
   const [missionComplete, setMissionComplete] = useState(false);
   const [contentRead, setContentRead] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [shareContent, setShareContent] = useState('');
   
-  // Parse mission ID from URL
-  const missionNumber = parseInt(missionId || '1');
+  // Use explicitly passed ID if available, otherwise use URL params
+  const effectiveMissionId = explicitMissionId || urlMissionId || '1';
+  
+  // Parse mission ID from URL or props
+  const missionNumber = parseInt(effectiveMissionId);
   
   // Current mission data
   const missionData = realm7Missions.find(m => m.id === missionNumber);

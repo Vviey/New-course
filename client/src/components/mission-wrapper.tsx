@@ -62,6 +62,9 @@ export default function MissionWrapper() {
   const realmId = params.realmId;
   const missionId = params.missionId;
   
+  // Debug log to understand what's happening with the parameters
+  console.log('MissionWrapper params:', JSON.stringify(params));
+  
   // Location navigation is handled by child components when needed
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -101,9 +104,15 @@ export default function MissionWrapper() {
     // Early validation to prevent "realmundefined" errors
     if (!realmId || isNaN(Number(realmId)) || !missionId || isNaN(Number(missionId))) {
       console.error('Invalid realm or mission ID:', { realmId, missionId });
+      console.log('Full params object:', params);
       setError(true);
       setLoading(false);
       return;
+    }
+    
+    // Handle specific case for realm7 which appears to be having issues
+    if (realmId === '7') {
+      console.log('Handling Realm 7 specific case');
     }
 
     // Dynamic import of mission content based on realm and mission IDs

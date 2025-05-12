@@ -8,19 +8,30 @@ import { bioluminescentTheme } from '@/lib/realm-themes';
 import { MissionContent } from '@/lib/realm1-missions';
 
 export default function MissionPage() {
-  const [_, params] = useRoute('/realm3/mission/:id');
-  const missionId = params?.id ? parseInt(params.id) : null;
+  // Check both URL formats
+  const [matchRealmFormat, paramsRealmFormat] = useRoute('/realm3/mission/:id');
+  const [matchAlternateFormat, paramsAlternateFormat] = useRoute('/realm/3/mission/:id');
+  
+  // Use parameters from whichever route matched
+  const params = matchRealmFormat ? paramsRealmFormat : paramsAlternateFormat;
+  const missionId = params?.id ? parseInt(params.id) : 1; // Default to mission 1
+  
   const [mission, setMission] = useState<MissionContent | null>(null);
   const [completed, setCompleted] = useState(false);
   
   useEffect(() => {
-    if (missionId) {
-      // Mission IDs in realm3 start at 300
-      const missionDataId = 300 + missionId;
-      const foundMission = realm3Missions.find(m => m.id === missionDataId);
-      setMission(foundMission || null);
+    console.log('Realm 3 Mission - Loading mission:', missionId);
+    console.log('Route matches:', { matchRealmFormat, matchAlternateFormat });
+    
+    // Mission IDs in realm3 start at 300
+    const missionDataId = 300 + missionId;
+    const foundMission = realm3Missions.find(m => m.id === missionDataId);
+    setMission(foundMission || null);
+    
+    if (!foundMission) {
+      console.error(`Mission with ID ${missionDataId} not found in realm3-missions data`);
     }
-  }, [missionId]);
+  }, [missionId, matchRealmFormat, matchAlternateFormat]);
   
   const handleMissionComplete = () => {
     setCompleted(true);

@@ -124,15 +124,23 @@ function App() {
           <Route path="/realm/:realmId/mission/:missionId" component={MissionWrapper} />
           <Route path="/realm/:realmId/missions/:missionId" component={MissionWrapper} />
           
+          {/* Special case for Realm 3 with numbered format */}
+          <Route path="/realm/3/mission/:missionId" component={lazy(() => import("@/pages/realm3/mission-wrapper"))} />
+          
+          {/* Special case for Realm 7 with numbered format */}
+          <Route path="/realm/7/mission/:missionId" component={lazy(() => import("@/pages/realm7/mission-wrapper"))} />
+          
           {/* Alternative mission route patterns for backwards compatibility */}
           <Route path="/realm1/mission/:missionId" component={MissionWrapper} />
           <Route path="/realm2/mission/:missionId" component={MissionWrapper} />
-          <Route path="/realm3/mission/:missionId" component={MissionWrapper} />
+          {/* Use custom wrapper for Realm 3 to fix loading issues */}
+          <Route path="/realm3/mission/:missionId" component={lazy(() => import("@/pages/realm3/mission-wrapper"))} />
           {/* Use custom wrapper for Realm 4 because it has conflicting mission file structure */}
           <Route path="/realm4/mission/:missionId" component={lazy(() => import("@/pages/realm4/mission-wrapper"))} />
           <Route path="/realm5/mission/:missionId" component={MissionWrapper} />
           <Route path="/realm6/mission/:missionId" component={MissionWrapper} />
-          <Route path="/realm7/mission/:missionId" component={MissionWrapper} />
+          {/* Use custom wrapper for Realm 7 because it has similar conflicting file structure */}
+          <Route path="/realm7/mission/:missionId" component={lazy(() => import("@/pages/realm7/mission-wrapper"))} />
           
           {/* Missions index pages */}
           <Route path="/realm1/missions" component={lazy(() => import("@/pages/realm1/missions"))} />

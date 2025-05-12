@@ -25,6 +25,7 @@ export interface RealmTheme {
     sunset?: string;
     sand?: string;
     blue?: string;
+    glow?: string;
   };
   shadows?: {
     card?: string;
