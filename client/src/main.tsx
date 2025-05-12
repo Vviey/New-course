@@ -2,14 +2,6 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
-// Import Vite config helper to fix hostname issues in Replit
-import "./vite-config-helper.js";
-
-// Add script tag for vite.server.js to ensure it loads in the correct order
-const serverScript = document.createElement('script');
-serverScript.src = '/vite.server.js';
-document.head.appendChild(serverScript);
-
 // Create root element if it doesn't exist
 const rootElement = document.getElementById("root") || (() => {
   const el = document.createElement("div");
