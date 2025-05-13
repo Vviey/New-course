@@ -2,10 +2,18 @@ import React from 'react';
 import { Realm2MissionData } from '@/lib/realm2-missions';
 import ReactMarkdown from 'react-markdown';
 
+interface GenericMission {
+  id: number;
+  title: string;
+  subtitle: string;
+  content?: string;
+  [key: string]: any;
+}
+
 interface MissionProps {
-  mission: Realm2MissionData;
+  mission: GenericMission | Realm2MissionData;
   onComplete?: () => void;
-  realmTheme?: 'amber' | 'purple' | 'blue' | 'green';
+  realmTheme?: 'amber' | 'purple' | 'blue' | 'green' | 'rose';
 }
 
 export const Mission: React.FC<MissionProps> = ({ mission, onComplete, realmTheme = 'amber' }) => {
@@ -40,6 +48,14 @@ export const Mission: React.FC<MissionProps> = ({ mission, onComplete, realmThem
       subtitle: 'text-green-400',
       heading: 'text-green-400',
       subheading: 'text-green-300',
+      paragraph: 'text-gray-200',
+      list: 'text-gray-300'
+    },
+    rose: {
+      title: 'text-rose-600',
+      subtitle: 'text-rose-500',
+      heading: 'text-rose-400',
+      subheading: 'text-rose-300',
       paragraph: 'text-gray-200',
       list: 'text-gray-300'
     }

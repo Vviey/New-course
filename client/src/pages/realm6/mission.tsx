@@ -323,6 +323,30 @@ export default function Mission({ mission: propMission, onComplete }: MissionPro
         </div>
       </motion.div>
       
+      {/* Educational Content */}
+      {mission.content && (
+        <motion.div
+          variants={contentVariants}
+          initial="hidden"
+          animate={animationComplete ? "visible" : "hidden"}
+          className="my-6"
+        >
+          <div 
+            className="p-5 rounded-lg bg-black/30 border border-rose-900/30"
+          >
+            <h3 className="font-medium flex items-center mb-4" style={{ color: ubuntuTheme.colors.primary }}>
+              <Lightbulb className="h-5 w-5 mr-2" />
+              <span className="text-xl">Educational Content</span>
+            </h3>
+            
+            <div 
+              className="prose prose-rose prose-invert max-w-none"
+              dangerouslySetInnerHTML={{ __html: mission.content }}
+            />
+          </div>
+        </motion.div>
+      )}
+      
       {/* External Resources */}
       {mission.contentType === 'realUseCase' && (
         <motion.div

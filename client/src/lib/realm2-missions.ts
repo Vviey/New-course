@@ -676,9 +676,11 @@ export const realm2Missions: Realm2MissionData[] = [
           </div>
         </div>
       </div>
-    `
+    `,
       
-      - Loss of private economic activity
+      <ul style="margin-bottom: 0; padding-left: 20px;">
+        <li>Loss of private economic activity</li>
+      </ul>
     `
   },
   {

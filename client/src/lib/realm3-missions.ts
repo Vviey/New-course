@@ -75,34 +75,86 @@ export const realm3Missions: MissionContent[] = [
     },
     reflectionQuestion: "How does the Lightning Network's approach to privacy differ from on-chain Bitcoin transactions?",
     content: `
-      In a bustling marketplace at the edge of the Forest of Sparks, Asha discovers merchants using an advanced payment system built on top of Bitcoin. 
-      This is her introduction to the Lightning Network - Bitcoin's Layer 2 scaling solution.
-
-      ## Beyond the Base Layer
-
-      A merchant explains that while Bitcoin's base layer provides transparent, censorship-resistant transactions, 
-      the Lightning Network adds speed, lower fees, and enhanced privacy.
-
-      ### Lightning Network Properties
-      - Near-instant settlement of payments
-      - Extremely low transaction fees
-      - Improved privacy - only channel open/close transactions are recorded on the blockchain
-      - Individual payments within channels aren't publicly visible
-      - Enables micropayments and new economic possibilities
-
-      Through an interactive demonstration, Asha opens a Lightning channel and makes several payments, experiencing 
-      how payments can be routed through multiple channels without revealing transaction details on the public blockchain.
-
-      ## Privacy Innovations
-
-      The merchant introduces Asha to additional privacy innovations being developed for Bitcoin and Lightning:
-
-      - Payment channels that mask transaction details
-      - Onion routing for payment paths
-      - Atomic swaps for cross-chain privacy
-      - Evolving standards to protect user privacy
-
-      Asha learns that layers of technology built on sound money foundations can create systems that are both efficient and privacy-preserving.
+      <div style="background-color: rgba(255, 127, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FF7F00; margin-top: 0; text-align: center;">The Lightning Network</h2>
+        
+        <p style="margin-bottom: 16px;">The Lightning Network is a "layer 2" payment protocol that operates on top of Bitcoin. It enables fast transactions between participating nodes and has been proposed as a solution to the bitcoin scalability problem.</p>
+        
+        <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; margin: 16px 0; text-align: center;">
+          <p style="font-size: 18px; font-weight: bold; margin: 0; color: #FF9933;">Bitcoin's Layer 2 scaling solution for faster, cheaper, and more private transactions</p>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(255, 127, 0, 0.05); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FF7F00; margin-top: 0;">Beyond the Base Layer</h2>
+        
+        <p style="margin-bottom: 16px;">While Bitcoin's base layer provides transparent, censorship-resistant transactions, the Lightning Network adds several important features:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px;">
+          <div style="background-color: rgba(255, 127, 0, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">⚡</div>
+            <div><strong>Near-instant settlements</strong> - no 10-minute block times</div>
+          </div>
+          
+          <div style="background-color: rgba(255, 127, 0, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">💲</div>
+            <div><strong>Extremely low transaction fees</strong> - often less than a penny</div>
+          </div>
+          
+          <div style="background-color: rgba(255, 127, 0, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">🔒</div>
+            <div><strong>Improved privacy</strong> - only channel open/close transactions on-chain</div>
+          </div>
+          
+          <div style="background-color: rgba(255, 127, 0, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">🔍</div>
+            <div><strong>Individual payments not publicly visible</strong> on the blockchain</div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(255, 127, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FF7F00; margin-top: 0; text-align: center;">How It Works</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #FF7F00;">
+            <h3 style="color: #FF9933; margin-top: 0; font-size: 18px;">1. Opening Payment Channels</h3>
+            <p style="margin-bottom: 0;">Two parties create an on-chain transaction that locks up some bitcoin, creating a payment channel between them</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #FF7F00;">
+            <h3 style="color: #FF9933; margin-top: 0; font-size: 18px;">2. Multiple Transactions</h3>
+            <p style="margin-bottom: 0;">Once a channel is open, the parties can conduct unlimited transactions between them without touching the blockchain</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #FF7F00;">
+            <h3 style="color: #FF9933; margin-top: 0; font-size: 18px;">3. Routing Payments</h3>
+            <p style="margin-bottom: 0;">Payments can be routed through multiple connected channels, allowing you to pay someone you don't have a direct channel with</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #FF7F00;">
+            <h3 style="color: #FF9933; margin-top: 0; font-size: 18px;">4. Closing Channels</h3>
+            <p style="margin-bottom: 0;">When finished, either party can close the channel, settling the final balances to the blockchain</p>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(255, 127, 0, 0.07); border-radius: 8px; padding: 20px;">
+        <h2 style="color: #FF7F00; margin-top: 0;">Privacy Innovations</h2>
+        
+        <p style="margin-bottom: 16px;">The Lightning Network introduces several privacy enhancements over regular Bitcoin transactions:</p>
+        
+        <ul style="margin-bottom: 0; padding-left: 20px;">
+          <li><strong>Payment channels</strong> mask transaction details from the public blockchain</li>
+          <li><strong>Onion routing</strong> ensures intermediary nodes can't determine payment source or destination</li>
+          <li><strong>Atomic swaps</strong> enable cross-chain trading without centralized exchanges</li>
+          <li><strong>Evolving standards</strong> continuously improve privacy protections</li>
+        </ul>
+        
+        <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; margin-top: 16px; text-align: center;">
+          <p style="margin: 0; font-style: italic;">Layers of technology built on sound money foundations can create systems that are both efficient and privacy-preserving</p>
+        </div>
+      </div>
     `,
     questions: [
       {

@@ -6,6 +6,7 @@ interface Mission {
   subtitle: string;
   description: React.ReactNode;
   contentType: 'realUseCase' | 'lightningNetwork' | 'builders' | 'tools' | 'knowledge' | 'bonus';
+  content?: string; // Detailed educational content in HTML/Markdown format
   unlocked: boolean;
   completed: boolean;
 }
@@ -113,6 +114,199 @@ export const realm6Missions: Mission[] = [
         "Through interactive challenges and quizzes, you'll understand the real-world impact of Bitcoin in African communities and how it exemplifies the spirit of Ubuntu—the belief in a universal bond of sharing that connects all humanity."
       )
     ),
+    content: `
+      <div style="background-color: rgba(225, 29, 72, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #e11d48; margin-top: 0; text-align: center;">Bitcoin in Africa: Real-world Applications</h2>
+        
+        <p style="margin-bottom: 16px;">Across the African continent, Bitcoin is being adopted for practical, everyday use. Far from being just a speculative asset, Bitcoin is providing real solutions to long-standing financial challenges facing millions of Africans.</p>
+        
+        <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; margin: 16px 0; text-align: center;">
+          <p style="font-size: 18px; font-weight: bold; margin: 0; color: #fb7185;">Bitcoin is addressing real financial needs in Africa through practical applications that improve lives</p>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(225, 29, 72, 0.05); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #e11d48; margin-top: 0;">Remittances: Connecting Families</h2>
+        
+        <p style="margin-bottom: 16px;">Africa receives over $90 billion in remittances annually, with traditional services charging 7-10% in fees. Bitcoin is dramatically changing this landscape:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 20px;">
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #e11d48;">
+            <h3 style="color: #fb7185; margin-top: 0; font-size: 18px;">Nigeria Case Study</h3>
+            <p style="margin-bottom: 8px;">Nigeria receives over $17 billion in annual remittances from its diaspora. Many Nigerians now use Bitcoin to:</p>
+            <ul style="margin-bottom: 0; padding-left: 20px;">
+              <li>Send money home with fees under 1%</li>
+              <li>Avoid currency controls and restrictions</li>
+              <li>Complete transfers in minutes instead of days</li>
+              <li>Reach family members without bank accounts</li>
+            </ul>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #e11d48;">
+            <h3 style="color: #fb7185; margin-top: 0; font-size: 18px;">How It Works</h3>
+            <p style="margin-bottom: 0;">A typical Bitcoin remittance flow:</p>
+            <ol style="margin-bottom: 0; padding-left: 20px;">
+              <li>Sender buys Bitcoin using their local currency</li>
+              <li>Bitcoin is transferred directly to recipient's wallet</li>
+              <li>Recipient can keep the Bitcoin or exchange for local currency</li>
+              <li>The entire process often takes less than an hour</li>
+            </ol>
+          </div>
+        </div>
+        
+        <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; margin-top: 16px;">
+          <p style="margin: 0; font-style: italic;">Did you know? If all African remittances switched to Bitcoin, the continent would save approximately $9 billion annually in fees alone.</p>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(225, 29, 72, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #e11d48; margin-top: 0;">Business Applications</h2>
+        
+        <p style="margin-bottom: 16px;">African businesses face numerous challenges with traditional payment systems, including high fees, long settlement times, and limited access to global markets. Bitcoin is providing solutions:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px;">
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">⚡</div>
+            <h3 style="color: #fb7185; margin: 0 0 8px 0;">Instant Settlement</h3>
+            <p style="margin: 0; font-size: 14px;">No waiting days for payments to clear; transactions confirm in minutes</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">🔒</div>
+            <h3 style="color: #fb7185; margin: 0 0 8px 0;">No Chargebacks</h3>
+            <p style="margin: 0; font-size: 14px;">Once confirmed, Bitcoin transactions cannot be reversed, protecting merchants</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">🌐</div>
+            <h3 style="color: #fb7185; margin: 0 0 8px 0;">Global Reach</h3>
+            <p style="margin: 0; font-size: 14px;">Accept payments from anywhere in the world without currency conversion issues</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">📱</div>
+            <h3 style="color: #fb7185; margin: 0 0 8px 0;">Mobile Integration</h3>
+            <p style="margin: 0; font-size: 14px;">Works seamlessly with Africa's high mobile penetration rates</p>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(225, 29, 72, 0.05); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #e11d48; margin-top: 0;">Savings and Wealth Preservation</h2>
+        
+        <p style="margin-bottom: 16px;">Many African currencies suffer from high inflation and devaluation. Bitcoin offers an alternative store of value:</p>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+          <div style="flex: 1; min-width: 250px; background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px;">
+            <h3 style="color: #fb7185; margin-top: 0; font-size: 18px;">Inflation Protection</h3>
+            <p style="margin-bottom: 0;">Annual inflation rates in some African countries:</p>
+            <ul style="margin-bottom: 0; padding-left: 20px;">
+              <li>Zimbabwe: Experienced hyperinflation multiple times</li>
+              <li>Sudan: Over 300% in recent years</li>
+              <li>Nigeria: Consistently above 15%</li>
+              <li>Ghana: Often exceeding 20%</li>
+            </ul>
+            <p style="margin-top: 8px; margin-bottom: 0;">Bitcoin's fixed supply of 21 million provides protection against currency devaluation.</p>
+          </div>
+          
+          <div style="flex: 1; min-width: 250px; background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px;">
+            <h3 style="color: #fb7185; margin-top: 0; font-size: 18px;">Banking the Unbanked</h3>
+            <p style="margin-bottom: 8px;">With over 60% of sub-Saharan Africa unbanked but 80%+ having mobile phones, Bitcoin provides:</p>
+            <ul style="margin-bottom: 0; padding-left: 20px;">
+              <li>Financial services without requiring bank accounts</li>
+              <li>Ability to save small amounts (micropayments)</li>
+              <li>Control over funds without third-party permissions</li>
+              <li>Accessibility through simple feature phones in some cases</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(225, 29, 72, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #e11d48; margin-top: 0; text-align: center;">Community Success Stories</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #e11d48;">
+            <h3 style="color: #fb7185; margin-top: 0; font-size: 18px;">Farming Cooperatives</h3>
+            <p style="margin-bottom: 0;">In Uganda, small-scale farmers have formed cooperatives that use Bitcoin to:</p>
+            <ul style="margin-bottom: 0; padding-left: 20px;">
+              <li>Receive direct payments from international buyers</li>
+              <li>Eliminate multiple middlemen taking cuts</li>
+              <li>Create transparent supply chains</li>
+              <li>Increase farmer earnings by 20-40%</li>
+            </ul>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #e11d48;">
+            <h3 style="color: #fb7185; margin-top: 0; font-size: 18px;">Educational Initiatives</h3>
+            <p style="margin-bottom: 0;">Bitcoin-funded education projects in Tanzania have:</p>
+            <ul style="margin-bottom: 0; padding-left: 20px;">
+              <li>Provided scholarships to over 500 students</li>
+              <li>Built facilities in remote areas</li>
+              <li>Created sustainable funding mechanisms</li>
+              <li>Taught financial literacy alongside traditional subjects</li>
+            </ul>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #e11d48;">
+            <h3 style="color: #fb7185; margin-top: 0; font-size: 18px;">Entrepreneurship</h3>
+            <p style="margin-bottom: 0;">Bitcoin is fostering entrepreneurship by:</p>
+            <ul style="margin-bottom: 0; padding-left: 20px;">
+              <li>Enabling African developers to receive international payments</li>
+              <li>Creating local Bitcoin exchanges and services</li>
+              <li>Building Bitcoin education businesses</li>
+              <li>Developing Africa-specific Bitcoin wallet solutions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(225, 29, 72, 0.07); border-radius: 8px; padding: 20px;">
+        <h2 style="color: #e11d48; margin-top: 0;">Challenges and Solutions</h2>
+        
+        <p style="margin-bottom: 16px;">Despite its benefits, Bitcoin adoption in Africa faces several challenges:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 16px;">
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px;">
+            <h3 style="color: #fb7185; margin-top: 0;">Infrastructure Limitations</h3>
+            <p style="margin-bottom: 8px;"><strong>Challenge:</strong> Unreliable internet access and electricity in many regions.</p>
+            <p style="margin-bottom: 0;"><strong>Solutions:</strong></p>
+            <ul style="margin-bottom: 0; padding-left: 20px;">
+              <li>Offline transaction solutions using SMS</li>
+              <li>Solar-powered Bitcoin nodes</li>
+              <li>Mesh networks for connectivity in remote areas</li>
+            </ul>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px;">
+            <h3 style="color: #fb7185; margin-top: 0;">Regulatory Uncertainty</h3>
+            <p style="margin-bottom: 8px;"><strong>Challenge:</strong> Inconsistent or restrictive regulations across different countries.</p>
+            <p style="margin-bottom: 0;"><strong>Solutions:</strong></p>
+            <ul style="margin-bottom: 0; padding-left: 20px;">
+              <li>Industry associations educating policymakers</li>
+              <li>Peer-to-peer trading models avoiding regulatory obstacles</li>
+              <li>Focus on countries with progressive regulatory stances</li>
+            </ul>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px;">
+            <h3 style="color: #fb7185; margin-top: 0;">Education Gap</h3>
+            <p style="margin-bottom: 8px;"><strong>Challenge:</strong> Limited understanding of Bitcoin and how to use it securely.</p>
+            <p style="margin-bottom: 0;"><strong>Solutions:</strong></p>
+            <ul style="margin-bottom: 0; padding-left: 20px;">
+              <li>Community-led education initiatives</li>
+              <li>Simplified, localized wallet interfaces</li>
+              <li>Bitcoin educational content in local languages</li>
+              <li>Hands-on training through Bitcoin meetups</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; margin-top: 16px; text-align: center;">
+          <p style="margin: 0; font-style: italic;">Bitcoin's impact in Africa demonstrates how technology designed for freedom and inclusion can transform lives when applied to real-world challenges.</p>
+        </div>
+      </div>
+    `,
     contentType: 'realUseCase',
     unlocked: true,
     completed: false

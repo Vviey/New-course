@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'wouter';
-import { ChevronLeft, ChevronRight, Award } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Award, Lightbulb, Share } from 'lucide-react';
 import { realm7Missions } from '../../lib/realm7-missions';
 import { getRealmName } from '@/lib/realm-utils';
 
@@ -141,6 +141,21 @@ export default function Realm7Mission({ missionId: explicitMissionId }: MissionP
             <div className="prose prose-invert max-w-none">
               {missionData.description}
             </div>
+            
+            {/* Educational content section */}
+            {missionData.content && !contentRead && (
+              <div className="mt-8 p-5 rounded-lg bg-black/30 border border-cyan-900/30">
+                <h3 className="font-medium flex items-center mb-4" style={{ color: summitTheme.colors.primary }}>
+                  <Lightbulb className="h-5 w-5 mr-2" />
+                  <span className="text-xl">Educational Content</span>
+                </h3>
+                
+                <div 
+                  className="prose prose-invert max-w-none"
+                  dangerouslySetInnerHTML={{ __html: missionData.content }}
+                />
+              </div>
+            )}
             
             <div className="mt-8 flex justify-end">
               {!contentRead ? (
