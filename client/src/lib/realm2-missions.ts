@@ -12,6 +12,177 @@ export interface Realm2MissionData {
 
 export const realm2Missions: Realm2MissionData[] = [
   {
+    id: 199,
+    title: "The Central Citadel",
+    subtitle: "Introduction to Centralized Monetary Systems",
+    description: "Learn about centralized control, surveillance, privacy, and digital currencies in modern financial systems.",
+    simulationType: 'surveillance',
+    content: `
+      <div style="position: relative; background-color: rgba(255, 204, 0, 0.05); border-radius: 12px; padding: 20px; margin-bottom: 24px; overflow: hidden;">
+        <div style="position: absolute; top: 0; right: 0; width: 150px; height: 150px; background: radial-gradient(circle at top right, rgba(255, 204, 0, 0.2), transparent 70%); z-index: 0;"></div>
+        
+        <h2 style="color: #FFA500; position: relative; z-index: 1; text-align: center; margin-bottom: 16px;">Welcome to the Central Citadel</h2>
+        <h3 style="color: #FFCC00; position: relative; z-index: 1; text-align: center; font-style: italic; margin-bottom: 24px;">Where money listens, watches, and obeys</h3>
+        
+        <p style="position: relative; z-index: 1; margin-bottom: 20px; text-align: center; font-size: 16px;">
+          Imagine living in a city where every time you spend money — buying food, paying for school, helping a friend — someone is watching. Every coin leaves a trail. Every transaction is recorded.
+        </p>
+        
+        <p style="position: relative; z-index: 1; margin-bottom: 0px; text-align: center; font-weight: bold; font-size: 16px;">
+          That city is real. It's the world we live in today.
+        </p>
+      </div>
+      
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0;">What Is a Centralized Monetary System?</h2>
+        
+        <p>A <strong>centralized monetary system</strong> is a money system controlled by a small group — usually the government and central banks.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px;">
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px; display: flex; flex-direction: column;">
+            <div style="font-size: 28px; margin-bottom: 8px; text-align: center;">💰</div>
+            <p style="margin: 0; text-align: center;">How much money exists</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px; display: flex; flex-direction: column;">
+            <div style="font-size: 28px; margin-bottom: 8px; text-align: center;">🔑</div>
+            <p style="margin: 0; text-align: center;">Who gets access to it</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px; display: flex; flex-direction: column;">
+            <div style="font-size: 28px; margin-bottom: 8px; text-align: center;">📏</div>
+            <p style="margin: 0; text-align: center;">What rules must be followed</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px; display: flex; flex-direction: column;">
+            <div style="font-size: 28px; margin-bottom: 8px; text-align: center;">✅</div>
+            <p style="margin: 0; text-align: center;">What transactions are allowed</p>
+          </div>
+        </div>
+        
+        <p style="margin-top: 20px; font-style: italic; text-align: center; padding: 10px; background-color: rgba(0, 0, 0, 0.1); border-radius: 6px;">
+          You don't own your money. You're just allowed to use it — if you follow the rules.
+        </p>
+      </div>
+      
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0;">Surveillance and Control: How It Works</h2>
+        
+        <p>When you use a <strong>bank account</strong>, <strong>mobile money app</strong>, or even <strong>debit card</strong>, here's what's recorded:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 16px 0;">
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">👤</div>
+            <div>Who you are (name, ID, phone)</div>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">🛒</div>
+            <div>What you're buying</div>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">📍</div>
+            <div>Where you're spending</div>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">🕒</div>
+            <div>When and how often you use money</div>
+          </div>
+        </div>
+        
+        <p>This data is stored — and can be shared with governments, companies, or law enforcement. Sometimes without your permission.</p>
+        
+        <div style="background-color: rgba(255, 100, 100, 0.1); border-radius: 6px; padding: 12px; margin-top: 16px;">
+          <p style="margin: 0; font-weight: bold; color: #FF6B6B;">Financial Censorship</p>
+          <p style="margin: 8px 0 0 0;">If someone in power doesn't like what you're doing, they can block your account or reverse a transaction.</p>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0;">Privacy vs. Control: You Choose</h2>
+        
+        <div style="margin: 20px 0; overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; min-width: 600px;">
+            <thead>
+              <tr>
+                <th style="padding: 12px; text-align: left; border-bottom: 1px solid rgba(255, 204, 0, 0.3); color: #FFCC00;">Feature</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 1px solid rgba(255, 204, 0, 0.3); color: #FFCC00;">Central Bank (CBDCs)</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 1px solid rgba(255, 204, 0, 0.3); color: #FFCC00;">Bitcoin</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">Who controls it?</td>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">Government</td>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">The public (decentralized)</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">Can your money be frozen?</td>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">Yes</td>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">Very hard (you hold the keys)</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">Is it permissionless?</td>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">No</td>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">Yes</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">Is it private?</td>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">No</td>
+                <td style="padding: 12px; border-bottom: 1px solid rgba(255, 204, 0, 0.1);">Partial (depends on how you use it)</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px;">Is it transparent?</td>
+                <td style="padding: 12px;">Not to you</td>
+                <td style="padding: 12px;">Yes, for everyone</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div style="display: flex; justify-content: space-around; margin-top: 24px;">
+          <div style="text-align: center; max-width: 200px;">
+            <div style="font-size: 32px; margin-bottom: 8px;">🏦</div>
+            <div style="font-weight: bold; margin-bottom: 4px; color: #FFCC00;">CBDCs</div>
+            <div style="font-size: 14px;">Digital money with full control from above</div>
+          </div>
+          
+          <div style="text-align: center; max-width: 200px;">
+            <div style="font-size: 32px; margin-bottom: 8px;">⚡</div>
+            <div style="font-weight: bold; margin-bottom: 4px; color: #FFCC00;">Bitcoin</div>
+            <div style="font-size: 14px;">Digital money that gives you freedom</div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(255, 204, 0, 0.07); border-radius: 8px; padding: 20px; text-align: center;">
+        <h2 style="color: #FFA500; margin-top: 0;">Final Thoughts: What World Do You Want?</h2>
+        
+        <div style="margin: 24px 0; padding: 16px; background-color: rgba(255, 204, 0, 0.1); border-radius: 6px; font-style: italic;">
+          "In a world of digital money, privacy is not a luxury. It's survival."
+        </div>
+        
+        <p style="margin-bottom: 16px;">Ask yourself:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 20px;">
+          <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; text-align: left;">
+            <p style="margin: 0;">Should your money be controlled or free?</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; text-align: left;">
+            <p style="margin: 0;">Should someone else decide what you can do with it?</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; text-align: left;">
+            <p style="margin: 0;">Or should you be in charge of your own financial life?</p>
+          </div>
+        </div>
+      </div>
+    `
+  },
+  {
     id: 200,
     title: "Financial Surveillance: The Digital Lens",
     subtitle: "Introduction to financial surveillance and privacy concerns",
@@ -375,117 +546,138 @@ export const realm2Missions: Realm2MissionData[] = [
     description: "Understand how Central Bank Digital Currencies might affect financial privacy.",
     simulationType: 'cbdc',
     content: `
-      Asha visits the Citadel's central bank, where officials are developing the next generation of the city's 
-      digital currency system. Here she learns about Central Bank Digital Currencies (CBDCs) and their implications for privacy.
-
-      ## What Are CBDCs?
-
-      CBDCs (Central Bank Digital Currencies) are digital versions of national currencies, issued and regulated by a nation's central bank. 
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0; text-align: center;">Enter CBDCs: Central Bank Digital Currencies</h2>
+        
+        <p style="margin-bottom: 20px;">Many governments are building <strong>CBDCs</strong> — digital versions of their currency that give them even more control than traditional banking systems.</p>
+        
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 24px;">
+          <div style="flex: 1; min-width: 250px; max-width: 400px; background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px; text-align: center;">
+            <div style="font-size: 32px; margin-bottom: 12px;">📱</div>
+            <p style="margin: 0; font-weight: bold; color: #FFCC00;">What Are CBDCs?</p>
+            <p style="margin-top: 8px;">Digital versions of national currencies issued and regulated directly by a country's central bank</p>
+          </div>
+        </div>
+      </div>
       
-      ### In Everyday Terms:
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0;">In Everyday Terms</h2>
+        
+        <p>Imagine if your country's paper money (like dollars, naira, or shillings) became completely digital, but unlike private cryptocurrencies like Bitcoin:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px;">
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px;">
+            <div style="font-size: 28px; margin-bottom: 8px; text-align: center;">🏦</div>
+            <p style="margin: 0; text-align: center;">Created and controlled by your government's central bank</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px;">
+            <div style="font-size: 28px; margin-bottom: 8px; text-align: center;">💵</div>
+            <p style="margin: 0; text-align: center;">Same value as physical currency</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px;">
+            <div style="font-size: 28px; margin-bottom: 8px; text-align: center;">🔄</div>
+            <p style="margin: 0; text-align: center;">Works within the existing financial system</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px;">
+            <div style="font-size: 28px; margin-bottom: 8px; text-align: center;">⚙️</div>
+            <p style="margin: 0; text-align: center;">Can be programmed with specific rules</p>
+          </div>
+        </div>
+      </div>
       
-      Imagine if your country's paper money (like dollars, naira, or shillings) became completely digital, but unlike private 
-      cryptocurrencies like Bitcoin:
+      <div style="background-color: rgba(255, 204, 0, 0.05); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0;">Enhanced Control Features</h2>
+        
+        <p style="margin-bottom: 16px;">With CBDCs, central authorities can:</p>
+        
+        <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px;">
+          <div style="background-color: rgba(255, 100, 100, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">👁️</div>
+            <div><strong>Track every single coin</strong> - See exactly where and how you spend</div>
+          </div>
+          
+          <div style="background-color: rgba(255, 100, 100, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">❄️</div>
+            <div><strong>Freeze your money instantly</strong> - No court order needed</div>
+          </div>
+          
+          <div style="background-color: rgba(255, 100, 100, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">🚫</div>
+            <div><strong>Decide what your money can be spent on</strong> - Limiting purchases by category or vendor</div>
+          </div>
+          
+          <div style="background-color: rgba(255, 100, 100, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">⏱️</div>
+            <div><strong>Set an expiry date</strong> - Use it or lose it by a certain date</div>
+          </div>
+        </div>
+        
+        <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; margin-top: 16px;">
+          <p style="margin: 0; font-style: italic;">Example: In a CBDC world, your government could stop you from donating to a protest, buying too much fuel, or even force you to spend your money before the month ends.</p>
+        </div>
+      </div>
       
-      - It's created and controlled by your government's central bank
-      - It has the same value as the physical currency
-      - It's designed to work within the existing financial system
-      - It can be programmed with specific rules and conditions
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0;">Real-Life Examples</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #00AA00;">
+            <h3 style="color: #FFCC00; margin-top: 0; font-size: 18px;">Nigeria's eNaira</h3>
+            <p style="margin-bottom: 0;">Africa's first CBDC, launched in 2021, allows citizens to make digital payments directly through the central bank</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #FF0000;">
+            <h3 style="color: #FFCC00; margin-top: 0; font-size: 18px;">China's Digital Yuan</h3>
+            <p style="margin-bottom: 0;">Being tested in major cities, allowing payment via mobile apps and even without internet connection</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #FFA500;">
+            <h3 style="color: #FFCC00; margin-top: 0; font-size: 18px;">Ghana's e-Cedi</h3>
+            <p style="margin-bottom: 0;">In development to improve financial inclusion and reduce the costs of cash</p>
+          </div>
+        </div>
+      </div>
       
-      ### Real-Life Examples:
+      <div style="background-color: rgba(255, 204, 0, 0.07); border-radius: 8px; padding: 20px;">
+        <h2 style="color: #FFA500; margin-top: 0; text-align: center;">The Privacy Concern</h2>
+        
+        <div style="display: flex; justify-content: center; margin: 24px 0;">
+          <div style="max-width: 80%; padding: 16px; background-color: rgba(255, 100, 100, 0.1); border-radius: 8px; text-align: center; font-style: italic;">
+            They say it's for "security" and "efficiency." But at what cost?
+          </div>
+        </div>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+          <div style="flex: 1; min-width: 200px; max-width: 300px; text-align: center;">
+            <div style="width: 70px; height: 70px; border-radius: 50%; background-color: rgba(255, 204, 0, 0.2); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 12px auto;">
+              🔒
+            </div>
+            <h3 style="color: #FFCC00; margin: 0 0 8px 0;">Privacy</h3>
+            <p style="margin: 0; font-size: 14px;">The right to financial autonomy without surveillance</p>
+          </div>
+          
+          <div style="flex: 1; min-width: 200px; max-width: 300px; text-align: center;">
+            <div style="width: 70px; height: 70px; border-radius: 50%; background-color: rgba(255, 204, 0, 0.2); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 12px auto;">
+              ⚖️
+            </div>
+            <h3 style="color: #FFCC00; margin: 0 0 8px 0;">Control</h3>
+            <p style="margin: 0; font-size: 14px;">The power to make your own financial choices</p>
+          </div>
+          
+          <div style="flex: 1; min-width: 200px; max-width: 300px; text-align: center;">
+            <div style="width: 70px; height: 70px; border-radius: 50%; background-color: rgba(255, 204, 0, 0.2); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 12px auto;">
+              🔍
+            </div>
+            <h3 style="color: #FFCC00; margin: 0 0 8px 0;">Transparency</h3>
+            <p style="margin: 0; font-size: 14px;">Being able to verify the monetary system yourself</p>
+          </div>
+        </div>
+      </div>
+    `
       
-      - **Nigeria's eNaira** - Africa's first CBDC, launched in 2021, allows citizens to make digital payments directly through the central bank
-      - **China's Digital Yuan** - Being tested in major cities, allowing payment via mobile apps and even without internet connection
-      - **Ghana's e-Cedi** - In development to improve financial inclusion and reduce the costs of cash
-      
-      ## How CBDCs Would Affect Your Daily Life
-      
-      If your country adopted a CBDC, your daily financial activities might change in these ways:
-      
-      ### Shopping and Payments
-      - Pay for groceries directly from your government digital wallet
-      - No need for cash or private payment apps
-      - Instant settlements with no transaction fees (potentially)
-      - Merchants receive payment immediately
-      
-      ### Receiving Money
-      - Government benefits deposited directly to your CBDC wallet
-      - Paycheck instantly available without a bank
-      - Family remittances arriving instantly with minimal fees
-      - Automatic tax adjustments on income
-      
-      ### Financial Management
-      - All transactions automatically recorded and categorized
-      - Digital trail of all purchases and income
-      - Simplified tax filing as the system tracks everything
-      - Potential spending limits or restrictions on certain items
-      
-      ## What Makes CBDCs Different From Current Digital Money
-      
-      CBDCs aren't just mobile money or banking apps. They represent a fundamental change in how money works:
-      
-      | Current Digital Money | Central Bank Digital Currency |
-      |-----------------------|-------------------------------|
-      | Run by private companies | Created and controlled by government |
-      | Uses commercial bank money | Direct claim on the central bank |
-      | Limited programmability | Can be fully programmable |
-      | Separate systems that don't always connect | Single unified system |
-      | Usually requires bank account | Could work without banks |
-      | Transactions can take days to settle | Instant settlement possible |
-      
-      ## Potential CBDC Features
-      - **Programmability**: Money with conditions (can only be spent on food or expires after 3 months)
-      - **Automation**: Automatic tax collection, welfare distribution, or fine payment
-      - **Direct control**: Monetary policy applied instantly to all citizens
-      - **Offline functionality**: Works even without internet access
-      - **Detailed tracking**: Complete visibility of all financial activity
-      - **Targeted distribution**: Send money only to specific regions or demographics
-      - **Remote control**: Ability to freeze funds or reverse transactions
-      
-      ## Privacy Implications
-      
-      Through simulation exercises, Asha explores how CBDCs could be designed with different privacy features, 
-      from completely transparent to partially private transactions.
-      
-      ### Benefits in Daily Life:
-      - Reduced transaction costs for everyday purchases
-      - No more carrying cash or worrying about theft
-      - Simplified receiving of payments and government benefits
-      - Easier record-keeping for personal finances
-      - Protection from counterfeit money
-      
-      ### Privacy Concerns in Daily Life:
-      - Government could see every purchase you make
-      - Your spending habits could affect your "social score"
-      - Funds could be frozen if you're accused of wrongdoing
-      - Money could be programmed to expire or restricted to certain uses
-      - Complete financial visibility to authorities
-      
-      ## The African Context
-      
-      For African nations considering CBDCs, the implications are particularly significant:
-      
-      - **Financial inclusion**: Bringing banking to millions of unbanked citizens
-      - **Reduced corruption**: Transparent tracking of government spending
-      - **Lower remittance costs**: Cheaper way to receive money from relatives abroad
-      - **Currency stability**: Potential protection against inflation
-      - **Sovereignty concerns**: Independence from foreign payment systems
-      
-      However, without strong legal protections, these systems could also enable unprecedented 
-      financial surveillance and control in countries with authoritarian tendencies.
-      
-      ## Privacy Trade-offs
-
-      In the simulation, Asha must balance competing concerns:
-
-      ### Benefits
-      - Reduced crime and tax evasion
-      - Efficient payments and reduced costs
-      - Financial inclusion for the unbanked
-
-      ### Risks
-      - Complete financial surveillance
-      - Political control through financial censorship
       - Loss of private economic activity
     `
   },
@@ -536,42 +728,117 @@ export const realm2Missions: Realm2MissionData[] = [
     description: "Explore why \"not your keys, not your coins\" matters for financial sovereignty.",
     simulationType: 'selfcustody',
     content: `
-      At the edge of the Citadel, Asha meets a group of citizens who have rejected the city's surveillance system. 
-      They teach her about self-custody - the practice of holding your own private keys rather than trusting third parties.
-
-      ## Not Your Keys, Not Your Coins
-
-      The group demonstrates how citizens in the Citadel who keep their money in banks or centralized services 
-      are completely subject to the whims of authorities - accounts can be frozen, funds can be seized, and transactions can be blocked.
-
-      ### Self-Custody Principles
-      - Full control of your own private keys
-      - No third party can access or freeze your funds
-      - Independence from centralized financial surveillance
-      - Personal responsibility for security
-      - True financial sovereignty
-
-      Through a practical workshop, Asha learns the basics of key management, seed phrases, hardware wallets, 
-      and best practices for securing one's own bitcoin.
-
-      ## The Sovereignty Trade-off
-
-      Self-custody comes with both benefits and responsibilities:
-
-      ### Benefits
-      - Complete ownership of your money
-      - Immunity from account freezes or censorship
-      - Privacy from financial surveillance
-      - Protection against third-party risk
-
-      ### Responsibilities
-      - Secure key management
-      - Backup and recovery procedures
-      - Protection against theft or loss
-      - No "customer service" to help if mistakes are made
-
-      Asha realizes that true financial privacy and freedom require taking personal responsibility for one's finances 
-      - a concept almost forgotten in the Citadel's system of controlled convenience.
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0; text-align: center;">Not Your Keys, Not Your Coins</h2>
+        
+        <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; margin: 16px 0; text-align: center;">
+          <p style="font-size: 18px; font-weight: bold; margin: 0; color: #FFCC00;">Self-custody means holding your own keys rather than trusting third parties with your money</p>
+        </div>
+        
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 24px 0;">
+          <div style="flex: 1; min-width: 250px; max-width: 400px; background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px; text-align: center;">
+            <div style="font-size: 32px; margin-bottom: 12px;">🏦</div>
+            <h3 style="color: #FFCC00; margin: 0 0 8px 0;">Custodial Services</h3>
+            <p style="margin: 0;">When you trust banks, exchanges or companies to hold your money</p>
+          </div>
+          
+          <div style="flex: 1; min-width: 250px; max-width: 400px; background-color: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 16px; text-align: center;">
+            <div style="font-size: 32px; margin-bottom: 12px;">🔑</div>
+            <h3 style="color: #FFCC00; margin: 0 0 8px 0;">Self-Custody</h3>
+            <p style="margin: 0;">When you control your own private keys and directly own your money</p>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(255, 204, 0, 0.05); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0;">Why Self-Custody Matters</h2>
+        
+        <p style="margin-bottom: 16px;">When you keep money in banks or centralized services, you're subject to their rules:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px;">
+          <div style="background-color: rgba(255, 100, 100, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">❄️</div>
+            <div><strong>Accounts can be frozen</strong> without your permission</div>
+          </div>
+          
+          <div style="background-color: rgba(255, 100, 100, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">💸</div>
+            <div><strong>Funds can be seized</strong> by authorities or creditors</div>
+          </div>
+          
+          <div style="background-color: rgba(255, 100, 100, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">🚫</div>
+            <div><strong>Transactions can be blocked</strong> or reversed</div>
+          </div>
+          
+          <div style="background-color: rgba(255, 100, 100, 0.1); border-radius: 6px; padding: 12px; display: flex; align-items: center;">
+            <div style="font-size: 20px; margin-right: 12px;">👁️</div>
+            <div><strong>Financial privacy is lost</strong> to surveillance</div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+        <h2 style="color: #FFA500; margin-top: 0; text-align: center;">Self-Custody Tools</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px;">
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">🗝️</div>
+            <h3 style="color: #FFCC00; margin: 0 0 8px 0;">Private Keys</h3>
+            <p style="margin: 0; font-size: 14px;">Secret codes that prove and control ownership of your funds</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">📝</div>
+            <h3 style="color: #FFCC00; margin: 0 0 8px 0;">Seed Phrases</h3>
+            <p style="margin: 0; font-size: 14px;">12-24 words that can recover all your keys</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">🔒</div>
+            <h3 style="color: #FFCC00; margin: 0 0 8px 0;">Hardware Wallets</h3>
+            <p style="margin: 0; font-size: 14px;">Physical devices that securely store your keys</p>
+          </div>
+          
+          <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; text-align: center;">
+            <div style="font-size: 28px; margin-bottom: 8px;">📱</div>
+            <h3 style="color: #FFCC00; margin: 0 0 8px 0;">Software Wallets</h3>
+            <p style="margin: 0; font-size: 14px;">Apps on your phone or computer that manage keys</p>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: rgba(255, 204, 0, 0.07); border-radius: 8px; padding: 20px;">
+        <h2 style="color: #FFA500; margin-top: 0; text-align: center;">The Sovereignty Trade-off</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 16px;">
+          <div style="background-color: rgba(0, 200, 0, 0.1); border-radius: 8px; padding: 16px;">
+            <h3 style="color: #FFCC00; margin-top: 0; text-align: center;">Benefits</h3>
+            <ul style="margin-bottom: 0; padding-left: 20px;">
+              <li>Complete ownership of your money</li>
+              <li>Immunity from account freezes or censorship</li>
+              <li>Privacy from financial surveillance</li>
+              <li>Protection against third-party risk</li>
+              <li>Independence from institutional control</li>
+            </ul>
+          </div>
+          
+          <div style="background-color: rgba(255, 100, 100, 0.1); border-radius: 8px; padding: 16px;">
+            <h3 style="color: #FFCC00; margin-top: 0; text-align: center;">Responsibilities</h3>
+            <ul style="margin-bottom: 0; padding-left: 20px;">
+              <li>Secure key management</li>
+              <li>Backup and recovery procedures</li>
+              <li>Protection against theft or loss</li>
+              <li>No "customer service" to help if mistakes are made</li>
+              <li>Personal responsibility for security</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div style="background-color: rgba(0, 0, 0, 0.1); border-radius: 6px; padding: 12px; margin-top: 16px; text-align: center;">
+          <p style="margin: 0; font-style: italic;">True financial freedom requires taking personal responsibility for your money</p>
+        </div>
+      </div>
     `
   }
 ];
