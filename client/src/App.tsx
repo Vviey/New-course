@@ -14,6 +14,7 @@ const AuthPage = lazy(() => import("@/pages/auth-page"));
 const AfricaMapPage = lazy(() => import("@/pages/AfricaMapPage"));
 const BadgesPage = lazy(() => import("@/pages/BadgesPage"));
 const JourneyPage = lazy(() => import("@/pages/JourneyPage"));
+const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
 
 // Lazy load Mission wrapper component
 const MissionWrapper = lazy(() => import("@/components/mission-wrapper"));
@@ -86,6 +87,7 @@ function App() {
           <Route path="/map/africa" component={AfricaMapPage} />
           <Route path="/badges" component={BadgesPage} />
           <Route path="/journey" component={JourneyPage} />
+          <Route path="/profile" component={ProfilePage} />
           
           {/* Realm 1 specific routes */}
           <Route path="/realm/1/story" component={Realm1Story} />

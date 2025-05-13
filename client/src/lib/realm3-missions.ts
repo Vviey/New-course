@@ -54,7 +54,7 @@ export interface Cryptography {
 // Main mission data for Realm 3
 export const realm3Missions: MissionContent[] = [
   {
-    id: 300,
+    id: 1,
     title: "Lightning Network",
     subtitle: "Enhanced privacy through Layer 2 solutions",
     description: "Learn how Bitcoin's Layer 2 solutions enhance privacy and transaction efficiency.",
@@ -180,7 +180,7 @@ export const realm3Missions: MissionContent[] = [
     ]
   },
   {
-    id: 301,
+    id: 2,
     title: "The Glowing Path",
     subtitle: "Understand the fundamentals of cryptography",
     description: "In the bioluminescent forest, patterns of light create secure messages. Learn how cryptography protects Bitcoin transactions through a series of code-breaking challenges.",

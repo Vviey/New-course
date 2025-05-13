@@ -2,6 +2,7 @@ import { Link, useLocation } from 'wouter';
 import { BackpackMenu } from './backpack-menu';
 import { DEFAULT_AVATAR } from '@/lib/constants';
 import { OutlineButton } from './theme';
+import { useAuth } from '@/context/AuthContext';
 
 interface NavBarProps {
   className?: string;
@@ -9,18 +10,15 @@ interface NavBarProps {
 
 export function NavBar({ className = '' }: NavBarProps) {
   const [location, setLocation] = useLocation();
+  const { user, userProfile, logout } = useAuth();
   
-  // Mock user data for frontend development
-  const mockUser = { 
-    username: "Asha", 
-    userId: "BTC12345" 
-  };
-  
-  const userInitial = mockUser.username.charAt(0).toUpperCase();
+  const username = user?.username || "Guest";
+  const userId = user?.userId || "";
+  const userInitial = username.charAt(0).toUpperCase();
   
   const handleLogout = () => {
-    // This would normally clear authentication
-    setLocation('/');
+    logout();
+    setLocation('/auth');
   };
   
   return (
@@ -49,20 +47,30 @@ export function NavBar({ className = '' }: NavBarProps) {
                 Map
               </span>
             </Link>
+            <Link to="/profile">
+              <span className={`text-sm font-medium ${location === '/profile' ? 'text-primary' : 'text-secondary hover:text-primary'} transition-colors`}>
+                Profile
+              </span>
+            </Link>
           </nav>
           
           <BackpackMenu />
           
           <div className="flex items-center gap-3">
-            <div 
-              className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-secondary font-medium"
-              title={mockUser.username}
-            >
-              {userInitial}
-            </div>
+            <Link to="/profile">
+              <div 
+                className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-secondary font-medium cursor-pointer hover:bg-primary/30 transition-colors"
+                title={username}
+                style={{
+                  backgroundColor: userProfile?.avatarColor ? `${userProfile.avatarColor}40` : 'rgba(255, 204, 0, 0.2)'
+                }}
+              >
+                {userInitial}
+              </div>
+            </Link>
             <div className="hidden sm:flex flex-col leading-tight">
-              <span className="text-sm text-secondary">{mockUser.username}</span>
-              <span className="text-xs text-lightText/50">ID: {mockUser.userId}</span>
+              <span className="text-sm text-secondary">{username}</span>
+              {userId && <span className="text-xs text-lightText/50">ID: {userId}</span>}
             </div>
             <button 
               onClick={handleLogout}

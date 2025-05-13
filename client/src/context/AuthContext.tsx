@@ -4,13 +4,36 @@ import { MissionType, BadgeType } from '@/lib/realm-utils';
 // This is a purely frontend implementation of authentication context using localStorage
 // It does not connect to any backend or use mock data
 
+// Highlighted/bookmarked item interface
+interface HighlightedItem {
+  id: string;
+  text: string;
+  missionId: number;
+  realmId: number;
+  timestamp: number;
+  color?: string;
+  notes?: string;
+}
+
+// User profile interface
+interface UserProfile {
+  userId: string;
+  username: string;
+  avatarColor?: string;
+  joinDate: number;
+  bio?: string;
+}
+
 // User progress interface to track progress through the journey
 interface UserProgress {
   username: string;
+  userId: string;
+  profile: UserProfile;
   completedMissions: number[];
   unlockedRealms: number[];
   earnedBadges: number[];
   currentRealm?: number;
+  backpack: HighlightedItem[];
 }
 
 interface AuthContextType {
@@ -23,6 +46,8 @@ interface AuthContextType {
   // User object for compatibility with existing components
   user: {
     username: string | null;
+    userId?: string;
+    profile?: UserProfile;
     progress?: {
       completedRealms?: number[];
       completedMissions?: number[];
@@ -49,6 +74,16 @@ interface AuthContextType {
   completeMission: (missionId: number) => void;
   unlockRealm: (realmId: number) => void;
   earnBadge: (badgeId: number) => void;
+  
+  // User profile methods
+  userProfile: UserProfile | null;
+  updateProfile: (profile: Partial<UserProfile>) => void;
+  
+  // Backpack/highlighting methods
+  backpack: HighlightedItem[];
+  addToBackpack: (text: string, missionId: number, realmId: number, color?: string) => void;
+  removeFromBackpack: (id: string) => void;
+  updateBackpackItem: (id: string, updates: Partial<HighlightedItem>) => void;
 }
 
 // Create default context value
@@ -68,7 +103,13 @@ const initialAuthContext: AuthContextType = {
   earnedBadges: [],
   completeMission: () => {},
   unlockRealm: () => {},
-  earnBadge: () => {}
+  earnBadge: () => {},
+  userProfile: null,
+  updateProfile: () => {},
+  backpack: [],
+  addToBackpack: () => {},
+  removeFromBackpack: () => {},
+  updateBackpackItem: () => {}
 };
 
 const AuthContext = createContext<AuthContextType>(initialAuthContext);
@@ -79,10 +120,18 @@ const USER_STORAGE_KEY = 'ashaJourneyUserData';
 // Default starting state
 const initialProgress: UserProgress = {
   username: '',
+  userId: 'default-user-id',
+  profile: {
+    userId: 'default-user-id',
+    username: '',
+    joinDate: Date.now(),
+    avatarColor: '#ffcc00'
+  },
   completedMissions: [],
   unlockedRealms: [1, 2, 3, 4, 5, 6, 7], // All realms unlocked by default
   earnedBadges: [],
-  currentRealm: 1
+  currentRealm: 1,
+  backpack: []
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -97,6 +146,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [unlockedRealms, setUnlockedRealms] = useState<number[]>([1, 2, 3, 4, 5, 6, 7]); // All realms unlocked
   const [earnedBadges, setEarnedBadges] = useState<number[]>([]);
   
+  // User profile and backpack state
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [backpack, setBackpack] = useState<HighlightedItem[]>([]);
+  
   // For development, always initialize with default state
   useEffect(() => {
     // Force a default development user
@@ -104,10 +157,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Initialize with default values for development
       const defaultUserData: UserProgress = {
         username: "Developer",
+        userId: `user_${Date.now()}`,
+        profile: {
+          userId: `user_${Date.now()}`,
+          username: "Developer",
+          joinDate: Date.now(),
+          avatarColor: '#ffcc00',
+          bio: 'Bitcoin learning enthusiast exploring the realms of digital currency.'
+        },
         completedMissions: [],
         unlockedRealms: [1, 2, 3, 4, 5, 6, 7], // All realms unlocked
         earnedBadges: [],
-        currentRealm: 1
+        currentRealm: 1,
+        backpack: []
       };
       
       // Save to localStorage for persistence
@@ -123,19 +185,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (isAuthenticated && username) {
       try {
+        // Create a new user ID if it doesn't exist
+        const userId = userProfile?.userId || `user_${Date.now()}`;
+        
+        // Create profile if it doesn't exist
+        const profile = userProfile || {
+          userId,
+          username: username,
+          joinDate: Date.now(),
+          avatarColor: '#ffcc00'
+        };
+        
         const userData: UserProgress = {
           username: username,
+          userId,
+          profile,
           completedMissions,
           unlockedRealms,
           earnedBadges,
-          currentRealm
+          currentRealm,
+          backpack
         };
         localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userData));
       } catch (error) {
         console.error('Failed to save user data to localStorage:', error);
       }
     }
-  }, [isAuthenticated, username, completedMissions, unlockedRealms, earnedBadges, currentRealm]);
+  }, [isAuthenticated, username, userProfile, completedMissions, unlockedRealms, earnedBadges, currentRealm, backpack]);
   
   // Login function - saves user data to localStorage
   const login = (username: string, password: string) => {
@@ -156,6 +232,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           if (userData.currentRealm) {
             setCurrentRealm(userData.currentRealm);
           }
+          
+          // Load user profile and backpack
+          if (userData.profile) {
+            setUserProfile(userData.profile);
+          }
+          if (userData.backpack) {
+            setBackpack(userData.backpack);
+          }
           return;
         }
       }
@@ -164,8 +248,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     
     // If no existing user, create a new one
+    const userId = `user_${Date.now()}`;
+    const newUserProfile: UserProfile = {
+      userId,
+      username,
+      joinDate: Date.now(),
+      avatarColor: '#ffcc00' // Default avatar color
+    };
+    
     setIsAuthenticated(true);
     setUsername(username);
+    setUserProfile(newUserProfile);
+    setBackpack([]);
+    
     // For a new user, initialize with default progress
     setCompletedMissions([]);
     setUnlockedRealms([1, 2, 3, 4, 5, 6, 7]); // All realms unlocked
@@ -175,8 +270,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Register function - creates a new user in localStorage
   const register = (username: string, password: string, email?: string) => {
     console.log(`Registration functionality for ${username}`);
+    
+    // Create a new user ID
+    const userId = `user_${Date.now()}`;
+    
+    // Create a new user profile
+    const newUserProfile: UserProfile = {
+      userId,
+      username,
+      joinDate: Date.now(),
+      avatarColor: '#ffcc00', // Default avatar color
+      bio: email ? `Contact: ${email}` : undefined
+    };
+    
     setIsAuthenticated(true);
     setUsername(username);
+    setUserProfile(newUserProfile);
+    setBackpack([]);
     
     // Initialize new user with default progress
     setCompletedMissions([]);
@@ -211,10 +321,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setEarnedBadges(prev => [...prev, badgeId]);
     }
   };
+  
+  // Update user profile
+  const updateProfile = (profile: Partial<UserProfile>) => {
+    if (!userProfile) return;
+    
+    setUserProfile(prev => ({
+      ...prev!,
+      ...profile,
+      // Ensure userId doesn't change
+      userId: prev!.userId
+    }));
+  };
+  
+  // Add a highlighted item to the backpack
+  const addToBackpack = (text: string, missionId: number, realmId: number, color?: string) => {
+    const newItem: HighlightedItem = {
+      id: `highlight_${Date.now()}_${Math.random().toString(36).substring(2, 10)}`,
+      text,
+      missionId,
+      realmId,
+      timestamp: Date.now(),
+      color: color || '#ffcc00'
+    };
+    
+    setBackpack(prev => [...prev, newItem]);
+  };
+  
+  // Remove an item from the backpack
+  const removeFromBackpack = (id: string) => {
+    setBackpack(prev => prev.filter(item => item.id !== id));
+  };
+  
+  // Update a backpack item (e.g., add notes)
+  const updateBackpackItem = (id: string, updates: Partial<HighlightedItem>) => {
+    setBackpack(prev => prev.map(item => 
+      item.id === id ? { ...item, ...updates } : item
+    ));
+  };
 
   // Create a user object that matches what components are expecting
   const user = isAuthenticated ? {
     username,
+    userId: userProfile?.userId,
+    profile: userProfile,
     progress: {
       completedRealms: [], // We don't track this separately currently
       completedMissions,
@@ -239,7 +389,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     earnedBadges,
     completeMission,
     unlockRealm,
-    earnBadge
+    earnBadge,
+    userProfile,
+    updateProfile,
+    backpack,
+    addToBackpack,
+    removeFromBackpack,
+    updateBackpackItem
   };
 
   return (

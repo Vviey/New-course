@@ -23,17 +23,8 @@ export default function MissionPage() {
     console.log('Realm 3 Mission - Loading mission:', missionId);
     console.log('Route matches:', { matchRealmFormat, matchAlternateFormat });
     
-    // For Realm 3, find by direct ID or calculated ID
-    // First try using the direct ID (e.g., if URL contains "300")
-    let foundMission = realm3Missions.find(m => m.id === missionId);
-    
-    // If not found and ID is small (likely 1,2,3), calculate the 300-series ID
-    if (!foundMission && missionId < 100) {
-      const missionDataId = 300 + missionId - 1; // Convert 1 to 300, 2 to 301, etc.
-      foundMission = realm3Missions.find(m => m.id === missionDataId);
-      console.log(`Trying calculated mission ID: ${missionDataId}`);
-    }
-    
+    // Find mission by ID directly (now all mission IDs are consistent: 1, 2, 3, 4, etc.)
+    const foundMission = realm3Missions.find(m => m.id === missionId);
     setMission(foundMission || null);
     
     if (!foundMission) {

@@ -21,10 +21,9 @@ export default function Realm3Missions() {
   
   // Parse mission ID from URL
   const missionNumber = parseInt(missionId || '1');
-  const missionDataId = 300 + missionNumber;
   
-  // Current mission data - mission IDs in realm3 start at 300
-  const missionData = realm3Missions.find(m => m.id === missionDataId);
+  // Current mission data - mission IDs in realm3 are now consistent (1, 2, 3, etc.)
+  const missionData = realm3Missions.find(m => m.id === missionNumber);
   
   // Add required content property for Realm2MissionData compatibility
   const missionWithContent = missionData ? {
@@ -70,7 +69,7 @@ export default function Realm3Missions() {
     setMissionComplete(true);
     // In a real application, we would update the user's progress here
     // with something like:
-    // updateUserProgress(user.id, { completedMissions: [...user.completedMissions, missionDataId] })
+    // updateUserProgress(user.id, { completedMissions: [...user.completedMissions, missionNumber] })
     
     // Redirect to realm page after a delay
     setTimeout(() => {
@@ -84,7 +83,7 @@ export default function Realm3Missions() {
     setShowShareModal(true);
     
     // In a real application, we would update the user's progress here
-    // updateUserProgress(user.id, { completedMissions: [...user.completedMissions, missionDataId] })
+    // updateUserProgress(user.id, { completedMissions: [...user.completedMissions, missionNumber] })
   };
   
   // State to track if mission content has been read

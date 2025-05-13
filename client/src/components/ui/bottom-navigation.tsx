@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Home, Map, Award, BookOpen, Menu } from 'lucide-react';
+import { Home, Map, Award, BookOpen, User } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { getRealmTheme } from '@/lib/realm-themes';
 
@@ -19,11 +19,7 @@ export function BottomNavigation({ className = '' }: BottomNavigationProps) {
     if (path === '/map' && location === '/map') return true;
     if (path === '/badges' && location === '/badges') return true;
     if (path === '/current-realm' && location.startsWith('/realm/')) return true;
-    if (path === '/menu' && (
-      location === '/settings' || 
-      location === '/profile' || 
-      location === '/help'
-    )) return true;
+    if (path === '/profile' && location === '/profile') return true;
     
     return false;
   };
@@ -78,12 +74,12 @@ export function BottomNavigation({ className = '' }: BottomNavigationProps) {
           activeColor={realmTheme.colors.primary}
         />
         
-        {/* Menu button */}
+        {/* Profile button */}
         <NavButton 
-          icon={<Menu size={20} />} 
-          label="Menu"
-          isActive={isActive('/menu')}
-          onClick={() => handleNavigation('/menu')}
+          icon={<User size={20} />} 
+          label="Profile"
+          isActive={isActive('/profile')}
+          onClick={() => handleNavigation('/profile')}
           activeColor={realmTheme.colors.primary}
         />
       </div>
