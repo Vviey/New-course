@@ -71,7 +71,9 @@ export default function AuthPage() {
     setIsSubmitting(true);
     try {
       login(data.username, data.password);
-      setLocation("/intro"); // Navigate to story intro page after login
+      // No need to redirect here, the AuthContext will handle it
+      // The authentication flow will be automatically redirected to "/"
+      // which redirects to "/map" if authenticated
     } catch (error) {
       console.error("Login failed", error);
     } finally {
@@ -85,7 +87,9 @@ export default function AuthPage() {
       // Remove confirmPassword as it's not needed
       const { confirmPassword, ...registerData } = data;
       register(registerData.username, registerData.password, registerData.email || undefined);
-      setLocation("/intro"); // Navigate to story intro page after registration
+      // No need to redirect here, the AuthContext will handle it
+      // The authentication flow will be automatically redirected to "/"
+      // which redirects to "/map" if authenticated
     } catch (error) {
       console.error("Registration failed", error);
     } finally {

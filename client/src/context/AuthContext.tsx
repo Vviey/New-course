@@ -135,49 +135,92 @@ const initialProgress: UserProgress = {
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // Auth state - initialize as authenticated for development
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
-  const [username, setUsername] = useState<string | null>("Developer");
+  // Auth state - initialize as not authenticated
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [username, setUsername] = useState<string | null>(null);
   const [currentRealm, setCurrentRealm] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(false); // Set loading to false initially
+  const [loading, setLoading] = useState<boolean>(true); // Start with loading true
   
   // Progress state
   const [completedMissions, setCompletedMissions] = useState<number[]>([]);
-  const [unlockedRealms, setUnlockedRealms] = useState<number[]>([1, 2, 3, 4, 5, 6, 7]); // All realms unlocked
+  const [unlockedRealms, setUnlockedRealms] = useState<number[]>([1]);
   const [earnedBadges, setEarnedBadges] = useState<number[]>([]);
   
   // User profile and backpack state
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [backpack, setBackpack] = useState<HighlightedItem[]>([]);
   
-  // For development, always initialize with default state
+  // Check for existing user data in localStorage
   useEffect(() => {
-    // Force a default development user
+    // Check if auth bypass is enabled
+    const bypassAuth = typeof window !== 'undefined' && window.__BYPASS_AUTH__ === true;
+    
     try {
-      // Initialize with default values for development
-      const defaultUserData: UserProgress = {
-        username: "Developer",
-        userId: `user_${Date.now()}`,
-        profile: {
-          userId: `user_${Date.now()}`,
+      if (bypassAuth) {
+        // If bypassing auth, create a default user
+        console.log("Auth bypass enabled - using default user");
+        const defaultUser: UserProgress = {
           username: "Developer",
-          joinDate: Date.now(),
-          avatarColor: '#ffcc00',
-          bio: 'Bitcoin learning enthusiast exploring the realms of digital currency.'
-        },
-        completedMissions: [],
-        unlockedRealms: [1, 2, 3, 4, 5, 6, 7], // All realms unlocked
-        earnedBadges: [],
-        currentRealm: 1,
-        backpack: []
-      };
+          userId: `user_${Date.now()}`,
+          profile: {
+            userId: `user_${Date.now()}`,
+            username: "Developer",
+            joinDate: Date.now(),
+            avatarColor: '#ffcc00',
+            bio: 'Bitcoin learning enthusiast exploring the realms of digital currency.'
+          },
+          completedMissions: [],
+          unlockedRealms: [1, 2, 3, 4, 5, 6, 7], // All realms unlocked
+          earnedBadges: [],
+          currentRealm: 1,
+          backpack: []
+        };
+        
+        // Set state with default user
+        setIsAuthenticated(true);
+        setUsername(defaultUser.username);
+        setCompletedMissions(defaultUser.completedMissions);
+        setUnlockedRealms(defaultUser.unlockedRealms);
+        setEarnedBadges(defaultUser.earnedBadges);
+        setCurrentRealm(defaultUser.currentRealm);
+        setUserProfile(defaultUser.profile);
+        setBackpack(defaultUser.backpack);
+        
+        // Save to localStorage for persistence
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(defaultUser));
+      } else {
+        // Normal authentication flow - check localStorage
+        const savedUserData = localStorage.getItem(USER_STORAGE_KEY);
+        if (savedUserData) {
+          const userData: UserProgress = JSON.parse(savedUserData);
+          if (userData.username) {
+            // Restore user data
+            setIsAuthenticated(true);
+            setUsername(userData.username);
+            setCompletedMissions(userData.completedMissions || []);
+            setUnlockedRealms(userData.unlockedRealms || [1]);
+            setEarnedBadges(userData.earnedBadges || []);
+            
+            if (userData.currentRealm) {
+              setCurrentRealm(userData.currentRealm);
+            }
+            
+            if (userData.profile) {
+              setUserProfile(userData.profile);
+            }
+            
+            if (userData.backpack) {
+              setBackpack(userData.backpack);
+            }
+          }
+        }
+      }
       
-      // Save to localStorage for persistence
-      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(defaultUserData));
-      
-      // No need to set states as they're already initialized with these values
+      // Set loading to false after checking
+      setLoading(false);
     } catch (error) {
-      console.error('Failed to initialize development user data:', error);
+      console.error('Failed to load user data:', error);
+      setLoading(false);
     }
   }, []);
   

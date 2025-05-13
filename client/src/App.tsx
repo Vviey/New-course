@@ -9,6 +9,7 @@ const HomePage = lazy(() => import("@/pages/HomePage"));
 const MapPage = lazy(() => import("@/pages/MapPage"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 const StoryIntroPage = lazy(() => import("@/pages/StoryIntroPage"));
+const HomeIntroPage = lazy(() => import("@/pages/home-intro"));
 const RealmPage = lazy(() => import("@/pages/RealmPage"));
 const AuthPage = lazy(() => import("@/pages/auth-page"));
 const AfricaMapPage = lazy(() => import("@/pages/AfricaMapPage"));
@@ -40,20 +41,17 @@ function RouterListener() {
 
 // Root route redirect component  
 function RedirectToHome() {
-  const [, setLocation] = useLocation();
-  const { isAuthenticated } = useAuth();
+  const [location, setLocation] = useLocation();
   
   useEffect(() => {
-    if (isAuthenticated) {
-      // If already authenticated, redirect to map
-      console.log('User is authenticated, redirecting to map page');
-      setLocation('/map');
-    } else {
-      // If not authenticated, redirect to auth page
-      console.log('User not authenticated, redirecting to auth page');
-      setLocation('/auth');
-    }
-  }, [setLocation, isAuthenticated]);
+    // Add additional console logs to debug
+    console.log('Current location:', location);
+    console.log('RedirectToHome component mounted');
+    
+    // Redirect everyone to the home intro page first
+    console.log('Redirecting to home intro page at:', '/home-intro');
+    setLocation('/home-intro');
+  }, [location, setLocation]);
   
   return <LoadingSpinner />;
 }
@@ -72,13 +70,16 @@ function App() {
       <RouterListener />
       <Suspense fallback={<LoadingSpinner />}>
         <Switch>
-          {/* Root route redirects to home page */}
-          <Route path="/" component={RedirectToHome} />
+          {/* Root route is directly home-intro without redirection */}
+          <Route path="/" component={HomeIntroPage} />
+          
+          {/* Alternative path for home-intro */}
+          <Route path="/home-intro" component={HomeIntroPage} />
           
           {/* Auth page comes next */}
           <Route path="/auth" component={AuthPage} />
           
-          {/* Story intro */}
+          {/* Story intro for users post-authentication */}
           <Route path="/intro" component={StoryIntroPage} />
           
           {/* Main navigation routes */}

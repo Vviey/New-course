@@ -17,8 +17,17 @@ export function setupStaticServer(app: express.Express) {
   const clientDir = path.resolve(__dirname, '..', 'client');
   const publicDir = path.resolve(__dirname, '..', 'public');
   
-  // Serve static files from public directory
-  app.use(express.static(publicDir));
+  // Serve the authentication mode by default for the root path
+  app.get('/', (req, res) => {
+    const authHtmlPath = path.join(clientDir, 'public', 'auth.html');
+    if (fs.existsSync(authHtmlPath)) {
+      console.log('[DEBUG] Serving authentication-enabled mode HTML for root path');
+      res.sendFile(authHtmlPath);
+    } else {
+      console.log('[ERROR] Authentication mode HTML not found at', authHtmlPath);
+      res.status(404).send('Authentication mode HTML not found');
+    }
+  });
   
   // Serve the development mode HTML that bypasses auth and unlocks all realms
   app.get('/dev-mode', (req, res) => {
@@ -29,6 +38,18 @@ export function setupStaticServer(app: express.Express) {
     } else {
       console.log('[ERROR] Development mode HTML not found at', devHtmlPath);
       res.status(404).send('Development mode HTML not found');
+    }
+  });
+  
+  // Serve the auth-enabled mode HTML that requires real authentication
+  app.get('/auth-mode', (req, res) => {
+    const authHtmlPath = path.join(clientDir, 'public', 'auth.html');
+    if (fs.existsSync(authHtmlPath)) {
+      console.log('[DEBUG] Serving authentication-enabled mode HTML');
+      res.sendFile(authHtmlPath);
+    } else {
+      console.log('[ERROR] Authentication mode HTML not found at', authHtmlPath);
+      res.status(404).send('Authentication mode HTML not found');
     }
   });
   
@@ -54,6 +75,9 @@ export function setupStaticServer(app: express.Express) {
     }
   });
   
-  console.log('Static server setup complete - access via /dev-mode');
+  // Serve static files from public directory after all other routes
+  app.use(express.static(publicDir));
+  
+  console.log('Static server setup complete - access via / (auth mode), /dev-mode, or /auth-mode');
   return app;
 }
