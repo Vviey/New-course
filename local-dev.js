@@ -33,7 +33,7 @@ To run this application locally without Replit dependencies:
    http://localhost:5173
 
 6. The backend API will be available at:
-   http://localhost:5000/api
+   http://localhost:5001/api
 
 =====================================================
   REMOVING REPLIT DEPENDENCIES
@@ -70,7 +70,7 @@ Before running locally, you should remove Replit-specific files and code:
        port: 5173,
        proxy: {
          "/api": {
-           target: "http://localhost:5000",
+           target: "http://localhost:5001",
            changeOrigin: true,
          },
        },

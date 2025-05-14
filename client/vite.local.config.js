@@ -24,7 +24,7 @@ module.exports = defineConfig({
     proxy: {
       // Proxy API requests to the backend Express server
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:5001',
         changeOrigin: true
       }
     }

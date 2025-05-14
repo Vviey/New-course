@@ -37,7 +37,7 @@ export default defineConfig({
       host: "localhost", // ✅ Use local dev host (or your container's IP if Docker)
       port: 5173, // ✅ Ensure WebSocket URL is built correctly
     },
-    allowedHosts: "all", // ✅ Allow all hosts to connect (if needed externally)
+    allowedHosts: ["all"], // ✅ Allow all hosts to connect (if needed externally)
   },
   build: {
     outDir: "../dist/client",

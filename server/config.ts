@@ -7,8 +7,8 @@ export const config = {
   isProduction: process.env.NODE_ENV === 'production',
   
   // Application
-  port: parseInt(process.env.PORT || '5000', 10),
-  appUrl: process.env.APP_URL || 'http://localhost:5000',
+  port: parseInt(process.env.PORT || '5001', 10),
+  appUrl: process.env.APP_URL || 'http://localhost:5001',
   
   // Sessions
   session: {

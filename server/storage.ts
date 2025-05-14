@@ -12,7 +12,7 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: Partial<InsertUser>): Promise<User>;
   updateUser(userId: string, userData: Partial<User>): Promise<User | undefined>;
-  updateUserProgress(userId: string, progress: any): Promise<User | undefined>;
+  updateUserProgress(userId: string, progress: unknown): Promise<User | undefined>;
   
   // Realm methods
   getRealms(): Promise<Realm[]>;
@@ -38,7 +38,6 @@ export interface IStorage {
   
   sessionStore: session.Store;
 }
-
 import createMemoryStore from "memorystore";
 const MemoryStore = createMemoryStore(session);
 
@@ -143,7 +142,7 @@ export class MemStorage implements IStorage {
     return updatedUser;
   }
 
-  async updateUserProgress(userId: string, progress: any): Promise<User | undefined> {
+  async updateUserProgress(userId: string, progress: Record<string, unknown>): Promise<User | undefined> {
     const user = await this.getUserByUserId(userId);
     if (!user) return undefined;
     
@@ -158,7 +157,6 @@ export class MemStorage implements IStorage {
     this.users.set(user.id, updatedUser);
     return updatedUser;
   }
-
   async getRealms(): Promise<Realm[]> {
     return Array.from(this.realmsList.values());
   }
@@ -362,6 +360,7 @@ export class MemStorage implements IStorage {
 }
 
 import connectPg from "connect-pg-simple";
+import { Pool } from '@neondatabase/serverless';
 
 const PostgresSessionStore = connectPg(session);
 
@@ -370,11 +369,10 @@ export class DatabaseStorage implements IStorage {
   
   constructor() {
     this.sessionStore = new PostgresSessionStore({
-      pool: pool as any, // Type assertion to fix Pool compatibility issue
+      pool: pool as unknown as Pool,
       createTableIfMissing: true
     });
-  }
-  async getUser(id: number): Promise<User | undefined> {
+  }  async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
   }
@@ -421,7 +419,7 @@ export class DatabaseStorage implements IStorage {
       rewards: insertUserData.rewards || initialRewards
     };
     
-    const [user] = await db.insert(users).values([userData] as any).returning();
+    const [user] = await db.insert(users).values([userData] as unknown).returning();
     return user;
   }
 
@@ -438,7 +436,7 @@ export class DatabaseStorage implements IStorage {
     return updatedUser;
   }
 
-  async updateUserProgress(userId: string, progress: any): Promise<User | undefined> {
+  async updateUserProgress(userId: string, progress: Record<string, unknown>): Promise<User | undefined> {
     const user = await this.getUserByUserId(userId);
     if (!user) return undefined;
     
@@ -455,7 +453,6 @@ export class DatabaseStorage implements IStorage {
     
     return updatedUser;
   }
-
   async getRealms(): Promise<Realm[]> {
     const result = await db.select().from(realms);
     return result as unknown as Realm[];
@@ -483,14 +480,13 @@ export class DatabaseStorage implements IStorage {
     try {
       // Check if realms table is empty
       const existingRealms = await db.select().from(realms);
-      if ((existingRealms as unknown as any[]).length > 0) {
+      if ((existingRealms as unknown as unknown[]).length > 0) {
         console.log('Realms already initialized, skipping');
         return;
       }
       
       // Add initial realms data using raw SQL to bypass column name issues
-      // Type assertion to resolve the expected 0 arguments error
-      await (pool.query as any)(`
+      await (pool.query as unknown as (query: string) => Promise<void>)(`
         INSERT INTO realms (name, description, "moduleNumber", "imageUrl", "isLocked")
         VALUES 
           ('Realm of Origins', 'Discover how money began and evolved from shells to bills in this foundational chapter.', 1, 'https://bitcoiners.africa/wp-content/uploads/2025/04/realm-1.png', false),
@@ -507,8 +503,7 @@ export class DatabaseStorage implements IStorage {
       console.error('Failed to initialize realms:', error);
       throw error;
     }
-  }
-  
+  }  
   // Mission methods
   async getMissions(realmId: number): Promise<Mission[]> {
     const result = await db.select().from(missions).where(eq(missions.realmId, realmId));
@@ -530,7 +525,7 @@ export class DatabaseStorage implements IStorage {
       content: missionData.content || {}
     };
     
-    const [mission] = await db.insert(missions).values([data] as any).returning();
+    const [mission] = await db.insert(missions).values([data] as unknown).returning();
     return mission;
   }
 
@@ -571,7 +566,7 @@ export class DatabaseStorage implements IStorage {
       realmId: badgeData.realmId
     };
     
-    const [badge] = await db.insert(badges).values([data] as any).returning();
+    const [badge] = await db.insert(badges).values([data] as unknown).returning();
     return badge;
   }
 
@@ -605,7 +600,7 @@ export class DatabaseStorage implements IStorage {
         userId: user.id,
         badgeId: badge.id,
         earned: new Date()
-      }] as any)
+      }] as unknown)
       .returning();
     
     // Update user rewards

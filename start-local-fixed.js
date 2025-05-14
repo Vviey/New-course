@@ -123,7 +123,7 @@ backendProcess.on('exit', (code) => {
 });
 
 console.log(`
-\x1b[33m[Info]\x1b[0m Backend server will be available at: http://localhost:5000
+\x1b[33m[Info]\x1b[0m Backend server will be available at: http://localhost:5001
 \x1b[33m[Info]\x1b[0m Frontend dev server will be available at: http://localhost:5173
 \x1b[33m[Info]\x1b[0m Press Ctrl+C to stop both servers
 `);

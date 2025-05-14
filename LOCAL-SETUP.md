@@ -40,7 +40,7 @@ This guide provides detailed instructions for setting up and running the Bitcoin
    ```
 
    This script will:
-   - Start the backend API server on port 5000
+   - Start the backend API server on port 5001
    - Start the frontend development server on port 5173
    - Set environment variables to skip any Replit-specific code
 
@@ -56,12 +56,12 @@ npm install
 ```
 
 ### Port conflicts
-If either port 5000 or 5173 is already in use, you'll need to modify the `run-local.js` script to use different ports.
+If either port 5001 or 5173 is already in use, you'll need to modify the `run-local.js` script to use different ports.
 
 ### CORS issues
 The application has CORS settings that allow localhost by default, but if you're experiencing CORS issues:
 1. Verify that you're accessing the frontend on the correct port (5173)
-2. Check that the backend API server is running on port 5000
+2. Check that the backend API server is running on port 5001
 3. Ensure there are no proxy configurations in your network that might interfere
 
 ## Project Structure 

@@ -62,8 +62,8 @@ app.use(express.static(path.resolve('./public'), {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  const port = 5000;
+  // ALWAYS serve the app on port 5001
+  const port = 5001;
   server.listen(
     {
       port,
