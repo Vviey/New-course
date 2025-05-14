@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="450" fill="#291711" />
+  
+  <!-- Golden coin -->
+  <circle cx="400" cy="150" r="100" fill="#FFCC5D" />
+  <circle cx="400" cy="150" r="90" fill="none" stroke="#C99A3D" stroke-width="2" />
+  <circle cx="400" cy="150" r="80" fill="none" stroke="#C99A3D" stroke-width="1" />
+  
+  <!-- Bitcoin symbol in the coin -->
+  <path d="M400,90 L400,210 M370,110 L430,110 C450,110 460,130 450,150 C440,170 420,170 400,170 L430,170 C450,170 460,190 450,210 C440,230 420,230 370,230" 
+    fill="none" stroke="#964B00" stroke-width="10" stroke-linecap="round" />
+  
+  <!-- Asha silhouette (left) -->
+  <path d="M250,300 C250,240 280,220 310,240 C320,200 360,200 370,240 C400,220 430,240 430,300 Z" fill="#964B00" />
+  <circle cx="330" cy="210" r="30" fill="#964B00" />
+  
+  <!-- Odu silhouette (right) -->
+  <path d="M530,300 C530,240 560,220 590,240 C600,200 640,200 650,240 C680,220 710,240 710,300 Z" fill="#964B00" />
+  <circle cx="620" cy="210" r="35" fill="#964B00" />
+  
+  <!-- Staff for Odu -->
+  <rect x="680" y="230" width="5" height="130" fill="#8B4513" />
+  
+  <!-- Seven realms illustrated as connected nodes -->
+  <circle cx="150" cy="350" r="20" fill="#FFCC5D" opacity="0.7" />
+  <circle cx="250" cy="350" r="20" fill="#FFCC5D" opacity="0.7" />
+  <circle cx="350" cy="350" r="20" fill="#FFCC5D" opacity="0.7" />
+  <circle cx="450" cy="350" r="20" fill="#FFCC5D" opacity="0.7" />
+  <circle cx="550" cy="350" r="20" fill="#FFCC5D" opacity="0.7" />
+  <circle cx="650" cy="350" r="20" fill="#FFCC5D" opacity="0.7" />
+  <circle cx="750" cy="350" r="20" fill="#FFCC5D" opacity="0.7" />
+  
+  <!-- Connecting lines -->
+  <line x1="170" y1="350" x2="230" y2="350" stroke="#FFCC5D" stroke-width="3" />
+  <line x1="270" y1="350" x2="330" y2="350" stroke="#FFCC5D" stroke-width="3" />
+  <line x1="370" y1="350" x2="430" y2="350" stroke="#FFCC5D" stroke-width="3" />
+  <line x1="470" y1="350" x2="530" y2="350" stroke="#FFCC5D" stroke-width="3" />
+  <line x1="570" y1="350" x2="630" y2="350" stroke="#FFCC5D" stroke-width="3" />
+  <line x1="670" y1="350" x2="730" y2="350" stroke="#FFCC5D" stroke-width="3" />
+</svg>

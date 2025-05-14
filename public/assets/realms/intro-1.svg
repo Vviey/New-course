@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="450" fill="#291711" />
+  
+  <!-- Stars and sky -->
+  <circle cx="100" cy="50" r="2" fill="#FFCC5D" />
+  <circle cx="200" cy="90" r="3" fill="#FFCC5D" />
+  <circle cx="300" cy="30" r="2" fill="#FFCC5D" />
+  <circle cx="400" cy="70" r="3" fill="#FFCC5D" />
+  <circle cx="500" cy="40" r="2" fill="#FFCC5D" />
+  <circle cx="600" cy="60" r="2" fill="#FFCC5D" />
+  <circle cx="700" cy="30" r="3" fill="#FFCC5D" />
+  <circle cx="750" cy="80" r="2" fill="#FFCC5D" />
+  <circle cx="50" cy="110" r="2" fill="#FFCC5D" />
+  <circle cx="150" cy="120" r="1" fill="#FFCC5D" />
+  <circle cx="250" cy="140" r="2" fill="#FFCC5D" />
+  <circle cx="350" cy="130" r="1" fill="#FFCC5D" />
+  <circle cx="450" cy="100" r="2" fill="#FFCC5D" />
+  <circle cx="550" cy="110" r="1" fill="#FFCC5D" />
+  <circle cx="650" cy="90" r="2" fill="#FFCC5D" />
+  
+  <!-- Moon -->
+  <circle cx="680" cy="120" r="50" fill="#FFCC5D" opacity="0.8" />
+  <circle cx="660" cy="110" r="10" fill="#291711" opacity="0.5" />
+  <circle cx="690" cy="140" r="15" fill="#291711" opacity="0.5" />
+  
+  <!-- Landscape silhouette -->
+  <path d="M0,450 L0,300 C50,270 100,290 150,280 C200,270 250,290 300,260 C350,230 400,250 450,240 C500,230 550,210 600,240 C650,270 700,250 750,270 L800,300 L800,450 Z" fill="#140B07" />
+  
+  <!-- African village silhouette -->
+  <path d="M100,450 L100,350 L150,300 L200,350 L200,450 Z" fill="#000000" />
+  <path d="M300,450 L300,330 L370,270 L440,330 L440,450 Z" fill="#000000" />
+  <path d="M500,450 L500,340 L550,280 L600,340 L600,450 Z" fill="#000000" />
+  
+  <!-- Baobab tree silhouette -->
+  <path d="M700,450 L700,300 L650,260 L670,200 L690,190 L710,200 L730,210 L750,260 L700,300 Z" fill="#000000" />
+</svg>

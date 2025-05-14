@@ -1,327 +1,393 @@
-import { useState } from "react";
-import { useLocation } from "wouter";
-import { useAuth } from "@/context/AuthContext";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Loader2, Eye, EyeOff } from "lucide-react";
+import { useEffect, useState, useRef } from 'react';
+import { useLocation } from 'wouter';
+import { useAuth } from '@/context/AuthContext';
+import { ThemeContainer, ThemeCard, ThemeHeading, GradientButton } from '@/components/ui/theme';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useToast } from '@/hooks/use-toast';
+import { UserIdRecovery } from '@/components/ui/user-id-recovery';
 
-// Form schemas
-const loginSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters").max(50),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+// Login form schema
+const loginFormSchema = z.object({
+  username: z.string().min(1, 'Username is required'),
+  password: z.string().min(1, 'Password is required'),
 });
 
-const registerSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters").max(50),
-  email: z.string().email("Please enter a valid email").optional().or(z.literal("")),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  confirmPassword: z.string().min(6, "Password must be at least 6 characters"),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"],
+type LoginFormValues = z.infer<typeof loginFormSchema>;
+
+// Signup form schema
+const signupFormSchema = z.object({
+  username: z.string().min(3, 'Username must be at least 3 characters'),
+  email: z.string().email('Please enter a valid email').optional(),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  confirmPassword: z.string()
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword']
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
-type RegisterFormValues = z.infer<typeof registerSchema>;
+type SignupFormValues = z.infer<typeof signupFormSchema>;
 
-export default function AuthPage() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login, register, isAuthenticated } = useAuth();
+// Login Form Component
+function LoginForm() {
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
   
-  // If user is authenticated, redirect to home page
-  if (isAuthenticated) {
-    setTimeout(() => {
-      setLocation("/home");
-    }, 0);
-    
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <span className="ml-2">Redirecting to home page...</span>
-      </div>
-    );
-  }
-  
-  // Login form
-  const loginForm = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      username: "",
-      password: "",
-    },
+      username: '',
+      password: '',
+    }
   });
-  
-  // Register form
-  const registerForm = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerSchema),
-    defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-  });
-  
-  const onLoginSubmit = (data: LoginFormValues) => {
-    setIsSubmitting(true);
+
+  const onSubmit = async (data: LoginFormValues) => {
+    setLoading(true);
     try {
       login(data.username, data.password);
-      // No need to redirect here, the AuthContext will handle it
-      // The authentication flow will be automatically redirected to "/"
-      // which redirects to "/map" if authenticated
+      setLocation('/home');
+      toast({
+        title: "Welcome back!",
+        description: "You've successfully logged in",
+      });
     } catch (error) {
       console.error("Login failed", error);
+      toast({
+        title: "Login failed",
+        description: "Please check your username and password",
+        variant: "destructive"
+      });
     } finally {
-      setIsSubmitting(false);
-    }
-  };
-  
-  const onRegisterSubmit = (data: RegisterFormValues) => {
-    setIsSubmitting(true);
-    try {
-      // Remove confirmPassword as it's not needed
-      const { confirmPassword, ...registerData } = data;
-      register(registerData.username, registerData.password, registerData.email || undefined);
-      // No need to redirect here, the AuthContext will handle it
-      // The authentication flow will be automatically redirected to "/"
-      // which redirects to "/map" if authenticated
-    } catch (error) {
-      console.error("Registration failed", error);
-    } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Authentication Form */}
-      <div className="flex-1 flex items-center justify-center p-6 md:p-12">
-        <div className="w-full max-w-md space-y-6">
-          <div className="text-center">
-            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
-              {isLogin ? "Welcome Back" : "Join Asha's Journey"}
-            </h1>
-            <p className="mt-2 text-sm text-gray-600">
-              {isLogin
-                ? "Sign in to continue your educational journey through Bitcoin" 
-                : "Register and begin your adventure in learning Bitcoin"}
-            </p>
-          </div>
-
-          {/* Tab Selector */}
-          <div className="flex rounded-md border shadow-sm p-1 bg-gray-100">
-            <button 
-              className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${isLogin ? "bg-white shadow-sm" : "text-gray-600 hover:text-gray-900"}`}
-              onClick={() => setIsLogin(true)}
-            >
-              Login
-            </button>
-            <button 
-              className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${!isLogin ? "bg-white shadow-sm" : "text-gray-600 hover:text-gray-900"}`}
-              onClick={() => setIsLogin(false)}
-            >
-              Register
-            </button>
-          </div>
-
-          {isLogin ? (
-            /* Login Form */
-            <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700" htmlFor="username">
-                  Username
-                </label>
-                <input
-                  {...loginForm.register("username")}
-                  id="username"
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="Your username"
-                />
-                {loginForm.formState.errors.username && (
-                  <p className="text-sm text-red-500">{loginForm.formState.errors.username.message}</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700" htmlFor="password">
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    {...loginForm.register("password")}
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Your password"
-                  />
-                  <button 
-                    type="button"
-                    className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-800"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                  </button>
-                </div>
-                {loginForm.formState.errors.password && (
-                  <p className="text-sm text-red-500">{loginForm.formState.errors.password.message}</p>
-                )}
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-              >
-                {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin mx-auto" /> : "Sign In"}
-              </button>
-            </form>
-          ) : (
-            /* Register Form */
-            <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700" htmlFor="register-username">
-                  Username
-                </label>
-                <input
-                  {...registerForm.register("username")}
-                  id="register-username"
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="Choose a username"
-                />
-                {registerForm.formState.errors.username && (
-                  <p className="text-sm text-red-500">{registerForm.formState.errors.username.message}</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700" htmlFor="register-email">
-                  Email (optional)
-                </label>
-                <input
-                  {...registerForm.register("email")}
-                  id="register-email"
-                  type="email"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="Your email address (for recovery)"
-                />
-                {registerForm.formState.errors.email && (
-                  <p className="text-sm text-red-500">{registerForm.formState.errors.email.message}</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700" htmlFor="register-password">
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    {...registerForm.register("password")}
-                    id="register-password"
-                    type={showPassword ? "text" : "password"}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Create a password"
-                  />
-                  <button 
-                    type="button"
-                    className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-800"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                  </button>
-                </div>
-                {registerForm.formState.errors.password && (
-                  <p className="text-sm text-red-500">{registerForm.formState.errors.password.message}</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700" htmlFor="register-confirm-password">
-                  Confirm Password
-                </label>
-                <div className="relative">
-                  <input
-                    {...registerForm.register("confirmPassword")}
-                    id="register-confirm-password"
-                    type={showConfirmPassword ? "text" : "password"}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Confirm your password"
-                  />
-                  <button 
-                    type="button"
-                    className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-800"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                  </button>
-                </div>
-                {registerForm.formState.errors.confirmPassword && (
-                  <p className="text-sm text-red-500">{registerForm.formState.errors.confirmPassword.message}</p>
-                )}
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-              >
-                {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin mx-auto" /> : "Create Account"}
-              </button>
-            </form>
+    <ThemeCard className="max-w-md w-full mx-auto">
+      <div className="text-center mb-8">
+        <div className="flex justify-center space-x-4 mb-4">
+          <img 
+            src="/assets/characters/asha.svg" 
+            alt="Asha" 
+            className="h-24 object-contain"
+          />
+          <img 
+            src="/assets/characters/odu.svg" 
+            alt="Odu" 
+            className="h-24 object-contain"
+          />
+        </div>
+        <ThemeHeading className="mb-2">Continue Your Journey</ThemeHeading>
+        <p className="text-lightText/80">Return to Asha's world of discovery</p>
+      </div>
+      
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div>
+          <label htmlFor="username" className="block text-sm font-medium mb-2">Your Username</label>
+          <input 
+            type="text" 
+            id="username" 
+            {...register('username')}
+            className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
+            placeholder="Enter your username"
+          />
+          {errors.username && (
+            <p className="mt-1 text-xs text-red-400">{errors.username.message}</p>
           )}
         </div>
-      </div>
+        
+        <div>
+          <label htmlFor="password" className="block text-sm font-medium mb-2">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            {...register('password')}
+            className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
+            placeholder="Your journey password"
+          />
+          {errors.password && (
+            <p className="mt-1 text-xs text-red-400">{errors.password.message}</p>
+          )}
+        </div>
+        
+        <div className="pt-2">
+          <GradientButton type="submit" disabled={loading}>
+            Return to the Realms
+          </GradientButton>
+        </div>
+        
+        <div className="text-center mt-4">
+          <button
+            type="button"
+            onClick={() => setLocation('/forgot-password')}
+            className="text-secondary/80 hover:text-primary text-xs underline"
+          >
+            Forgot your password?
+          </button>
+        </div>
+      </form>
+    </ThemeCard>
+  );
+}
 
-      {/* Hero Section */}
-      <div className="flex-1 bg-gradient-to-br from-primary/80 to-primary-dark p-6 md:p-12 flex items-center justify-center text-white">
-        <div className="max-w-md space-y-6">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight">Embark on Asha's Journey</h2>
-            <p className="mt-4 text-lg">
-              Explore the story of money from its origins to the Bitcoin revolution.
-              Join Asha as she navigates 7 distinct realms, each unfolding new knowledge about financial systems and cryptocurrency.
-            </p>
+// Signup Form Component
+function SignupForm() {
+  const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const { register } = useAuth();
+  
+  const { register: registerField, handleSubmit, formState: { errors } } = useForm<SignupFormValues>({
+    resolver: zodResolver(signupFormSchema),
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    }
+  });
+
+  const onSubmit = async (data: SignupFormValues) => {
+    setLoading(true);
+    
+    try {
+      register(data.username, data.password, data.email);
+      
+      // Get the user from local storage which should have been set by AuthContext
+      const storedUser = localStorage.getItem('ashaJourneyUserData');
+      if (storedUser) {
+        try {
+          const userData = JSON.parse(storedUser);
+          setUserId(userData.userId);
+          
+          toast({
+            title: "Account created!",
+            description: "Your Bitcoin Quest journey begins",
+          });
+        } catch (error) {
+          console.error('Error parsing stored user data:', error);
+          setLoading(false);
+          toast({
+            title: "Something went wrong",
+            description: "Could not retrieve your user ID",
+            variant: "destructive"
+          });
+        }
+      } else {
+        setLoading(false);
+        toast({
+          title: "Something went wrong",
+          description: "Could not retrieve your user ID",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+      setLoading(false);
+      toast({
+        title: "Registration failed",
+        description: "Please try again with a different username",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const continueToApp = () => {
+    setLocation('/home');
+  };
+
+  return (
+    <>
+      {userId ? (
+        // Show user ID and instructions after successful signup
+        <ThemeCard className="max-w-md w-full mx-auto">
+          <div className="text-center mb-8">
+            <div className="w-20 h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-4">
+              <span className="text-3xl text-primary">✓</span>
+            </div>
+            <ThemeHeading className="mb-2">Journey Begins!</ThemeHeading>
+            <p className="text-lightText/80 mb-6">Your account has been created successfully</p>
           </div>
+          
+          <UserIdRecovery 
+            userId={userId || ''}
+            onClose={continueToApp}
+          />
+        </ThemeCard>
+      ) : (
+        // Show signup form
+        <ThemeCard className="max-w-md w-full mx-auto">
+          <div className="text-center mb-8">
+            <div className="flex justify-center space-x-4 mb-4">
+              <img 
+                src="/assets/characters/asha.svg" 
+                alt="Asha" 
+                className="h-24 object-contain"
+              />
+              <img 
+                src="/assets/characters/odu.svg" 
+                alt="Odu" 
+                className="h-24 object-contain"
+              />
+            </div>
+            <ThemeHeading className="mb-2">Begin Your Journey</ThemeHeading>
+            <p className="text-lightText/80">Create an account to track your progress</p>
+          </div>
+          
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium mb-2">Username</label>
+              <input 
+                type="text" 
+                id="username" 
+                {...registerField('username')}
+                className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
+                placeholder="Choose a username"
+              />
+              {errors.username && (
+                <p className="mt-1 text-xs text-red-400">{errors.username.message}</p>
+              )}
+            </div>
+            
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium mb-2">
+                Email <span className="text-xs text-lightText/60">(Optional)</span>
+              </label>
+              <input 
+                type="email" 
+                id="email" 
+                {...registerField('email')}
+                className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
+                placeholder="Your email address"
+              />
+              <p className="mt-1 text-xs text-lightText/60">For password recovery (recommended)</p>
+              {errors.email && (
+                <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>
+              )}
+            </div>
+            
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium mb-2">Password</label>
+              <input 
+                type="password" 
+                id="password" 
+                {...registerField('password')}
+                className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
+                placeholder="Create a secure password"
+              />
+              {errors.password && (
+                <p className="mt-1 text-xs text-red-400">{errors.password.message}</p>
+              )}
+            </div>
+            
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2">Confirm Password</label>
+              <input 
+                type="password" 
+                id="confirmPassword" 
+                {...registerField('confirmPassword')}
+                className="w-full bg-darkBg border border-secondary/40 rounded-md p-3 text-lightText focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" 
+                placeholder="Confirm your password"
+              />
+              {errors.confirmPassword && (
+                <p className="mt-1 text-xs text-red-400">{errors.confirmPassword.message}</p>
+              )}
+            </div>
+            
+            <div className="pt-2">
+              <GradientButton type="submit" disabled={loading}>
+                Start Your Journey
+              </GradientButton>
+            </div>
+          </form>
+        </ThemeCard>
+      )}
+    </>
+  );
+}
 
-          <div className="space-y-4">
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 h-6 w-6 rounded-full bg-white/30 flex items-center justify-center text-sm font-semibold">1</div>
-              <div>
-                <h3 className="font-semibold">Interactive Learning</h3>
-                <p className="text-white/80 text-sm mt-1">
-                  Engage with simulations and interactive challenges to understand complex concepts
-                </p>
-              </div>
+export default function AuthPage() {
+  const [, setLocation] = useLocation();
+  const { user } = useAuth();
+  const [activeTab, setActiveTab] = useState<string>('login');
+
+  // If user is already logged in, redirect to home
+  useEffect(() => {
+    if (user) {
+      setLocation('/home');
+    }
+  }, [user, setLocation]);
+
+  return (
+    <ThemeContainer>
+      <div className="min-h-screen flex flex-col p-4 sm:p-6">
+        {/* Header with back button */}
+        <header className="w-full max-w-6xl mx-auto mb-4">
+          <button 
+            onClick={() => setLocation('/')} 
+            className="flex items-center text-secondary hover:text-primary"
+          >
+            <span className="mr-1">←</span> Back to Story
+          </button>
+        </header>
+
+        <div className="flex-1 flex items-center justify-center">
+          <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Left column - Authentication form */}
+            <div className="w-full">
+              <Tabs defaultValue="login" value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="grid grid-cols-2 mb-6">
+                  <TabsTrigger value="login">Log In</TabsTrigger>
+                  <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                </TabsList>
+                <TabsContent value="login">
+                  <LoginForm />
+                </TabsContent>
+                <TabsContent value="signup">
+                  <SignupForm />
+                </TabsContent>
+              </Tabs>
             </div>
 
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 h-6 w-6 rounded-full bg-white/30 flex items-center justify-center text-sm font-semibold">2</div>
-              <div>
-                <h3 className="font-semibold">African Perspectives</h3>
-                <p className="text-white/80 text-sm mt-1">
-                  Learn through the lens of African monetary history and its relevance to modern finance
+            {/* Right column - Hero section */}
+            <div className="hidden md:flex flex-col justify-center items-center">
+              <div className="bg-darkBg/40 p-8 rounded-2xl border border-primary/20 backdrop-blur-sm">
+                <div className="flex justify-center mb-8">
+                  <img 
+                    src="/assets/characters/asha.svg" 
+                    alt="Asha" 
+                    className="h-64 object-contain"
+                  />
+                </div>
+                <ThemeHeading className="mb-4 text-center">Explore the World of Bitcoin with Asha</ThemeHeading>
+                <p className="text-lightText/80 text-center mb-6">
+                  Embark on an educational journey through the realms of Bitcoin and discover the 
+                  revolutionary potential of this technology in Africa and beyond.
                 </p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 h-6 w-6 rounded-full bg-white/30 flex items-center justify-center text-sm font-semibold">3</div>
-              <div>
-                <h3 className="font-semibold">Earn Knowledge Badges</h3>
-                <p className="text-white/80 text-sm mt-1">
-                  Track your progress and showcase your achievements as you master each realm
-                </p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-center text-lightText/90">
+                    <span className="text-primary mr-2">✓</span> Interactive learning through stories
+                  </li>
+                  <li className="flex items-center text-lightText/90">
+                    <span className="text-primary mr-2">✓</span> Earn badges and track your progress
+                  </li>
+                  <li className="flex items-center text-lightText/90">
+                    <span className="text-primary mr-2">✓</span> Explore 7 unique realms of Bitcoin knowledge
+                  </li>
+                  <li className="flex items-center text-lightText/90">
+                    <span className="text-primary mr-2">✓</span> Learn at your own pace, on any device
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </ThemeContainer>
   );
 }
