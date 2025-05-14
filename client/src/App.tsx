@@ -70,8 +70,8 @@ function App() {
       <RouterListener />
       <Suspense fallback={<LoadingSpinner />}>
         <Switch>
-          {/* Root route is directly home-intro without redirection */}
-          <Route path="/" component={HomeIntroPage} />
+          {/* Root route is story intro first */}
+          <Route path="/" component={StoryIntroPage} />
           
           {/* Alternative path for home-intro */}
           <Route path="/home-intro" component={HomeIntroPage} />

@@ -60,13 +60,13 @@ export default function StoryIntroPage() {
     if (currentSlide < slides.length - 1) {
       setCurrentSlide(currentSlide + 1);
     } else {
-      // Navigate to the first realm when story is complete
-      setLocation('/realm/1');
+      // Navigate to the auth page when story is complete
+      setLocation('/auth');
     }
   };
   
   const handleSkip = () => {
-    setLocation('/realm/1');
+    setLocation('/auth');
   };
   
   return (
