@@ -1,10 +1,11 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import { MissionType, BadgeType } from '@/lib/realm-utils';
+import { Highlight } from '@/components/ui/highlight-text';
 
 // This is a purely frontend implementation of authentication context using localStorage
 // It does not connect to any backend or use mock data
 
-// Highlighted/bookmarked item interface
+// Highlighted/bookmarked item interface (legacy format)
 interface HighlightedItem {
   id: string;
   text: string;
@@ -22,6 +23,7 @@ interface UserProfile {
   avatarColor?: string;
   joinDate: number;
   bio?: string;
+  highlights?: Highlight[]; // New field for storing text highlights
 }
 
 // User progress interface to track progress through the journey
@@ -79,11 +81,20 @@ interface AuthContextType {
   userProfile: UserProfile | null;
   updateProfile: (profile: Partial<UserProfile>) => void;
   
-  // Backpack/highlighting methods
+  // New method for updating user profile with highlights
+  updateUserProfile: (profile: Partial<UserProfile>) => void;
+  
+  // Backpack/highlighting methods (legacy)
   backpack: HighlightedItem[];
   addToBackpack: (text: string, missionId: number, realmId: number, color?: string) => void;
   removeFromBackpack: (id: string) => void;
   updateBackpackItem: (id: string, updates: Partial<HighlightedItem>) => void;
+  
+  // New highlighting methods
+  addHighlight: (highlight: Highlight) => void;
+  removeHighlight: (id: string) => void;
+  updateHighlight: (id: string, updates: Partial<Highlight>) => void;
+  getHighlights: () => Highlight[];
 }
 
 // Create default context value
@@ -106,10 +117,15 @@ const initialAuthContext: AuthContextType = {
   earnBadge: () => {},
   userProfile: null,
   updateProfile: () => {},
+  updateUserProfile: () => {},
   backpack: [],
   addToBackpack: () => {},
   removeFromBackpack: () => {},
-  updateBackpackItem: () => {}
+  updateBackpackItem: () => {},
+  addHighlight: () => {},
+  removeHighlight: () => {},
+  updateHighlight: () => {},
+  getHighlights: () => []
 };
 
 const AuthContext = createContext<AuthContextType>(initialAuthContext);
@@ -377,6 +393,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }));
   };
   
+  // Update user profile with highlights support
+  const updateUserProfile = (profile: Partial<UserProfile>) => {
+    if (!userProfile) return;
+    
+    setUserProfile(prev => ({
+      ...prev!,
+      ...profile,
+      // Ensure userId and other critical fields don't change
+      userId: prev!.userId,
+      username: prev!.username,
+      joinDate: prev!.joinDate
+    }));
+  };
+  
+  // New highlighting methods
+  const addHighlight = (highlight: Highlight) => {
+    if (!userProfile) return;
+    
+    const currentHighlights = userProfile.highlights || [];
+    updateUserProfile({
+      highlights: [...currentHighlights, highlight]
+    });
+  };
+  
+  const removeHighlight = (id: string) => {
+    if (!userProfile || !userProfile.highlights) return;
+    
+    updateUserProfile({
+      highlights: userProfile.highlights.filter(h => h.id !== id)
+    });
+  };
+  
+  const updateHighlight = (id: string, updates: Partial<Highlight>) => {
+    if (!userProfile || !userProfile.highlights) return;
+    
+    updateUserProfile({
+      highlights: userProfile.highlights.map(h => 
+        h.id === id ? { ...h, ...updates } : h
+      )
+    });
+  };
+  
+  const getHighlights = (): Highlight[] => {
+    return userProfile?.highlights || [];
+  };
+  
+  // Legacy backpack methods
+  
   // Add a highlighted item to the backpack
   const addToBackpack = (text: string, missionId: number, realmId: number, color?: string) => {
     const newItem: HighlightedItem = {
@@ -435,10 +499,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     earnBadge,
     userProfile,
     updateProfile,
+    updateUserProfile,
     backpack,
     addToBackpack,
     removeFromBackpack,
-    updateBackpackItem
+    updateBackpackItem,
+    addHighlight,
+    removeHighlight,
+    updateHighlight,
+    getHighlights
   };
 
   return (

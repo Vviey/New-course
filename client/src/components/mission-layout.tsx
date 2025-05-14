@@ -1,11 +1,13 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
-import { ArrowLeft, Home } from 'lucide-react';
+import { useLocation, useParams } from 'wouter';
 import { getRealmName } from '@/lib/realm-utils';
+import { MissionNavigation } from '@/components/ui/mission-navigation';
 
 interface MissionLayoutProps {
   children: ReactNode;
   realmId: string | number;
+  missionId?: string | number;
+  totalMissions?: number;
   title?: string;
   subtitle?: string;
   progress?: number;
@@ -14,6 +16,8 @@ interface MissionLayoutProps {
 export default function MissionLayout({
   children,
   realmId,
+  missionId,
+  totalMissions = 1,
   title = "Mission",
   subtitle = "",
   progress = 0
@@ -44,40 +48,21 @@ export default function MissionLayout({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [progress, scrollProgress]);
   
-  const navigateToRealm = () => {
-    setLocation(`/realm/${realmId}`);
-  };
-  
   return (
     <div className="min-h-screen bg-stone-900 text-amber-100 pb-24">
       {/* Header with navigation and progress */}
       <header className="bg-stone-900/80 backdrop-blur-md sticky top-0 z-10 border-b border-amber-900/30">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <div className="flex justify-between items-center">
-            <button 
-              onClick={navigateToRealm}
-              className="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span>Back to {getRealmName(Number(realmId))}</span>
-            </button>
-            
-            <button 
-              onClick={() => setLocation('/home')} 
-              className="flex items-center gap-1 text-amber-400 hover:text-amber-300 transition-colors text-sm"
-            >
-              <Home className="h-4 w-4" />
-              <span>Home</span>
-            </button>
-          </div>
-          
-          {/* Progress bar */}
-          <div className="w-full h-1 mt-3 bg-amber-900/30 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-amber-500 transition-all duration-300 ease-out"
-              style={{ width: `${scrollProgress}%` }}
-            />
-          </div>
+          <MissionNavigation 
+            realmId={Number(realmId)}
+            missionId={missionId ? Number(missionId) : undefined}
+            totalMissions={totalMissions}
+            progress={scrollProgress}
+            title={`${getRealmName(Number(realmId))} - ${title}`}
+            showHomeButton={true}
+            showMapButton={true}
+            showProgress={true}
+          />
         </div>
       </header>
       
