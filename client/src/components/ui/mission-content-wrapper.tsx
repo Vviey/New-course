@@ -83,7 +83,7 @@ export function MissionContentWrapper({
       )}
       
       {/* Content section with optional sidebar */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="w-[80%] max-w-7xl mx-auto px-4 py-6">
         <div className={`flex ${showSidebarNav ? 'flex-col md:flex-row gap-6' : 'flex-col'}`}>
           {/* Optional sidebar navigation for chapter sections or highlights */}
           {showSidebarNav && (

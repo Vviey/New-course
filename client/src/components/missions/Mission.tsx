@@ -309,7 +309,7 @@ export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionPr
       progress={missionProgress}
       showNavigation={true}
     >
-      <div className="max-w-4xl mx-auto">
+      <div className="w-[80%] max-w-4xl mx-auto">
         {currentSection === 'intro' && (
           <div className="bg-black/30 backdrop-blur-sm rounded-xl overflow-hidden">
             {/* Mission header with image if available */}

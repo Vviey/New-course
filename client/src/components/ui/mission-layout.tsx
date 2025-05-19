@@ -50,7 +50,7 @@ export function MissionLayout({ children, title, missionNumber, realmName }: Mis
     >
       {/* Header with back button and title */}
       <header className="pt-6 px-6 pb-4 border-b border-amber-900/30">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
+        <div className="w-[80%] max-w-6xl mx-auto flex justify-between items-center">
           <button 
             onClick={() => setLocation(`/realm/${realmName === "Realm of Origins" ? 1 : realmName === "The Forest of Sparks" ? 2 : realmName === "The Central Citadel" ? 3 : realmName === "The Council of Forks" ? 4 : 5}`)} 
             className="flex items-center text-amber-300 hover:text-amber-200 transition-colors"
