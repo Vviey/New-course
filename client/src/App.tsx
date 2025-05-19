@@ -23,6 +23,7 @@ const MissionWrapper = lazy(() => import("@/components/mission-wrapper"));
 // Lazy load Realm components
 const Realm1Story = lazy(() => import("@/pages/realm1/story-intro"));
 const Realm1Home = lazy(() => import("@/pages/realm1/home"));
+const Realm2Story = lazy(() => import("@/pages/realm2/story-intro"));
 const Realm2Home = lazy(() => import("@/pages/realm2/home"));
 const Realm3Home = lazy(() => import("@/pages/realm3/home"));
 const Realm4Home = lazy(() => import("@/pages/realm4/home"));
@@ -97,6 +98,7 @@ function App() {
           <Route path="/realm1" component={Realm1Home} />
           
           {/* Realm 2 home */}
+          <Route path="/realm/2/story" component={Realm2Story} />
           <Route path="/realm/2" component={Realm2Home} />
           <Route path="/realm2" component={Realm2Home} />
           

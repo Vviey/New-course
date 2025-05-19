@@ -52,6 +52,14 @@ export default function CBDCSimulator({ onComplete }: CBDCSimulatorProps) {
         <h3 className="text-xl font-semibold text-purple-400 mb-4">
           Central Bank Digital Currency Designer
         </h3>
+
+        {/* Introduction to CBDCs */}
+        <div className="bg-purple-900/20 border border-purple-800/50 rounded-lg p-4 mb-6">
+          <h4 className="text-lg font-medium text-purple-300 mb-2">What are CBDCs?</h4>
+          <p className="text-gray-300">
+            Central Bank Digital Currencies (CBDCs) are digital forms of a country's official currency, issued and regulated by its central bank. Unlike cryptocurrencies like Bitcoin, CBDCs are centralized and typically operate under full government control. They represent a potential evolution of traditional money into the digital age, combining aspects of electronic banking with new technological capabilities for programmable money and enhanced monetary policy tools.
+          </p>
+        </div>
         
         {/* Step indicator */}
         <div className="flex justify-center mb-6">
@@ -165,7 +173,7 @@ export default function CBDCSimulator({ onComplete }: CBDCSimulatorProps) {
                  design.privacy > 70 && design.control < 30 ? 
                   "Your design prioritizes user privacy and autonomy, limiting central authority tracking and control capabilities. This approaches some cryptocurrency properties but may concern regulators." :
                  design.programmability > 70 && design.control > 70 ? 
-                  "Your highly programmable, authority-controlled CBDC enables extensive monetary policy tools, including automatic taxation, spending restrictions, and expiring currency—a powerful tool for centralized control." :
+                  "Your highly programmable, authority-controlled CBDC enables extensive monetary policy tools, including automatic taxation, spending restrictions, and expiring currency--a powerful tool for centralized control." :
                   "Your CBDC design balances various trade-offs between privacy, programmability, and control. This creates a digital currency that extends central bank capabilities while maintaining some user freedoms."}
               </motion.p>
             </div>

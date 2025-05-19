@@ -11,7 +11,6 @@ export default function SurveillanceSimulator({ onComplete }: SurveillanceSimula
   const [completed, setCompleted] = useState(false);
   const [transactions, setTransactions] = useState<string[]>([]);
   
-  // Simulate surveillance effects as user progresses
   useEffect(() => {
     if (stage >= 4 && !completed) {
       setCompleted(true);
@@ -20,8 +19,7 @@ export default function SurveillanceSimulator({ onComplete }: SurveillanceSimula
       }, 2000);
     }
   }, [stage, completed, onComplete]);
-  
-  // Add a transaction and update the user score
+
   const addTransaction = (transaction: string, scoreChange: number) => {
     setTransactions(prev => [transaction, ...prev]);
     setUserScore(score => Math.max(300, Math.min(900, score + scoreChange)));
@@ -29,9 +27,32 @@ export default function SurveillanceSimulator({ onComplete }: SurveillanceSimula
       setStage(s => s + 1);
     }, 1500);
   };
-  
+
   return (
     <div className="mt-4 mb-8">
+
+      {/* 🔒 Educational Content Section */}
+      <div className="bg-black/20 border border-purple-900 rounded-lg p-6 mb-8">
+        <h2 className="text-xl font-semibold text-purple-400 mb-4">Understanding Financial Surveillance in The Citadel</h2>
+
+        <p className="text-gray-300 mb-4">
+          In surveillance-based financial systems, every transaction is logged, scored, and analyzed. The **Citizen Trust Score** becomes a gatekeeper — determining your access to healthcare, education, travel, and communication.
+        </p>
+
+        <p className="text-gray-300 mb-4">
+          You live under constant evaluation. Helping a friend, buying unapproved medicine, or even attending a community meeting could lower your score. The system rewards obedience and punishes privacy.
+        </p>
+
+        <p className="text-gray-300 mb-4">
+          Unlike cash, which once allowed people to act freely, today's systems track everything. Bitcoin, especially when used over privacy-preserving networks like Lightning, offers an alternative. It's not controlled by any government, can't be arbitrarily frozen, and doesn't judge your actions.
+        </p>
+
+        <p className="text-gray-300">
+          As you enter this simulation, consider: Should all your spending be visible? Should every act of care or curiosity be subject to approval?
+        </p>
+      </div>
+
+      {/* Simulation UI Begins */}
       <div className="flex flex-col md:flex-row gap-6">
         {/* Left panel: Surveillance Dashboard */}
         <div className="flex-1 bg-black/30 border border-purple-900 rounded-lg p-4">
