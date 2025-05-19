@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { MissionNavigation } from './mission-navigation';
 import { getRealmTheme } from '@/lib/realm-themes';
@@ -14,7 +14,12 @@ interface MissionContentWrapperProps {
   showNavigation?: boolean;
   showSidebarNav?: boolean;
   className?: string;
+  mission?: any; // Adding mission prop to pass mission data
 }
+
+// Placeholder components for SimulationLoader and QuizLoader
+const SimulationLoader = React.lazy(() => import('./SimulationLoader'));
+const QuizLoader = React.lazy(() => import('./QuizLoader'));
 
 export function MissionContentWrapper({
   children,
@@ -27,14 +32,15 @@ export function MissionContentWrapper({
   showNavigation = true,
   showSidebarNav = false,
   className = '',
+  mission, // Receiving mission data
 }: MissionContentWrapperProps) {
   const realmTheme = getRealmTheme(realmId);
-  
+
   // Get colors from realm theme
   const bgColor = realmTheme.colors?.background || '#121212';
   const textColor = realmTheme.colors?.textLight || '#ffffff';
   const primaryColor = realmTheme.colors?.primary || '#FFB400';
-  
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -47,7 +53,7 @@ export function MissionContentWrapper({
       }
     }
   };
-  
+
   return (
     <div 
       className={`min-h-screen pb-20 ${className}`}
@@ -81,9 +87,26 @@ export function MissionContentWrapper({
           </div>
         </header>
       )}
-      
+
       {/* Content section with optional sidebar */}
       <div className="w-[80%] max-w-7xl mx-auto px-4 py-6">
+        {mission?.simulationType && (
+          <div className="mb-8">
+            <Suspense fallback={<div>Loading simulation...</div>}>
+              <SimulationLoader 
+                type={mission.simulationType}
+                path={mission.simulationPath}
+              />
+            </Suspense>
+          </div>
+        )}
+        {mission?.quizPath && (
+          <div className="mt-8">
+            <Suspense fallback={<div>Loading quiz...</div>}>
+              <QuizLoader path={mission.quizPath} />
+            </Suspense>
+          </div>
+        )}
         <div className={`flex ${showSidebarNav ? 'flex-col md:flex-row gap-6' : 'flex-col'}`}>
           {/* Optional sidebar navigation for chapter sections or highlights */}
           {showSidebarNav && (
@@ -109,7 +132,7 @@ export function MissionContentWrapper({
               </div>
             </div>
           )}
-          
+
           {/* Main content area */}
           <motion.div 
             className={`flex-1 ${showSidebarNav ? 'md:ml-6' : ''}`}
@@ -131,7 +154,7 @@ export function MissionContentWrapper({
                 </p>
               )}
             </div>
-            
+
             {/* Content container */}
             <div className="bg-black/20 backdrop-blur-sm rounded-xl p-6 shadow-lg">
               {children}

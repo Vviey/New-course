@@ -114,6 +114,9 @@ export const realm6Missions: Mission[] = [
         "Through interactive challenges and quizzes, you'll understand the real-world impact of Bitcoin in African communities and how it exemplifies the spirit of Ubuntu—the belief in a universal bond of sharing that connects all humanity."
       )
     ),
+    simulationType: "bitcoin",
+    simulationPath: "/bitcoin-in-africa",
+    quizPath: "/africa-quiz",
     content: `
       <div style="background-color: rgba(225, 29, 72, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
         <h2 style="color: #e11d48; margin-top: 0; text-align: center;">Bitcoin in Africa: Real-world Applications</h2>
