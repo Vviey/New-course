@@ -1,18 +1,24 @@
 import React from 'react';
 
-// Mission interface for The Summit of Knowledge (Realm 7)
 interface Mission {
   id: number;
   title: string;
   subtitle: string;
   description: React.ReactNode;
   contentType: 'comprehensive' | 'practical' | 'technical' | 'final' | 'certificate';
-  content?: string; // Detailed educational content in HTML/Markdown format
+  simulationType?: string;
+  quizData?: {
+    questions: Array<{
+      question: string;
+      options: string[];
+      correctAnswer: number;
+    }>;
+  };
+  content: string;
   unlocked: boolean;
   completed: boolean;
 }
 
-// Missions for The Summit of Knowledge (Realm 7) - the final realm in the Bitcoin journey
 export const realm7Missions: Mission[] = [
   {
     id: 1,
@@ -20,24 +26,43 @@ export const realm7Missions: Mission[] = [
     subtitle: "Your Bitcoin Journey So Far",
     description: React.createElement("div", { className: "space-y-4" },
       React.createElement("p", null, 
-        "Welcome to the final realm of your Bitcoin journey! In this first mission, you'll revisit the key concepts from each realm you've explored, reinforcing your understanding of Bitcoin from its historical origins to its modern applications."
-      ),
-      React.createElement("p", null, 
-        "You'll revisit the Realm of Origins' foundations of money, The Central Citadel's exploration of surveillance and privacy, The Forest of Sparks' cryptographic principles, The Mountain Forge's mining and consensus mechanisms, The Council of Forks' governance structures, and The Ubuntu Village's real-world applications in Africa."
-      ),
-      React.createElement("p", null, 
-        "This comprehensive review will prepare you for the challenges ahead as you demonstrate mastery of the entire spectrum of Bitcoin knowledge you've acquired."
+        "Your journey through Bitcoin's realms has equipped you with diverse knowledge. Now, solidify your understanding through comprehensive review and practical application."
       ),
       React.createElement("h3", { className: "text-lg font-semibold mt-6 mb-2" }, "You'll Review:"),
       React.createElement("ul", { className: "list-disc pl-5 space-y-1" },
-        React.createElement("li", null, "Money's evolutionary journey and Bitcoin's place in it"),
-        React.createElement("li", null, "The importance of privacy and security in financial systems"),
-        React.createElement("li", null, "How cryptography enables trust in a trustless system"),
-        React.createElement("li", null, "Bitcoin's mining, consensus, and halving mechanisms"),
-        React.createElement("li", null, "Protocol governance and the upgrade process"),
-        React.createElement("li", null, "Real-world Bitcoin applications and impact")
+        React.createElement("li", null, "The evolution of money and Bitcoin's role"),
+        React.createElement("li", null, "Privacy, security, and financial sovereignty"),
+        React.createElement("li", null, "Cryptographic foundations"),
+        React.createElement("li", null, "Mining and consensus mechanisms"),
+        React.createElement("li", null, "Protocol governance and upgrades"),
+        React.createElement("li", null, "Real-world applications in Africa")
       )
     ),
+    simulationType: "comprehensive",
+    quizData: {
+      questions: [
+        {
+          question: "What are the three core functions of money?",
+          options: [
+            "Medium of exchange, store of value, unit of account",
+            "Spending, saving, borrowing",
+            "Gold, silver, copper",
+            "Mining, trading, holding"
+          ],
+          correctAnswer: 0
+        },
+        {
+          question: "Which cryptographic primitive enables Bitcoin transaction signatures?",
+          options: [
+            "SHA-256",
+            "ECDSA",
+            "AES",
+            "RSA"
+          ],
+          correctAnswer: 1
+        }
+      ]
+    },
     content: `
       <div style="background-color: rgba(34, 211, 238, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
         <h2 style="color: #22d3ee; margin-top: 0; text-align: center;">Your Complete Bitcoin Journey</h2>
@@ -293,23 +318,65 @@ export const realm7Missions: Mission[] = [
     subtitle: "Apply Your Knowledge",
     description: React.createElement("div", { className: "space-y-4" },
       React.createElement("p", null, 
-        "Knowledge becomes wisdom through application. In this mission, you'll face practical challenges that require you to apply concepts from across your entire Bitcoin journey to solve real-world problems."
-      ),
-      React.createElement("p", null, 
-        "From setting up wallets and estimating mining profitability to evaluating protocol upgrades and designing solutions for underserved communities, these challenges will test your ability to think critically about Bitcoin in context."
-      ),
-      React.createElement("p", null, 
-        "By working through these practical scenarios, you'll develop the confidence to navigate the Bitcoin ecosystem and contribute meaningfully to its growth."
-      ),
-      React.createElement("h3", { className: "text-lg font-semibold mt-6 mb-2" }, "Challenge Areas:"),
-      React.createElement("ul", { className: "list-disc pl-5 space-y-1" },
-        React.createElement("li", null, "Wallet selection and security best practices"),
-        React.createElement("li", null, "Mining profitability and energy considerations"),
-        React.createElement("li", null, "Protocol upgrade evaluation and impact assessment"),
-        React.createElement("li", null, "Lightning Network channel management"),
-        React.createElement("li", null, "Community education and adoption strategies")
+        "Put your knowledge into action through real-world scenarios and practical problem-solving."
       )
     ),
+    simulationType: "practical",
+    quizData: {
+      questions: [
+        {
+          question: "When setting up a Bitcoin node, which network port should be open?",
+          options: [
+            "8333",
+            "3000",
+            "80",
+            "443"
+          ],
+          correctAnswer: 0
+        }
+      ]
+    },
+    content: `
+      <div class="practical-challenge space-y-6">
+        <section class="challenge-section">
+          <h3 class="text-xl font-bold mb-4">Challenge 1: Wallet Security Setup</h3>
+          <p class="mb-4">Scenario: You're advising a small business in Ghana about accepting Bitcoin payments.</p>
+
+          <div class="task-list space-y-2">
+            <h4 class="font-semibold">Required Tasks:</h4>
+            <ol class="list-decimal pl-5">
+              <li>Choose appropriate wallet types for different amounts</li>
+              <li>Design backup procedures</li>
+              <li>Create security protocols</li>
+            </ol>
+          </div>
+
+          <div class="solution-framework mt-4">
+            <h4 class="font-semibold">Solution Framework:</h4>
+            <ul class="list-disc pl-5">
+              <li>Hot wallet for daily transactions (<$1000)</li>
+              <li>Cold storage for larger amounts</li>
+              <li>Multisig setup for business funds</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="challenge-section">
+          <h3 class="text-xl font-bold mb-4">Challenge 2: Mining Operation Analysis</h3>
+          <p class="mb-4">Scenario: Evaluate the viability of a small mining operation using hydroelectric power in Uganda.</p>
+
+          <div class="calculation-framework space-y-2">
+            <h4 class="font-semibold">Required Calculations:</h4>
+            <ul class="list-disc pl-5">
+              <li>Power costs: $0.04/kWh</li>
+              <li>Available power: 1 MW</li>
+              <li>Current Bitcoin price: $40,000</li>
+              <li>Network hashrate: 400 EH/s</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    `,
     contentType: 'practical',
     unlocked: true,
     completed: false
@@ -320,23 +387,71 @@ export const realm7Missions: Mission[] = [
     subtitle: "Diving Deeper",
     description: React.createElement("div", { className: "space-y-4" },
       React.createElement("p", null, 
-        "This mission challenges you to demonstrate technical mastery of Bitcoin's most complex aspects. You'll engage with advanced concepts from cryptography, protocol design, network architecture, and economic mechanisms."
-      ),
-      React.createElement("p", null, 
-        "By successfully navigating these technical challenges, you'll prove your deep understanding of how Bitcoin works under the hood and why its design choices matter for security, scalability, and censorship resistance."
-      ),
-      React.createElement("p", null, 
-        "This technical mastery will distinguish you as someone who truly comprehends Bitcoin beyond surface-level understanding."
-      ),
-      React.createElement("h3", { className: "text-lg font-semibold mt-6 mb-2" }, "Technical Areas:"),
-      React.createElement("ul", { className: "list-disc pl-5 space-y-1" },
-        React.createElement("li", null, "Cryptographic primitives and their implementation"),
-        React.createElement("li", null, "Block structure and transaction validation"),
-        React.createElement("li", null, "Script language and smart contract capabilities"),
-        React.createElement("li", null, "Layer 2 solutions and scaling approaches"),
-        React.createElement("li", null, "Network propagation and security assumptions")
+        "Master the technical intricacies of Bitcoin's protocol and network architecture."
       )
     ),
+    simulationType: "technical",
+    quizData: {
+      questions: [
+        {
+          question: "What is the maximum size of Bitcoin's witness data in a block?",
+          options: [
+            "1 MB",
+            "2 MB",
+            "4 MB",
+            "8 MB"
+          ],
+          correctAnswer: 2
+        }
+      ]
+    },
+    content: `
+      <div class="technical-mastery space-y-6">
+        <section class="protocol-section">
+          <h3 class="text-xl font-bold mb-4">Bitcoin Protocol Deep Dive</h3>
+
+          <div class="subsection space-y-4">
+            <h4 class="font-semibold">Transaction Structure</h4>
+            <pre class="bg-gray-800 p-4 rounded-md">
+Transaction {
+  version: 2,
+  inputs: [Input],
+  outputs: [Output],
+  locktime: 0
+}</pre>
+            <p>Each transaction must satisfy these conditions:</p>
+            <ul class="list-disc pl-5">
+              <li>All inputs must be unspent (UTXO model)</li>
+              <li>Total input value ≥ total output value</li>
+              <li>All input scripts must evaluate to true</li>
+            </ul>
+          </div>
+
+          <div class="subsection space-y-4 mt-6">
+            <h4 class="font-semibold">Script Language</h4>
+            <p>Bitcoin's script is a stack-based language with operations like:</p>
+            <ul class="list-disc pl-5">
+              <li>OP_CHECKSIG: Validates transaction signatures</li>
+              <li>OP_HASH160: Performs RIPEMD160(SHA256(x))</li>
+              <li>OP_EQUAL: Compares top two stack items</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="network-section mt-8">
+          <h3 class="text-xl font-bold mb-4">Network Architecture</h3>
+
+          <div class="subsection space-y-4">
+            <h4 class="font-semibold">Node Types</h4>
+            <ul class="list-disc pl-5">
+              <li>Full nodes: Validate all transactions and blocks</li>
+              <li>Light nodes: Verify headers only (SPV)</li>
+              <li>Mining nodes: Create new blocks</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    `,
     contentType: 'technical',
     unlocked: true,
     completed: false
@@ -347,23 +462,52 @@ export const realm7Missions: Mission[] = [
     subtitle: "Putting It All Together",
     description: React.createElement("div", { className: "space-y-4" },
       React.createElement("p", null, 
-        "The culmination of your Bitcoin journey has arrived. This final challenge integrates everything you've learned across all realms, testing your comprehensive understanding, practical application skills, and technical knowledge."
-      ),
-      React.createElement("p", null, 
-        "You'll navigate a multi-part scenario that touches on Bitcoin's history, technology, governance, and real-world impact. By solving interconnected problems that span the entire scope of your learning, you'll demonstrate true mastery."
-      ),
-      React.createElement("p", null, 
-        "Successfully completing this challenge represents the pinnacle of your Bitcoin education journey with Asha."
-      ),
-      React.createElement("h3", { className: "text-lg font-semibold mt-6 mb-2" }, "Final Challenge Areas:"),
-      React.createElement("ul", { className: "list-disc pl-5 space-y-1" },
-        React.createElement("li", null, "Multi-faceted problem-solving across all Bitcoin domains"),
-        React.createElement("li", null, "Strategic thinking about Bitcoin's role in the world"),
-        React.createElement("li", null, "Technical implementation and practical application"),
-        React.createElement("li", null, "Ethical considerations and societal impact"),
-        React.createElement("li", null, "Future vision and continued development")
+        "Face a comprehensive challenge that tests your complete Bitcoin knowledge."
       )
     ),
+    simulationType: "final",
+    content: `
+      <div class="final-challenge space-y-6">
+        <section class="challenge-intro">
+          <h3 class="text-xl font-bold mb-4">The Ultimate Bitcoin Challenge</h3>
+          <p class="mb-4">You are tasked with designing a Bitcoin-based financial system for a community of 10,000 people in rural Tanzania.</p>
+
+          <div class="requirements space-y-4">
+            <h4 class="font-semibold">System Requirements:</h4>
+            <ul class="list-disc pl-5">
+              <li>Accessible to users without smartphones</li>
+              <li>Functional with intermittent internet</li>
+              <li>Secure against common threats</li>
+              <li>Scalable to neighboring communities</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="challenge-components mt-8">
+          <h4 class="font-semibold mb-4">Design Components:</h4>
+
+          <div class="component-grid grid grid-cols-2 gap-4">
+            <div class="component-card p-4 bg-gray-800 rounded-lg">
+              <h5 class="font-semibold">Infrastructure</h5>
+              <ul class="list-disc pl-5">
+                <li>Mesh network setup</li>
+                <li>Local full nodes</li>
+                <li>Backup power systems</li>
+              </ul>
+            </div>
+
+            <div class="component-card p-4 bg-gray-800 rounded-lg">
+              <h5 class="font-semibold">User Interface</h5>
+              <ul class="list-disc pl-5">
+                <li>USSD integration</li>
+                <li>Paper wallet system</li>
+                <li>Community training program</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    `,
     contentType: 'final',
     unlocked: true,
     completed: false
@@ -374,23 +518,49 @@ export const realm7Missions: Mission[] = [
     subtitle: "Your Bitcoin Certification",
     description: React.createElement("div", { className: "space-y-4" },
       React.createElement("p", null, 
-        "Congratulations on completing your Bitcoin journey with Asha! This final mission celebrates your achievement and awards you with certification acknowledging your comprehensive understanding of Bitcoin."
-      ),
-      React.createElement("p", null, 
-        "Reflect on how far you've come - from understanding the basic properties of money to grasping the technical intricacies of the Bitcoin network and appreciating its global impact. Your knowledge now spans the full spectrum of Bitcoin's significance."
-      ),
-      React.createElement("p", null, 
-        "Though this structured journey ends here, your Bitcoin exploration continues. Armed with this solid foundation, you're well-equipped to deepen your involvement in the Bitcoin ecosystem and contribute to its ongoing evolution."
-      ),
-      React.createElement("h3", { className: "text-lg font-semibold mt-6 mb-2" }, "Your Certification Recognizes:"),
-      React.createElement("ul", { className: "list-disc pl-5 space-y-1" },
-        React.createElement("li", null, "Comprehensive understanding of Bitcoin's history, purpose, and technology"),
-        React.createElement("li", null, "Ability to evaluate Bitcoin's design decisions and trade-offs"),
-        React.createElement("li", null, "Knowledge of Bitcoin's economic principles and security model"),
-        React.createElement("li", null, "Awareness of Bitcoin's governance structure and upgrade process"),
-        React.createElement("li", null, "Appreciation for Bitcoin's real-world applications and potential")
+        "Receive your certification and reflect on your Bitcoin journey."
       )
     ),
+    simulationType: "certificate",
+    content: `
+      <div class="certification-content space-y-6">
+        <section class="achievement-summary">
+          <h3 class="text-xl font-bold mb-4">Your Bitcoin Journey Achievement</h3>
+
+          <div class="achievements-grid grid grid-cols-2 gap-4">
+            <div class="achievement-card p-4 bg-gray-800 rounded-lg">
+              <h4 class="font-semibold">Knowledge Mastery</h4>
+              <ul class="list-disc pl-5">
+                <li>Monetary history and principles</li>
+                <li>Technical protocol understanding</li>
+                <li>Security and privacy concepts</li>
+              </ul>
+            </div>
+
+            <div class="achievement-card p-4 bg-gray-800 rounded-lg">
+              <h4 class="font-semibold">Practical Skills</h4>
+              <ul class="list-disc pl-5">
+                <li>Wallet management</li>
+                <li>Network participation</li>
+                <li>Community education</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="certification-details mt-8">
+          <h3 class="text-xl font-bold mb-4">Certification Details</h3>
+          <p>This certification validates your comprehensive understanding of:</p>
+          <ul class="list-disc pl-5">
+            <li>Bitcoin's technical architecture</li>
+            <li>Economic principles and implications</li>
+            <li>Real-world applications and impact</li>
+            <li>Security best practices</li>
+            <li>Future development potential</li>
+          </ul>
+        </section>
+      </div>
+    `,
     contentType: 'certificate',
     unlocked: true,
     completed: false
