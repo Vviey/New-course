@@ -9,7 +9,7 @@ export default function Realm7Missions() {
   const [_, setLocation] = useLocation();
   const [missions, setMissions] = useState(realm7Missions);
   const [completedCount, setCompletedCount] = useState(0);
-  
+
   // Define theme for Realm 7 - The Summit of Knowledge
   const summitTheme = {
     colors: {
@@ -33,13 +33,13 @@ export default function Realm7Missions() {
       card: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2)',
     }
   };
-  
+
   // Update completion count
   useEffect(() => {
     const completed = missions.filter(mission => mission.completed).length;
     setCompletedCount(completed);
   }, [missions]);
-  
+
   // Get mission type icon
   const getMissionTypeIcon = (type: string) => {
     switch (type) {
@@ -57,7 +57,7 @@ export default function Realm7Missions() {
         return <Circle className="h-5 w-5" />;
     }
   };
-  
+
   return (
     <div 
       className="min-h-screen py-8 px-4"
@@ -92,7 +92,7 @@ export default function Realm7Missions() {
             </p>
           </div>
         </div>
-        
+
         {/* Progress tracker */}
         <div className="mb-8">
           <div className="flex justify-between text-sm mb-2" style={{ color: `${summitTheme.colors.textLight}80` }}>
@@ -109,7 +109,7 @@ export default function Realm7Missions() {
             ></div>
           </div>
         </div>
-        
+
         {/* Mission cards */}
         <div className="space-y-6">
           {missions.map((mission) => (
@@ -143,7 +143,7 @@ export default function Realm7Missions() {
                     >
                       {getMissionTypeIcon(mission.contentType)}
                     </div>
-                    
+
                     <div>
                       <div className="flex items-center">
                         <h2 className="text-xl font-semibold mr-3" style={{ color: summitTheme.colors.textLight }}>
@@ -172,7 +172,7 @@ export default function Realm7Missions() {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div>
                     {mission.completed ? (
                       <div style={{ backgroundColor: 'rgba(21, 128, 61, 0.3)' }} className="p-1 rounded-full">
@@ -189,11 +189,11 @@ export default function Realm7Missions() {
                     )}
                   </div>
                 </div>
-                
+
                 <div className="mt-4 text-sm" style={{ color: `${summitTheme.colors.textLight}90` }}>
                   {mission.description}
                 </div>
-                
+
                 <div className="mt-6 flex justify-end">
                   <button
                     onClick={() => navigate(`/realm7/mission/${mission.id}`, setLocation)}
@@ -219,7 +219,7 @@ export default function Realm7Missions() {
             </div>
           ))}
         </div>
-        
+
         {/* Certification notice */}
         {completedCount === missions.length - 1 && (
           <div 
@@ -253,7 +253,7 @@ export default function Realm7Missions() {
             </button>
           </div>
         )}
-        
+
         {completedCount === missions.length && (
           <div 
             className="mt-8 p-6 text-center rounded-lg"

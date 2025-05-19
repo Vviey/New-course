@@ -104,6 +104,10 @@ export default function Realm3Missions() {
   // Handle starting the challenge after reading content
   const handleStartChallenge = () => {
     setContentRead(true);
+    const simulator = missionData?.simulationType;
+    if (simulator) {
+      setLocation(`/realm3/${simulator}-simulator`);
+    }
   };
   
   // Render appropriate simulation based on mission type
