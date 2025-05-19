@@ -21,31 +21,31 @@ export default function Realm4Missions() {
   const { missionId } = useParams<{ missionId: string }>();
   const { user } = useAuth();
   const [missionComplete, setMissionComplete] = useState(false);
-  
+
   // Parse mission ID from URL
   const missionNumber = parseInt(missionId || '1');
   const missionDataId = missionNumber;
-  
+
   // Log for debugging
   console.log(`Realm 4 missions.tsx: Looking for mission with ID ${missionDataId}`);
   console.log('Available mission IDs:', realm4Missions.map(m => m.id));
-  
+
   // Current mission data
   const missionData = realm4Missions.find(m => m.id === missionDataId);
-  
+
   if (missionData) {
     console.log('Found mission:', missionData.title);
   } else {
     console.error(`Mission with ID ${missionDataId} not found in Realm 4`);
   }
-  
+
   // Redirect if not authenticated
   useEffect(() => {
     if (!user) {
       setLocation('/auth');
     }
   }, [user, setLocation]);
-  
+
   // Define theme for Realm 4 - The Mountain Forge
   const mountainForgeTheme = {
     colors: {
@@ -69,13 +69,13 @@ export default function Realm4Missions() {
       card: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2)',
     }
   };
-  
+
   // Generate social media sharing message based on mission
   const generateSharingMessage = () => {
     if (!missionData) return '';
-    
+
     let message = '';
-    
+
     switch(missionData.simulationType) {
       case 'mining':
         message = `⛏️ Today I learned about Bitcoin mining and how it secures the network through computational work. The proof-of-work system is genius! #BitcoinQuest #BitcoinMining`;
@@ -98,7 +98,7 @@ export default function Realm4Missions() {
       default:
         message = `⛰️ Exploring ${getRealmName(4)} in my Bitcoin education journey! Learning how mining secures the network! #BitcoinQuest #BitcoinMining`;
     }
-    
+
     return message;
   };
 
@@ -108,46 +108,46 @@ export default function Realm4Missions() {
     // In a real application, we would update the user's progress here
     // with something like:
     // updateUserProgress(user.id, { completedMissions: [...user.completedMissions, missionDataId] })
-    
+
     // Redirect to realm page after a delay
     setTimeout(() => {
       setLocation('/realm/4');
     }, 2000);
   };
-  
+
   // This function is used by simulation components to trigger the sharing modal
   const handleChallengeComplete = () => {
     setShareContent(generateShareContent());
     setShowShareModal(true);
-    
+
     // In a real application, we would update the user's progress here
     // updateUserProgress(user.id, { completedMissions: [...user.completedMissions, missionDataId] })
   };
-  
+
   // State to track if mission content has been read
   const [contentRead, setContentRead] = useState(false);
-  
+
   // State for social media sharing content
   const [shareContent, setShareContent] = useState('');
   const [showShareModal, setShowShareModal] = useState(false);
-  
+
   // Generate social media sharing content based on mission
   const generateShareContent = () => {
     if (!missionData) return '';
-    
+
     // Generate a tailored message based on the mission
     return generateSharingMessage();
   };
-  
+
   // Handle starting the challenge after reading content
   const handleStartChallenge = () => {
     setContentRead(true);
   };
-  
+
   // Render appropriate simulation based on mission type
   const renderSimulation = () => {
     if (!missionData) return null;
-    
+
     return (
       <Suspense fallback={
         <div className="flex justify-center items-center h-64">
@@ -157,17 +157,35 @@ export default function Realm4Missions() {
         {(() => {
           switch(missionData.simulationType) {
             case 'mining':
-              return <MiningSimulator onComplete={handleChallengeComplete} />;
+              return <MiningSimulator 
+                onComplete={handleChallengeComplete}
+                theme={mountainForgeTheme}
+              />;
             case 'consensus':
-              return <ConsensusSimulator onComplete={handleChallengeComplete} />;
+              return <ConsensusSimulator 
+                onComplete={handleChallengeComplete}
+                theme={mountainForgeTheme}
+              />;
             case 'energy':
-              return <EnergySimulator onComplete={handleChallengeComplete} />;
+              return <EnergySimulator 
+                onComplete={handleChallengeComplete}
+                theme={mountainForgeTheme}
+              />;
             case 'africa':
-              return <AfricaSimulator onComplete={handleChallengeComplete} />;
+              return <AfricaSimulator 
+                onComplete={handleChallengeComplete}
+                theme={mountainForgeTheme}
+              />;
             case 'knowledge':
-              return <KnowledgeSimulator onComplete={handleChallengeComplete} />;
+              return <KnowledgeSimulator 
+                onComplete={handleChallengeComplete}
+                theme={mountainForgeTheme}
+              />;
             case 'halving':
-              return <HalvingSimulator onComplete={handleChallengeComplete} />;
+              return <HalvingSimulator 
+                onComplete={handleChallengeComplete}
+                theme={mountainForgeTheme}
+              />;
             default:
               return <div className="text-center py-10" style={{ color: mountainForgeTheme.colors.secondary }}>
                 <p>Challenge not found for this mission type.</p>
@@ -177,7 +195,7 @@ export default function Realm4Missions() {
       </Suspense>
     );
   };
-  
+
   if (!missionData) {
     return (
       <div 
@@ -198,7 +216,7 @@ export default function Realm4Missions() {
       </div>
     );
   }
-  
+
   return (
     <div 
       className="min-h-screen py-8 px-4"
@@ -225,7 +243,7 @@ export default function Realm4Missions() {
           Back to Missions
         </button>
       </header>
-      
+
       {/* Mission completion message */}
       {missionComplete && (
         <div className="fixed top-0 left-0 right-0 text-white p-3 text-center z-50"
@@ -234,7 +252,7 @@ export default function Realm4Missions() {
           Mission complete! Great job! Redirecting to Realm...
         </div>
       )}
-      
+
       {/* Mission not found message */}
       {!missionData && (
         <div className="max-w-4xl mx-auto bg-orange-100 border-2 border-orange-500 p-6 rounded-lg shadow-lg">
@@ -248,7 +266,7 @@ export default function Realm4Missions() {
           </button>
         </div>
       )}
-      
+
       {/* Mission content */}
       {missionData && <main className="max-w-4xl mx-auto">
         {!contentRead ? (
@@ -268,7 +286,7 @@ export default function Realm4Missions() {
               onComplete={handleMissionComplete}
               realmTheme="amber"
             />
-            
+
             {/* Challenge button */}
             <div className="mt-8 flex justify-center">
               <button
@@ -285,76 +303,11 @@ export default function Realm4Missions() {
             </div>
           </div>
         ) : (
-          <>
-            {/* Challenge section */}
-            <div className="backdrop-blur-md bg-black/60 p-8 rounded-xl border shadow-xl"
-              style={{ borderColor: `${mountainForgeTheme.colors.primary}40` }}
-            >
-              <h2 className="text-2xl font-bold mb-4"
-                style={{ color: mountainForgeTheme.colors.primary }}
-              >
-                Challenge: {missionData?.title}
-              </h2>
-              
-              <p className="text-gray-300 mb-6">
-                Complete this challenge to unlock the next mission and continue your journey through {getRealmName(4)}.
-              </p>
-              
-              {/* Render appropriate simulation component */}
-              <div className="mt-4">
-                {renderSimulation()}
-              </div>
-            </div>
-            
-            {/* Social media sharing section */}
-            {showShareModal && (
-              <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-                <div className="backdrop-blur-md bg-black/90 rounded-xl p-6 max-w-md w-full border"
-                  style={{ borderColor: `${mountainForgeTheme.colors.primary}40` }}
-                >
-                  <h3 className="text-2xl font-bold mb-4"
-                    style={{ color: mountainForgeTheme.colors.primary }}
-                  >
-                    Share Your Insight
-                  </h3>
-                  <textarea
-                    className="w-full p-3 bg-black/60 text-gray-200 rounded-lg border-2 mb-4"
-                    style={{ borderColor: `${mountainForgeTheme.colors.primary}30` }}
-                    rows={5}
-                    value={shareContent}
-                    onChange={(e) => setShareContent(e.target.value)}
-                  />
-                  
-                  <div className="flex flex-wrap gap-3 mb-6">
-                    <button className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors">X (Twitter)</button>
-                    <button className="px-4 py-2 bg-blue-800 text-white rounded-lg shadow-md hover:bg-blue-900 transition-colors">Facebook</button>
-                    <button className="px-4 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition-colors">WhatsApp</button>
-                    <button className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-colors">Telegram</button>
-                    <button className="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md hover:bg-purple-800 transition-colors">Nostr</button>
-                  </div>
-                  
-                  <div className="flex justify-end">
-                    <button 
-                      onClick={() => setShowShareModal(false)}
-                      className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 transition-colors mr-3"
-                    >
-                      Close
-                    </button>
-                    <button
-                      onClick={handleMissionComplete}
-                      className="px-4 py-2 text-white rounded-lg shadow-md transition-colors"
-                      style={{ 
-                        background: mountainForgeTheme.gradients.main,
-                        boxShadow: mountainForgeTheme.shadows.button
-                      }}
-                    >
-                      Continue Journey
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </>
+          <div className="backdrop-blur-md bg-black/60 p-8 rounded-xl border shadow-xl"
+            style={{ borderColor: `${mountainForgeTheme.colors.primary}40` }}
+          >
+            {renderSimulation()}
+          </div>
         )}
       </main>}
     </div>
