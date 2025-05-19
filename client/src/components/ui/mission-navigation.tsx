@@ -29,43 +29,43 @@ export function MissionNavigation({
 }: MissionNavigationProps) {
   const [, setLocation] = useLocation();
   const realmTheme = getRealmTheme(realmId);
-  
+
   // Ensure the mission ID is within bounds
   const currentMission = missionId || 1;
   const hasPrevious = currentMission > 1;
   const hasNext = currentMission < totalMissions;
-  
+
   // Navigation handlers
   const goToPreviousMission = () => {
     if (hasPrevious) {
       setLocation(`/realm/${realmId}/mission/${currentMission - 1}`);
     }
   };
-  
+
   const goToNextMission = () => {
     if (hasNext) {
       setLocation(`/realm/${realmId}/mission/${currentMission + 1}`);
     }
   };
-  
+
   const goToRealmHome = () => {
     setLocation(`/realm/${realmId}`);
   };
-  
+
   const goToMap = () => {
     setLocation('/map');
   };
-  
+
   const goToHome = () => {
     setLocation('/home');
   };
-  
+
   // Get colors based on realm theme
   const primaryColor = realmTheme.colors?.primary || '#FFB400';
   const secondaryColor = realmTheme.colors?.secondary || '#FFD700';
   const accent1Color = realmTheme.colors?.accent1 || '#FFA000';
   const progressBgColor = `${accent1Color}20`;
-  
+
   return (
     <div className={`w-full ${className}`}>
       <div className="flex flex-col gap-3">
@@ -86,7 +86,7 @@ export function MissionNavigation({
                 <BookOpen size={16} />
               </motion.button>
             )}
-            
+
             {showMapButton && (
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -101,7 +101,7 @@ export function MissionNavigation({
                 <Map size={16} />
               </motion.button>
             )}
-            
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -114,14 +114,14 @@ export function MissionNavigation({
             >
               <Home size={16} />
             </motion.button>
-            
+
             {title && (
               <h1 className="text-lg font-semibold ml-2" style={{ color: primaryColor }}>
                 {title}
               </h1>
             )}
           </div>
-          
+
           {/* Mission progress text */}
           {missionId && totalMissions > 1 && (
             <div className="text-sm font-medium" style={{ color: secondaryColor }}>
@@ -129,7 +129,7 @@ export function MissionNavigation({
             </div>
           )}
         </div>
-        
+
         {/* Progress bar */}
         {showProgress && (
           <div 
@@ -145,7 +145,7 @@ export function MissionNavigation({
             />
           </div>
         )}
-        
+
         {/* Bottom row with previous/next buttons */}
         {missionId && totalMissions > 1 && (
           <div className="flex justify-between items-center mt-1">
@@ -165,7 +165,7 @@ export function MissionNavigation({
               <ChevronLeft size={16} />
               <span>Previous</span>
             </motion.button>
-            
+
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
