@@ -18,8 +18,8 @@ interface MissionContentWrapperProps {
 }
 
 // Placeholder components for SimulationLoader and QuizLoader
-const SimulationLoader = React.lazy(() => import('./SimulationLoader'));
-const QuizLoader = React.lazy(() => import('./QuizLoader'));
+const SimulationLoader = React.lazy(() => import('@/components/ui/SimulationLoader'));
+const QuizLoader = React.lazy(() => import('@/components/ui/QuizLoader'));
 
 export function MissionContentWrapper({
   children,
