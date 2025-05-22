@@ -1,10 +1,5 @@
-
-// Answer validation endpoint
-app.post('/api/validate-answer', (req, res) => {
-  const { questionId, answer } = req.body;
-  const isCorrect = validateQuizAnswer(questionId, answer);
-  res.json({ isCorrect });
-});
+import express, { type Express } from "express";
+import { createServer, type Server } from "http";
 
 function validateQuizAnswer(questionId: string, answer: string): boolean {
   // Validation logic here
@@ -13,9 +8,6 @@ function validateQuizAnswer(questionId: string, answer: string): boolean {
   };
   return correctAnswers[questionId] === answer.toLowerCase().trim();
 }
-
-import express, { type Express } from "express";
-import { createServer, type Server } from "http";
 
 // Mock realm data
 const mockRealms = [
@@ -236,47 +228,54 @@ const mockUser = {
  */
 export async function registerRoutes(app: Express): Promise<Server> {
   console.log("Realms already initialized, skipping");
+
+  // Answer validation endpoint
+  app.post('/api/validate-answer', (req, res) => {
+    const { questionId, answer } = req.body;
+    const isCorrect = validateQuizAnswer(questionId, answer);
+    res.json({ isCorrect });
+  });
   
   // Setup API routes
   app.get('/api/realms', (req, res) => {
     res.json(mockRealms);
   });
-  
+
   app.get('/api/realms/:id', (req, res) => {
     const realmId = parseInt(req.params.id);
     const realm = mockRealms.find(r => r.id === realmId);
-    
+
     if (!realm) {
       return res.status(404).json({ message: "Realm not found" });
     }
-    
+
     res.json(realm);
   });
-  
+
   app.get('/api/realms/:id/missions', (req, res) => {
     const realmId = parseInt(req.params.id);
     const missions = mockMissions[realmId] || [];
-    
+
     res.json(missions);
   });
-  
+
   app.get('/api/user', (req, res) => {
     res.json(mockUser);
   });
-  
+
   // Create user auth endpoints for the frontend Auth context
   app.post('/api/login', (req, res) => {
     res.json(mockUser);
   });
-  
+
   app.post('/api/register', (req, res) => {
     res.json(mockUser);
   });
-  
+
   app.post('/api/logout', (req, res) => {
     res.status(200).json({ message: "Logged out successfully" });
   });
-  
+
   // Direct entry point for the application to bypass Vite host restrictions
   app.get('/frontend', (req, res) => {
     res.send(`
@@ -337,7 +336,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       </html>
     `);
   });
-  
+
   // Also provide an HTML-only index page that redirects to the app
   app.get('/frontend/index.html', (req, res) => {
     res.redirect('/frontend');
@@ -345,6 +344,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Create HTTP server
   const httpServer = createServer(app);
-  
+
   return httpServer;
 }
