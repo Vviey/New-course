@@ -878,7 +878,7 @@ const BitcoinEducationApp = () => {
         conceptsMastered: []
       };
     });
-    
+
     setMissionSystem(prev => ({
       ...prev,
       progress: initialProgress
@@ -915,7 +915,7 @@ const BitcoinEducationApp = () => {
           challengesCompleted: challengeIdx + 1
         }
       };
-      
+
       return {
         ...prev,
         progress: updatedProgress
@@ -943,14 +943,14 @@ const BitcoinEducationApp = () => {
         expertMode={missionSystem.uiState.expertMode} 
         toggleExpertMode={toggleExpertMode} 
       />
-      
+
       <MissionSelector 
         missions={realm3Missions} 
         currentMission={missionSystem.currentMission}
         progress={missionSystem.progress}
         onSelectMission={handleMissionSelect} 
       />
-      
+
       {currentMissionData && (
         <MissionDetails 
           mission={currentMissionData}
@@ -960,7 +960,7 @@ const BitcoinEducationApp = () => {
           onCompleteChallenge={handleCompleteChallenge}
         />
       )}
-      
+
       {missionSystem.uiState.activeSimulation && (
         <SimulationView 
           simulationType={missionSystem.uiState.activeSimulation}
@@ -968,7 +968,7 @@ const BitcoinEducationApp = () => {
           expertMode={missionSystem.uiState.expertMode}
         />
       )}
-      
+
       <WalletIntegration />
       <BitcoinFooter />
     </div>
@@ -1021,11 +1021,11 @@ const MissionSelector = ({ missions, currentMission, progress, onSelectMission }
 // Mission Details Component
 const MissionDetails = ({ mission, progress, expertMode, onActivateSimulation, onCompleteChallenge }) => {
   const [activeTab, setActiveTab] = useState('overview');
-  
+
   return (
     <div className="mission-details">
       <h2>{mission.title}: {mission.subtitle}</h2>
-      
+
       <div className="mission-tabs">
         <button 
           className={activeTab === 'overview' ? 'active' : ''} 
@@ -1042,7 +1042,7 @@ const MissionDetails = ({ mission, progress, expertMode, onActivateSimulation, o
             onClick={() => setActiveTab('advanced')}>Advanced Topics</button>
         )}
       </div>
-      
+
       <div className="tab-content">
         {activeTab === 'overview' && (
           <div className="mission-overview">
@@ -1061,7 +1061,7 @@ const MissionDetails = ({ mission, progress, expertMode, onActivateSimulation, o
             </button>
           </div>
         )}
-        
+
         {activeTab === 'concepts' && (
           <div className="core-concepts">
             {Object.entries(mission.simulationData.coreConcepts).map(([key, concept]) => (
@@ -1074,7 +1074,7 @@ const MissionDetails = ({ mission, progress, expertMode, onActivateSimulation, o
                 </ul>
               </div>
             ))}
-            
+
             <div className="security-considerations">
               <h3>Security Considerations</h3>
               <ul>
@@ -1085,7 +1085,7 @@ const MissionDetails = ({ mission, progress, expertMode, onActivateSimulation, o
             </div>
           </div>
         )}
-        
+
         {activeTab === 'challenges' && (
           <div className="mission-challenges">
             {mission.simulationData.challenges.map((challenge, idx) => (
@@ -1110,7 +1110,7 @@ const MissionDetails = ({ mission, progress, expertMode, onActivateSimulation, o
             ))}
           </div>
         )}
-        
+
         {activeTab === 'advanced' && expertMode && (
           <div className="advanced-topics">
             {Object.entries(mission.simulationData.advancedTopics).map(([key, topic]) => (
@@ -1123,7 +1123,7 @@ const MissionDetails = ({ mission, progress, expertMode, onActivateSimulation, o
                 </ul>
               </div>
             ))}
-            
+
             <div className="expert-resources" id={MISSION_COMPONENTS.EXPERT_RESOURCES(mission.id)}>
               <h3>Expert Resources</h3>
               <ul>
@@ -1142,7 +1142,7 @@ const MissionDetails = ({ mission, progress, expertMode, onActivateSimulation, o
 // Dynamic Simulation Components
 const SimulationView = ({ simulationType, missionData, expertMode }) => {
   const simulationId = MISSION_COMPONENTS.SIMULATION_VIEW(simulationType);
-  
+
   // Render appropriate simulation based on type
   const renderSimulation = () => {
     switch(simulationType) {
@@ -1166,7 +1166,7 @@ const SimulationView = ({ simulationType, missionData, expertMode }) => {
         return <div>Simulation type not found</div>;
     }
   };
-  
+
   return (
     <div id={simulationId} className="simulation-view">
       <h2>{missionData.title} Simulation</h2>
@@ -1185,39 +1185,39 @@ const CryptographySimulation = ({ missionData, expertMode }) => {
   const [message, setMessage] = useState('');
   const [signature, setSignature] = useState('');
   const [verified, setVerified] = useState(null);
-  
+
   // Simplified simulation functions
   const generateKeyPair = () => {
     // Simulate key generation
     const newPrivKey = Array.from({ length: 64 }, () => 
       Math.floor(Math.random() * 16).toString(16)).join('');
     setPrivateKey(newPrivKey);
-    
+
     // Derive "public key" (simplified for simulation)
     const newPubKey = sha256Simulate(newPrivKey).substring(0, 66);
     setPublicKey(newPubKey);
-    
+
     // Generate address
     const newAddress = 'bc1q' + sha256Simulate(newPubKey).substring(0, 38);
     setAddress(newAddress);
   };
-  
+
   const signMessage = () => {
     if (!privateKey || !message) return;
-    
+
     // Simplified signature simulation
     const newSignature = sha256Simulate(privateKey + message);
     setSignature(newSignature);
   };
-  
+
   const verifySignature = () => {
     if (!signature || !message || !publicKey) return;
-    
+
     // Simulate verification (in real Bitcoin, more complex)
     const expectedSig = sha256Simulate(privateKey + message);
     setVerified(signature === expectedSig);
   };
-  
+
   // Simple SHA-256 simulator for demo purposes
   const sha256Simulate = (str) => {
     let hash = 0;
@@ -1226,36 +1226,36 @@ const CryptographySimulation = ({ missionData, expertMode }) => {
       hash = ((hash << 5) - hash) + char;
       hash = hash & hash;
     }
-    
+
     // Convert to hex string and ensure it's 64 chars
     let hexHash = Math.abs(hash).toString(16);
     while (hexHash.length < 64) hexHash = '0' + hexHash;
     return hexHash;
   };
-  
+
   return (
     <div className="cryptography-simulation">
       <div className="simulation-controls">
         <h3>Key Generation</h3>
         <button onClick={generateKeyPair}>Generate New Key Pair</button>
-        
+
         <div className="key-display">
           <div>
             <h4>Private Key (keep secret!)</h4>
             <div className="key-box">{privateKey || 'Generate keys first'}</div>
           </div>
-          
+
           <div>
             <h4>Public Key</h4>
             <div className="key-box">{publicKey || 'Generate keys first'}</div>
           </div>
-          
+
           <div>
             <h4>Bitcoin Address</h4>
             <div className="key-box">{address || 'Generate keys first'}</div>
           </div>
         </div>
-        
+
         <h3>Digital Signatures</h3>
         <div className="signature-section">
           <div>
@@ -1266,20 +1266,20 @@ const CryptographySimulation = ({ missionData, expertMode }) => {
               placeholder="Enter a message to sign"
             />
           </div>
-          
+
           <button onClick={signMessage} disabled={!privateKey || !message}>
             Sign Message
           </button>
-          
+
           <div>
             <h4>Signature</h4>
             <div className="signature-box">{signature || 'Sign a message first'}</div>
           </div>
-          
+
           <button onClick={verifySignature} disabled={!signature || !publicKey || !message}>
             Verify Signature
           </button>
-          
+
           {verified !== null && (
             <div className={`verification-result ${verified ? 'valid' : 'invalid'}`}>
               Signature is {verified ? 'Valid' : 'Invalid'}
@@ -1287,7 +1287,7 @@ const CryptographySimulation = ({ missionData, expertMode }) => {
           )}
         </div>
       </div>
-      
+
       {expertMode && (
         <div className="expert-explanation">
           <h3>How Bitcoin Cryptography Works</h3>
@@ -1308,65 +1308,65 @@ const HashingSimulation = ({ missionData, expertMode }) => {
     nonce: 0,
     difficulty: 3 // Number of leading zeros required
   });
-  
+
   const [blockHash, setBlockHash] = useState('');
   const [mining, setMining] = useState(false);
   const miningRef = useRef(false);
-  
+
   useEffect(() => {
     calculateBlockHash();
   }, [blockData]);
-  
+
   const calculateBlockHash = () => {
     const blockHeader = `${blockData.prevBlockHash}${blockData.merkleRoot}${blockData.timestamp}${blockData.nonce}`;
     const hash = sha256Simplified(blockHeader);
     setBlockHash(hash);
     return hash;
   };
-  
+
   const mineBlock = async () => {
     if (mining) return;
-    
+
     setMining(true);
     miningRef.current = true;
-    
+
     let currentNonce = blockData.nonce;
     const targetPrefix = '0'.repeat(blockData.difficulty);
-    
+
     // Mining loop
     while (miningRef.current) {
       const newBlockData = {
         ...blockData,
         nonce: currentNonce
       };
-      
+
       setBlockData(newBlockData);
-      
+
       const hash = sha256Simplified(
         `${newBlockData.prevBlockHash}${newBlockData.merkleRoot}${newBlockData.timestamp}${currentNonce}`
       );
-      
+
       if (hash.startsWith(targetPrefix)) {
         // Found a valid hash
         setBlockHash(hash);
         miningRef.current = false;
         break;
       }
-      
+
       currentNonce++;
-      
+
       // Allow UI to update
       await new Promise(resolve => setTimeout(resolve, 10));
     }
-    
+
     setMining(false);
   };
-  
+
   const stopMining = () => {
     miningRef.current = false;
     setMining(false);
   };
-  
+
   // Very simplified SHA-256 function for demonstration
   const sha256Simplified = (str) => {
     let hash = 0;
@@ -1375,19 +1375,19 @@ const HashingSimulation = ({ missionData, expertMode }) => {
       hash = ((hash << 5) - hash) + char;
       hash = hash & hash;
     }
-    
+
     // Convert to hex string
     let hexHash = Math.abs(hash).toString(16);
     while (hexHash.length < 64) hexHash = '0' + hexHash;
     return hexHash;
   };
-  
+
   const isValidHash = blockHash.startsWith('0'.repeat(blockData.difficulty));
-  
+
   return (
     <div className="hashing-simulation">
       <h3>Bitcoin Block Mining Simulation</h3>
-      
+
       <div className="block-structure">
         <div className="block-field">
           <label>Previous Block Hash:</label>
@@ -1398,7 +1398,7 @@ const HashingSimulation = ({ missionData, expertMode }) => {
             readOnly={mining}
           />
         </div>
-        
+
         <div className="block-field">
           <label>Merkle Root:</label>
           <input 
@@ -1408,7 +1408,7 @@ const HashingSimulation = ({ missionData, expertMode }) => {
             readOnly={mining}
           />
         </div>
-        
+
         <div className="block-field">
           <label>Timestamp:</label>
           <input 
@@ -1418,7 +1418,7 @@ const HashingSimulation = ({ missionData, expertMode }) => {
             readOnly={mining}
           />
         </div>
-        
+
         <div className="block-field">
           <label>Nonce:</label>
           <input 
@@ -1427,7 +1427,7 @@ const HashingSimulation = ({ missionData, expertMode }) => {
             onChange={(e) => setBlockData({...blockData, nonce: parseInt(e.target.value)})}
           />
         </div>
-        
+
         <div className="block-field">
           <label>Difficulty (leading zeros):</label>
           <input 
@@ -1440,7 +1440,7 @@ const HashingSimulation = ({ missionData, expertMode }) => {
           />
         </div>
       </div>
-      
+
       <div className="block-hash">
         <h4>Block Hash:</h4>
         <div className={`hash-display ${isValidHash ? 'valid-hash' : 'invalid-hash'}`}>
@@ -1450,7 +1450,7 @@ const HashingSimulation = ({ missionData, expertMode }) => {
           {isValidHash ? 'Valid hash! Block would be accepted.' : 'Invalid hash - keep mining to find a valid hash.'}
         </div>
       </div>
-      
+
       <div className="mining-controls">
         {!mining ? (
           <button onClick={mineBlock}>Start Mining</button>
@@ -1459,7 +1459,7 @@ const HashingSimulation = ({ missionData, expertMode }) => {
         )}
         <button onClick={() => setBlockData({...blockData, nonce: 0})}>Reset Nonce</button>
       </div>
-      
+
       {expertMode && (
         <div className="expert-explanation">
           <h3>How Proof of Work Mining Works</h3>
@@ -1483,11 +1483,11 @@ const NetworkSimulation = ({ missionData, expertMode }) => {
     { id: 6, type: 'light', connections: [4, 7], blockHeight: 784998, peers: 3 },
     { id: 7, type: 'light', connections: [5, 6], blockHeight: 784999, peers: 4 }
   ]);
-  
+
   const [newBlock, setNewBlock] = useState(null);
   const [propagationStep, setPropagationStep] = useState(0);
   const [propagationComplete, setPropagationComplete] = useState(false);
-  
+
   const startBlockPropagation = () => {
     // Create a new block at the mining node (id: 3)
     setNewBlock({
@@ -1497,11 +1497,11 @@ const NetworkSimulation = ({ missionData, expertMode }) => {
       size: '1.2 MB',
       miner: 'Node 3'
     });
-    
+
     setPropagationStep(1);
     setPropagationComplete(false);
   };
-  
+
   const continueBlockPropagation = () => {
     if (propagationStep >= 3) {
       // Update all nodes to have the new block height
@@ -1513,29 +1513,29 @@ const NetworkSimulation = ({ missionData, expertMode }) => {
           return {...node, blockHeight: 785000};
         }
       }));
-      
+
       setPropagationComplete(true);
       return;
     }
-    
+
     setPropagationStep(propagationStep + 1);
   };
-  
+
   const resetSimulation = () => {
     setNodes(nodes.map(node => ({
       ...node,
       blockHeight: node.type === 'light' ? 784998 + Math.floor(Math.random() * 2) : 785000
     })));
-    
+
     setNewBlock(null);
     setPropagationStep(0);
     setPropagationComplete(false);
   };
-  
+
   // Determine which nodes have received the block at current step
   const getNodesWithNewBlock = () => {
     if (!newBlock) return [];
-    
+
     switch(propagationStep) {
       case 1:
         return [3]; // Only mining node
@@ -1547,13 +1547,13 @@ const NetworkSimulation = ({ missionData, expertMode }) => {
         return [];
     }
   };
-  
+
   const nodesWithBlock = getNodesWithNewBlock();
-  
+
   return (
     <div className="network-simulation">
       <h3>Bitcoin Network Propagation Simulation</h3>
-      
+
       <div className="network-visualization">
         <svg width="600" height="400" viewBox="0 0 600 400">
           {/* Draw connections between nodes */}
@@ -1565,7 +1565,7 @@ const NetworkSimulation = ({ missionData, expertMode }) => {
               const nodeY = 200 + 150 * Math.sin(node.id * Math.PI / 4);
               const connX = 300 + 200 * Math.cos(connId * Math.PI / 4);
               const connY = 200 + 150 * Math.sin(connId * Math.PI / 4);
-              
+
               return (
                 <line 
                   key={`conn-${node.id}-${connId}`}
@@ -1579,14 +1579,14 @@ const NetworkSimulation = ({ missionData, expertMode }) => {
               );
             })
           )}
-          
+
           {/* Draw nodes */}
           {nodes.map(node => {
             // Position nodes in a semi-circle
             const nodeX = 300 + 200 * Math.cos(node.id * Math.PI / 4);
             const nodeY = 200 + 150 * Math.sin(node.id * Math.PI / 4);
             const hasNewBlock = nodesWithBlock.includes(node.id);
-            
+
             // Node type colors
             const nodeColors = {
               'full': '#4CAF50',
@@ -1594,7 +1594,7 @@ const NetworkSimulation = ({ missionData, expertMode }) => {
               'pruned': '#2196F3',
               'light': '#9E9E9E'
             };
-            
+
             return (
               <g key={`node-${node.id}`}>
                 <circle 
@@ -1619,23 +1619,23 @@ const NetworkSimulation = ({ missionData, expertMode }) => {
           })}
         </svg>
       </div>
-      
+
       <div className="network-controls">
         {!newBlock && (
           <button onClick={startBlockPropagation}>Mine New Block</button>
         )}
-        
+
         {newBlock && !propagationComplete && (
           <button onClick={continueBlockPropagation}>
             Continue Propagation (Step {propagationStep}/3)
           </button>
         )}
-        
+
         {propagationComplete && (
           <button onClick={resetSimulation}>Reset Simulation</button>
         )}
       </div>
-      
+
       {newBlock && (
         <div className="block-info">
           <h4>New Block Information</h4>
@@ -1651,7 +1651,7 @@ const NetworkSimulation = ({ missionData, expertMode }) => {
           }</p>
         </div>
       )}
-      
+
       <div className="node-legend">
         <div><span className="legend-color" style={{backgroundColor: '#4CAF50'}}></span> Full Node</div>
         <div><span className="legend-color" style={{backgroundColor: '#FFC107'}}></span> Mining Node</div>
@@ -1659,7 +1659,7 @@ const NetworkSimulation = ({ missionData, expertMode }) => {
         <div><span className="legend-color" style={{backgroundColor: '#9E9E9E'}}></span> Light Client</div>
         <div><span className="legend-color" style={{backgroundColor: '#FF5722'}}></span> Has New Block</div>
       </div>
-      
+
       {expertMode && (
         <div className="expert-explanation">
           <h3>Network Propagation Details</h3>
@@ -1692,7 +1692,7 @@ const ConsensusSimulation = ({ missionData, expertMode }) => {
   const [isSimulating, setIsSimulating] = useState(false);
   const [timeScale, setTimeScale] = useState(10); // 1 sec = 10 mins
   const simulationRef = useRef(null);
-  
+
   useEffect(() => {
     return () => {
       if (simulationRef.current) {
@@ -1700,26 +1700,26 @@ const ConsensusSimulation = ({ missionData, expertMode }) => {
       }
     };
   }, []);
-  
+
   const startSimulation = () => {
     if (isSimulating) return;
-    
+
     setIsSimulating(true);
     setBlocks([]);
-    
+
     // Calculate expected block time based on hash rate and difficulty
     const expectedSolsPerSec = hashRate * 1e12 / difficulty;
     const expectedBlockTimeMs = (1 / expectedSolsPerSec) * 1000;
-    
+
     // Scale down time for simulation
     const simulationInterval = expectedBlockTimeMs / timeScale;
-    
+
     let blockHeight = 785000;
-    
+
     simulationRef.current = setInterval(() => {
       // Random variation in finding blocks (poisson distribution)
       const randomFactor = -Math.log(Math.random());
-      
+
       const newBlock = {
         height: blockHeight++,
         timestamp: Date.now(),
@@ -1727,17 +1727,17 @@ const ConsensusSimulation = ({ missionData, expertMode }) => {
         transactionCount: Math.floor(Math.random() * 2000) + 1000,
         randomFactor: randomFactor.toFixed(2)
       };
-      
+
       setBlocks(prevBlocks => [...prevBlocks, newBlock]);
-      
+
       // Every 6 blocks, adjust difficulty
       if (blocks.length > 0 && blocks.length % 6 === 0) {
         adjustDifficulty();
       }
-      
+
     }, simulationInterval);
   };
-  
+
   const stopSimulation = () => {
     if (simulationRef.current) {
       clearInterval(simulationRef.current);
@@ -1745,41 +1745,41 @@ const ConsensusSimulation = ({ missionData, expertMode }) => {
     }
     setIsSimulating(false);
   };
-  
+
   const adjustDifficulty = () => {
     // In real Bitcoin, difficulty adjusts every 2016 blocks
     // Here we do a simplified adjustment based on recent blocks
     if (blocks.length < 3) return;
-    
+
     const targetBlockTime = 10 * 60 * 1000 / timeScale; // 10 minutes in ms, scaled
-    
+
     // Calculate average time between recent blocks
     let timeSum = 0;
     for (let i = 1; i < Math.min(blocks.length, 6); i++) {
       timeSum += blocks[blocks.length - i].timestamp - blocks[blocks.length - i - 1].timestamp;
     }
-    
+
     const avgBlockTime = timeSum / Math.min(blocks.length - 1, 5);
-    
+
     // Adjust difficulty proportionally
     const difficultyChange = targetBlockTime / avgBlockTime;
-    
+
     // Limit adjustment to 300% in either direction
     const cappedChange = Math.max(0.25, Math.min(4, difficultyChange));
-    
+
     setDifficulty(prevDifficulty => prevDifficulty * cappedChange);
   };
-  
+
   const formatTimeDiff = (current, previous) => {
     if (!previous) return "Genesis";
     const diffMs = current - previous;
     return `${(diffMs / 1000).toFixed(1)}s (${(diffMs / 1000 * timeScale / 60).toFixed(1)} mins real)`;
   };
-  
+
   return (
     <div className="consensus-simulation">
       <h3>Bitcoin Mining & Difficulty Adjustment Simulation</h3>
-      
+
       <div className="simulation-controls">
         <div className="control-group">
           <label>Hash Rate (TH/s):</label>
@@ -1793,7 +1793,7 @@ const ConsensusSimulation = ({ missionData, expertMode }) => {
           />
           <span>{hashRate} TH/s</span>
         </div>
-        
+
         <div className="control-group">
           <label>Difficulty:</label>
           <input 
@@ -1803,7 +1803,7 @@ const ConsensusSimulation = ({ missionData, expertMode }) => {
             disabled={isSimulating}
           />
         </div>
-        
+
         <div className="control-group">
           <label>Time Scale (1 sec = X mins):</label>
           <input 
@@ -1816,7 +1816,7 @@ const ConsensusSimulation = ({ missionData, expertMode }) => {
           />
           <span>{timeScale}x</span>
         </div>
-        
+
         <div className="simulation-buttons">
           {!isSimulating ? (
             <button onClick={startSimulation}>Start Mining Simulation</button>
@@ -1825,14 +1825,14 @@ const ConsensusSimulation = ({ missionData, expertMode }) => {
           )}
         </div>
       </div>
-      
+
       <div className="mining-stats">
         <p>Expected Block Time: {((1 / ((hashRate * 1e12) / difficulty)) * 60).toFixed(2)} minutes</p>
         <p>Current Mining Difficulty: {difficulty.toExponential(2)}</p>
         <p>Network Hash Rate: {hashRate} TH/s</p>
         <p>Blocks Mined: {blocks.length}</p>
       </div>
-      
+
       <div className="blocks-container">
         <h4>Recently Mined Blocks</h4>
         <div className="blocks-list">
@@ -1852,7 +1852,7 @@ const ConsensusSimulation = ({ missionData, expertMode }) => {
           ))}
         </div>
       </div>
-      
+
       {expertMode && (
         <div className="expert-explanation">
           <h3>Mining Difficulty Adjustments</h3>
@@ -1872,13 +1872,13 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
     { id: 'utxo2', value: 1.2, address: 'bc1q...a4f2', confirmations: 12 },
     { id: 'utxo3', value: 0.07, address: 'bc1q...a4f2', confirmations: 6 }
   ]);
-  
+
   const [selectedUtxos, setSelectedUtxos] = useState([]);
   const [recipientAddress, setRecipientAddress] = useState('bc1q...x7p9');
   const [sendAmount, setSendAmount] = useState(0.8);
   const [feeRate, setFeeRate] = useState(10); // sats/vB
   const [transaction, setTransaction] = useState(null);
-  
+
   const toggleUtxoSelection = (utxoId) => {
     if (selectedUtxos.includes(utxoId)) {
       setSelectedUtxos(selectedUtxos.filter(id => id !== utxoId));
@@ -1886,35 +1886,35 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
       setSelectedUtxos([...selectedUtxos, utxoId]);
     }
   };
-  
+
   const createTransaction = () => {
     // Get selected UTXOs
     const inputs = utxos.filter(utxo => selectedUtxos.includes(utxo.id));
     const totalInput = inputs.reduce((sum, utxo) => sum + utxo.value, 0);
-    
+
     // Calculate tx size (simplified)
     const inputSize = inputs.length * 68;  // ~68 bytes per input
     const outputSize = 2 * 34;  // 2 outputs ~34 bytes each
     const txOverhead = 10;  // tx version, locktime, etc.
     const estimatedSize = inputSize + outputSize + txOverhead;
-    
+
     // Calculate fee
     const estimatedFee = (estimatedSize * feeRate) / 100000000; // Convert sats to BTC
-    
+
     // Calculate change
     const changeAmount = totalInput - sendAmount - estimatedFee;
-    
+
     // Validate transaction
     if (changeAmount < 0) {
       alert('Insufficient funds! Select more UTXOs or reduce amount/fee.');
       return;
     }
-    
+
     if (changeAmount > 0 && changeAmount < 0.00001) {
       alert('Change amount too small! This would create dust UTXO.');
       return;
     }
-    
+
     // Create transaction
     const newTx = {
       txid: 'tx_' + Date.now().toString(16),
@@ -1927,16 +1927,16 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
       size: estimatedSize,
       status: 'unconfirmed'
     };
-    
+
     setTransaction(newTx);
   };
-  
+
   const broadcastTransaction = () => {
     if (!transaction) return;
-    
+
     // Remove spent UTXOs
     const updatedUtxos = utxos.filter(utxo => !selectedUtxos.includes(utxo.id));
-    
+
     // Add change output as new UTXO
     if (transaction.outputs[1].value > 0) {
       updatedUtxos.push({
@@ -1946,11 +1946,11 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
         confirmations: 0
       });
     }
-    
+
     setUtxos(updatedUtxos);
     setSelectedUtxos([]);
     setTransaction({...transaction, status: 'confirming'});
-    
+
     // Simulate confirmation after delay
     setTimeout(() => {
       setUtxos(prevUtxos => 
@@ -1962,7 +1962,7 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
       setTransaction(null);
     }, 5000);
   };
-  
+
   const resetSimulation = () => {
     setUtxos([
       { id: 'utxo1', value: 0.5, address: 'bc1q...a4f2', confirmations: 23 },
@@ -1972,23 +1972,23 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
     setSelectedUtxos([]);
     setTransaction(null);
   };
-  
+
   const totalBalance = utxos.reduce((sum, utxo) => sum + utxo.value, 0);
   const selectedBalance = utxos
     .filter(utxo => selectedUtxos.includes(utxo.id))
     .reduce((sum, utxo) => sum + utxo.value, 0);
-  
+
   return (
     <div className="utxo-simulation">
       <h3>Bitcoin UTXO and Transaction Simulation</h3>
-      
+
       <div className="wallet-info">
         <div className="balance-info">
           <h4>Your Wallet</h4>
           <p>Total Balance: {totalBalance.toFixed(8)} BTC</p>
           <p>Selected: {selectedBalance.toFixed(8)} BTC</p>
         </div>
-        
+
         <div className="utxo-list">
           <h4>Your UTXOs (Spendable Coins)</h4>
           {utxos.map(utxo => (
@@ -2007,10 +2007,10 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
           ))}
         </div>
       </div>
-      
+
       <div className="transaction-builder">
         <h4>Create Transaction</h4>
-        
+
         <div className="tx-input">
           <label>Recipient Address:</label>
           <input 
@@ -2019,7 +2019,7 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
             onChange={(e) => setRecipientAddress(e.target.value)}
           />
         </div>
-        
+
         <div className="tx-input">
           <label>Amount to Send (BTC):</label>
           <input 
@@ -2030,7 +2030,7 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
             min="0.00001"
           />
         </div>
-        
+
         <div className="tx-input">
           <label>Fee Rate (sats/vB):</label>
           <input 
@@ -2042,7 +2042,7 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
           />
           <span>{feeRate} sats/vB</span>
         </div>
-        
+
         <div className="tx-buttons">
           <button 
             onClick={createTransaction}
@@ -2050,24 +2050,24 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
           >
             Create Transaction
           </button>
-          
+
           <button onClick={resetSimulation}>
             Reset Simulation
           </button>
         </div>
       </div>
-      
+
       {transaction && (
         <div className="transaction-preview">
           <h4>Transaction Preview</h4>
-          
+
           <div className="tx-details">
             <p>TXID: {transaction.txid}</p>
             <p>Status: {transaction.status}</p>
             <p>Size: {transaction.size} vBytes</p>
             <p>Fee: {transaction.fee.toFixed(8)} BTC ({feeRate} sats/vB)</p>
           </div>
-          
+
           <div className="tx-io">
             <div className="tx-inputs">
               <h5>Inputs</h5>
@@ -2078,7 +2078,7 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
               ))}
               <div className="tx-total">Total: {transaction.inputs.reduce((sum, input) => sum + input.value, 0).toFixed(8)} BTC</div>
             </div>
-            
+
             <div className="tx-outputs">
               <h5>Outputs</h5>
               {transaction.outputs.map((output, idx) => (
@@ -2091,7 +2091,7 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
               </div>
             </div>
           </div>
-          
+
           <button 
             onClick={broadcastTransaction}
             className="broadcast-button"
@@ -2100,7 +2100,7 @@ const UTXOSimulation = ({ missionData, expertMode }) => {
           </button>
         </div>
       )}
-      
+
       {expertMode && (
         <div className="expert-explanation">
           <h3>UTXO Model Details</h3>
@@ -2139,22 +2139,22 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
     { id: 'chan4', from: 'Bob', to: 'Dave', capacity: 0.04, balance: 0.03 },
     { id: 'chan5', from: 'Charlie', to: 'Dave', capacity: 0.025, balance: 0.01 }
   ]);
-  
+
   const [recipient, setRecipient] = useState('Dave');
   const [amount, setAmount] = useState(0.005);
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [paymentRoute, setPaymentRoute] = useState([]);
   const [showLightningNetwork, setShowLightningNetwork] = useState(true);
-  
+
   const findRoute = () => {
     let possibleRoutes = [];
-    
+
     // Direct route
     const directChannel = channels.find(
       c => (c.from === 'Your Node' && c.to === recipient) || 
            (c.to === 'Your Node' && c.from === recipient)
     );
-    
+
     if (directChannel) {
       const outbound = directChannel.from === 'Your Node' ? directChannel.balance : directChannel.capacity - directChannel.balance;
       if (outbound >= amount) {
@@ -2166,19 +2166,19 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
         });
       }
     }
-    
+
     // Two-hop routes
     channels.forEach(chan1 => {
       if (chan1.from === 'Your Node' || chan1.to === 'Your Node') {
         const intermediary = chan1.from === 'Your Node' ? chan1.to : chan1.from;
-        
+
         channels.forEach(chan2 => {
           if ((chan2.from === intermediary && chan2.to === recipient) ||
               (chan2.to === intermediary && chan2.from === recipient)) {
-            
+
             const outbound1 = chan1.from === 'Your Node' ? chan1.balance : chan1.capacity - chan1.balance;
             const outbound2 = chan2.from === intermediary ? chan2.balance : chan2.capacity - chan2.balance;
-            
+
             if (outbound1 >= amount && outbound2 >= amount) {
               possibleRoutes.push({
                 path: [chan1.id, chan2.id],
@@ -2191,29 +2191,29 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
         });
       }
     });
-    
+
     // Sort by lowest fee
     possibleRoutes.sort((a, b) => a.fee - b.fee);
-    
+
     if (possibleRoutes.length > 0) {
       setPaymentRoute(possibleRoutes[0].route);
       return possibleRoutes[0];
     }
-    
+
     return null;
   };
-  
+
   const sendPayment = () => {
     const route = findRoute();
-    
+
     if (!route) {
       setPaymentStatus('failed');
       setPaymentRoute([]);
       return;
     }
-    
+
     setPaymentStatus('routing');
-    
+
     // Simulate payment routing
     setTimeout(() => {
       // Update channel balances
@@ -2249,11 +2249,11 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
           return chan;
         }));
       }
-      
+
       setPaymentStatus('success');
     }, 2000);
   };
-  
+
   const resetSimulation = () => {
     setChannels([
       { id: 'chan1', from: 'Your Node', to: 'Alice', capacity: 0.02, balance: 0.015 },
@@ -2265,7 +2265,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
     setPaymentStatus(null);
     setPaymentRoute([]);
   };
-  
+
   const openNewChannel = () => {
     const newChannel = {
       id: 'chan' + (channels.length + 1),
@@ -2274,14 +2274,14 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
       capacity: 0.03,
       balance: 0.03 // All funds on your side initially
     };
-    
+
     setChannels([...channels, newChannel]);
   };
-  
+
   return (
     <div className="scaling-simulation">
       <h3>Lightning Network Simulation</h3>
-      
+
       <div className="tab-buttons">
         <button 
           className={showLightningNetwork ? 'active' : ''}
@@ -2296,7 +2296,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
           Scaling Trilemma
         </button>
       </div>
-      
+
       {showLightningNetwork ? (
         <>
           <div className="lightning-network-viz">
@@ -2310,18 +2310,18 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
                   'Charlie': { x: 150, y: 300 },
                   'Dave': { x: 450, y: 300 }
                 };
-                
+
                 // Draw channels
                 return channels.map(channel => {
                   const fromPos = nodePositions[channel.from];
                   const toPos = nodePositions[channel.to];
-                  
+
                   // Calculate if this channel is part of the active route
                   const isActiveRoute = paymentRoute && 
                     paymentRoute.indexOf(channel.from) !== -1 && 
                     paymentRoute.indexOf(channel.to) !== -1 &&
                     Math.abs(paymentRoute.indexOf(channel.from) - paymentRoute.indexOf(channel.to)) === 1;
-                  
+
                   return (
                     <g key={channel.id}>
                       <line 
@@ -2353,7 +2353,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
                   );
                 });
               })()}
-              
+
               {/* Draw nodes */}
               {(() => {
                 const nodePositions = {
@@ -2363,7 +2363,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
                   'Charlie': { x: 150, y: 300 },
                   'Dave': { x: 450, y: 300 }
                 };
-                
+
                 return Object.entries(nodePositions).map(([nodeName, pos]) => (
                   <g key={nodeName}>
                     <circle 
@@ -2386,7 +2386,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
                   </g>
                 ));
               })()}
-              
+
               {/* Payment animation */}
               {paymentStatus === 'routing' && paymentRoute.length > 0 && (() => {
                 const nodePositions = {
@@ -2396,12 +2396,12 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
                   'Charlie': { x: 150, y: 300 },
                   'Dave': { x: 450, y: 300 }
                 };
-                
+
                 // Create animations between each hop
                 return paymentRoute.slice(0, -1).map((node, idx) => {
                   const fromPos = nodePositions[node];
                   const toPos = nodePositions[paymentRoute[idx + 1]];
-                  
+
                   return (
                     <circle 
                       key={`anim-${idx}`}
@@ -2432,7 +2432,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
               })()}
             </svg>
           </div>
-          
+
           <div className="payment-controls">
             <div className="control-group">
               <label>Recipient:</label>
@@ -2443,7 +2443,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
                 <option value="Dave">Dave</option>
               </select>
             </div>
-            
+
             <div className="control-group">
               <label>Amount (BTC):</label>
               <input 
@@ -2455,7 +2455,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
                 max="0.05"
               />
             </div>
-            
+
             <div className="payment-buttons">
               <button 
                 onClick={sendPayment}
@@ -2463,17 +2463,17 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
               >
                 Send Lightning Payment
               </button>
-              
+
               <button onClick={openNewChannel}>
                 Open Direct Channel
               </button>
-              
+
               <button onClick={resetSimulation}>
                 Reset Simulation
               </button>
             </div>
           </div>
-          
+
           {paymentStatus && (
             <div className={`payment-status ${paymentStatus}`}>
               {paymentStatus === 'routing' && 'Routing payment...'}
@@ -2481,7 +2481,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
               {paymentStatus === 'failed' && 'Payment failed. No route with sufficient capacity found.'}
             </div>
           )}
-          
+
           <div className="channel-list">
             <h4>Your Lightning Channels</h4>
             {channels
@@ -2490,7 +2490,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
                 const remotePeer = chan.from === 'Your Node' ? chan.to : chan.from;
                 const localBalance = chan.from === 'Your Node' ? chan.balance : chan.capacity - chan.balance;
                 const remoteBalance = chan.capacity - localBalance;
-                
+
                 return (
                   <div key={chan.id} className="channel-item">
                     <div className="channel-header">
@@ -2519,7 +2519,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
       ) : (
         <div className="scaling-trilemma">
           <h3>The Blockchain Scaling Trilemma</h3>
-          
+
           <div className="trilemma-diagram">
             <svg width="500" height="400" viewBox="0 0 500 400">
               {/* Triangle */}
@@ -2529,27 +2529,27 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
                 stroke="#333" 
                 strokeWidth="2"
               />
-              
+
               {/* Vertices */}
               <circle cx="250" cy="50" r="40" fill="#4CAF50" />
               <circle cx="50" cy="350" r="40" fill="#2196F3" />
               <circle cx="450" cy="350" r="40" fill="#FFC107" />
-              
+
               {/* Labels */}
               <text x="250" y="60" textAnchor="middle" fill="white" fontWeight="bold">Decentralization</text>
               <text x="50" y="355" textAnchor="middle" fill="white" fontWeight="bold">Security</text>
               <text x="450" y="355" textAnchor="middle" fill="white" fontWeight="bold">Scalability</text>
-              
+
               {/* Layer positions */}
               <circle cx="250" cy="200" r="25" fill="#E91E63" />
               <text x="250" y="205" textAnchor="middle" fill="white" fontWeight="bold">L1</text>
-              
+
               <circle cx="300" cy="275" r="25" fill="#9C27B0" />
               <text x="300" y="280" textAnchor="middle" fill="white" fontWeight="bold">L2</text>
-              
+
               {/* Arrows from L1 to L2 */}
               <path d="M265,215 L285,260" stroke="#333" strokeWidth="2" markerEnd="url(#arrow)" />
-              
+
               {/* Arrow marker definition */}
               <defs>
                 <marker 
@@ -2565,27 +2565,27 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
               </defs>
             </svg>
           </div>
-          
+
           <div className="scaling-explanation">
             <p>The Blockchain Trilemma states that blockchains must trade off between:</p>
-            
+
             <div className="trilemma-points">
               <div className="trilemma-point">
                 <h4>Decentralization</h4>
                 <p>The system operates through a distributed network of participants with no central points of control or failure.</p>
               </div>
-              
+
               <div className="trilemma-point">
                 <h4>Security</h4>
                 <p>The blockchain is resistant to attacks and maintains data integrity through economic incentives and cryptography.</p>
               </div>
-              
+
               <div className="trilemma-point">
                 <h4>Scalability</h4>
                 <p>The ability to process a high throughput of transactions quickly and at low cost.</p>
               </div>
             </div>
-            
+
             <div className="layers-explanation">
               <h4>Bitcoin's Layered Scaling Approach</h4>
               <p><strong>Layer 1 (Bitcoin Base Chain):</strong> Optimizes for security and decentralization at the expense of scalability. Processes ~7 transactions per second with 10-minute block times.</p>
@@ -2594,7 +2594,7 @@ const ScalingSimulation = ({ missionData, expertMode }) => {
           </div>
         </div>
       )}
-      
+
       {expertMode && (
         <div className="expert-explanation">
           <h3>Lightning Network Technical Details</h3>
@@ -2619,7 +2619,7 @@ const WalletIntegration = () => {
   const [wallet, setWallet] = useState('');
   const [seed, setSeed] = useState('');
   const [completedSteps, setCompletedSteps] = useState({});
-  
+
   const wallets = [
     { name: 'Blue Wallet', type: 'mobile', features: ['Lightning', 'Multisig', 'Hardware Support'] },
     { name: 'Muun', type: 'mobile', features: ['Simplified', 'Self-custody', 'No seed phrase'] },
@@ -2627,7 +2627,7 @@ const WalletIntegration = () => {
     { name: 'Bitcoin Core', type: 'desktop', features: ['Full Node', 'Maximum Security', 'Technical'] },
     { name: 'Cold Card', type: 'hardware', features: ['Airgapped', 'Advanced Security', 'PSBT'] }
   ];
-  
+
   const steps = [
     'Select a Bitcoin wallet',
     'Install the wallet software',
@@ -2637,35 +2637,35 @@ const WalletIntegration = () => {
     'Receive your first Bitcoin',
     'Send a test transaction'
   ];
-  
+
   const handleWalletSelect = (walletName) => {
     setWallet(walletName);
     setWalletStep(1);
   };
-  
+
   const markStepComplete = (step) => {
     setCompletedSteps({...completedSteps, [step]: true});
     setWalletStep(step + 1);
   };
-  
+
   const generateSeedPhrase = () => {
     const wordlist = [
       'abandon', 'ability', 'able', 'about', 'above', 'absent', 'absorb', 'abstract',
       'absurd', 'abuse', 'access', 'accident', 'account', 'accuse', 'achieve', 'acid',
       'acoustic', 'acquire', 'across', 'act', 'action', 'actor', 'actress', 'actual'
     ];
-    
+
     const seedWords = Array.from({ length: 12 }, () => 
       wordlist[Math.floor(Math.random() * wordlist.length)]);
-    
+
     setSeed(seedWords.join(' '));
     return seedWords.join(' ');
   };
-  
+
   return (
     <div className="wallet-integration">
-      <h2>Practical Exercise: Set Up Your Bitcoin Wallet</h2>
-      
+            <h2>Practical Exercise: Set Up Your Bitcoin Wallet</h2>
+
       <div className="wallet-steps">
         <div className="step-indicators">
           {steps.map((step, idx) => (
@@ -2678,13 +2678,13 @@ const WalletIntegration = () => {
             </div>
           ))}
         </div>
-        
+
         <div className="step-content">
           {walletStep === 0 && (
             <div className="wallet-selection">
               <h3>Select a Bitcoin Wallet</h3>
               <p>Choose a wallet that matches your needs and security requirements:</p>
-              
+
               <div className="wallet-options">
                 {wallets.map((w, idx) => (
                   <div key={idx} className="wallet-card" onClick={() => handleWalletSelect(w.name)}>
@@ -2700,58 +2700,58 @@ const WalletIntegration = () => {
               </div>
             </div>
           )}
-          
+
           {walletStep === 1 && (
             <div className="wallet-installation">
               <h3>Install {wallet}</h3>
               <p>Follow these steps to install your chosen wallet:</p>
-              
+
               <ol>
                 <li>Visit the official website or app store for {wallet}</li>
                 <li>Download the wallet from the official source only</li>
                 <li>Verify the download if possible (check signatures)</li>
                 <li>Complete the installation process</li>
               </ol>
-              
+
               <div className="security-warning">
                 <p><strong>Security Note:</strong> Always download wallet software from official sources only. Verify downloads when possible.</p>
               </div>
-              
+
               <div className="step-buttons">
                 <button onClick={() => setWalletStep(0)}>Back</button>
                 <button onClick={() => markStepComplete(1)}>I've Installed the Wallet</button>
               </div>
             </div>
           )}
-          
+
           {walletStep === 2 && (
             <div className="wallet-creation">
               <h3>Create a New Wallet</h3>
               <p>Now that you've installed {wallet}, create a new wallet:</p>
-              
+
               <ol>
                 <li>Open the wallet application</li>
                 <li>Select "Create New Wallet" option</li>
                 <li>Follow the wallet's setup wizard</li>
                 <li>When prompted for a password, create a strong, unique password</li>
               </ol>
-              
+
               <div className="security-warning">
                 <p><strong>Security Note:</strong> Use a password manager to generate and store a strong password. Never reuse passwords.</p>
               </div>
-              
+
               <div className="step-buttons">
                 <button onClick={() => setWalletStep(1)}>Back</button>
                 <button onClick={() => markStepComplete(2)}>I've Created a Wallet</button>
               </div>
             </div>
           )}
-          
+
           {walletStep === 3 && (
             <div className="seed-backup">
               <h3>Secure Your Recovery Seed</h3>
               <p>Your wallet has generated a recovery seed phrase. This is the MOST IMPORTANT step:</p>
-              
+
               <div className="seed-simulation">
                 <p>For simulation purposes, here's a sample seed phrase:</p>
                 <div className="seed-display">
@@ -2759,7 +2759,7 @@ const WalletIntegration = () => {
                 </div>
                 <button onClick={generateSeedPhrase}>Generate Another Sample</button>
               </div>
-              
+
               <div className="backup-instructions">
                 <h4>How to Secure Your Seed:</h4>
                 <ol>
@@ -2770,29 +2770,29 @@ const WalletIntegration = () => {
                   <li>NEVER store your seed phrase digitally or take a photo of it</li>
                 </ol>
               </div>
-              
+
               <div className="security-warning critical">
                 <p><strong>CRITICAL:</strong> Anyone with access to your seed phrase has complete control of your Bitcoin. Never share it with anyone. The seed phrase above is just a sample - secure your actual seed phrase from your wallet.</p>
               </div>
-              
+
               <div className="step-buttons">
                 <button onClick={() => setWalletStep(2)}>Back</button>
                 <button onClick={() => markStepComplete(3)}>I've Secured My Seed Phrase</button>
               </div>
             </div>
           )}
-          
+
           {walletStep === 4 && (
             <div className="backup-verification">
               <h3>Verify Your Backup</h3>
               <p>To ensure you've correctly recorded your seed phrase, verify your backup:</p>
-              
+
               <ol>
                 <li>Some wallets have a verification step in the setup process</li>
                 <li>If not, consider temporarily entering a few words from your backup to verify</li>
                 <li>For hardware wallets, you might need to enter the entire phrase</li>
               </ol>
-              
+
               <div className="verification-tips">
                 <h4>Tips:</h4>
                 <ul>
@@ -2801,19 +2801,19 @@ const WalletIntegration = () => {
                   <li>Understand the difference between seed phrases and wallet passwords</li>
                 </ul>
               </div>
-              
+
               <div className="step-buttons">
                 <button onClick={() => setWalletStep(3)}>Back</button>
                 <button onClick={() => markStepComplete(4)}>I've Verified My Backup</button>
               </div>
             </div>
           )}
-          
+
           {walletStep === 5 && (
             <div className="receive-bitcoin">
               <h3>Receive Your First Bitcoin</h3>
               <p>Now that your wallet is set up and secured, you can receive Bitcoin:</p>
-              
+
               <div className="receive-instructions">
                 <ol>
                   <li>In your wallet, find the "Receive" section</li>
@@ -2823,12 +2823,12 @@ const WalletIntegration = () => {
                   <li>For this exercise, you can use a Bitcoin testnet faucet if you don't want to use real Bitcoin</li>
                 </ol>
               </div>
-              
+
               <div className="address-example">
                 <h4>Example Address (for demonstration only):</h4>
                 <div className="address-display">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
               </div>
-              
+
               <div className="security-tips">
                 <h4>Security Tips:</h4>
                 <ul>
@@ -2837,19 +2837,19 @@ const WalletIntegration = () => {
                   <li>Small "test" transactions are recommended before large transfers</li>
                 </ul>
               </div>
-              
+
               <div className="step-buttons">
                 <button onClick={() => setWalletStep(4)}>Back</button>
                 <button onClick={() => markStepComplete(5)}>I've Received Bitcoin</button>
               </div>
             </div>
           )}
-          
+
           {walletStep === 6 && (
             <div className="send-transaction">
               <h3>Send a Test Transaction</h3>
               <p>Finally, practice sending a small amount of Bitcoin:</p>
-              
+
               <div className="send-instructions">
                 <ol>
                   <li>In your wallet, find the "Send" function</li>
@@ -2860,7 +2860,7 @@ const WalletIntegration = () => {
                   <li>Track the transaction status in your wallet</li>
                 </ol>
               </div>
-              
+
               <div className="fee-guidance">
                 <h4>Fee Selection Guidance:</h4>
                 <ul>
@@ -2870,19 +2870,19 @@ const WalletIntegration = () => {
                 </ul>
                 <p>Check current mempool conditions for accurate fee estimates: <a href="https://mempool.space">mempool.space</a></p>
               </div>
-              
+
               <div className="step-buttons">
                 <button onClick={() => setWalletStep(5)}>Back</button>
                 <button onClick={() => markStepComplete(6)}>I've Sent a Transaction</button>
               </div>
             </div>
           )}
-          
+
           {walletStep === 7 && (
             <div className="completion">
               <h3>🎉 Congratulations!</h3>
               <p>You've successfully set up a Bitcoin wallet and completed your first transactions.</p>
-              
+
               <div className="next-steps">
                 <h4>Next Steps in Your Bitcoin Journey:</h4>
                 <ul>
@@ -2893,7 +2893,7 @@ const WalletIntegration = () => {
                   <li>Create a plan for inheritance or emergency access</li>
                 </ul>
               </div>
-              
+
               <div className="security-checklist">
                 <h4>Security Checklist:</h4>
                 <div className="checklist-items">
@@ -2919,7 +2919,7 @@ const WalletIntegration = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="step-buttons">
                 <button onClick={() => setWalletStep(6)}>Back</button>
                 <button onClick={() => setWalletStep(0)}>Start Over</button>
@@ -2947,7 +2947,7 @@ const BitcoinFooter = () => {
             <li>Bitcoin Improvement Proposals (BIPs)</li>
           </ul>
         </div>
-        
+
         <div className="resource-category">
           <h4>Books</h4>
           <ul>
@@ -2957,7 +2957,7 @@ const BitcoinFooter = () => {
             <li>Grokking Bitcoin</li>
           </ul>
         </div>
-        
+
         <div className="resource-category">
           <h4>Tools</h4>
           <ul>
@@ -2968,7 +2968,7 @@ const BitcoinFooter = () => {
           </ul>
         </div>
       </div>
-      
+
       <p>This is an educational simulation for learning purposes only. Always verify information and use caution when using real Bitcoin.</p>
     </footer>
   );
