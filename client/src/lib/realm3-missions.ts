@@ -1,280 +1,686 @@
+// Define props interface
+interface MissionProps {
+  realmId: string;
+  missionId: string;
+}
+export interface Realm3MissionData {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  objectives?: string[]; // Making this optional since it wasn't in the original
+  simulationType: 'scavenger-hunt' | 'block-builder' | 'matching-game' | 'security-sim' | 'trivia' | 'roadmap'|'quiz';
+  simulationData?: any;
+  content: {
+    title: string;
+    introduction: string;
+    content: string;
+    sections: Array<{
+      title: string;
+      content: string;
+    }>;
+  };
+  game: {
+    name: string;
+    description: string;
+    tasks: string[];
+    reward: string;
+    criteria?: string;
+    scenarios?: Array<{
+      name: string;
+      description: string;
+      success: string;
+    }>;
+    rounds?: Array<{
+      name: string;
+      questions: number;
+      topics: string[];
+    }>;
+  };
+  quiz?: {
+    questions: Array<{
+      question: string;
+      options: string[];
+      answer: number;
+    }>;
+  };
+  reflection?: {
+    prompt: string;
+    questions?: string[];
+    guidelines?: string[];
+  };
+  discussionPrompt?: {
+    question: string;
+    guidelines: string[];
+  };
+  task?: string;
+  discussionPoints?: string[];
+}
 
-import { MissionContent } from './realm1-missions';
+export interface MissionContent {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  objectives: string[];
+  content: {
+    introduction: string;
+    sections: Array<{
+      title: string;
+      content: string;
+    }>;
+  };
+  simulationType?: string;
+  task?: string;
+  reflection?: {
+    prompt: string;
+    questions?: string[];
+    guidelines?: string[];
+  };
+  discussionPoints?: string[];
+  game?: {
+    name: string;
+    description: string;
+    tasks: string[];
+    reward: string;
+  };
+}
 
-export const realm3Missions: MissionContent[] = [
+export const realm3Missions: Realm3MissionData[] = [
   {
     id: 1,
-    title: "Cryptographic Foundations",
-    subtitle: "Understanding Bitcoin's Essential Security Building Blocks",
-    description: "Dive deep into the fundamental cryptographic concepts that make Bitcoin's security possible. Learn how modern cryptography enables digital ownership, secure transactions, and trustless verification.",
+    title: "The Origin Story of Bitcoin",
+    subtitle: "Uncovering the Mystery of Satoshi Nakamoto",
+    description: "Journey through the creation of Bitcoin and the enigmatic identity of its creator. Discover why the world needed a peer-to-peer electronic cash system and how Bitcoin's design solves fundamental problems of trust in digital transactions. Explore the cultural and technological context that made Bitcoin's emergence inevitable.",
     objectives: [
-      "Master the principles of public key cryptography and digital signatures",
-      "Understand how cryptographic primitives secure Bitcoin transactions",
-      "Practice creating and verifying digital signatures",
-      "Learn about private key security and backup strategies",
-      "Explore real-world applications of cryptography in Bitcoin transactions"
+      "Understand the motivations behind Bitcoin's creation",
+      "Explore the identity and possible motivations of Satoshi Nakamoto",
+      "Learn about the cypherpunk movement that influenced Bitcoin",
+      "Analyze the problems Bitcoin solves in traditional finance",
+      "Reflect on Bitcoin's African relevance as trustless money"
     ],
-    simulationType: "cryptography",
-    simulationData: {
-      lessonContent: {
-        intro: "Cryptography is the foundation of Bitcoin's security model. Without strong cryptography, digital scarcity and ownership would be impossible.",
-        keyPoints: [
-          {
-            title: "Public Key Cryptography",
-            content: "Also known as asymmetric cryptography, this system uses key pairs - a private key for signing and a mathematically related public key for verification. In Bitcoin, your private key is like your digital signature stamp, while your public key is like your public Bitcoin address that others can send funds to."
-          },
-          {
-            title: "Digital Signatures",
-            content: "Digital signatures prove ownership of bitcoins by demonstrating control of private keys. Every Bitcoin transaction requires valid signatures, creating an unbreakable chain of digital ownership."
-          },
-          {
-            title: "Key Security",
-            content: "Private keys must be kept secure and backed up, as they represent direct control over your bitcoins. We'll explore best practices for key management and common pitfalls to avoid."
-          }
-        ]
-      },
-      challenges: [
+    content: {
+      title: "Bitcoin's Origins",
+      content: "The creation of Bitcoin by Satoshi Nakamoto during the 2008 financial crisis represented a revolutionary approach to money - a system without trusted intermediaries, secured by mathematics and consensus rather than institutional promises.",    
+      introduction: "In the heart of the 2008 financial crisis, as traditional banks collapsed and governments bailed out institutions with taxpayer money, a mysterious figure named Satoshi Nakamoto published the Bitcoin whitepaper. This document proposed a radical solution: money that didn't require trust in any institution, secured by mathematics rather than promises.\n\nFor many in Africa, where financial systems often exclude large portions of the population and where currency instability is common, Bitcoin's promise resonated deeply. Just as mobile phones leapfrogged landlines across the continent, Bitcoin offered the potential to leapfrog traditional banking infrastructure with a system that treats all participants equally, regardless of nationality or economic status.",
+      sections: [
         {
-          id: 1,
-          title: "Key Pair Generation",
-          description: "Generate your first public-private key pair and understand the mathematical relationship between them",
-          interactive: true,
-          steps: [
-            "Generate a new private key",
-            "Derive the corresponding public key",
-            "Create a Bitcoin address from the public key",
-            "Verify the relationship between keys"
-          ]
+          title: "The Cypherpunk Roots",
+          content: "Bitcoin didn't emerge in a vacuum. It was the culmination of decades of work by the cypherpunk movement - privacy activists who believed cryptography could empower individuals against institutional overreach.\n\n### Key Influences:\n1. **David Chaum's DigiCash (1989)**: First attempt at digital cash, though centralized\n2. **HashCash (1997)**: Adam Back's anti-spam proof-of-work system\n3. **b-money (1998)**: Wei Dai's proposal for anonymous digital cash\n4. **Bit Gold (2005)**: Nick Szabo's proposal for decentralized digital scarcity\n\nThese experiments all contributed pieces to what would become Bitcoin. The cypherpunk mailing list, where Satoshi first announced Bitcoin, had been debating these ideas for years.\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Parallel**: Just as griots have preserved oral histories through generations, the cypherpunks preserved and evolved the ideas that would become Bitcoin, passing knowledge until the technology caught up with the vision.\n</style>"
         },
         {
-          id: 2,
-          title: "Transaction Signing",
-          description: "Sign messages and verify signatures to understand Bitcoin transaction authorization",
-          interactive: true,
-          exercises: [
-            "Create a digital signature for a sample transaction",
-            "Verify signatures using public keys",
-            "Identify invalid signatures",
-            "Practice with multiple key pairs"
-          ]
+          title: "The Bitcoin Whitepaper",
+          content: "On October 31, 2008, Satoshi Nakamoto published \"Bitcoin: A Peer-to-Peer Electronic Cash System\" to the cryptography mailing list. This 9-page document outlined a complete system for digital cash without trusted third parties.\n\n### Key Innovations:\n1. **Proof-of-Work**: Mining system that secures the network\n2. **Decentralized Timestamping**: Blockchain as a public ledger\n3. **Incentive Structure**: Miners rewarded with new coins\n4. **Simplified Payment Verification**: Light clients for mobile use\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Relevance**: The whitepaper's vision aligns with Ubuntu philosophy - a system where participants contribute to and benefit from the network's security, creating shared value without centralized control.\n</style>"
+        },
+        {
+          title: "Satoshi's Identity",
+          content: "The true identity of Satoshi Nakamoto remains unknown, with several candidates proposed but none conclusively proven. What we know:\n\n- First email from satoshin@gmx.com in August 2008\n- Active development until December 2010\n- Final communication in April 2011\n\n### Why Anonymity Matters:\n1. Prevents centralized authority figure\n2. Aligns with cypherpunk values\n3. Forces focus on the technology\n4. Protects against legal pressure\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Perspective**: Just as African folklore often attributes wisdom to anonymous or mythical figures to focus on the message rather than the messenger, Satoshi's anonymity keeps Bitcoin decentralized and community-owned.\n</style>"
+        }
+      ]
+    },
+    simulationType: 'scavenger-hunt',
+    game: {
+      name: "Satoshi's Quest",
+      description: "Find hidden clues about Bitcoin's origins to earn your Satoshi Badge",
+      tasks: [
+        "Locate the timestamp of the first Bitcoin block",
+        "Find the hidden message in the Genesis block",
+        "Identify three cypherpunk influences on Bitcoin",
+        "Decode Satoshi's estimated birth year from his PGP key"
+      ],
+      reward: "Satoshi Badge"
+    },
+    quiz: {
+      questions: [
+        {
+          question: "What was the primary motivation for creating Bitcoin?",
+          options: [
+            "To make digital gold",
+            "To create peer-to-peer electronic cash without trusted third parties",
+            "To replace traditional banking completely",
+            "To enable anonymous transactions"
+          ],
+          answer: 1
+        },
+        {
+          question: "Which of these was NOT a direct influence on Bitcoin?",
+          options: [
+            "DigiCash",
+            "HashCash",
+            "Bit Gold",
+            "Tor"
+          ],
+          answer: 3
         }
       ]
     }
   },
   {
     id: 2,
-    title: "The Power of Hash Functions",
-    subtitle: "Creating Unique Digital Fingerprints",
-    description: "Explore how cryptographic hash functions create tamper-evident digital fingerprints, securing Bitcoin's blockchain and mining process. Learn why hash functions are called the 'digital fingerprints' of the cryptocurrency world.",
+    title: "The Genesis Block",
+    subtitle: "Bitcoin's Immutable Beginning",
+    description: "Explore the significance of Bitcoin's first block - the foundation of the entire blockchain. Understand the hidden message that connects Bitcoin to the financial crisis and reveals its purpose. Learn how this single block set in motion a revolution in digital trust.",
     objectives: [
-      "Master the core properties of cryptographic hash functions",
-      "Experience the avalanche effect in action",
-      "Understand how Bitcoin uses SHA-256 for mining and transaction IDs",
-      "Learn about merkle trees and blockchain structure",
-      "Practice solving basic proof-of-work challenges"
+      "Understand the components of the Genesis Block",
+      "Analyze the significance of the embedded message",
+      "Learn how the Genesis Block differs from subsequent blocks",
+      "Explore the concept of block rewards and coinbase transactions",
+      "Reflect on Bitcoin's creation as a response to financial instability"
     ],
-    simulationType: "hash",
-    simulationData: {
-      lessonContent: {
-        intro: "Hash functions are one-way mathematical functions that turn any input into a fixed-size output. They are crucial for Bitcoin's security and mining process.",
-        properties: [
-          {
-            name: "Deterministic",
-            explanation: "The same input always produces the same hash output"
-          },
-          {
-            name: "Quick Computation",
-            explanation: "It's fast to calculate the hash of any input"
-          },
-          {
-            name: "Avalanche Effect",
-            explanation: "Small input changes create completely different hash outputs"
-          },
-          {
-            name: "Pre-image Resistance",
-            explanation: "It's practically impossible to find the input from just the hash output"
-          },
-          {
-            name: "Collision Resistance",
-            explanation: "It's extremely difficult to find two different inputs that produce the same hash"
-          }
-        ]
-      },
-      challenges: [
+    content: {
+      title: "Bitcoin's First Block",
+      content: "The Genesis Block, mined on January 3, 2009, marks the beginning of the Bitcoin blockchain and contains a powerful political statement about the traditional financial system it was designed to challenge.",
+      introduction: "On January 3, 2009, at approximately 18:15:05 UTC, Satoshi Nakamoto mined the first Bitcoin block - Block 0, now known as the Genesis Block. This marked the launch of the Bitcoin network and the beginning of a new era in digital money.\n\nFor Africans facing currency instability and financial exclusion, the Genesis Block represents more than technical innovation - it symbolizes the possibility of money that can't be inflated away by distant central banks, a system where participation requires only internet access rather than permission from financial gatekeepers.",
+      sections: [
         {
-          id: 1,
-          title: "Hash Function Properties",
-          description: "Interactive experiments demonstrating key hash function properties",
-          interactive: true,
-          exercises: [
-            "Test deterministic outputs",
-            "Observe the avalanche effect",
-            "Attempt to find collisions",
-            "Verify pre-image resistance"
-          ]
+          title: "The Block That Started It All",
+          content: "The Genesis Block contains several unique characteristics:\n\n### Technical Specifications:\n- Block Height: 0\n- Timestamp: 2009-01-03 18:15:05\n- Nonce: 2083236893\n- Difficulty: 1\n- Reward: 50 BTC (unspendable)\n\n### Unique Features:\n1. Hardcoded into Bitcoin clients\n2. Coinbase transaction can't be spent\n3. Doesn't reference previous block\n4. Special status in code\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Analogy**: Just as the baobab tree's roots run deep to support its massive structure, the Genesis Block provides the foundational root for Bitcoin's growing blockchain.\n</style>"
         },
         {
-          id: 2,
-          title: "Mining Simulation",
-          description: "Experience Bitcoin mining by finding valid block hashes",
-          interactive: true,
-          difficulty: "adjustable",
-          objectives: [
-            "Understand difficulty targets",
-            "Find nonce values",
-            "Calculate hash rates",
-            "Experience difficulty adjustment"
-          ]
+          title: "The Hidden Message",
+          content: "Satoshi embedded a message in the Genesis Block's coinbase parameter:\n\n\"The Times 03/Jan/2009 Chancellor on brink of second bailout for banks\"\n\nThis references a headline from The Times (UK) newspaper that day, serving multiple purposes:\n\n1. **Timestamp Proof**: Verifies the block wasn't created before that date\n2. **Political Statement**: Comments on the financial crisis\n3. **Mission Statement**: Shows Bitcoin's purpose as an alternative\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Context**: Many African currencies have experienced hyperinflation due to similar financial mismanagement. Bitcoin offers an alternative not controlled by any government.\n</style>"
+        },
+        {
+          title: "The Unspendable Reward",
+          content: "Unlike normal blocks, the Genesis Block's 50 BTC reward cannot be spent due to how it was coded. This creates several interesting implications:\n\n1. **Symbolic Gesture**: The first coins exist outside the economy\n2. **Technical Necessity**: Prevents blockchain reorganization issues\n3. **Historical Marker**: Clearly identifies the first block\n\nSubsequent blocks follow different rules, with spendable rewards that decrease through halvings every 210,000 blocks.\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Perspective**: Just as traditional communities might designate certain resources as sacred or untouchable, the unspendable Genesis coins serve as a permanent monument to Bitcoin's creation.\n</style>"
+        }
+      ]
+    },
+    simulationType: 'block-builder',
+    game: {
+      name: "Block Builder",
+      description: "Create your own Genesis Block with a custom message",
+      tasks: [
+        "Design a block header with timestamp and nonce",
+        "Embed a meaningful message in your block",
+        "Explain why you chose your message",
+        "Compare your block to the real Genesis Block"
+      ],
+      reward: "Genesis Creator Badge",
+      criteria: "Most creative and meaningful message wins"
+    },
+    quiz: {
+      questions: [
+        {
+          question: "Why can't the Genesis Block's coinbase reward be spent?",
+          options: [
+            "It was lost",
+            "Satoshi chose not to spend it",
+            "It's hardcoded as unspendable",
+            "The private key is unknown"
+          ],
+          answer: 2
+        },
+        {
+          question: "What was the significance of the Genesis Block's embedded message?",
+          options: [
+            "It proved the block wasn't pre-mined",
+            "It commented on the financial crisis",
+            "It served as a timestamp",
+            "All of the above"
+          ],
+          answer: 3
         }
       ]
     }
   },
   {
     id: 3,
-    title: "Merkle Trees",
-    subtitle: "Efficient and Secure Transaction Verification",
-    description: "Master how Merkle trees enable efficient verification of Bitcoin transactions while maintaining security. Discover why this data structure is essential for light clients and scaling Bitcoin.",
+    title: "What Makes Bitcoin Different?",
+    subtitle: "Decentralization and Trustless Architecture",
+    description: "Discover the revolutionary aspects of Bitcoin that set it apart from traditional financial systems and earlier digital cash attempts. Learn how decentralization, censorship resistance, and transparent verification create money that doesn't require institutional trust.",
     objectives: [
-      "Understand Merkle tree structure and benefits",
-      "Learn to construct Merkle trees from transaction data",
-      "Practice generating and verifying Merkle proofs",
-      "Explore Simplified Payment Verification (SPV)",
-      "Understand how Merkle trees enable light clients"
+      "Compare Bitcoin to traditional financial systems",
+      "Understand the meaning of decentralization in Bitcoin",
+      "Explore the concept of censorship resistance",
+      "Learn how Bitcoin achieves trust minimization",
+      "Analyze the tradeoffs of decentralized systems"
     ],
-    simulationType: "merkle",
-    simulationData: {
-      explanation: "Merkle trees are binary hash trees that allow efficient and secure verification of block contents. They are fundamental to Bitcoin's scalability.",
-      concepts: [
+    content: {
+      title: "Bitcoin's Unique Properties",
+      content: "Bitcoin represents a fundamental shift in how we conceptualize money, replacing institutional trust with mathematical certainty through decentralization, censorship resistance, and transparent verification.",
+      introduction: "Bitcoin represents a fundamental shift in how we conceptualize money and value transfer. Unlike traditional systems that rely on trusted intermediaries, Bitcoin replaces trust in institutions with trust in mathematics and decentralized consensus.\n\nFor Africans who have experienced currency controls, banking exclusion, or arbitrary account freezes, Bitcoin's properties offer an alternative paradigm - financial participation governed by transparent rules rather than opaque institutional decisions.",
+      sections: [
         {
-          title: "Tree Structure",
-          content: "Transactions are paired, hashed together repeatedly until reaching a single root hash"
+          title: "Decentralization: Power to the Edges",
+          content: "Bitcoin distributes authority across a global network of participants:\n\n### Key Aspects:\n1. **No Single Point of Failure**: Thousands of independent nodes\n2. **Permissionless Participation**: Anyone can run a node or mine\n3. **Open-Source Code**: Transparent and community-developed\n4. **Distributed Consensus**: Rules enforced by network majority\n\n### African Benefits:\n- Reduces reliance on unstable local banking\n- Provides access without permission\n- Creates equal participation globally\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Ubuntu Connection**: \"I am because we are\" - Bitcoin's health depends on and benefits all participants, aligning with African communal values.\n</style>"
         },
         {
-          title: "Merkle Proofs",
-          content: "Prove transaction inclusion without downloading entire blocks"
+          title: "Censorship Resistance",
+          content: "Bitcoin transactions are extremely difficult to block or reverse:\n\n### How It Works:\n1. **Global Network**: No single jurisdiction controls it\n2. **Pseudonymous**: Addresses aren't directly tied to identity\n3. **Irreversible**: Confirmed transactions can't be undone\n4. **Permissionless**: No one can prevent valid transactions\n\n### African Use Cases:\n- Cross-border trade despite capital controls\n- Protection from arbitrary account freezes\n- Remittances bypassing expensive corridors\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Historical Parallel**: Like griots preserving history against colonial suppression, Bitcoin preserves financial access against institutional exclusion.\n</style>"
         },
         {
-          title: "SPV Clients",
-          content: "Enable lightweight Bitcoin wallets that don't store the full blockchain"
+          title: "Transparent Verification",
+          content: "Bitcoin's public ledger enables unprecedented transparency:\n\n### Verification Features:\n1. **Public Blockchain**: All transactions visible\n2. **Full Auditability**: Anyone can verify supply\n3. **Mathematical Certainty**: Rules enforced by code\n4. **Predictable Issuance**: Fixed supply schedule\n\n### African Applications:\n- NGOs can prove fund allocation\n- Governments can demonstrate reserves\n- Businesses can verify payments\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Cultural Alignment**: Similar to community witnessing in traditional African dispute resolution, Bitcoin's transparency creates accountability through visibility.\n</style>"
         }
+      ]
+    },
+    simulationType: 'matching-game',
+    game: {
+      name: "Decentralization Match",
+      description: "Match benefits and trade-offs of decentralized systems",
+      tasks: [
+        "Pair decentralization benefits with real-world examples",
+        "Identify tradeoffs of decentralized vs centralized systems",
+        "Match Bitcoin properties to problems they solve",
+        "Rank decentralization aspects by importance"
       ],
-      transactionData: [
-        "tx1: Alice sends 1 BTC to Bob",
-        "tx2: Charlie sends 0.5 BTC to Dave",
-        "tx3: Eve sends 2 BTC to Frank",
-        "tx4: Grace sends 1.5 BTC to Heidi"
-      ],
-      exercises: [
-        {
-          type: "tree_construction",
-          description: "Build a Merkle tree from sample transactions"
-        },
-        {
-          type: "proof_verification",
-          description: "Verify transaction inclusion using Merkle proofs"
-        }
+      reward: "Decentralization Expert Badge"
+    },
+    discussionPrompt: {
+      question: "Debate the strengths and weaknesses of decentralized systems",
+      guidelines: [
+        "Compare to traditional centralized systems",
+        "Discuss real-world implications",
+        "Consider African contexts specifically",
+        "Weigh tradeoffs honestly"
       ]
     }
   },
   {
     id: 4,
-    title: "Bitcoin's Network Architecture",
-    subtitle: "Understanding the Peer-to-Peer Backbone",
-    description: "Explore the sophisticated peer-to-peer network that powers Bitcoin's global operation. Learn how nodes communicate, propagate transactions, and maintain decentralization.",
+    title: "Private Keys & Digital Sovereignty",
+    subtitle: "Owning Your Financial Future",
+    description: "Master the critical concept of private keys - the foundation of true ownership in Bitcoin. Learn why self-custody matters, how keys work cryptographically, and best practices for securing your digital wealth. Understand how private keys enable financial sovereignty unmatched by traditional systems.",
     objectives: [
-      "Master Bitcoin's network topology and node types",
-      "Understand peer discovery and connection management",
-      "Learn about transaction and block propagation",
-      "Experience network message types and protocols",
-      "Analyze network security and attack resistance"
+      "Understand public/private key cryptography",
+      "Learn why self-custody is essential",
+      "Explore different wallet types and security models",
+      "Practice secure key management techniques",
+      "Analyze tradeoffs between convenience and security"
     ],
-    simulationType: "network",
-    simulationData: {
-      network: {
-        nodes: 50,
-        nodeTypes: {
-          fullNodes: 35,
-          miners: 10,
-          lightClients: 5
-        },
-        concepts: [
-          {
-            title: "Node Types",
-            description: "Full nodes validate everything, miners create blocks, light clients trust but verify"
-          },
-          {
-            title: "Peer Discovery",
-            description: "DNS seeds, hardcoded addresses, and peer sharing maintain network connectivity"
-          },
-          {
-            title: "Message Types",
-            description: "inv, getdata, tx, block, and other protocol messages coordinate the network"
-          }
-        ]
-      },
-      exercises: [
+    content: {
+      title: "Cryptographic Ownership",
+      content: "Bitcoin's private key system puts users in complete control of their funds, offering unprecedented financial sovereignty but also requiring responsible key management and security practices.",
+      introduction: "In Bitcoin, possession of private keys means true ownership of value. Unlike traditional finance where institutions control access to your money, Bitcoin puts you in complete control through cryptographic keys. This represents both unprecedented freedom and responsibility.\n\nFor Africans who have experienced currency confiscation, banking exclusion, or arbitrary account freezes, private key ownership offers a radical alternative - money that can't be taken without your consent, accessible with just a string of memorized words.",
+      sections: [
         {
-          type: "network_simulation",
-          description: "Watch transaction propagation through the network"
+          title: "The Magic of Key Pairs",
+          content: "Bitcoin uses asymmetric cryptography:\n\n### Key Concepts:\n1. **Private Key**: Secret number that controls funds\n2. **Public Key**: Mathematically derived from private key\n3. **Address**: Hashed version of public key\n\n### How It Works:\n- Private keys sign transactions\n- Public keys verify signatures\n- Addresses receive funds\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Analogy**: Like a chief's seal that can't be forged, your private key uniquely authorizes transactions while your public key lets others verify authenticity.\n</style>"
         },
         {
-          type: "attack_simulation",
-          description: "Observe network resistance to common attacks"
+          title: "Self-Custody: Your Keys, Your Coins",
+          content: "True Bitcoin ownership requires controlling private keys:\n\n### Custody Models:\n1. **Self-Custody**: You hold keys (most secure)\n2. **Multisig**: Shared control among parties\n3. **Custodial**: Third party holds keys (least secure)\n\n### African Importance:\n- Avoids exchange failures/freezes\n- Preserves access during instability\n- Enables true financial sovereignty\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Proverb Connection**: \"If you want to go fast, go alone. If you want to go far, go together.\" Self-custody is going alone - full control but full responsibility.\n</style>"
+        },
+        {
+          title: "Secure Storage Practices",
+          content: "Proper key management balances security and accessibility:\n\n### Best Practices:\n1. **Seed Phrases**: 12-24 word backups\n2. **Hardware Wallets**: Isolated signing\n3. **Multisig**: Distributed trust\n4. **Geographic Distribution**: Protect against local disasters\n\n### African Adaptations:\n- Metal seed storage for durability\n- Community-based multisig for families\n- Hidden storage methods\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Cultural Parallel**: Just as traditional communities developed sophisticated methods to protect physical wealth, Bitcoin requires new methods to protect digital wealth.\n</style>"
+        }
+      ]
+    },
+    simulationType: 'security-sim',
+    game: {
+      name: "Key Keeper",
+      description: "Defend your private keys from various threats",
+      tasks: [
+        "Pair decentralization benefits with real-world examples",
+        "Identify tradeoffs of decentralized vs centralized systems",
+        "Match Bitcoin properties to problems they solve",
+        "Rank decentralization aspects by importance"
+      ],
+      scenarios: [
+        {
+          name: "Phishing Attack",
+          description: "Identify fake wallet websites",
+          success: "Recognized URL mismatch"
+        },
+        {
+          name: "Hardware Failure",
+          description: "Recover from lost device",
+          success: "Used seed phrase properly"
+        },
+        {
+          name: "Social Engineering",
+          description: "Resist fake support calls",
+          success: "Never shared private info"
+        }
+      ],
+      reward: "Security Guardian Badge"
+    },
+    quiz: {
+      questions: [
+        {
+          question: "What is the most secure way to store Bitcoin?",
+          options: [
+            "Exchange account",
+            "Mobile wallet",
+            "Self-custody with hardware wallet",
+            "Paper wallet"
+          ],
+          answer: 2
+        },
+        {
+          question: "Why is self-custody important in Africa?",
+          options: [
+            "Avoids exchange failures/freezes",
+            "Preserves access during instability",
+            "Enables true financial sovereignty",
+            "All of the above"
+          ],
+          answer: 3
         }
       ]
     }
   },
   {
     id: 5,
-    title: "Consensus Mechanisms",
-    subtitle: "Bitcoin's Heartbeat of Agreement",
-    description: "Dive deep into how Bitcoin nodes reach and maintain consensus about the state of the blockchain. Understand the elegance of Proof of Work and the economic incentives that secure the network.",
+    title: "Knowledge Test: Bitcoin's Birthright",
+    subtitle: "Proving Your Understanding",
+    description: "Demonstrate your mastery of Bitcoin's origins, technical foundations, and philosophical principles. This comprehensive test combines all Realm 3 concepts into practical challenges that prove your readiness to advance to more complex Bitcoin topics.",
     objectives: [
-      "Master Proof of Work consensus mechanics",
-      "Understand blockchain reorganization rules",
-      "Learn about difficulty adjustment",
-      "Experience chain selection rules in action",
-      "Analyze network synchronization processes"
+      "Recall key facts about Bitcoin's creation",
+      "Explain the significance of the Genesis Block",
+      "Articulate Bitcoin's differentiating features",
+      "Demonstrate proper key management understanding",
+      "Synthesize how Bitcoin applies to African contexts"
     ],
-    simulationType: "consensus",
-    simulationData: {
-      concepts: [
+    content: {
+      title: "Bitcoin Fundamentals Review",
+      content: "This comprehensive test combines all core Bitcoin concepts from its origins and Genesis Block to its differentiating features and key management principles, proving your readiness for advanced topics.",
+      introduction: "You've journeyed through Bitcoin's origin story, from its cypherpunk roots to its revolutionary technical design. Now it's time to prove your understanding and reflect on how these concepts apply to real-world financial situations, particularly in African contexts.\n\nThis final mission combines knowledge testing with practical application, ensuring you've internalized why Bitcoin matters and how its foundational principles create a new paradigm for money and value transfer across the continent and beyond.",
+      sections: [
         {
-          title: "Proof of Work",
-          content: "Mining process that secures the blockchain through computational work"
+          title: "Comprehensive Review",
+          content: "### Bitcoin's Origins:\n- Created by pseudonymous Satoshi Nakamoto\n- Whitepaper published October 2008\n- Genesis Block mined January 2009\n\n### Key Differentiators:\n- Decentralized and permissionless\n- Censorship-resistant\n- Transparent and verifiable\n- Fixed supply and predictable issuance\n\n### Private Key Sovereignty:\n- True ownership requires key control\n- Various security tradeoffs\n- Special importance in unstable regions\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Synthesis**: Bitcoin represents both a technical innovation and a philosophical shift - from permissioned, centralized systems to open, mathematical money that treats all participants equally regardless of geography or status.\n</style>"
+        }
+      ]
+    },
+    simulationType: 'trivia',
+    game: {
+      name: "Bitcoin Trivia Showdown",
+      description: "Competitive team-based trivia on Realm 3 content",
+      tasks: [
+        "Pair decentralization benefits with real-world examples",
+        "Identify tradeoffs of decentralized vs centralized systems",
+        "Match Bitcoin properties to problems they solve",
+        "Rank decentralization aspects by importance"
+      ],
+      rounds: [
+        {
+          name: "Origins Round",
+          questions: 5,
+          topics: ["Satoshi", "Whitepaper", "Cypherpunks"]
         },
         {
-          title: "Difficulty Adjustment",
-          content: "Automatic calibration of mining difficulty every 2016 blocks"
+          name: "Genesis Round",
+          questions: 5,
+          topics: ["Block 0", "Message", "Unspendable reward"]
         },
         {
-          title: "Chain Selection",
-          content: "Rules for choosing between competing chain versions"
+          name: "Decentralization Round",
+          questions: 5,
+          topics: ["Trustlessness", "Censorship", "Transparency"]
+        },
+        {
+          name: "Keys Round",
+          questions: 5,
+          topics: ["Self-custody", "Security", "Wallets"]
         }
       ],
-      scenarios: [
-        {
-          id: 1,
-          title: "Chain Selection",
-          description: "Interactive simulation of how nodes handle competing chains",
-          exercises: [
-            "Compare chain work",
-            "Handle chain splits",
-            "Resolve orphan blocks"
-          ]
-        },
-        {
-          id: 2,
-          title: "Network Synchronization",
-          description: "Watch how new nodes download and verify the blockchain",
-          steps: [
-            "Initial block download",
-            "Header synchronization",
-            "Block verification",
-            "UTXO set construction"
-          ]
-        }
+      reward: "Bitcoin Scholar Badge"
+    },
+    reflection: {
+      prompt: "Journal about how Bitcoin could change your financial future",
+      guidelines: [
+        "Consider your local financial challenges",
+        "Imagine Bitcoin solutions to specific problems",
+        "Reflect on personal sovereignty",
+        "Project 5-10 years into the future"
       ]
     }
   }
 ];
+
+export const bonusMissions: MissionContent[] = [
+  {
+    id: 1,
+    title: "Altcoin Exploration",
+    subtitle: "Comparing Bitcoin to Alternative Cryptocurrencies",
+    description: "Investigate the landscape of alternative cryptocurrencies (altcoins) and analyze how they compare to Bitcoin in purpose, design, and value proposition. Understand why Bitcoin remains unique despite thousands of competitors.",
+    objectives: [
+      "Research a selected altcoin's technical design",
+      "Compare its properties to Bitcoin",
+      "Analyze its value proposition",
+      "Evaluate tradeoffs in its design",
+      "Present findings to peers"
+    ],
+    content: {
+      introduction: "Since Bitcoin's creation, thousands of alternative cryptocurrencies (altcoins) have emerged, each with different designs, goals, and tradeoffs. Understanding this landscape helps clarify Bitcoin's unique value proposition and why it remains dominant despite numerous competitors.\n\nFor African developers and entrepreneurs, this knowledge is crucial for making informed decisions about which technologies to build on and which to use for different applications.",
+      sections: [
+        {
+          title: "Selecting an Altcoin",
+          content: "Choose one altcoin to research from these categories:\n\n### Categories:\n1. **Privacy Coins**: Monero, Zcash\n2. **Smart Contract Platforms**: Ethereum, Solana\n3. **Stablecoins**: USDT, USDC\n4. **Meme Coins**: Dogecoin, Shiba Inu\n5. **African Projects**: eNaira, others\n\n### Research Framework:\n- Creation story and purpose\n- Technical design differences from Bitcoin\n- Consensus mechanism\n- Tokenomics and issuance\n- Use cases and adoption\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Focus**: Pay special attention to projects with African roots or particularly relevant use cases for African markets.\n</style>"
+        },
+        {
+          title: "Comparative Analysis",
+          content: "Compare your selected altcoin to Bitcoin:\n\n### Comparison Areas:\n1. **Decentralization**: Node count, development, mining/staking\n2. **Security**: Attack resistance, audit history\n3. **Monetary Policy**: Supply cap, inflation rate\n4. **Adoption**: Users, merchants, developers\n5. **Censorship Resistance**: Transaction reversibility\n\n### Presentation Tips:\n- Create slides or written report\n- Highlight key differences\n- Be objective about tradeoffs\n- Suggest appropriate use cases\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Critical Thinking**: Remember that different designs serve different purposes - assess whether tradeoffs align with stated goals.\n</style>"
+        }
+      ]
+    },
+    task: "Research and present on one altcoin",
+    reflection: {
+      prompt: "Compare your altcoin to Bitcoin in purpose and design",
+      questions: [
+        "What problem does it solve that Bitcoin doesn't?",
+        "What tradeoffs does its design make?",
+        "How might it be useful in African contexts?",
+        "Why might Bitcoin still be preferable?"
+      ]
+    }
+  },
+  {
+    id: 2,
+    title: "Creating a Wallet",
+    subtitle: "Your Gateway to Bitcoin Ownership",
+    description: "Set up your first Bitcoin wallet, taking your first practical step into the Bitcoin ecosystem. Learn the differences between wallet types and experience the empowerment of generating your first Bitcoin address.",
+    objectives: [
+      "Understand different wallet types",
+      "Generate a secure seed phrase",
+      "Create receiving addresses",
+      "Practice backup procedures",
+      "Experience wallet interfaces"
+    ],
+    content: {
+      introduction: "A Bitcoin wallet is your personal interface to the Bitcoin network, allowing you to receive, store, and send bitcoin. Setting up your first wallet is a foundational step in your Bitcoin journey.\n\nFor many Africans, this represents their first experience with truly self-sovereign money - an account that can't be frozen or closed, requiring no permission or identification to create and use.",
+      sections: [
+        {
+          title: "Wallet Types",
+          content: "### Custodial vs Non-Custodial:\n- **Custodial**: Exchange accounts (easy but risky)\n- **Non-Custodial**: You control keys (more secure)\n\n### Non-Custodial Options:\n1. **Mobile Wallets**: BlueWallet, Phoenix (convenient)\n2. **Desktop Wallets**: Sparrow, Electrum (feature-rich)\n3. **Hardware Wallets**: Coldcard, BitBox02 (most secure)\n4. **Paper Wallets**: Offline generated (advanced)\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Consideration**: Choose based on your threat model - mobile wallets may be most practical, but consider hardware if saving significant amounts.\n</style>"
+        },
+        {
+          title: "Setup Process",
+          content: "### Key Steps:\n1. **Download** from official source\n2. **Generate** seed phrase (12-24 words)\n3. **Secure** backup (write down, no digital copies)\n4. **Verify** backup (test recovery)\n5. **Receive** first payment (generate address)\n\n### Security Checklist:\n- Device free from malware\n- Private environment during setup\n- Multiple backup locations\n- Understanding of recovery process\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Pro Tip**: Start with small amounts as you learn, like practicing with a new tool before serious use.\n</style>"
+        }
+      ]
+    },
+    task: "Set up a Bitcoin wallet",
+    reflection: {
+      prompt: "Write about the wallet setup experience",
+      questions: [
+        "What type did you choose and why?",
+        "What was most surprising?",
+        "What security considerations did you make?",
+        "How does it feel to control your own keys?"
+      ]
+    }
+  },
+  {
+    id: 3,
+    title: "Exchange Simulation",
+    subtitle: "Practicing Bitcoin Trading",
+    description: "Simulate trading Bitcoin in a risk-free environment, learning about order types, market dynamics, and the emotional aspects of trading. Understand why most Bitcoiners recommend holding long-term rather than active trading.",
+    objectives: [
+      "Learn basic exchange interfaces",
+      "Practice different order types",
+      "Track fictional portfolio performance",
+      "Analyze trading psychology",
+      "Understand long-term holding rationale"
+    ],
+    content: {
+      introduction: "While Bitcoin is best held as long-term savings, understanding how exchanges work is valuable for times when you need to acquire or sell bitcoin. This simulation lets you practice in a risk-free environment before using real funds.\n\nFor Africans using Bitcoin to preserve wealth against currency devaluation or to participate in global markets, judicious exchange use is often necessary, making this practice valuable despite the risks of active trading.",
+      sections: [
+        {
+          title: "Exchange Basics",
+          content: "### Key Concepts:\n1. **Order Book**: Lists of buy/sell orders\n2. **Market Price**: Current trading price\n3. **Spread**: Difference between buy/sell prices\n4. **Liquidity**: How easily large orders fill\n\n### Order Types:\n1. **Market Order**: Buy/sell immediately\n2. **Limit Order**: Set your price\n3. **Stop Loss**: Limit downside\n4. **Recurring Buy**: Dollar-cost averaging\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Reality**: Many face limited exchange options - research which serve your country and have fair KYC policies.\n</style>"
+        },
+        {
+          title: "Simulation Setup",
+          content: "### How to Simulate:\n1. Use paper trading or demo accounts\n2. Track fictional portfolio in spreadsheet\n3. Set initial fictional capital (e.g., $1000)\n4. Make trades over set period\n5. Compare to simple buy-and-hold\n\n### Tracking Metrics:\n- Portfolio value over time\n- Trade frequency\n- Emotional responses\n- Comparison to benchmarks\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Warning**: Most traders lose money - this exercise often proves how hard outperforming simple holding is.\n</style>"
+        }
+      ]
+    },
+    task: "Simulate trading BTC for ETH using fictional rates",
+    discussionPoints: [
+      "What fees did you encounter?",
+      "How did market prices affect your decisions?",
+      "What was challenging about tracking investments?",
+      "How did your performance compare to just holding?"
+    ]
+  },
+  {
+    id: 4,
+    title: "Final Reflection",
+    subtitle: "Synthesizing Your Bitcoin Journey",
+    description: "Step back and reflect on your comprehensive Bitcoin learning experience. Consider how this knowledge might shape your financial future and how you can apply Bitcoin principles to improve your economic resilience.",
+    objectives: [
+      "Synthesize key lessons learned",
+      "Project Bitcoin's role in your future",
+      "Consider African-specific applications",
+      "Identify next learning steps",
+      "Commit to ongoing Bitcoin education"
+    ],
+    content: {
+      introduction: "You've explored Bitcoin from its philosophical foundations to practical usage. Now take time to reflect on how this knowledge might transform your relationship with money and financial systems, particularly within African contexts.\n\nBitcoin represents more than technology - it's a toolkit for financial sovereignty, a hedge against instability, and a means of participating in global markets without traditional gatekeepers. How will you wield these tools?",
+      sections: [
+        {
+          title: "Looking Back",
+          content: "### Key Realizations:\n1. Bitcoin is fundamentally different from traditional money\n2. True ownership requires technical understanding\n3. Security is personal responsibility\n4. African applications are unique and important\n\n### Surprising Discoveries:\n- What challenged your assumptions?\n- What excited you most?\n- What concerns remain?\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Cultural Reflection**: How do Bitcoin's values align or conflict with your community's financial traditions?\n</style>"
+        },
+        {
+          title: "Looking Forward",
+          content: "### Personal Applications:\n1. **Savings**: Bitcoin as long-term store of value\n2. **Remittances**: Cheaper cross-border transfers\n3. **Business**: New payment options\n4. **Hedge**: Against currency instability\n\n### Next Steps:\n- Deepen technical knowledge\n- Improve security practices\n- Share with community\n- Build Bitcoin-based solutions\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Opportunity**: You're positioned at a historic inflection point - how will you help shape Bitcoin's African future?\n</style>"
+        }
+      ]
+    },
+    reflection: {
+      prompt: "How does this knowledge shape your view of Bitcoin's potential?",
+      questions: [
+        "What role might digital currencies play in your future?",
+        "How could Bitcoin address specific African challenges?",
+        "What personal changes will you make?",
+        "How will you continue learning?"
+      ]
+    }
+  }
+];
+
+export const advancedTopicsIntroduction: MissionContent = {
+  id: 0,
+  title: "Advanced Bitcoin Concepts Preview",
+  subtitle: "Your Roadmap to Mastering Bitcoin",
+  description: "This overview introduces key advanced topics you'll master in later realms. Each builds on the cryptographic foundations you've just learned, creating Bitcoin's complete system of decentralized trust.",
+  objectives: [
+    "Understand how these concepts connect to what you've learned",
+    "Recognize which realm will cover each topic in depth",
+    "See Bitcoin as an interconnected system",
+    "Prepare for deeper dives in upcoming realms"
+  ],
+  content: {
+    introduction: "Just as a baobab tree's branches all connect to its massive trunk, Bitcoin's advanced systems all grow from the cryptographic roots you've learned. This preview shows how we'll expand your knowledge through five key branches of Bitcoin mastery.",
+    sections: [
+      {
+        title: "🔐 Cryptography & Security (Realm 4)",
+        content: "You'll dive deeper into:\n\n" +
+          "• **Hash Functions**: How SHA-256 creates Bitcoin's unbreakable chain\n" +
+          "• **Elliptic Curve Magic**: The math securing your bitcoin (ECDSA)\n" +
+          "• **Digital Signatures**: Your unforgeable authorization stamp\n" +
+          "• **Multisig Vaults**: Shared control for families/businesses\n" +
+          "• **HD Wallets**: One seed to rule all your addresses (BIP32/39/44)\n\n" +
+          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
+          "**African Relevance**: Multisig enables cooperative finance models familiar in many African communities.\n" +
+          "</style>"
+      },
+      {
+        title: "🧱 Blockchain Architecture (Realm 5)",
+        content: "Explore Bitcoin's engine room:\n\n" +
+          "• **Merkle Trees**: The efficient verification backbone\n" +
+          "• **UTXO Model**: How Bitcoin tracks who owns what\n" +
+          "• **Bitcoin Script**: Simple but powerful transaction logic\n" +
+          "• **Mining Difficulty**: The self-adjusting security dial\n" +
+          "• **Orphan Blocks**: When two miners find blocks simultaneously\n\n" +
+          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
+          "**Real-World Impact**: UTXOs enable transparent auditing - valuable for NGOs and governments.\n" +
+          "</style>"
+      },
+      {
+        title: "⚙️ Network & Infrastructure (Realm 6)",
+        content: "How Bitcoin stays decentralized:\n\n" +
+          "• **Full vs Light Nodes**: Security vs convenience tradeoffs\n" +
+          "• **Proof-of-Work**: Energy as security deposit\n" +
+          "• **Gossip Protocol**: How nodes spread information\n" +
+          "• **Mining Pools**: Cooperation with centralization risks\n" +
+          "• **Mempool**: The waiting room for transactions\n\n" +
+          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
+          "**African Angle**: Light nodes enable smartphone participation where infrastructure is limited.\n" +
+          "</style>"
+      },
+      {
+        title: "⚡ Scalability & Second Layers (Realm 7)",
+        content: "Bitcoin's expansion pack:\n\n" +
+          "• **Scalability Trilemma**: Why Bitcoin chose security first\n" +
+          "• **Lightning Network**: Instant, cheap microtransactions\n" +
+          "• **SegWit**: The upgrade that fixed transaction malleability\n" +
+          "• **Taproot**: Privacy and efficiency upgrade\n" +
+          "• **Sidechains**: Experimental feature testing grounds\n\n" +
+          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
+          "**Use Case**: Lightning enables remittances for less than 1% fees across African borders.\n" +
+          "</style>"
+      },
+      {
+        title: "📊 Economics & Game Theory (Realm 8)",
+        content: "The invisible hands shaping Bitcoin:\n\n" +
+          "• **Halving Events**: Scheduled supply shocks every 4 years\n" +
+          "• **Miner Incentives**: How security stays funded\n" +
+          "• **Store of Value**: Digital gold properties\n" +
+          "• **Nash Equilibrium**: Why cheating doesn't pay\n\n" +
+          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
+          "**Local Impact**: Fixed supply protects against currency devaluation affecting many African economies.\n" +
+          "</style>"
+      },
+      {
+        title: "🏛️ Governance & Ecosystem (Realm 9)",
+        content: "How Bitcoin evolves without leaders:\n\n" +
+          "• **BIPs**: How improvements get proposed\n" +
+          "• **Soft Forks**: Backward-compatible upgrades\n" +
+          "• **Hard Forks**: Contentious chain splits\n" +
+          "• **Historical Events**: Lessons from past conflicts\n\n" +
+          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
+          "**Key Insight**: Bitcoin's governance mimics African palaver trees - open discussion but no central chief.\n" +
+          "</style>"
+      },
+      {
+        title: "📈 Adoption & Real-World Use (Realm 10)",
+        content: "Bitcoin in action:\n\n" +
+          "• **Global Regulations**: How countries approach Bitcoin\n" +
+          "• **African Solutions**: Bitcoin addressing local challenges\n" +
+          "• **Custody Choices**: From self-reliance to institutional\n" +
+          "• **Energy Debate**: Separating myths from facts\n\n" +
+          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
+          "**Fact**: Kenya and Nigeria lead Africa in peer-to-peer Bitcoin trading volume.\n" +
+          "</style>"
+      }
+    ]
+  },
+  simulationType: 'roadmap',
+  game: {
+    name: "Concept Connector",
+    description: "Match foundational concepts to their advanced applications",
+    tasks: [
+      "Pair cryptographic primitives to their real-world uses",
+      "Trace how a transaction moves through network layers",
+      "Predict how economic incentives affect behavior",
+      "Connect African use cases to technical features"
+    ],
+    reward: "Bitcoin Visionary Badge"
+  }
+};

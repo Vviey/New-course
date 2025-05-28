@@ -6,6 +6,9 @@ interface Mission {
   subtitle: string;
   description: React.ReactNode;
   contentType: 'realUseCase' | 'lightningNetwork' | 'builders' | 'tools' | 'knowledge' | 'bonus';
+  simulationType?: string;
+  simulationPath?: string;
+  quizPath?: string;
   content?: string; // Detailed educational content in HTML/Markdown format
   unlocked: boolean;
   completed: boolean;

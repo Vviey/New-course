@@ -37,24 +37,31 @@ export default function Realm3Missions() {
       setLocation('/auth');
     }
   }, [user, loading, setLocation]);
+
+  
   
   // Generate social media sharing message based on mission
   const generateSharingMessage = () => {
     if (!missionData) return '';
     
     let message = '';
+
+   
     
     switch(missionData.simulationType) {
-      case 'cryptography':
+      case 'scavenger-hunt':
         message = `🔐 Today I learned about cryptography and how it secures Bitcoin transactions. The digital money of the future relies on strong encryption! #BitcoinQuest #Cryptography`;
         break;
-      case 'hash':
+      case 'block-builder':
         message = `#️⃣ Just explored how hash functions create digital fingerprints in Bitcoin's blockchain. These one-way functions are the foundation of blockchain security! #BitcoinQuest #Blockchain`;
         break;
-      case 'merkle':
+      case 'matching-game':
         message = `🌳 Learning about Merkle Trees and how they efficiently organize data in Bitcoin's blockchain. Such an elegant data structure! #BitcoinQuest #MerkleTrees`;
         break;
-      case 'consensus':
+      case 'security-sim':
+        message = `🤝 Today I explored how Bitcoin's consensus mechanism achieves agreement without central authority. Proof-of-Work is revolutionary! #BitcoinQuest #Consensus`;
+        break;
+      case 'trivia':
         message = `🤝 Today I explored how Bitcoin's consensus mechanism achieves agreement without central authority. Proof-of-Work is revolutionary! #BitcoinQuest #Consensus`;
         break;
       default:
@@ -120,15 +127,18 @@ export default function Realm3Missions() {
           <Loader2 className="h-8 w-8 animate-spin" style={{ color: primaryColor }} />
         </div>
       }>
+         
         {(() => {
           switch(missionData.simulationType) {
-            case 'cryptography':
+            case 'scavenger-hunt':
               return <CryptographySimulator onComplete={handleChallengeComplete} />;
-            case 'hash':
+            case 'block-builder':
               return <HashingSimulator onComplete={handleChallengeComplete} />;
-            case 'merkle':
+            case 'matching-game':
               return <MerkleTreeSimulator onComplete={handleChallengeComplete} />;
-            case 'consensus':
+            case 'security-sim':
+              return <ConsensusSimulator onComplete={handleChallengeComplete} />;
+            case 'trivia':
               return <ConsensusSimulator onComplete={handleChallengeComplete} />;
             default:
               return <div className="text-center py-10" style={{ color: secondaryColor }}>

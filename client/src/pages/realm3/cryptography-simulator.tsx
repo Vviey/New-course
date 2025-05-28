@@ -74,7 +74,7 @@ export default function CryptographySimulator({ onComplete }: CryptographySimula
           <p className="text-sm mb-2" style={{ color: bioluminescentTheme.colors.secondary }}>
             <strong>Encrypted Message:</strong>
           </p>
-          <p className="font-mono text-lg mb-4 tracking-wide" style={{ color: bioluminescentTheme.colors.accent }}>
+          <p className="font-mono text-lg mb-4 tracking-wide" style={{ color: bioluminescentTheme.colors.accent1 }}>
             {currentChallenge.ciphertext}
           </p>
           <p className="text-sm italic" style={{ color: bioluminescentTheme.colors.secondary }}>

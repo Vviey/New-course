@@ -1,5 +1,26 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
+export default function ChallengeBox() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/realm4/mining-simulator'); 
+  };
+
+}
+// Types for Quiz Challenge
+export interface Question {
+  id: number;
+  text: string;
+  answers: {
+    id: number;
+    text: string;
+    isCorrect: boolean;
+    explanation?: string;
+  }[];
+  explanation?: string;
+}
 export interface MissionContent {
   id: number;
   title: string;
@@ -50,18 +71,23 @@ export const realm4Missions: MissionContent[] = [
       React.createElement('p', { className: "mb-4", key: "pow-explain" },
         "This \"proof-of-work\" is difficult to produce but easy to verify, creating an unforgeable record of transaction history."
       ),
-      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "challenge-box" }, [
-        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-orange-400", key: "challenge-title" }, "Ready for the Challenge?"),
-        React.createElement('p', { key: "challenge-desc" },
-          "In the following simulation, you'll experience the mining process firsthand. You'll adjust mining parameters, " +
-          "find valid blocks, and understand how difficulty adjustments maintain Bitcoin's steady heartbeat of one block " +
-          "approximately every 10 minutes."
-        )
+      React.createElement('div', { 
+        className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4 cursor-pointer", 
+        key: "challenge-box", 
+        onClick: () => { window.location.href = '/realm4/mining-simulator'; } 
+      }, [
+      React.createElement('h4', { 
+        className: "text-lg font-semibold mb-2 text-orange-400", 
+        key: "challenge-title" 
+      }, "Ready for the Challenge?"),
+      React.createElement('p', { 
+        key: "challenge-desc"
+      }, "In the following simulation, you'll experience the mining process firsthand. You'll adjust mining parameters, find valid blocks, and understand how difficulty adjustments maintain Bitcoin's steady heartbeat of one block approximately every 10 minutes.")
       ])
     ]),
     completionMessage: "Congratulations! You've successfully experienced the mining process and understand how proof-of-work secures the Bitcoin network."
-  },
-  {
+
+  },  {
     id: 2,
     title: "Securing the Chain",
     subtitle: "How Miners Achieve Consensus",
@@ -96,7 +122,7 @@ export const realm4Missions: MissionContent[] = [
         React.createElement('li', { key: "point2" }, "As the chain grows longer, it becomes exponentially more difficult to modify previous transactions"),
         React.createElement('li', { key: "point3" }, "With honest nodes controlling the majority of mining power, the honest chain will always outpace any attacker")
       ]),
-      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "challenge-box" }, [
+      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "challenge-box", onClick: () => { window.location.href = '/realm4/consensus-simulator'; } }, [
         React.createElement('h4', { className: "text-lg font-semibold mb-2 text-orange-400", key: "challenge-title" }, "Your Challenge"),
         React.createElement('p', { key: "challenge-desc" },
           "In the following simulation, you'll observe how Bitcoin nodes reach consensus and prevent double-spending. " +
@@ -148,7 +174,7 @@ export const realm4Missions: MissionContent[] = [
         React.createElement('li', { key: "point2" }, "They can increase consumption during periods of excess supply"),
         React.createElement('li', { key: "point3" }, "This flexibility helps balance the intermittent nature of many renewable energy sources")
       ]),
-      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "challenge-box" }, [
+      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "challenge-box", onClick: () => { window.location.href = '/realm4/energy-simulator'; } }, [
         React.createElement('h4', { className: "text-lg font-semibold mb-2 text-orange-400", key: "challenge-title" }, "Your Challenge"),
         React.createElement('p', { key: "challenge-desc" },
           "In this simulation, you'll manage a Bitcoin mining operation and make decisions about energy sources. " +
@@ -207,7 +233,7 @@ export const realm4Missions: MissionContent[] = [
         React.createElement('li', { key: "point3" }, "Nigeria and Ghana are exploring using flared natural gas for mining"),
         React.createElement('li', { key: "point4" }, "Morocco and Egypt are developing solar-powered mining operations")
       ]),
-      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "challenge-box" }, [
+      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "challenge-box", onClick: () => { window.location.href = '/realm4/africa-simulator'; }  }, [
         React.createElement('h4', { className: "text-lg font-semibold mb-2 text-orange-400", key: "challenge-title" }, "Your Challenge"),
         React.createElement('p', { key: "challenge-desc" },
           "In this simulation, you'll analyze different African countries and their energy potentials, then develop a Bitcoin " +
@@ -240,8 +266,9 @@ export const realm4Missions: MissionContent[] = [
       React.createElement('ul', { className: "list-disc ml-6 mb-4 space-y-2", key: "supply-points" }, [
         React.createElement('li', { key: "point1" }, "The initial block reward was 50 bitcoins per block"),
         React.createElement('li', { key: "point2" }, "This reward halves approximately every four years"),
-        React.createElement('li', { key: "point3" }, "The current block reward is 6.25 bitcoins (as of 2023)"),
-        React.createElement('li', { key: "point4" }, "The next halving will reduce this to 3.125 bitcoins per block"),
+        React.createElement('li', { key: "point3" }, "The last halving occured in May 2024"),
+        React.createElement('li', { key: "point3" }, "The current block reward is 3.125  bitcoins (as of 2025)"),
+        React.createElement('li', { key: "point4" }, "The next halving will reduce this to 1.5625 bitcoins per block"),
         React.createElement('li', { key: "point5" }, "This process continues until all 21 million bitcoins are mined (around the year 2140)")
       ]),
       React.createElement('h3', { className: "text-xl font-semibold mb-2 text-orange-400", key: "economics" }, "Economic Implications"),
@@ -260,7 +287,7 @@ export const realm4Missions: MissionContent[] = [
         React.createElement('li', { key: "point3" }, "Historically, Bitcoin's price has increased significantly in the 12-18 months following each halving"),
         React.createElement('li', { key: "point4" }, "Transaction fees become increasingly important as block rewards diminish")
       ]),
-      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "challenge-box" }, [
+      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "challenge-box", onClick: () => { window.location.href = '/realm4/halving-simulator'; } }, [
         React.createElement('h4', { className: "text-lg font-semibold mb-2 text-orange-400", key: "challenge-title" }, "Your Challenge"),
         React.createElement('p', { key: "challenge-desc" },
           "In this simulation, you'll experience the impact of Bitcoin halvings on mining economics and the broader market. " +
@@ -311,7 +338,7 @@ export const realm4Missions: MissionContent[] = [
         React.createElement('li', { key: "point3" }, "It establishes a monetary system with predictable issuance and fixed supply"),
         React.createElement('li', { key: "point4" }, "It provides economic opportunity and energy monetization globally")
       ]),
-      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "challenge-box" }, [
+      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "challenge-box" , onClick: () => { window.location.href = '/realm4/knowledge-simulator'; } }, [
         React.createElement('h4', { className: "text-lg font-semibold mb-2 text-orange-400", key: "challenge-title" }, "Your Challenge"),
         React.createElement('p', { key: "challenge-desc" },
           "In this final challenge, you'll answer a series of questions about Bitcoin mining, its economic implications, " +

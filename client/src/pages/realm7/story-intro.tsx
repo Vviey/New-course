@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'wouter';
 import { ChevronRightIcon } from 'lucide-react';
-import { summitTheme } from '@/lib/realm-themes';
+import { mastersTheme} from '@/lib/realm-themes';
 
 type SummitPattern = 'peaks' | 'stars' | 'wisdom';
 

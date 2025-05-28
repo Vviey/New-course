@@ -6,14 +6,18 @@ export interface MissionContent {
   description: string;
   objectives: string[];
   imagePath?: string;
-  simulationType: 'barter' | 'timeline' | 'inflation' | 'quiz' | 'map' | 'reflection' | 
-                  'roleplay' | 'privacy' | 'exclusion' | 'globalflow' | 'escape' |
+  simulationType: 'barter' | 'timeline' | 'inflation' | 'quiz' |'scavenger-hunt'| 'map' | 'reflection' | 'economic'|'governance'|
+                  'roleplay' | 'privacy' | 'exclusion' | 'globalflow' | 'escape' |'future'|'transaction'|'wallet'|
                   'cryptography' | 'hash' | 'merkle' | 'consensus' | 'network' | 'code' | 'lightning' | 'lightning-network' |
                   'miningBasics' | 'miningConsensus' | 'energyUsage' | 'africanMining' | 'miningChallenge' | 'halving' |
-                  'surveillance' | 'cbdc' | 'bitcoin' | 'selfcustody' | 'paymentprivacy';
+                  'surveillance' | 'cbdc' | 'bitcoin' | 'selfcustody' | 'paymentprivacy'|'mining' | 'consensus' | 'energy' | 'africa' | 'knowledge' | 'halving';
   simulationData?: any;
   reflectionQuestion?: string;
-  content?: string;
+  content?: string | {
+    introduction: string;
+    sections: { title: string; content: string }[];
+  };
+
   questions?: any[];
 }
 

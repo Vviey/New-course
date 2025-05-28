@@ -159,40 +159,33 @@ export default function Realm4Missions() {
             case 'mining':
               return <MiningSimulator 
                 onComplete={handleChallengeComplete}
-                theme={mountainForgeTheme}
               />;
             case 'consensus':
               return <ConsensusSimulator 
                 onComplete={handleChallengeComplete}
-                theme={mountainForgeTheme}
               />;
             case 'energy':
               return <EnergySimulator 
                 onComplete={handleChallengeComplete}
-                theme={mountainForgeTheme}
               />;
             case 'africa':
               return <AfricaSimulator 
                 onComplete={handleChallengeComplete}
-                theme={mountainForgeTheme}
               />;
             case 'knowledge':
               return <KnowledgeSimulator 
                 onComplete={handleChallengeComplete}
-                theme={mountainForgeTheme}
               />;
             case 'halving':
               return <HalvingSimulator 
                 onComplete={handleChallengeComplete}
-                theme={mountainForgeTheme}
               />;
             default:
               return <div className="text-center py-10" style={{ color: mountainForgeTheme.colors.secondary }}>
                 <p>Challenge not found for this mission type.</p>
               </div>;
           }
-        })()}
-      </Suspense>
+        })()}      </Suspense>
     );
   };
 

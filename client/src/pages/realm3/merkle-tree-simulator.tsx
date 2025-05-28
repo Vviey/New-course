@@ -59,8 +59,7 @@ export default function MerkleTreeSimulator({ onComplete }: MerkleTreeSimulatorP
       return;
     }
     
-    // Create leaf nodes from transactions
-    let nodes = includedTxs.map(tx => ({
+    let nodes: TreeNode[] = includedTxs.map(tx => ({
       hash: generateHash(tx.data),
       isLeaf: true,
       data: tx.data,
@@ -74,13 +73,13 @@ export default function MerkleTreeSimulator({ onComplete }: MerkleTreeSimulatorP
     
     // Build the tree bottom-up
     while (nodes.length > 1) {
-      const newLevel = [];
-      
+      const newLevel: TreeNode[] = [];
+    
       for (let i = 0; i < nodes.length; i += 2) {
         const leftNode = nodes[i];
         const rightNode = nodes[i + 1];
         const combinedHash = generateHash(leftNode.hash + rightNode.hash);
-        
+    
         newLevel.push({
           hash: combinedHash,
           isLeaf: false,
@@ -89,7 +88,7 @@ export default function MerkleTreeSimulator({ onComplete }: MerkleTreeSimulatorP
           highlight: false
         });
       }
-      
+    
       nodes = newLevel;
     }
     
@@ -173,7 +172,7 @@ export default function MerkleTreeSimulator({ onComplete }: MerkleTreeSimulatorP
                 >
                   <div>
                     <div className="flex items-center">
-                      <Hash className="h-4 w-4 mr-2" style={{ color: bioluminescentTheme.colors.accent }} />
+                      <Hash className="h-4 w-4 mr-2" style={{ color: bioluminescentTheme.colors.accent1 }} />
                       <span className="text-sm text-gray-300">TX{tx.id}: {tx.data}</span>
                     </div>
                     

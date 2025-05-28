@@ -25,10 +25,15 @@ const Realm1Story = lazy(() => import("@/pages/realm1/story-intro"));
 const Realm1Home = lazy(() => import("@/pages/realm1/home"));
 const Realm2Story = lazy(() => import("@/pages/realm2/story-intro"));
 const Realm2Home = lazy(() => import("@/pages/realm2/home"));
+const Realm3Story = lazy(() => import("@/pages/realm3/story-intro"));
 const Realm3Home = lazy(() => import("@/pages/realm3/home"));
+const Realm4Story = lazy(() => import("@/pages/realm4/story-intro"));
 const Realm4Home = lazy(() => import("@/pages/realm4/home"));
+const Realm5Story = lazy(() => import("@/pages/realm5/story-intro"));
 const Realm5Home = lazy(() => import("@/pages/realm5/home"));
+const Realm6Story = lazy(() => import("@/pages/realm6/story-intro"));
 const Realm6Home = lazy(() => import("@/pages/realm6/home"));
+const Realm7Story = lazy(() => import("@/pages/realm7/story-intro"));
 const Realm7Home = lazy(() => import("@/pages/realm7/home"));
 
 // Router wrapper to handle navigation
@@ -99,26 +104,37 @@ function App() {
           
           {/* Realm 2 home */}
           <Route path="/realm/2/story" component={Realm2Story} />
+          <Route path="/realm/2/home" component={Realm2Home} />
           <Route path="/realm/2" component={Realm2Home} />
           <Route path="/realm2" component={Realm2Home} />
           
           {/* Realm 3 home */}
+          <Route path="/realm/3/story" component={Realm3Story} />
+          <Route path="/realm/3/home" component={Realm3Home} />
           <Route path="/realm/3" component={Realm3Home} />
           <Route path="/realm3" component={Realm3Home} />
           
           {/* Realm 4 home */}
+          <Route path="/realm/4/story" component={Realm4Story} />
+          <Route path="/realm/4/home" component={Realm4Home} />
           <Route path="/realm/4" component={Realm4Home} />
           <Route path="/realm4" component={Realm4Home} />
           
           {/* Realm 5 home */}
+          <Route path="/realm/5/story" component={Realm5Story} />
+          <Route path="/realm/5/home" component={Realm5Home} />
           <Route path="/realm/5" component={Realm5Home} />
           <Route path="/realm5" component={Realm5Home} />
           
           {/* Realm 6 home */}
+          <Route path="/realm/6/story" component={Realm6Story} />
+          <Route path="/realm/6/home" component={Realm6Home} />
           <Route path="/realm/6" component={Realm6Home} />
           <Route path="/realm6" component={Realm6Home} />
           
           {/* Realm 7 home */}
+          <Route path="/realm/7/story" component={Realm7Story} />
+          <Route path="/realm/7/home" component={Realm7Home} />
           <Route path="/realm/7" component={Realm7Home} />
           <Route path="/realm7" component={Realm7Home} />
           
@@ -129,7 +145,7 @@ function App() {
           <Route path="/realm/:realmId/mission/:missionId" component={MissionWrapper} />
           <Route path="/realm/:realmId/missions/:missionId" component={MissionWrapper} />
           
-          {/* Special case for Realm 3 with numbered format */}
+          {/*Special case for Realm 3 with numbered format*/}
           <Route path="/realm/3/mission/:missionId" component={lazy(() => import("@/pages/realm3/mission-wrapper"))} />
           
           {/* Special case for Realm 7 with numbered format */}
@@ -138,7 +154,8 @@ function App() {
           {/* Alternative mission route patterns for backwards compatibility */}
           <Route path="/realm1/mission/:missionId" component={MissionWrapper} />
           <Route path="/realm2/mission/:missionId" component={MissionWrapper} />
-          {/* Use custom wrapper for Realm 3 to fix loading issues */}
+          <Route path="/realm3/mission/:missionId" component={MissionWrapper} />
+          {/* Use custom wrapper for Realm 3 to fix loading issues*/}
           <Route path="/realm3/mission/:missionId" component={lazy(() => import("@/pages/realm3/mission-wrapper"))} />
           {/* Use custom wrapper for Realm 4 because it has conflicting mission file structure */}
           <Route path="/realm4/mission/:missionId" component={lazy(() => import("@/pages/realm4/mission-wrapper"))} />

@@ -456,63 +456,145 @@ Transaction {
     unlocked: true,
     completed: false
   },
-  {
-    id: 4,
-    title: "The Final Challenge",
-    subtitle: "Putting It All Together",
-    description: React.createElement("div", { className: "space-y-4" },
-      React.createElement("p", null, 
-        "Face a comprehensive challenge that tests your complete Bitcoin knowledge."
-      )
-    ),
-    simulationType: "final",
-    content: `
-      <div class="final-challenge space-y-6">
-        <section class="challenge-intro">
-          <h3 class="text-xl font-bold mb-4">The Ultimate Bitcoin Challenge</h3>
-          <p class="mb-4">You are tasked with designing a Bitcoin-based financial system for a community of 10,000 people in rural Tanzania.</p>
 
-          <div class="requirements space-y-4">
-            <h4 class="font-semibold">System Requirements:</h4>
+  {
+  id: 4,
+  title: "The Final Challenge",
+  subtitle: "Putting It All Together",
+  description: React.createElement("div", { className: "space-y-4" },
+    React.createElement("p", null, 
+      "Face a comprehensive challenge that tests your complete Bitcoin knowledge."
+    )
+  ),
+  simulationType: "final",
+  content: `
+    <div class="final-challenge space-y-6">
+      <section class="challenge-intro">
+        <h3 class="text-xl font-bold mb-4">The Ultimate Bitcoin Challenge</h3>
+        <p class="mb-4">You are tasked with designing a Bitcoin-based financial system for a community of 10,000 people in rural Tanzania.</p>
+
+        <div class="requirements space-y-4">
+          <h4 class="font-semibold">System Requirements:</h4>
+          <ul class="list-disc pl-5">
+            <li>Accessible to users without smartphones</li>
+            <li>Functional with intermittent internet</li>
+            <li>Secure against common threats</li>
+            <li>Scalable to neighboring communities</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="challenge-components mt-8">
+        <h4 class="font-semibold mb-4">Design Components:</h4>
+
+        <div class="component-grid grid grid-cols-2 gap-4">
+          <div class="component-card p-4 bg-gray-800 rounded-lg">
+            <h5 class="font-semibold">Infrastructure</h5>
             <ul class="list-disc pl-5">
-              <li>Accessible to users without smartphones</li>
-              <li>Functional with intermittent internet</li>
-              <li>Secure against common threats</li>
-              <li>Scalable to neighboring communities</li>
+              <li>Mesh network setup</li>
+              <li>Local full nodes</li>
+              <li>Backup power systems</li>
             </ul>
           </div>
-        </section>
 
-        <section class="challenge-components mt-8">
-          <h4 class="font-semibold mb-4">Design Components:</h4>
-
-          <div class="component-grid grid grid-cols-2 gap-4">
-            <div class="component-card p-4 bg-gray-800 rounded-lg">
-              <h5 class="font-semibold">Infrastructure</h5>
-              <ul class="list-disc pl-5">
-                <li>Mesh network setup</li>
-                <li>Local full nodes</li>
-                <li>Backup power systems</li>
-              </ul>
-            </div>
-
-            <div class="component-card p-4 bg-gray-800 rounded-lg">
-              <h5 class="font-semibold">User Interface</h5>
-              <ul class="list-disc pl-5">
-                <li>USSD integration</li>
-                <li>Paper wallet system</li>
-                <li>Community training program</li>
-              </ul>
-            </div>
+          <div class="component-card p-4 bg-gray-800 rounded-lg">
+            <h5 class="font-semibold">User Interface</h5>
+            <ul class="list-disc pl-5">
+              <li>USSD integration</li>
+              <li>Paper wallet system</li>
+              <li>Community training program</li>
+            </ul>
           </div>
-        </section>
-      </div>
-    `,
-    contentType: 'final',
-    unlocked: true,
-    completed: false
-  },
-  {
+        </div>
+      </section>
+
+      <section class="final-quiz mt-12">
+        <h3 class="text-xl font-bold mb-4">🧠 The Bitcoin Mastery Quiz</h3>
+        <p class="mb-4">Here’s a set of <strong>84 Bitcoin-related questions</strong> divided into <strong>four categories</strong> — <strong>Basic</strong>, <strong>Non-Technical</strong>, <strong>Technical</strong>, and <strong>Comprehensive</strong>. Each section has <strong>21 questions</strong>, and formats vary between <strong>multiple choice</strong> and <strong>input answers</strong> for variety and testing depth.</p>
+
+        <!-- INSERTED: The full 84-question block exactly as you provided -->
+        <div class="quiz-content space-y-4 text-sm text-white">
+          <div class="category"><h4 class="font-semibold text-lg">🔰 21 BASIC QUESTIONS (Beginner Level)</h4><ol class="list-decimal pl-5 space-y-1">
+            <li><strong>What is Bitcoin?</strong><br/>✅ Answer: b</li>
+            <li><strong>Who invented Bitcoin?</strong><br/>✅ Answer: c</li>
+            <li><strong>What year was Bitcoin launched?</strong><br/>✅ Answer: c</li>
+            <li><strong>Is Bitcoin controlled by any government or company?</strong><br/>✅ Answer: b</li>
+            <li><strong>What is the maximum number of Bitcoins that can ever exist?</strong><br/>✅ Answer: b</li>
+            <li><strong>Bitcoin transactions are stored on a:</strong><br/>✅ Answer: b</li>
+            <li><strong>True or False: You can reverse a Bitcoin transaction.</strong><br/>✅ Answer: False</li>
+            <li><strong>What is the smallest unit of Bitcoin called?</strong><br/>✅ Answer: c</li>
+            <li><strong>Which of these is NOT a use case of Bitcoin?</strong><br/>✅ Answer: c</li>
+            <li><strong>What do we call people who verify transactions on the Bitcoin network?</strong><br/>✅ Answer: c</li>
+            <li><strong>Bitcoin is most similar to:</strong><br/>✅ Answer: c</li>
+            <li><strong>What device can store your Bitcoin keys offline?</strong><br/>✅ Answer: c</li>
+            <li><strong>What does “HODL” mean in Bitcoin culture?</strong><br/>✅ Answer (input): Hold on for dear life</li>
+            <li><strong>Fill in the blank: Bitcoin operates on a _____ network.</strong><br/>✅ Answer: decentralized</li>
+            <li><strong>What is a Bitcoin wallet?</strong><br/>✅ Answer: c</li>
+            <li><strong>Bitcoin was first proposed through:</strong><br/>✅ Answer: c</li>
+            <li><strong>Which of these is a popular Bitcoin wallet?</strong><br/>✅ Answer: b</li>
+            <li><strong>Is Bitcoin anonymous?</strong><br/>✅ Answer: c</li>
+            <li><strong>Bitcoin helps protect savings from:</strong><br/>✅ Answer: b</li>
+            <li><strong>What can you use to check Bitcoin’s price?</strong><br/>✅ Answer: b</li>
+            <li><strong>True or False: Bitcoin is the only cryptocurrency.</strong><br/>✅ Answer: False</li>
+          </ol></div>
+
+          <div class="category"><h4 class="font-semibold text-lg">💡 21 NON-TECHNICAL QUESTIONS (Economics/Philosophy)</h4><ol class="list-decimal pl-5 space-y-1">
+            <li><strong>What problem was Bitcoin created to solve?</strong><br/>✅ Answer: b</li>
+            <li><strong>What is inflation?</strong><br/>✅ Answer (input): A decrease in money’s purchasing power over time</li>
+            <li><strong>What gives Bitcoin value?</strong><br/>✅ Answer: b</li>
+            <li><strong>Who controls the supply of Bitcoin?</strong><br/>✅ Answer: The network protocol / algorithm</li>
+            <li><strong>Which country made Bitcoin legal tender in 2021?</strong><br/>✅ Answer: b</li>
+            <li><strong>True or False: You need a bank to own Bitcoin.</strong><br/>✅ Answer: False</li>
+            <li><strong>Bitcoin is often compared to which metal?</strong><br/>✅ Answer: Gold</li>
+            <li><strong>What does “permissionless” mean in Bitcoin?</strong><br/>✅ Answer: Anyone can use it without approval</li>
+            <li><strong>Which of these is a risk of fiat money?</strong><br/>✅ Answer: b</li>
+            <li><strong>Why might someone in Africa choose Bitcoin over a local bank?</strong><br/>✅ Answer: To avoid fees, currency depreciation, or access limitations</li>
+            <li><strong>What does 'sovereign money' mean?</strong><br/>✅ Answer: Money you control without third-party approval</li>
+            <li><strong>Can Bitcoin support freedom of speech?</strong><br/>✅ Answer: Yes, by enabling financial expression</li>
+            <li><strong>Bitcoin’s supply is programmed to halve every:</strong><br/>✅ Answer: 4 years</li>
+            <li><strong>What does “censorship-resistant” mean?</strong><br/>✅ Answer: Transactions cannot be blocked or reversed by authorities</li>
+            <li><strong>Bitcoin adoption is often higher in:</strong><br/>✅ Answer: b</li>
+            <li><strong>Bitcoin can help the unbanked because:</strong><br/>✅ Answer: It doesn’t require a bank account to use</li>
+            <li><strong>The phrase “Not your keys, not your coins” means:</strong><br/>✅ Answer: If you don’t control your private keys, you don’t control your Bitcoin</li>
+            <li><strong>Bitcoin mining mimics what natural process?</strong><br/>✅ Answer: Gold mining</li>
+            <li><strong>Which of these is most limited in supply?</strong><br/>✅ Answer: b</li>
+            <li><strong>What is a Bitcoin “public address”?</strong><br/>✅ Answer: Like a bank account number used to receive funds</li>
+            <li><strong>Bitcoin can challenge what form of government overreach?</strong><br/>✅ Answer: Financial surveillance and currency control</li>
+          </ol></div>
+
+          <div class="category"><h4 class="font-semibold text-lg">⚙️ 21 TECHNICAL QUESTIONS (Protocol, Mining, Code)</h4><ol class="list-decimal pl-5 space-y-1">
+            <li><strong>Bitcoin uses which consensus algorithm?</strong><br/>✅ Answer: Proof of Work</li>
+            <li><strong>What is the average time to mine one block?</strong><br/>✅ Answer: 10 minutes</li>
+            <li><strong>Which hashing function does Bitcoin use?</strong><br/>✅ Answer: SHA-256</li>
+            <li><strong>Bitcoin block reward started at:</strong><br/>✅ Answer: 50 BTC</li>
+            <li><strong>What is the current block size limit (approx)?</strong><br/>✅ Answer: 1 MB</li>
+            <li><strong>What is a UTXO?</strong><br/>✅ Answer: Unspent Transaction Output</li>
+            <li><strong>What is a mempool?</strong><br/>✅ Answer: A waiting area for unconfirmed transactions</li>
+            <li><strong>What happens during a halving event?</strong><br/>✅ Answer: Block reward is cut in half</li>
+            <li><strong>Which scripting language does Bitcoin use?</strong><br/>✅ Answer: Bitcoin Script</li>
+            <li><strong>True or False: Bitcoin scripts are Turing-complete.</strong><br/>✅ Answer: False</li>
+            <li><strong>What is SegWit?</strong><br/>✅ Answer: A soft fork that separates signature data to reduce block size</li>
+            <li><strong>Bitcoin addresses can begin with:</strong><br/>✅ Answer: a</li>
+            <li><strong>What is a node in Bitcoin?</strong><br/>✅ Answer: A computer that enforces protocol rules and relays transactions</li>
+            <li><strong>How many confirmations are recommended for large payments?</strong><br/>✅ Answer: 6</li>
+            <li><strong>What is the Bitcoin difficulty adjustment?</strong><br/>✅ Answer: A recalibration of mining difficulty every 2016 blocks</li>
+            <li><strong>What is the genesis block?</strong><br/>✅ Answer: The first block in the Bitcoin blockchain</li>
+            <li><strong>What is a double spend?</strong><br/>✅ Answer: Trying to spend the same Bitcoin twice</li>
+            <li><strong>What is OP_RETURN used for?</strong><br/>✅ Answer: Storing small pieces of data on-chain</li>
+            <li><strong>Lightning Network is built on Bitcoin to:</strong><br/>✅ Answer: Enable faster, cheaper transactions</li>
+            <li><strong>What is an SPV wallet?</strong><br/>✅ Answer: A wallet that uses simplified payment verification</li>
+            <li><strong>What is a miner fee?</strong><br/>✅ Answer: A small fee paid to incentivize miners to confirm transactions</li>
+          </ol></div>
+        </div>
+      </section>
+    </div>
+  `,
+  contentType: 'final',
+  unlocked: true,
+  completed: false
+},
+
+    {
     id: 5,
     title: "Journey's End",
     subtitle: "Your Bitcoin Certification",

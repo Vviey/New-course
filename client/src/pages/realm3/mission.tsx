@@ -25,7 +25,7 @@ export default function MissionPage() {
     
     // Find mission by ID directly (now all mission IDs are consistent: 1, 2, 3, 4, etc.)
     const foundMission = realm3Missions.find(m => m.id === missionId);
-    setMission(foundMission || null);
+    // setMission(foundMission || null);
     
     if (!foundMission) {
       console.error(`Mission not found in realm3-missions data. Tried ID ${missionId}`);
@@ -50,8 +50,8 @@ export default function MissionPage() {
             <Button 
               className="inline-flex items-center"
               style={{
-                background: bioluminescentTheme.colors.primary,
-                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
+                background: bioluminescentTheme.colors.primary
+                
               }}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -89,8 +89,7 @@ export default function MissionPage() {
                   <Button
                     className="w-full sm:w-auto"
                     style={{
-                      background: `linear-gradient(to right, ${bioluminescentTheme.colors.primary}, ${bioluminescentTheme.colors.secondary})`,
-                      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
+                      background: `linear-gradient(to right, ${bioluminescentTheme.colors.primary}, ${bioluminescentTheme.colors.secondary})`
                     }}
                   >
                     Next Mission
@@ -113,7 +112,7 @@ export default function MissionPage() {
                     className="w-full sm:w-auto"
                     style={{
                       background: `linear-gradient(to right, ${bioluminescentTheme.colors.primary}, ${bioluminescentTheme.colors.secondary})`,
-                      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
+                      
                     }}
                   >
                     Return to Map

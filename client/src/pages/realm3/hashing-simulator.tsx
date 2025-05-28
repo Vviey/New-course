@@ -21,7 +21,7 @@ export default function HashingSimulator({ onComplete }: HashingSimulatorProps) 
   const simulateHash = (text: string) => {
     // This is a simplified hash function for demo purposes only
     // It creates a predictable but unique-ish string based on input
-    // DO NOT use this for actual cryptography
+    
     let hash = 0;
     for (let i = 0; i < text.length; i++) {
       const char = text.charCodeAt(i);

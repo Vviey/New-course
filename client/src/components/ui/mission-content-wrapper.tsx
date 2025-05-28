@@ -156,9 +156,11 @@ export function MissionContentWrapper({
             </div>
 
             {/* Content container */}
-            <div className="bg-black/20 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+            
+            <div>
               {children}
             </div>
+            
           </motion.div>
         </div>
       </div>

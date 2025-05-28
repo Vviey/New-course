@@ -80,7 +80,7 @@ export default function MissionWrapper() {
     const realmNum = Number(realmId);
     
     // For realms 1-3, use prefixed IDs
-    if (realmNum >= 1 && realmNum <= 3) {
+    if (realmNum >= 1 && realmNum <= 2) {
       idToUse = realmNum * 100 + Number(missionId);
     }
     

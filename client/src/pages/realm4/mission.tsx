@@ -196,7 +196,7 @@ export default function MissionPage() {
                 subtitle: mission.subtitle || "Bitcoin mining mechanics and technology",
                 description: "Explore Bitcoin mining and its technology",
                 objectives: ["Learn about proof-of-work mining", "Understand mining difficulty", "Complete the interactive simulation"],
-                simulationType: "quiz",
+                simulationType: "mining",
                 content: typeof mission.content === 'string' 
                   ? mission.content 
                   : typeof mission.content === 'object' && mission.content !== null

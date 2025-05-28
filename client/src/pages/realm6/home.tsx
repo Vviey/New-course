@@ -148,6 +148,71 @@ export default function Realm6Home() {
             </div>
           </a>
         </div>
+
+        {/* Realm description */}
+        <div 
+          className="mt-12 backdrop-blur-md bg-black/60 p-6 rounded-xl border shadow-xl"
+          style={{ borderColor: `${ubuntuTheme.colors.primary}40` }}
+        >
+          <h2 className="text-2xl font-bold mb-4" style={{ color: ubuntuTheme.colors.primary }}>
+            About {getRealmName(6)}
+          </h2>
+          
+          <div className="text-gray-300 space-y-4">
+            <p>
+              "I am because we are" — this is the essence of Ubuntu, the African philosophy that 
+              emphasizes our interconnectedness and shared humanity. {getRealmName(6)} represents 
+              how Bitcoin is being used across Africa to strengthen communities and create new opportunities.
+            </p>
+            
+            <p>
+              In this realm, you'll discover real stories of everyday Africans using Bitcoin to 
+              overcome challenges and build a better future. From remittances and savings to education 
+              funding and business payments, Bitcoin is providing practical solutions tailored to 
+              African needs.
+            </p>
+            
+            <p>
+              The vibrant colors of this realm symbolize the diverse cultures and innovations 
+              flourishing across the continent, united by the common goal of financial empowerment 
+              through Bitcoin.
+            </p>
+          </div>
+          
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-black/40 p-4 rounded-lg border border-rose-900/30">
+              <h3 className="font-medium text-rose-400 mb-2">What You'll Learn</h3>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• Real Bitcoin use cases from across Africa</li>
+                <li>• How Lightning Network enables borderless payments</li>
+                <li>• African Bitcoin builders and their innovations</li>
+                <li>• Practical tools and wallets adapted for African users</li>
+                <li>• How to develop your own Bitcoin project ideas</li>
+              </ul>
+            </div>
+            
+            <div className="bg-black/40 p-4 rounded-lg border border-rose-900/30">
+              <h3 className="font-medium text-rose-400 mb-2">Ubuntu Principles</h3>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• Community: Building together for mutual benefit</li>
+                <li>• Empowerment: Enabling financial sovereignty</li>
+                <li>• Inclusivity: Making Bitcoin accessible to all</li>
+                <li>• Resilience: Creating robust economic systems</li>
+                <li>• Innovation: African solutions for African challenges</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        {/* Navigation buttons */}
+        <div className="mt-10 flex justify-center">
+          <button
+            onClick={() => setLocation('/journey')}
+            className="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+          >
+            Return to Journey
+          </button>
+        </div>
         
         {/* Missions grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -217,70 +282,7 @@ export default function Realm6Home() {
           ))}
         </div>
         
-        {/* Realm description */}
-        <div 
-          className="mt-12 backdrop-blur-md bg-black/60 p-6 rounded-xl border shadow-xl"
-          style={{ borderColor: `${ubuntuTheme.colors.primary}40` }}
-        >
-          <h2 className="text-2xl font-bold mb-4" style={{ color: ubuntuTheme.colors.primary }}>
-            About {getRealmName(6)}
-          </h2>
-          
-          <div className="text-gray-300 space-y-4">
-            <p>
-              "I am because we are" — this is the essence of Ubuntu, the African philosophy that 
-              emphasizes our interconnectedness and shared humanity. {getRealmName(6)} represents 
-              how Bitcoin is being used across Africa to strengthen communities and create new opportunities.
-            </p>
-            
-            <p>
-              In this realm, you'll discover real stories of everyday Africans using Bitcoin to 
-              overcome challenges and build a better future. From remittances and savings to education 
-              funding and business payments, Bitcoin is providing practical solutions tailored to 
-              African needs.
-            </p>
-            
-            <p>
-              The vibrant colors of this realm symbolize the diverse cultures and innovations 
-              flourishing across the continent, united by the common goal of financial empowerment 
-              through Bitcoin.
-            </p>
-          </div>
-          
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-black/40 p-4 rounded-lg border border-rose-900/30">
-              <h3 className="font-medium text-rose-400 mb-2">What You'll Learn</h3>
-              <ul className="text-sm text-gray-300 space-y-1">
-                <li>• Real Bitcoin use cases from across Africa</li>
-                <li>• How Lightning Network enables borderless payments</li>
-                <li>• African Bitcoin builders and their innovations</li>
-                <li>• Practical tools and wallets adapted for African users</li>
-                <li>• How to develop your own Bitcoin project ideas</li>
-              </ul>
-            </div>
-            
-            <div className="bg-black/40 p-4 rounded-lg border border-rose-900/30">
-              <h3 className="font-medium text-rose-400 mb-2">Ubuntu Principles</h3>
-              <ul className="text-sm text-gray-300 space-y-1">
-                <li>• Community: Building together for mutual benefit</li>
-                <li>• Empowerment: Enabling financial sovereignty</li>
-                <li>• Inclusivity: Making Bitcoin accessible to all</li>
-                <li>• Resilience: Creating robust economic systems</li>
-                <li>• Innovation: African solutions for African challenges</li>
-              </ul>
-            </div>
-          </div>
-        </div>
         
-        {/* Navigation buttons */}
-        <div className="mt-10 flex justify-center">
-          <button
-            onClick={() => setLocation('/journey')}
-            className="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
-          >
-            Return to Journey
-          </button>
-        </div>
       </div>
     </div>
   );

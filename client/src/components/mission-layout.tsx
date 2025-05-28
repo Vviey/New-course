@@ -74,7 +74,7 @@ export default function MissionLayout({
         </div>
         
         {/* Mission content */}
-        <div className="bg-stone-900/50 rounded-xl p-6 max-w-4xl mx-auto">
+        <div className="w-full">
           {children}
         </div>
       </div>

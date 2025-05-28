@@ -133,8 +133,8 @@ export default function Realm2Missions() {
               return <PrivacyBalanceSimulator onComplete={handleChallengeComplete} />;
             case 'cbdc':
               return <CBDCSimulator onComplete={handleChallengeComplete} />;
-            case 'bitcoin':
-              return <BitcoinTransparencyExplorer onComplete={handleChallengeComplete} />;
+            // case 'bitcoin':
+            //   return <BitcoinTransparencyExplorer onComplete={handleChallengeComplete} />;
             case 'lightning':
               return <LightningNetworkSimulator onComplete={handleChallengeComplete} />;
             case 'selfcustody':

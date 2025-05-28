@@ -2,6 +2,7 @@ export interface RealmTheme {
   id: number;
   name: string;
   colors: {
+    lightText: string;
     primary: string;
     secondary: string;
     background: string;
@@ -57,53 +58,21 @@ export const originTheme: RealmTheme = {
     secondary: "#FFC567", // Secondary/golden accent
     background: "#3E1E00", // Deep brown background
     backgroundLight: "#70350A", // Lighter brown
-    cardBackground: "#FBF4D2", // Cream/parchment background for cards
+    cardBackground: "transparent", // Cream/parchment background for cards
     textDark: "#3E1E00", // Dark text color
     textLight: "#FBF4D2", // Light text color
     accent1: "#EB5A00", // Additional accent
     accent2: "#DB9D47", // Additional accent
-    primaryAccent: "#EE720B",    // Sunset Orange
-    darkText: "#3A2E00",         // Deep Earth Brown
-    secondaryAccent: "#B34700",  // Terracotta Clay Red
-    softContrast: "#31456A",     // Muted Indigo / Night Sky Blue
-    gradientStart: "#B34700",    // Terracotta gradient start
-    gradientEnd: "#EE720B",      // Sunset Orange gradient end
-  },
-  patterns: {
-    // CSS pattern for use in backgrounds
-    adinkra: `repeating-linear-gradient(
-      45deg,
-      rgba(238, 114, 11, 0.1),
-      rgba(238, 114, 11, 0.1) 10px,
-      rgba(238, 114, 11, 0.2) 10px,
-      rgba(238, 114, 11, 0.2) 20px
-    )`,
-  },
-  // Gradients for use in components
-  gradients: {
-    sunset: "linear-gradient(to right, #EE720B, #FFC567)",
-    sand: "linear-gradient(to bottom, #FBF4D2, #F7E8A4)",
-  },
-  shadows: {
-    // Shadow styles
-    card: "0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1)",
-    button: "0 2px 4px rgba(238, 114, 11, 0.3)",
-  },
-  // Animation properties
-  animations: {
-    glow: "pulse 2s infinite",
-  },
-  // Border radius styles
-  borderRadius: {
-    small: "0.375rem",
-    default: "0.5rem",
-    large: "1rem",
-    full: "9999px",
-  },
-  patternClass: "origins-pattern",
-  backgroundTexture: "url('/textures/woven-pattern.svg')"
+    primaryAccent: "#EE720B", // Sunset Orange
+    darkText: "#3A2E00", // Deep Earth Brown
+    gradientStart: "#B34700", // Terracotta gradient start
+    gradientEnd: "#EE720B",
+    lightText: "000000"
+  },  
+  
+  patternClass: "utility-pattern",
+  backgroundTexture: "url('/textures/village-pattern.svg')"
 };
-
 // Central Citadel Theme
 export const centralbankTheme: RealmTheme = {
   id: 2,
@@ -118,6 +87,7 @@ export const centralbankTheme: RealmTheme = {
     textLight: "#F0F7FF",
     accent1: "#0076CE",
     accent2: "#00A6ED",
+    lightText: "000000",
     gradientStart: "#00243F",
     gradientEnd: "#003E70"
   },
@@ -151,6 +121,7 @@ export const cryptographyTheme: RealmTheme = {
     textLight: "#F0FFF9",
     accent1: "#46D1A2",
     accent2: "#16FFBD",
+    lightText: "000000",
     gradientStart: "#0D3D29",
     gradientEnd: "#165E40"
   },
@@ -200,6 +171,7 @@ export const miningTheme: RealmTheme = {
     accent1: "#FFD966",
     accent2: "#FFC700",
     gradientStart: "#3A2A00",
+    lightText: "000000",
     gradientEnd: "#725400"
   },
   patternClass: "mining-pattern",
@@ -219,6 +191,7 @@ export const governanceTheme: RealmTheme = {
     textDark: "#42184A",
     textLight: "#FCF0FD",
     accent1: "#C461CC",
+    lightText: "000000",
     accent2: "#FF73FF",
     gradientStart: "#42184A",
     gradientEnd: "#6C3078"
@@ -239,6 +212,7 @@ export const utilityTheme: RealmTheme = {
     cardBackground: "#FFF0EC",
     textDark: "#541400",
     textLight: "#FFF0EC",
+    lightText: "000000",
     accent1: "#FF6D4D",
     accent2: "#FF9B85",
     gradientStart: "#541400",
@@ -259,6 +233,7 @@ export const mastersTheme: RealmTheme = {
     backgroundLight: "#193F80",
     cardBackground: "#ECF3FF",
     textDark: "#122C59",
+    lightText: "000000",
     textLight: "#ECF3FF",
     accent1: "#6695F2",
     accent2: "#99BDFF",

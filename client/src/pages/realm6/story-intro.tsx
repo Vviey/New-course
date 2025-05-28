@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'wouter';
 import { ChevronRightIcon } from 'lucide-react';
-import { ubuntuTheme } from '@/lib/realm-themes';
+import { utilityTheme } from '@/lib/realm-themes';
 
 type UbuntuPattern = 'network' | 'community' | 'growth';
 

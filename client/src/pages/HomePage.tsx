@@ -16,10 +16,8 @@ export default function HomePage() {
   const handleRealmClick = (realmId: number, isLocked: boolean) => {
     if (!isLocked) {
       // For Realm 1, go directly to the story introduction
-      if (realmId === 1) {
-        setLocation('/realm/1/story');
-      } else {
-        setLocation(`/realm/${realmId}`);
+      if (realmId) {  // Ensure realmId exists
+        setLocation(`/realm/${realmId}/story`);  // Always go to story first
       }
     }
   };
@@ -55,8 +53,8 @@ export default function HomePage() {
       </header>
       
       <div className="pt-8 pb-4 px-6">
-        <h1 className="text-4xl font-semibold mb-2">Welcome Back, Learner!</h1>
-        <p className="text-amber-200 mb-8">Continue your journey through the history of money</p>
+        <h1 className="text-4xl font-semibold mb-2">Welcome Learner!</h1>
+        <p className="text-amber-200 mb-8">Lets continue you depp dive into the realm of money . Be sure</p>
         
         <div className="bg-amber-900/30 border border-amber-700/30 rounded-xl p-4 mb-8 flex items-center">
           <div className="mr-4 bg-amber-800/50 rounded-full p-3">
@@ -76,7 +74,7 @@ export default function HomePage() {
             className="ml-auto bg-amber-600 hover:bg-amber-500 text-white py-2 px-4 rounded-lg shadow-md transition-colors"
             onClick={() => currentRealm > 1 ? 
               setLocation(`/realm/${currentRealm}`) : 
-              setLocation('/realm/1/story')}
+              setLocation('/map')}
           >
             Continue
           </button>
