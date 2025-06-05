@@ -1,8 +1,9 @@
 import React from 'react';
 import { useLocation } from 'wouter';
-import { ChevronLeft, ChevronRight, Home, Map, BookOpen } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Home, Map, BookOpen, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getRealmTheme } from '@/lib/realm-themes';
+import { getTotalMissionsForRealm, getMissionTitle, getNextRealmInfo, getRealmName } from '@/lib/realm-utils';
 
 interface MissionNavigationProps {
   realmId: number;
@@ -14,26 +15,36 @@ interface MissionNavigationProps {
   showMapButton?: boolean;
   showProgress?: boolean;
   className?: string;
+  enableCrossRealmNavigation?: boolean;
 }
 
 export function MissionNavigation({
   realmId,
   missionId,
-  totalMissions = 1,
+  totalMissions,
   progress = 0,
-  title = '',
+  title,
   showHomeButton = true,
   showMapButton = true,
   showProgress = true,
   className = '',
+  enableCrossRealmNavigation = true,
 }: MissionNavigationProps) {
   const [, setLocation] = useLocation();
   const realmTheme = getRealmTheme(realmId);
 
-  // Ensure the mission ID is within bounds
+  // Get actual mission count from realm data if not provided
+  const actualTotalMissions = totalMissions || getTotalMissionsForRealm(realmId);
   const currentMission = missionId || 1;
+  const actualTitle = title || getMissionTitle(realmId, currentMission);
+  
+  // Navigation logic
   const hasPrevious = currentMission > 1;
-  const hasNext = currentMission < totalMissions;
+  const hasNext = currentMission < actualTotalMissions;
+  
+  // Cross-realm navigation
+  const nextRealmInfo = getNextRealmInfo(realmId, currentMission);
+  const canGoToNextRealm = enableCrossRealmNavigation && !hasNext && nextRealmInfo.hasNextRealm;
 
   // Navigation handlers
   const goToPreviousMission = () => {
@@ -45,6 +56,12 @@ export function MissionNavigation({
   const goToNextMission = () => {
     if (hasNext) {
       setLocation(`/realm/${realmId}/mission/${currentMission + 1}`);
+    }
+  };
+
+  const goToNextRealm = () => {
+    if (canGoToNextRealm && nextRealmInfo.nextRealmId && nextRealmInfo.nextMissionId) {
+      setLocation(`/realm/${nextRealmInfo.nextRealmId}/mission/${nextRealmInfo.nextMissionId}`);
     }
   };
 
@@ -123,9 +140,9 @@ export function MissionNavigation({
           </div>
 
           {/* Mission progress text */}
-          {missionId && totalMissions > 1 && (
+          {missionId && actualTotalMissions > 1 && (
             <div className="text-sm font-medium" style={{ color: secondaryColor }}>
-              Mission {missionId} of {totalMissions}
+              Mission {currentMission} of {actualTotalMissions}
             </div>
           )}
         </div>
@@ -147,7 +164,7 @@ export function MissionNavigation({
         )}
 
         {/* Bottom row with previous/next buttons */}
-        {missionId && totalMissions > 1 && (
+        {missionId && actualTotalMissions > 1 && (
           <div className="flex justify-between items-center mt-1">
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -166,22 +183,49 @@ export function MissionNavigation({
               <span>Previous</span>
             </motion.button>
 
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={goToNextMission}
-              disabled={!hasNext}
-              className={`flex items-center gap-1 px-3 py-1 rounded-md transition-colors ${
-                hasNext ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
-              }`}
-              style={{
-                backgroundColor: hasNext ? `${primaryColor}30` : 'transparent',
-                color: hasNext ? primaryColor : `${primaryColor}60`,
-              }}
-            >
-              <span>Next</span>
-              <ChevronRight size={16} />
-            </motion.button>
+            {/* Next Mission or Next Realm Button */}
+            {hasNext ? (
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={goToNextMission}
+                className="flex items-center gap-1 px-3 py-1 rounded-md transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: `${primaryColor}30`,
+                  color: primaryColor,
+                }}
+              >
+                <span>Next</span>
+                <ChevronRight size={16} />
+              </motion.button>
+            ) : canGoToNextRealm ? (
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={goToNextRealm}
+                className="flex items-center gap-1 px-3 py-1 rounded-md transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: `${primaryColor}30`,
+                  color: primaryColor,
+                }}
+                title={`Continue to ${getRealmName(nextRealmInfo.nextRealmId!)}`}
+              >
+                <span>Next Realm</span>
+                <ArrowRight size={16} />
+              </motion.button>
+            ) : (
+              <motion.button
+                disabled={true}
+                className="flex items-center gap-1 px-3 py-1 rounded-md transition-colors cursor-not-allowed opacity-50"
+                style={{
+                  backgroundColor: 'transparent',
+                  color: `${primaryColor}60`,
+                }}
+              >
+                <span>Complete</span>
+                <ChevronRight size={16} />
+              </motion.button>
+            )}
           </div>
         )}
       </div>

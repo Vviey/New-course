@@ -3,6 +3,14 @@
  * Helper functions for working with realm data in a purely frontend implementation
  */
 
+import { realm1Missions } from './realm1-missions';
+import { realm2Missions } from './realm2-missions';
+import { realm3Missions } from './realm3-missions';
+import { realm4Missions } from './realm4-missions';
+import { realm5Missions } from './realm5-missions';
+import { realm6Missions } from './realm6-missions';
+import { realm7Missions } from './realm7-missions';
+
 // Get standardized realm name based on ID
 export function getRealmName(realmId: number): string {
   switch (realmId) {
@@ -15,6 +23,70 @@ export function getRealmName(realmId: number): string {
     case 7: return "The Summit of Knowledge";
     default: return "Unknown Realm";
   }
+}
+
+// Get total mission count for a realm
+export function getTotalMissionsForRealm(realmId: number): number {
+  switch (realmId) {
+    case 1: return realm1Missions.length;
+    case 2: return realm2Missions.length;
+    case 3: return realm3Missions.length;
+    case 4: return realm4Missions.length;
+    case 5: return realm5Missions.length;
+    case 6: return realm6Missions.length;
+    case 7: return realm7Missions.length;
+    default: return 0;
+  }
+}
+
+// Get mission title for a specific realm and mission ID
+export function getMissionTitle(realmId: number, missionId: number): string {
+  switch (realmId) {
+    case 1:
+      const mission1 = realm1Missions.find(m => m.id === 100 + missionId);
+      return mission1?.title || `Mission ${missionId}`;
+    case 2:
+      const mission2 = realm2Missions.find(m => m.id === missionId);
+      return mission2?.title || `Mission ${missionId}`;
+    case 3:
+      const mission3 = realm3Missions.find(m => m.id === missionId);
+      return mission3?.title || `Mission ${missionId}`;
+    case 4:
+      const mission4 = realm4Missions.find(m => m.id === missionId);
+      return mission4?.title || `Mission ${missionId}`;
+    case 5:
+      const mission5 = realm5Missions.find(m => m.id === missionId);
+      return mission5?.title || `Mission ${missionId}`;
+    case 6:
+      const mission6 = realm6Missions.find(m => m.id === missionId);
+      return mission6?.title || `Mission ${missionId}`;
+    case 7:
+      const mission7 = realm7Missions.find(m => m.id === missionId);
+      return mission7?.title || `Mission ${missionId}`;
+    default:
+      return `Mission ${missionId}`;
+  }
+}
+
+// Check if next realm exists and has missions
+export function getNextRealmInfo(realmId: number, missionId: number): { hasNextRealm: boolean; nextRealmId?: number; nextMissionId?: number } {
+  const totalMissions = getTotalMissionsForRealm(realmId);
+  
+  // If we're at the last mission of the current realm
+  if (missionId >= totalMissions) {
+    const nextRealmId = realmId + 1;
+    const nextRealmMissions = getTotalMissionsForRealm(nextRealmId);
+    
+    if (nextRealmMissions > 0) {
+      return {
+        hasNextRealm: true,
+        nextRealmId,
+        nextMissionId: 1
+      };
+    }
+  }
+  
+  return { hasNextRealm: false };
 }
 
 // Get standardized realm description/focus
