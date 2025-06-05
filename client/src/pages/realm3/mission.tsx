@@ -25,10 +25,29 @@ export default function MissionPage() {
     
     // Find mission by ID directly (now all mission IDs are consistent: 1, 2, 3, 4, etc.)
     const foundMission = realm3Missions.find(m => m.id === missionId);
-    // setMission(foundMission || null);
     
-    if (!foundMission) {
+    if (foundMission) {
+      // Convert Realm3MissionData to MissionContent format
+      const missionContent: MissionContent = {
+        id: foundMission.id,
+        title: foundMission.title,
+        subtitle: foundMission.subtitle,
+        description: foundMission.description,
+        objectives: foundMission.objectives || [],
+        content: {
+          introduction: foundMission.content.introduction,
+          sections: foundMission.content.sections
+        },
+        simulationType: foundMission.simulationType,
+        task: foundMission.task,
+        reflection: foundMission.reflection,
+        discussionPoints: foundMission.discussionPoints,
+        game: foundMission.game
+      };
+      setMission(missionContent);
+    } else {
       console.error(`Mission not found in realm3-missions data. Tried ID ${missionId}`);
+      setMission(null);
     }
   }, [missionId, matchRealmFormat, matchAlternateFormat]);
   
