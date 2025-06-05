@@ -62,8 +62,8 @@ app.use(express.static(path.resolve('./public'), {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5001
-  const port = 5001;
+  // Use port 5000 for Replit workflow compatibility
+  const port = process.env.PORT || 5000;
   server.listen(
     {
       port,
