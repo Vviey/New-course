@@ -39,7 +39,6 @@ export default function MissionPage() {
           sections: foundMission.content.sections
         },
         simulationType: foundMission.simulationType,
-        task: foundMission.task,
         reflection: foundMission.reflection,
         discussionPoints: foundMission.discussionPoints,
         game: foundMission.game
