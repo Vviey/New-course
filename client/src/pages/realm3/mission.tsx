@@ -38,10 +38,7 @@ export default function MissionPage() {
           introduction: foundMission.content.introduction,
           sections: foundMission.content.sections
         },
-        simulationType: foundMission.simulationType,
-        reflection: foundMission.reflection,
-        discussionPoints: foundMission.discussionPoints,
-        game: foundMission.game
+        simulationType: foundMission.simulationType
       };
       setMission(missionContent);
     } else {
