@@ -240,7 +240,7 @@ export default function RealmPage() {
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="md:w-1/3">
                   <img 
-                    src={currentRealm.imageUrl || `/images/realm${realmId}-detail.jpg`} 
+                    src={currentRealm.imageUrl || `/images/realm${realmId}-detail.png`} 
                     alt={currentRealm.name}
                     className="w-full h-auto rounded-lg mb-4"
                   />

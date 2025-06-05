@@ -54,7 +54,7 @@ export default function HomePage() {
       
       <div className="pt-8 pb-4 px-6">
         <h1 className="text-4xl font-semibold mb-2">Welcome Learner!</h1>
-        <p className="text-amber-200 mb-8">Lets continue you depp dive into the realm of money . Be sure</p>
+        <p className="text-amber-200 mb-8">Lets continue you deep dive into the realm of money.</p>
         
         <div className="bg-amber-900/30 border border-amber-700/30 rounded-xl p-4 mb-8 flex items-center">
           <div className="mr-4 bg-amber-800/50 rounded-full p-3">
@@ -108,7 +108,7 @@ export default function HomePage() {
                 >
                   <div className="aspect-[2/1] relative">
                     <img 
-                      src={realm.imageUrl || `/images/realm${realm.id}.jpg`} 
+                      src={realm.imageUrl || `/images/realm${realm.id}.png`} 
                       alt={getRealmName(realm.moduleNumber)}
                       className="w-full h-full object-cover"
                     />
