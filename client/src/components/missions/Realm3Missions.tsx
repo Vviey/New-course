@@ -3,7 +3,7 @@ import { MissionContent } from '@/lib/realm3-missions';
 import { Loader2, ChevronLeft, ChevronRight, Home, Award, Map, User } from 'lucide-react';
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
-import { birthTheme } from '@/lib/realm-themes';
+import { cryptographyTheme } from '@/lib/realm-themes';
 
 // Import Realm 3 simulation components
 const CryptographySimulator = lazy(() => import('../simulations/CryptographySimulator').then(module => ({ default: module.CryptographySimulator })));
@@ -45,15 +45,36 @@ export function Realm3Missions({ mission, onComplete, missionId, realmId, totalM
         {(() => {
           switch (mission.simulationType) {
             case 'cryptography':
-              return <CryptographySimulator onComplete={handleSimulationComplete} />;
+              return <CryptographySimulator 
+                challenges={mission.simulationData?.challenges || []} 
+                visualExplanations={mission.simulationData?.visualExplanations || []}
+                onComplete={handleSimulationComplete} 
+              />;
             case 'hash':
-              return <HashFunctionSimulator onComplete={handleSimulationComplete} />;
+              return <HashFunctionSimulator 
+                challenges={mission.simulationData?.challenges || []} 
+                visualizations={mission.simulationData?.visualizations || []}
+                onComplete={handleSimulationComplete} 
+              />;
             case 'merkle':
-              return <MerkleTreeSimulator onComplete={handleSimulationComplete} />;
+              return <MerkleTreeSimulator 
+                transactionData={mission.simulationData?.transactionData || []} 
+                challenges={mission.simulationData?.challenges || []}
+                onComplete={handleSimulationComplete} 
+              />;
             case 'consensus':
-              return <ConsensusSimulator onComplete={handleSimulationComplete} />;
+              return <ConsensusSimulator 
+                scenarios={mission.simulationData?.scenarios || []} 
+                quizQuestions={mission.simulationData?.quizQuestions || []}
+                onComplete={handleSimulationComplete} 
+              />;
             case 'network':
-              return <NetworkSimulator onComplete={handleSimulationComplete} />;
+              return <NetworkSimulator 
+                network={mission.simulationData?.network || {}} 
+                scenarios={mission.simulationData?.scenarios || []}
+                interactiveTests={mission.simulationData?.interactiveTests || []}
+                onComplete={handleSimulationComplete} 
+              />;
             default:
               return (
                 <div className="text-center py-10">
@@ -103,7 +124,7 @@ export function Realm3Missions({ mission, onComplete, missionId, realmId, totalM
     <div 
       className="min-h-screen text-white p-6"
       style={{
-        background: `linear-gradient(to bottom, ${birthTheme.colors.background}, ${birthTheme.colors.backgroundLight})`,
+        background: `linear-gradient(to bottom, ${cryptographyTheme.colors.background}, ${cryptographyTheme.colors.backgroundLight})`,
         backgroundImage: "url('/realms/birth.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",

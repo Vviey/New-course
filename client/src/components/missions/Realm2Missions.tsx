@@ -88,36 +88,11 @@ export function Realm2Missions({ mission, onComplete, missionId, realmId, totalM
   };
 
   const renderContent = () => {
-    if (typeof mission.content === 'string') {
-      return (
-        <div className="prose prose-invert max-w-none">
-          <div dangerouslySetInnerHTML={{ __html: mission.content }} />
-        </div>
-      );
-    }
-
-    if (mission.content && typeof mission.content === 'object') {
-      return (
-        <div className="space-y-8">
-          {mission.content.introduction && (
-            <div className="prose prose-invert max-w-none">
-              <div dangerouslySetInnerHTML={{ __html: mission.content.introduction }} />
-            </div>
-          )}
-          
-          {mission.content.sections?.map((section, index) => (
-            <div key={index} className="space-y-4">
-              <h3 className="text-2xl font-bold text-blue-400">{section.title}</h3>
-              <div className="prose prose-invert max-w-none">
-                <div dangerouslySetInnerHTML={{ __html: section.content }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      );
-    }
-
-    return null;
+    return (
+      <div className="prose prose-invert max-w-none">
+        <div dangerouslySetInnerHTML={{ __html: mission.content }} />
+      </div>
+    );
   };
 
   return (
