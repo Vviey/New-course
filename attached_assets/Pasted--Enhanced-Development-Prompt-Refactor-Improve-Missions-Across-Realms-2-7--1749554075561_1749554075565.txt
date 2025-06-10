@@ -1,0 +1,67 @@
+
+
+### 🧠 **Enhanced Development Prompt: Refactor & Improve Missions Across Realms 2–7**
+
+#### 📁 **Component Structure and Content Migration**
+
+* In **Realm 1**, mission content is placed inside `components/missions.tsx`. Replicate this architecture for **Realms 2 through 7**, such that:
+
+  * Each realm has its mission content abstracted into reusable component files like `components/missions.tsx`.mission-id:...
+  * The actual page files like `pages/realmX-missions.tsx` should simply import and render this content cleanly.
+
+#### 🧭 **Routing and Visibility Fixes**
+
+* In **Realm 3**, the **simulations** currently located in `pages/realm3/...simulations` are not visible to learners. Refactor so that:
+
+  * Simulations are clearly integrated within the Realm 3 mission flow.
+  * Ensure learners can discover and access simulations naturally, either by embedding them in missions or linking them from the realm mission menu or map.
+  * Use dynamic routing if necessary to support deep linking.
+
+#### 📝 **Quiz and Answer System Overhaul (Realm 7)**
+
+* In **Realm 7 missions**, especially those containing quiz questions:
+
+  * Convert all questions from static Q\&A format into:
+
+    * **Multiple Choice Questions (MCQs)** with one correct answer.
+    * **Input Fields** for short answers, with logic to check correctness.
+  * Implement **answer validation** with:
+
+    * ✅ Green highlight for correct answers.
+    * ❌ Red highlight for wrong answers.
+    * Show the **correct answer** and a brief **feedback message** after submission.
+
+#### 🔁 **Realm Navigation & Mission UX Consistency**
+
+* Ensure **all realms (2–7)** missions include the following navigation components:
+
+  * “Back to Realm Missions”
+  * “Profile”, “Badge Map”, and “Next Realm”
+  * “Previous” and “Next Mission” buttons at the top of each mission. like in realm1 missions
+* Maintain consistent styling, placement, and visibility across all mission pages.
+
+#### 📚 **Mission Content Enhancement**
+
+* Expand the mission content significantly across all realms (2–7):
+
+  * Ensure each mission is **comprehensive, deeply explanatory**, and reflects a **rich Bitcoin curriculum**.
+  * Cover **technical**, **historical**, **economic**, and **social** dimensions of Bitcoin wherever relevant.
+  * Avoid brevity—treat each mission like a full chapter in an advanced learning course.
+
+#### 🎨 **UI & Theming Improvements**
+
+* In all missions (Realms 1–7):
+
+  * **Remove the card wrapper** currently boxing the content — allow full-screen width or more fluid layout to enhance readability.
+  * Apply a **custom theme color scheme per realm** so the UI visually reflects the identity of each realm:
+
+    * Realm 1: 
+    * Realm 2: 
+    * Realm 3: 
+    * Realm 4: 
+    * Realm 5: 
+    * Realm 6: 
+    * Realm 7: 
+
+---
+
