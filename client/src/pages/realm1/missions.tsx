@@ -101,6 +101,14 @@ export default function Realm1Mission() {
   const primaryColor = originTheme?.colors?.primary || "#B87F31";
   const secondaryColor = originTheme?.colors?.secondary || "#E6A23C";
 
+   // Background image configuration
+   const backgroundStyles = {
+    backgroundImage: `url('https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-1-African-Currency-Eolution.png')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed'
+  };
+
   return (
     <div className="h-screen" style={{ backgroundColor: bgColor }}>
       {/* Mission navigation header */}
@@ -153,8 +161,10 @@ export default function Realm1Mission() {
                   onClick={() => setContentRead(true)}
                   className="text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
                   style={{ 
-                    background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
-                    boxShadow: `0 0 15px ${primaryColor}80`
+                    backgroundImage: `url('https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-1-African-Currency-Eolution.png')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed'
                   }}
                 >
                   Start Challenge

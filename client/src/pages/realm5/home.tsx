@@ -112,6 +112,60 @@ export default function Realm5Home() {
             </div>
           </div>
         </div>
+
+        
+        {/* Realm description */}
+        <div 
+          className="mt-12 backdrop-blur-md bg-black/60 p-6 rounded-xl border shadow-xl"
+          style={{ borderColor: `${councilTheme.colors.primary}40` }}
+        >
+          <h2 className="text-2xl font-bold mb-4" style={{ color: councilTheme.colors.primary }}>
+            About {getRealmName(5)}
+          </h2>
+          
+          <div className="text-gray-300 space-y-4">
+            <p>
+              {getRealmName(5)} represents Bitcoin's unique governance model - a decentralized system
+              where changes to the protocol emerge through discussion, proposals, and rough consensus
+              among different stakeholders rather than through central authority.
+            </p>
+            
+            <p>
+              In this realm, you'll explore how Bitcoin evolves while maintaining its core properties.
+              You'll learn about BIPs (Bitcoin Improvement Proposals), soft forks, hard forks, and the
+              complex social and technical dynamics that shape the network's development.
+            </p>
+            
+            <p>
+              The ancient baobab tree symbolizes this realm, representing both stability and growth -
+              much like Bitcoin's approach to protocol development that balances security and innovation.
+            </p>
+          </div>
+          
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-black/40 p-4 rounded-lg border border-amber-900/30">
+              <h3 className="font-medium text-amber-400 mb-2">What You'll Learn</h3>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• How BIPs are created, discussed, and implemented</li>
+                <li>• The technical differences between soft forks and hard forks</li>
+                <li>• Bitcoin's historical protocol changes and their impacts</li>
+                <li>• How stakeholders influence Bitcoin's evolution</li>
+                <li>• Lessons from failed improvement proposals</li>
+              </ul>
+            </div>
+            
+            <div className="bg-black/40 p-4 rounded-lg border border-amber-900/30">
+              <h3 className="font-medium text-amber-400 mb-2">Key Stakeholders</h3>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• <span className="text-blue-400">Developers</span> - Write and review code</li>
+                <li>• <span className="text-green-400">Miners</span> - Process transactions and secure the network</li>
+                <li>• <span className="text-purple-400">Node Operators</span> - Enforce consensus rules</li>
+                <li>• <span className="text-red-400">Users</span> - Provide economic activity and value</li>
+                <li>• <span className="text-yellow-400">Businesses</span> - Build services on the protocol</li>
+              </ul>
+            </div>
+          </div>
+        </div>
         
         {/* Missions grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -181,58 +235,6 @@ export default function Realm5Home() {
           ))}
         </div>
         
-        {/* Realm description */}
-        <div 
-          className="mt-12 backdrop-blur-md bg-black/60 p-6 rounded-xl border shadow-xl"
-          style={{ borderColor: `${councilTheme.colors.primary}40` }}
-        >
-          <h2 className="text-2xl font-bold mb-4" style={{ color: councilTheme.colors.primary }}>
-            About {getRealmName(5)}
-          </h2>
-          
-          <div className="text-gray-300 space-y-4">
-            <p>
-              {getRealmName(5)} represents Bitcoin's unique governance model - a decentralized system
-              where changes to the protocol emerge through discussion, proposals, and rough consensus
-              among different stakeholders rather than through central authority.
-            </p>
-            
-            <p>
-              In this realm, you'll explore how Bitcoin evolves while maintaining its core properties.
-              You'll learn about BIPs (Bitcoin Improvement Proposals), soft forks, hard forks, and the
-              complex social and technical dynamics that shape the network's development.
-            </p>
-            
-            <p>
-              The ancient baobab tree symbolizes this realm, representing both stability and growth -
-              much like Bitcoin's approach to protocol development that balances security and innovation.
-            </p>
-          </div>
-          
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-black/40 p-4 rounded-lg border border-amber-900/30">
-              <h3 className="font-medium text-amber-400 mb-2">What You'll Learn</h3>
-              <ul className="text-sm text-gray-300 space-y-1">
-                <li>• How BIPs are created, discussed, and implemented</li>
-                <li>• The technical differences between soft forks and hard forks</li>
-                <li>• Bitcoin's historical protocol changes and their impacts</li>
-                <li>• How stakeholders influence Bitcoin's evolution</li>
-                <li>• Lessons from failed improvement proposals</li>
-              </ul>
-            </div>
-            
-            <div className="bg-black/40 p-4 rounded-lg border border-amber-900/30">
-              <h3 className="font-medium text-amber-400 mb-2">Key Stakeholders</h3>
-              <ul className="text-sm text-gray-300 space-y-1">
-                <li>• <span className="text-blue-400">Developers</span> - Write and review code</li>
-                <li>• <span className="text-green-400">Miners</span> - Process transactions and secure the network</li>
-                <li>• <span className="text-purple-400">Node Operators</span> - Enforce consensus rules</li>
-                <li>• <span className="text-red-400">Users</span> - Provide economic activity and value</li>
-                <li>• <span className="text-yellow-400">Businesses</span> - Build services on the protocol</li>
-              </ul>
-            </div>
-          </div>
-        </div>
         
         {/* Navigation buttons */}
         <div className="mt-10 flex justify-between">

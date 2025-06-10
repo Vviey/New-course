@@ -95,7 +95,7 @@ export const realm1Missions: MissionContent[] = [
       "Complete a series of trades in the barter web challenge",
       "Reflect on the inefficiencies of barter systems"
     ],
-    imagePath: "/assets/barter-system.jpg",
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-1-The-First-Exchange.png",
     simulationType: "barter",
     simulationData: {
       traders: [
@@ -121,6 +121,7 @@ export const realm1Missions: MissionContent[] = [
       "Understand why metals became preferred for coinage",
       "Learn about the properties that make good money"
     ],
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-1-Evolution-of-Money.png",
     simulationType: "timeline",
     simulationData: {
       events: [
@@ -175,6 +176,8 @@ export const realm1Missions: MissionContent[] = [
       "Learn how inflation affects purchasing power",
       "Compare price changes across different types of goods"
     ],
+
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-1-The-Value-of-money.png",
     simulationType: "inflation",
     simulationData: {
       basicItems: [
@@ -229,6 +232,7 @@ export const realm1Missions: MissionContent[] = [
       "Compare different forms of money based on these properties",
       "Learn how Bitcoin relates to traditional money properties"
     ],
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-1-Money-Properties.png",
     simulationType: "quiz",
     simulationData: {
       questions: [
@@ -297,6 +301,7 @@ export const realm1Missions: MissionContent[] = [
       "Experience how money increased trade efficiency",
       "Discover important trade goods of ancient Africa"
     ],
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-1-Ancieny-Trade-Routes.png",
     simulationType: "map",
     simulationData: {
       cities: [
@@ -409,6 +414,7 @@ export const realm1Missions: MissionContent[] = [
       "Compare trust-based and currency-based economies",
       "Discover how Ubuntu principles continue to influence modern alternative economies"
     ],
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm1-UBUNTU-ECONOMICS.png",
     simulationType: "reflection",
     reflectionQuestion: "How did trust-based economic systems like Ubuntu provide resilience for communities? In what ways might these principles be valuable in today's economic systems?"
   },

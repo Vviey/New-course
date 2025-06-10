@@ -6,25 +6,17 @@ type CitadelPattern = 'circuits' | 'surveillance' | 'shadows';
 
 const citadelPatterns: Record<CitadelPattern, React.CSSProperties> = {
   circuits: {
-    backgroundImage: `
-      linear-gradient(45deg, #6b21a8 25%, transparent 25%),
-      linear-gradient(-45deg, #6b21a8 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #6b21a8 75%),
-      linear-gradient(-45deg, transparent 75%, #6b21a8 75%)
-    `,
+    backgroundImage: 'url(https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-The-Citadel-Shados.png)',
     backgroundSize: '20px 20px',
     opacity: 0.1
   },
   surveillance: {
-    backgroundImage: `radial-gradient(#6b21a8 2px, transparent 2px)`,
+    backgroundImage: 'url(https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-The-Citadel-Shados.png)',
     backgroundSize: '30px 30px',
     opacity: 0.1
   },
   shadows: {
-    backgroundImage: `
-      linear-gradient(60deg, #6b21a8 25%, transparent 25.5%, transparent 75%, #6b21a8 75%, #6b21a8),
-      linear-gradient(120deg, #6b21a8 25%, transparent 25.5%, transparent 75%, #6b21a8 75%, #6b21a8)
-    `,
+    backgroundImage: 'url(https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-The-Citadel-Shados.png)',
     backgroundSize: '40px 40px',
     opacity: 0.1
   }

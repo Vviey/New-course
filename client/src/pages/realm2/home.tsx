@@ -59,12 +59,12 @@ export default function Realm2Home() {
   return (
     <div className="min-h-screen bg-black text-white py-8 px-4 sm:px-6 lg:px-8" 
          style={{
-           background: "linear-gradient(to bottom, #000000, #1a001a)",
-           backgroundImage: "url('/realms/citadel.jpg')",
+          //  background: "linear-gradient(to bottom, #000000, #1a001a)",
+           backgroundImage: "url(https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-The-Citadel-Shados.png)",
            backgroundSize: "cover",
-           backgroundPosition: "center",
-           backgroundAttachment: "fixed",
-           backgroundBlendMode: "overlay"
+          //  backgroundPosition: "center",
+          //  backgroundAttachment: "fixed",
+          //  backgroundBlendMode: "overlay"
          }}>
       
       <div className="max-w-5xl mx-auto">

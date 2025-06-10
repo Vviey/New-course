@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { 
   ChevronDown, 
   ChevronRight, 
@@ -20,6 +21,7 @@ interface MissionProps {
 }
 
 export default function Mission({ mission: propMission, onComplete }: MissionProps) {
+  const [, setLocation] = useLocation();
   const { missionId } = useParams<{ missionId: string }>();
   const [showObjectives, setShowObjectives] = useState(false);
   const [expanded, setExpanded] = useState(true);
@@ -39,6 +41,7 @@ export default function Mission({ mission: propMission, onComplete }: MissionPro
       textLight: '#fef3c7', // amber-50
       accent1: '#f59e0b',
       accent2: '#b45309',
+      secondaryColor : "#E6A23C",
     },
     gradients: {
       main: 'linear-gradient(135deg, #f59e0b 0%, #b45309 100%)',
@@ -49,7 +52,9 @@ export default function Mission({ mission: propMission, onComplete }: MissionPro
       button: '0 10px 15px -3px rgba(245, 158, 11, 0.2), 0 4px 6px -4px rgba(245, 158, 11, 0.2)',
       card: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2)',
     }
+    
   };
+  const secondaryColor = councilTheme?.colors?.secondary || "#E6A23C";
   
   // Animation variants for content blocks
   const contentVariants = {
@@ -130,6 +135,21 @@ export default function Mission({ mission: propMission, onComplete }: MissionPro
   
   return (
     <div className="space-y-6">
+
+      {/* Mission navigation header */}
+      <header className="mx-auto">
+        <button 
+          onClick={() => setLocation('/realm/5/home')} 
+          className="flex items-center transition-colors font-medium"
+          style={{ color: secondaryColor }}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+          </svg>
+          Back to Missions
+        </button>
+      </header>
+
       {/* Mission Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

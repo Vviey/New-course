@@ -12,7 +12,7 @@ export const RealmData = [
     description: "Discover the foundational stories of money at the grand trade festival. Learn about barter, early forms of value exchange, and the dawn of monetary systems.",
     focus: getRealmDescription(1), // Foundations of Money
     moduleNumber: 1,
-    imageUrl: "/realms/origins.jpg",
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/06/Banner-of-Realm-1.png",
     isLocked: false
   },
   {
@@ -21,7 +21,7 @@ export const RealmData = [
     description: "Explore the intricate systems of modern money, central banks, and the evolution of currencies from physical coins to digital tokens.",
     focus: getRealmDescription(2), // Governance
     moduleNumber: 2,
-    imageUrl: "/realms/citadel.jpg",
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/06/Banner-of-The-Realm-2.png",
     isLocked: false
   },
   {
@@ -30,7 +30,7 @@ export const RealmData = [
     description: "Venture into the blockchain frontier where cryptographic technology has revolutionized the concept of money and trust-based systems.",
     focus: getRealmDescription(3), // Bitcoin's Birth
     moduleNumber: 3,
-    imageUrl: "/realms/sparks.jpg",
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/06/Banner-of-Realm-3.png",
     isLocked: false
   },
   {
@@ -39,7 +39,7 @@ export const RealmData = [
     description: "Master the fundamentals of Bitcoin mining and how proof-of-work secures the blockchain network.",
     focus: getRealmDescription(4), // Mining and Consensus
     moduleNumber: 4,
-    imageUrl: "/realms/forge.jpg", 
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/06/Banner-of-Realm-4.png", 
     isLocked: false
   },
   {
@@ -48,7 +48,7 @@ export const RealmData = [
     description: "Glimpse into the governance of Bitcoin, exploring protocol upgrades, consensus changes, and the history of forks.",
     focus: getRealmDescription(5), // Bitcoin Governance and Forks
     moduleNumber: 5,
-    imageUrl: "/realms/forks.jpg",
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/06/Banner-of-Realm-5.png",
     isLocked: false
   },
   {
@@ -57,7 +57,7 @@ export const RealmData = [
     description: "Discover how Bitcoin weaves into African traditions of community and shared prosperity.",
     focus: getRealmDescription(6), // Bitcoin in Africa
     moduleNumber: 6,
-    imageUrl: "/realms/ubuntu.jpg",
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/06/Banner-of-Realm-6.png",
     isLocked: false
   },
   {
@@ -66,7 +66,7 @@ export const RealmData = [
     description: "Complete your journey and demonstrate your mastery of Bitcoin concepts through comprehensive challenges.",
     focus: getRealmDescription(7), // Comprehensive Bitcoin Mastery
     moduleNumber: 7,
-    imageUrl: "/realms/summit.jpg",
+    imageUrl: "https://bitcoiners.africa/wp-content/uploads/2025/06/Banner-of-Realm-7.png",
     isLocked: false
   }
 ];

@@ -7,31 +7,18 @@ type AfricanPattern = 'adinkra' | 'kente' | 'mudcloth';
 
 const africanPatterns: Record<AfricanPattern, React.CSSProperties> = {
   adinkra: {
-    backgroundImage: `
-      radial-gradient(circle at 10px 10px, #EE720B 8px, transparent 8px),
-      radial-gradient(circle at 30px 30px, #EE720B 8px, transparent 8px),
-      radial-gradient(circle at 30px 10px, #EE720B 5px, transparent 5px),
-      radial-gradient(circle at 10px 30px, #EE720B 5px, transparent 5px)
-    `,
+    backgroundImage: 'url(https://example.com/path-to-adinkra-pattern.jpg)',
     backgroundSize: '40px 40px',
     backgroundColor: '#FBF4D2'
   },
   kente: {
-    backgroundImage: `
-      repeating-linear-gradient(0deg, #EE720B, #EE720B 10px, #FFC567 10px, #FFC567 20px),
-      repeating-linear-gradient(90deg, #EE720B, #EE720B 10px, #FFC567 10px, #FFC567 20px)
-    `,
+    backgroundImage: 'url(https://example.com/path-to-adinkra-pattern.jpg)',
     backgroundBlendMode: 'difference',
     backgroundSize: '30px 30px',
     opacity: 0.2
   },
   mudcloth: {
-    backgroundImage: `
-      linear-gradient(45deg, #EE720B 25%, transparent 25%), 
-      linear-gradient(-45deg, #EE720B 25%, transparent 25%), 
-      linear-gradient(45deg, transparent 75%, #EE720B 75%), 
-      linear-gradient(-45deg, transparent 75%, #EE720B 75%)
-    `,
+    backgroundImage: 'url(https://example.com/path-to-adinkra-pattern.jpg)',
     backgroundSize: '20px 20px',
     backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px',
     opacity: 0.15

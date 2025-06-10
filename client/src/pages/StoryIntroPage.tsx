@@ -114,7 +114,7 @@ export default function StoryIntroPage() {
           >
             <div className="w-full aspect-[16/9] bg-amber-950/60 rounded-xl overflow-hidden relative shadow-[0_0_15px_rgba(251,191,36,0.3)] border-2 border-amber-800/50 mb-8">
               <img 
-                src="/assets/realms/intro-1.svg" 
+                src="https://bitcoiners.africa/wp-content/uploads/2025/06/1.png" 
                 alt="Story Background" 
                 className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-70"
               />
@@ -125,7 +125,7 @@ export default function StoryIntroPage() {
                   {currentStep <= 1 && (
                     <div className="w-1/4 flex items-center justify-center">
                       <img 
-                        src="/assets/characters/asha.svg" 
+                        src="https://bitcoiners.africa/wp-content/uploads/2025/06/2-1.png" 
                         alt="Asha" 
                         className="h-32 object-contain"
                       />
@@ -241,7 +241,7 @@ export default function StoryIntroPage() {
             >
               <div className="text-center mb-6">
                 <img 
-                  src="/assets/realms/intro-3.svg" 
+                  src="https://bitcoiners.africa/wp-content/uploads/2025/06/3-1.png" 
                   alt="Asha and Odu with the coin" 
                   className="max-h-48 mx-auto object-contain"
                 />

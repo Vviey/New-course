@@ -25,34 +25,30 @@ export default function MissionLayout({
   const [, setLocation] = useLocation();
   const [scrollProgress, setScrollProgress] = useState(progress);
   
-  // Track scroll progress
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
       
-      // Calculate scroll percentage
       const scrollPercentage = Math.min(
         100,
         Math.max(0, Math.round((scrollY / (documentHeight - windowHeight)) * 100))
       );
       
-      // Only update if progress is higher than current or was passed in as 0
       if (progress === 0 || scrollPercentage > scrollProgress) {
         setScrollProgress(scrollPercentage);
       }
-    };
-    
+    };    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [progress, scrollProgress]);
   
   return (
-    <div className="min-h-screen bg-stone-900 text-amber-100 pb-24">
-      {/* Header with navigation and progress */}
-      <header className="bg-stone-900/80 backdrop-blur-md sticky top-0 z-10 border-b border-amber-900/30">
-        <div className="max-w-6xl mx-auto px-4 py-3">
+    <div className="min-h-screen flex flex-col">
+      {/* Header - now with lighter styling */}
+      <header className="bg-white dark:bg-gray-950 shadow-sm sticky top-0 z-10 border-b">
+        <div className="container mx-auto px-4 py-3">
           <MissionNavigation 
             realmId={Number(realmId)}
             missionId={missionId ? Number(missionId) : undefined}
@@ -66,18 +62,25 @@ export default function MissionLayout({
         </div>
       </header>
       
-      {/* Mission title section */}
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      {/* Main content area - now full width */}
+      <main className="flex-1 container mx-auto px-4 py-6">
+        {/* Title section with updated styling */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-amber-400 mb-2">{title}</h1>
-          {subtitle && <p className="text-amber-300/80">{subtitle}</p>}
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            {title}
+          </h1>
+          {subtitle && (
+            <p className="text-gray-600 dark:text-gray-400">
+              {subtitle}
+            </p>
+          )}
         </div>
         
-        {/* Mission content */}
+        {/* Children content - now full width within container */}
         <div className="w-full">
           {children}
         </div>
-      </div>
+      </main>
     </div>
   );
 }
