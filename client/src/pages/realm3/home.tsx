@@ -196,6 +196,77 @@ export default function Realm3Home() {
               </motion.div>
             ))}
           </motion.div>
+
+          {/* Interactive Simulations Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="mt-16 relative z-10"
+          >
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-4" style={{ color: bioluminescentTheme.colors.primary }}>
+                Interactive Simulations
+              </h2>
+              <p className="text-lg text-teal-200 max-w-2xl mx-auto">
+                Explore Bitcoin's cryptographic foundations through hands-on simulations
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="bg-gradient-to-br from-teal-900/50 to-green-900/50 p-6 rounded-xl border border-teal-700 hover:border-teal-500 transition-all backdrop-blur-sm"
+              >
+                <Link href="/realm3/cryptography-simulator">
+                  <a className="block">
+                    <Lock className="w-10 h-10 text-teal-400 mb-4" />
+                    <h3 className="text-lg font-semibold text-teal-100 mb-2">Cryptography Lab</h3>
+                    <p className="text-sm text-teal-300">Explore encryption and digital signatures</p>
+                  </a>
+                </Link>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="bg-gradient-to-br from-teal-900/50 to-green-900/50 p-6 rounded-xl border border-teal-700 hover:border-teal-500 transition-all backdrop-blur-sm"
+              >
+                <Link href="/realm3/hashing-simulator">
+                  <a className="block">
+                    <Fingerprint className="w-10 h-10 text-teal-400 mb-4" />
+                    <h3 className="text-lg font-semibold text-teal-100 mb-2">Hash Functions</h3>
+                    <p className="text-sm text-teal-300">Understand Bitcoin's hash algorithms</p>
+                  </a>
+                </Link>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="bg-gradient-to-br from-teal-900/50 to-green-900/50 p-6 rounded-xl border border-teal-700 hover:border-teal-500 transition-all backdrop-blur-sm"
+              >
+                <Link href="/realm3/merkle-tree-simulator">
+                  <a className="block">
+                    <GitMerge className="w-10 h-10 text-teal-400 mb-4" />
+                    <h3 className="text-lg font-semibold text-teal-100 mb-2">Merkle Trees</h3>
+                    <p className="text-sm text-teal-300">Visualize blockchain data structures</p>
+                  </a>
+                </Link>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="bg-gradient-to-br from-teal-900/50 to-green-900/50 p-6 rounded-xl border border-teal-700 hover:border-teal-500 transition-all backdrop-blur-sm"
+              >
+                <Link href="/realm3/consensus-simulator">
+                  <a className="block">
+                    <Network className="w-10 h-10 text-teal-400 mb-4" />
+                    <h3 className="text-lg font-semibold text-teal-100 mb-2">Consensus</h3>
+                    <p className="text-sm text-teal-300">Experience proof-of-work mechanics</p>
+                  </a>
+                </Link>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
         
         {/* Navigation back to main map */}
