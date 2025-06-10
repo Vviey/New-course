@@ -12,6 +12,7 @@ const StoryIntroPage = lazy(() => import("@/pages/StoryIntroPage"));
 const HomeIntroPage = lazy(() => import("@/pages/home-intro"));
 const RealmPage = lazy(() => import("@/pages/RealmPage"));
 const AuthPage = lazy(() => import("@/pages/auth-page"));
+const ForgotPasswordPage = lazy(() => import("@/pages/forgot-password"));
 const AfricaMapPage = lazy(() => import("@/pages/AfricaMapPage"));
 const BadgesPage = lazy(() => import("@/pages/BadgesPage"));
 const JourneyPage = lazy(() => import("@/pages/JourneyPage"));
@@ -84,6 +85,7 @@ function App() {
           
           {/* Auth page comes next */}
           <Route path="/auth" component={AuthPage} />
+          <Route path="/forgot-password" component={ForgotPasswordPage} />
           
           {/* Story intro for users post-authentication */}
           <Route path="/intro" component={StoryIntroPage} />

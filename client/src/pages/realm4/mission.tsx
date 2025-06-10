@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useRoute, Link } from 'wouter';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, User, Award, Map } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Mission as MissionComponent } from '@/components/missions/Mission';
 import { realm4Missions } from '@/lib/realm4-missions';
 import { MissionContent as Realm4MissionContent } from '@/lib/realm4-missions';
-import { MissionContent } from '@/lib/realm1-missions';
-import { renderToString } from 'react-dom/server';
 import { getRealmName } from '@/lib/realm-utils';
+import { miningTheme } from '@/lib/realm-themes';
 
 export default function MissionPage() {
   const [_, params] = useRoute('/realm4/mission/:id');
@@ -15,28 +13,7 @@ export default function MissionPage() {
   const [mission, setMission] = useState<Realm4MissionContent | null>(null);
   const [completed, setCompleted] = useState(false);
   
-  // Define a theme for Realm 4 - {getRealmName(4)}
-  const mountainForgeTheme = {
-    colors: {
-      primary: '#f97316', // orange-500
-      secondary: '#fdba74', // orange-300
-      background: '#0c0a09', // Darker than black with slight brown tint
-      backgroundLight: '#1c1917', // Slate-900
-      textDark: '#78350f', // Orange-900
-      textLight: '#ffedd5', // Orange-100
-      accent1: '#ff8a4c',
-      accent2: '#d97706',
-    },
-    gradients: {
-      main: 'linear-gradient(135deg, #f97316 0%, #c2410c 100%)',
-      glow: 'linear-gradient(135deg, #fb923c 0%, #ea580c 100%)',
-      subtle: 'linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(194, 65, 12, 0.1) 100%)',
-    },
-    shadows: {
-      button: '0 10px 15px -3px rgba(249, 115, 22, 0.2), 0 4px 6px -4px rgba(249, 115, 22, 0.2)',
-      card: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2)',
-    }
-  };
+  const totalMissions = realm4Missions.length;
   
   useEffect(() => {
     if (missionId) {
@@ -65,19 +42,13 @@ export default function MissionPage() {
     return (
       <div className="min-h-screen flex items-center justify-center"
         style={{
-          background: `linear-gradient(to bottom, ${mountainForgeTheme.colors.background}, ${mountainForgeTheme.colors.backgroundLight})`,
+          background: `linear-gradient(to bottom, ${miningTheme.colors.background}, ${miningTheme.colors.backgroundLight})`,
         }}
       >
         <div className="text-center">
-          <h1 className="text-3xl font-bold mb-4" style={{ color: mountainForgeTheme.colors.primary }}>Mission not found</h1>
+          <h1 className="text-3xl font-bold mb-4" style={{ color: miningTheme.colors.primary }}>Mission not found</h1>
           <Link href="/realm4">
-            <Button 
-              className="inline-flex items-center"
-              style={{
-                background: mountainForgeTheme.gradients.main,
-                boxShadow: mountainForgeTheme.shadows.button,
-              }}
-            >
+            <Button className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Return to {getRealmName(4)}
             </Button>
@@ -87,17 +58,123 @@ export default function MissionPage() {
     );
   }
   
-  if (completed) {
-    return (
-      <div className="min-h-screen py-12 px-4"
-        style={{
-          background: `linear-gradient(to bottom, ${mountainForgeTheme.colors.background}, ${mountainForgeTheme.colors.backgroundLight})`,
-        }}
-      >
-        <div className="max-w-2xl mx-auto bg-opacity-80 bg-black backdrop-blur rounded-lg p-8 text-center">
-          <h1 className="text-3xl font-bold mb-6 text-transparent bg-clip-text"
-            style={{ backgroundImage: mountainForgeTheme.gradients.main }}
-          >
+  const renderMissionContent = () => {
+    if (typeof mission.content === 'string') {
+      return <div dangerouslySetInnerHTML={{ __html: mission.content }} />;
+    }
+    return <div>{mission.content}</div>;
+  };
+
+  return (
+    <div 
+      className="min-h-screen text-white"
+      style={{
+        background: `linear-gradient(to bottom, ${miningTheme.colors.background}, ${miningTheme.colors.backgroundLight})`,
+        backgroundImage: "url('/realms/mining.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        backgroundBlendMode: "overlay"
+      }}
+    >
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        {/* Navigation Header */}
+        <div className="flex justify-between items-center mb-8">
+          <Link href="/realm4">
+            <a className="inline-flex items-center hover:text-orange-300 transition-colors text-orange-400">
+              <ChevronLeft className="mr-2 h-5 w-5" />
+              <span>Back to The Mountain Forge</span>
+            </a>
+          </Link>
+          
+          <div className="flex items-center space-x-4">
+            <Link href="/profile">
+              <a className="p-2 rounded-full bg-orange-600/20 hover:bg-orange-600/30 transition-colors">
+                <User className="h-5 w-5 text-orange-400" />
+              </a>
+            </Link>
+            <Link href="/badges">
+              <a className="p-2 rounded-full bg-orange-600/20 hover:bg-orange-600/30 transition-colors">
+                <Award className="h-5 w-5 text-orange-400" />
+              </a>
+            </Link>
+            <Link href="/map">
+              <a className="p-2 rounded-full bg-orange-600/20 hover:bg-orange-600/30 transition-colors">
+                <Map className="h-5 w-5 text-orange-400" />
+              </a>
+            </Link>
+          </div>
+        </div>
+
+        {/* Mission Navigation */}
+        <div className="flex justify-between items-center mb-8">
+          {missionId && missionId > 1 ? (
+            <Link href={`/realm4/mission/${missionId - 1}`}>
+              <a className="inline-flex items-center px-4 py-2 bg-orange-600/20 rounded-lg hover:bg-orange-600/30 transition-colors">
+                <ChevronLeft className="mr-2 h-4 w-4" />
+                Previous Mission
+              </a>
+            </Link>
+          ) : (
+            <div></div>
+          )}
+          
+          <div className="text-orange-400 text-sm font-medium">
+            Mission {missionId} of {totalMissions}
+          </div>
+          
+          {missionId && missionId < totalMissions ? (
+            <Link href={`/realm4/mission/${missionId + 1}`}>
+              <a className="inline-flex items-center px-4 py-2 bg-orange-600/20 rounded-lg hover:bg-orange-600/30 transition-colors">
+                Next Mission
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </a>
+            </Link>
+          ) : (
+            <Link href="/realm5">
+              <a className="inline-flex items-center px-4 py-2 bg-purple-600/20 rounded-lg hover:bg-purple-600/30 transition-colors">
+                Next Realm
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </a>
+            </Link>
+          )}
+        </div>
+
+        {/* Mission Content - Full Width, No Card Wrapper */}
+        <div className="w-full space-y-12">
+          <div className="text-center">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-orange-400">{mission.title}</h1>
+            {mission.subtitle && (
+              <p className="text-2xl md:text-3xl text-orange-300 mb-12">{mission.subtitle}</p>
+            )}
+          </div>
+
+          <div className="w-full space-y-12">
+            <div className="bg-gradient-to-r from-orange-900/20 to-yellow-900/20 backdrop-blur-sm rounded-2xl p-8 border border-orange-700/30">
+              <div className="prose prose-invert max-w-none text-orange-100">
+                {renderMissionContent()}
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <Button 
+                onClick={handleMissionComplete}
+                size="lg"
+                className="bg-orange-600 hover:bg-orange-700 text-white px-12 py-4 text-xl rounded-xl shadow-lg"
+                style={{ 
+                  background: `linear-gradient(45deg, ${miningTheme.colors.primary}, ${miningTheme.colors.secondary})`,
+                  boxShadow: '0 8px 32px rgba(238, 114, 11, 0.3)'
+                }}
+              >
+                Complete Mission
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
             Mission Complete!
           </h1>
           

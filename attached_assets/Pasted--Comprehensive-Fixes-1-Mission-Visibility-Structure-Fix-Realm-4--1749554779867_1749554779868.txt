@@ -1,0 +1,64 @@
+
+---
+
+### **Comprehensive Fixes
+
+#### **1. Mission Visibility & Structure**  
+- **Fix Realm 4 Missions:**  
+  - Ensure **all missions** in Realm 4 are visible (not just the first).  
+  - Check for missing `map()` loops, incorrect state handling, or conditional rendering bugs.  
+  
+- **Reuse Existing Files:**  
+  - Do **not** create new files—restructure content inside `realmX-missions.tsx` (X = 1-7).  
+  - Ensure **every mission** is properly linked and rendered in its respective realm.  
+
+#### **2. Navigation & Routing**  
+- **Global Navigation Bar (Fix & Standardize):**  
+  - Must appear on **every page in all missions and every relevant page** (Realms 1-7):  
+    - Back to Missions  
+    - Profile  
+    - Map  
+    - Badges  
+    - Next Realm  
+  - Ensure buttons **work correctly** (no dead links).  
+- **In-Mission Navigation (Fix & Standardize):**  
+  - **Previous / Next buttons** must appear in **every mission** (Realms 1-7).  
+  - Ensure they **cycle through missions smoothly** (no skips or crashes).  
+
+#### **3. Realm 3 Simulations (Critical Fix)**  
+- **Make Simulations Visible:**  
+  
+  - Ensure learners can **access all simulations** (check for hidden routes or missing links).  
+  - Test:  
+    - Are simulations loading?  
+    - Are they interactive?  
+    - Do they match the learning objectives?  
+
+
+#### **5. UI/UX Overhaul**  
+- **Remove Content Card Wrapper:**  
+  - Delete the enclosing box—render content **directly on screen** for a cleaner look.  
+- **Color & Theme Consistency:**  
+  - Match mission UI to each realm’s 
+- **Font & Spacing Fixes:**  
+  - Increase text size for readability.  
+    
+  
+
+#### **7. Testing Checklist**  
+Before finalizing:  
+✅ **Test all missions** in Realms 1-7 (ensure none are missing).  
+✅ **Test all buttons** (navigation, next/previous, simulations).  
+✅ **Test Realm 7 questions** (interactivity, feedback).  
+✅ **Verify UI** (no card wrapper, proper colors, readable text).  
+
+---
+
+### **Expected Outcome:**  
+- A **fully functional, polished, and consistent** learning experience across **all realms**.  
+- No broken missions, navigation, or simulations.  
+- Engaging, in-depth Bitcoin content with interactive quizzes.  
+
+also notice that in the auth page we do not have a forot passowrd follow the ui in the auth page and create the forgot passowrd and link it when one clicks the forgot password button
+
+inside missions when one click the simulaton test this if it takes them to the correct one and fix
