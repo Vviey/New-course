@@ -9,8 +9,17 @@ export interface Realm3MissionData {
   subtitle: string;
   description: string;
   objectives?: string[]; // Making this optional since it wasn't in the original
-  simulationType: 'scavenger-hunt' | 'quiz' | 'knowledge' | 'timeline' | 'reflection' | 'cryptography' | 'hash' | 'merkle' | 'consensus';
-  simulationData?: any;
+  simulationType: 'scavenger-hunt' | 'quiz' | 'knowledge' | 'timeline' | 'reflection' | 'cryptography' | 'hash' | 'merkle' | 'consensus' | 'network';
+  simulationData?: {
+    challenges?: any[];
+    visualExplanations?: any[];
+    visualizations?: any[];
+    transactionData?: any[];
+    scenarios?: any[];
+    quizQuestions?: any[];
+    network?: any;
+    interactiveTests?: any[];
+  };
   content: {
     title: string;
     introduction: string;

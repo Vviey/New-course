@@ -65,6 +65,48 @@ export default function MissionPage() {
     return <div>{mission.content}</div>;
   };
 
+  if (completed) {
+    return (
+      <div className="min-h-screen py-12 px-4"
+        style={{
+          background: `linear-gradient(to bottom, ${miningTheme.colors.background}, ${miningTheme.colors.backgroundLight})`,
+        }}
+      >
+        <div className="max-w-2xl mx-auto bg-opacity-80 bg-black backdrop-blur rounded-lg p-8 text-center">
+          <h1 className="text-3xl font-bold mb-6 text-orange-400">
+            Mission Complete!
+          </h1>
+          
+          <p className="text-orange-100 mb-8">
+            You've successfully completed the {mission.title} mission. These insights about Bitcoin mining will help you understand the economic and technical foundations of the network.
+          </p>
+          
+          {missionId !== null && missionId < realm4Missions[realm4Missions.length - 1].id ? (
+            <Link href={`/realm4/mission/${missionId + 1}`}>
+              <Button className="bg-orange-600 hover:bg-orange-700 text-white mr-4">
+                Next Mission
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/realm5">
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white mr-4">
+                Continue to Next Realm
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          )}
+          
+          <Link href="/realm4">
+            <Button variant="outline" className="border-orange-600 text-orange-400 hover:bg-orange-600/20">
+              Return to {getRealmName(4)}
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div 
       className="min-h-screen text-white"
@@ -169,120 +211,6 @@ export default function MissionPage() {
                 Complete Mission
               </Button>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-            Mission Complete!
-          </h1>
-          
-          <p style={{ color: mountainForgeTheme.colors.textLight }} className="mb-8">
-            You've successfully completed the {mission.title} mission. These insights about Bitcoin mining will help you understand the economic and technical foundations of the network.
-          </p>
-          
-          {missionId !== null && missionId < realm4Missions[realm4Missions.length - 1].id ? (
-            <div className="space-y-4">
-              <p style={{ color: mountainForgeTheme.colors.secondary }} className="font-medium">Ready for your next challenge?</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href={`/realm4/mission/${missionId !== null ? missionId + 1 : 1}`}>
-                  <Button
-                    className="w-full sm:w-auto"
-                    style={{
-                      background: mountainForgeTheme.gradients.main,
-                      boxShadow: mountainForgeTheme.shadows.button,
-                    }}
-                  >
-                    Next Mission
-                  </Button>
-                </Link>
-                
-                <Link href="/realm4">
-                  <Button variant="outline" className="w-full sm:w-auto border-orange-500 text-orange-400">
-                    Return to {getRealmName(4)}
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              <p style={{ color: mountainForgeTheme.colors.secondary }} className="font-medium">You've reached the edge of {getRealmName(4)}!</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/map">
-                  <Button
-                    className="w-full sm:w-auto"
-                    style={{
-                      background: mountainForgeTheme.gradients.main,
-                      boxShadow: mountainForgeTheme.shadows.button,
-                    }}
-                  >
-                    Return to Map
-                  </Button>
-                </Link>
-                
-                <Link href="/realm4">
-                  <Button variant="outline" className="w-full sm:w-auto border-orange-500 text-orange-400">
-                    Return to {getRealmName(4)}
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-  
-  return (
-    <div className="min-h-screen pt-6 pb-12 px-4"
-      style={{
-        background: `linear-gradient(to bottom, ${mountainForgeTheme.colors.background}, ${mountainForgeTheme.colors.backgroundLight})`,
-        backgroundImage: "url('/realms/forks.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-        backgroundBlendMode: "overlay"
-      }}
-    >
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <Link href="/realm4">
-            <a className="inline-flex items-center hover:text-orange-300 transition-colors" 
-              style={{ color: mountainForgeTheme.colors.secondary }}
-            >
-              <ArrowLeft className="mr-2 h-5 w-5" />
-              <span>Back to {getRealmName(4)}</span>
-            </a>
-          </Link>
-          
-          <div style={{ color: mountainForgeTheme.colors.secondary }} className="text-sm font-medium">
-            Mission {missionId !== null ? missionId : 0} of {realm4Missions.length}
-          </div>
-        </div>
-        
-        <div className="relative">
-          {/* Background elements */}
-          <div className="absolute inset-0 backdrop-blur-md bg-black/60 rounded-xl border border-orange-900/30 -z-10"></div>
-          
-          <div className="p-6">
-            <MissionComponent 
-              mission={{
-                title: mission.title,
-                id: mission.id,
-                subtitle: mission.subtitle || "Bitcoin mining mechanics and technology",
-                description: "Explore Bitcoin mining and its technology",
-                objectives: ["Learn about proof-of-work mining", "Understand mining difficulty", "Complete the interactive simulation"],
-                simulationType: "mining",
-                content: typeof mission.content === 'string' 
-                  ? mission.content 
-                  : typeof mission.content === 'object' && mission.content !== null
-                    ? renderToString(mission.content)
-                    : ""
-              }} 
-              onComplete={handleMissionComplete} 
-              realmTheme="amber"
-            />
           </div>
         </div>
       </div>

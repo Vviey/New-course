@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from 'react';
-import { MissionContent } from '@/lib/realm3-missions';
+import { Realm3MissionData } from '@/lib/realm3-missions';
 import { Loader2, ChevronLeft, ChevronRight, Home, Award, Map, User } from 'lucide-react';
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ const ConsensusSimulator = lazy(() => import('../simulations/ConsensusSimulator'
 const NetworkSimulator = lazy(() => import('../simulations/NetworkSimulator').then(module => ({ default: module.NetworkSimulator })));
 
 interface Realm3MissionsProps {
-  mission: MissionContent;
+  mission: Realm3MissionData;
   onComplete?: () => void;
   missionId: number;
   realmId: number;
