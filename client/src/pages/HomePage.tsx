@@ -35,8 +35,24 @@ export default function HomePage() {
     
 
       <div className="min-h-screen bg-gradient-to-b from-amber-800 to-amber-950 text-amber-100 pb-16">
-        {/* Top navigation icons */}
-        <header className="py-4 px-6 flex justify-end items-center">
+
+        {/* Navigation header with logo and buttons */}
+        <header className="py-4 px-6 flex justify-between items-center">
+          {/* Logo on the left */}
+          <div className="flex items-center">
+            <button 
+              className="w-12 h-12 rounded-full bg-amber-800/50 flex items-center justify-center hover:bg-amber-800 overflow-hidden"
+              onClick={() => window.location.href = 'https://bitcoiners.africa/'}
+            >
+              <img 
+                src="https://pfst.cf2.poecdn.net/base/image/8c7f35b6fecdc80928631d8b5ca8472a1bd6d4b323040aac6599115b2bb74eae?w=1536&h=1536" 
+                alt="African Bitcoiners Logo" 
+                className="w-8 h-8 object-contain"
+              />
+            </button>
+          </div>
+          
+          {/* Navigation buttons on the right */}
           <div className="flex space-x-4">
             <button 
               className="w-10 h-10 rounded-full bg-amber-800/50 flex items-center justify-center hover:bg-amber-800"

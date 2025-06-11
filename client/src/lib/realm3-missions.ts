@@ -27,7 +27,7 @@ export interface MissionContent {
   title: string;
   subtitle?: string;
   imagePath?: string;
-  simulationType: 'cryptography' | 'consensus' | 'hashing' | 'merkletree';
+  simulationType: 'cryptography' |'lightning-bitcoin'|'lightning'| 'consensus' | 'hashing' | 'merkletree'|'trustless'|'keys'|'mempool'|'forks'|'node'|'scaling'|'script';
   content: React.ReactNode;
   completionMessage?: string;
 }
@@ -1575,5 +1575,559 @@ export const realm3Missions: MissionContent[] = [
       ])
     ]),
     completionMessage: "Exceptional work! You now understand Bitcoin's scaling challenges and the innovative solutions being developed to address them."
-  }
+  },
+  {
+    id: 11,
+    title: "Lightning Network",
+    subtitle: "Instant Bitcoin Payments",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/769917eddc6ee5ee6bf70d4b3468bc2d3751f70a7fbc84c9ccf43c5a46bcb068?w=530&h=260",
+    simulationType: "lightning",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "Bitcoin is powerful, but it's not built for speed. What if we could send Bitcoin in seconds, with almost zero fees? " +
+        "Say hello to the Lightning Network -- Bitcoin's Layer 2 upgrade designed for fast, cheap, global payments."
+      ),
+      
+      React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4 mb-4", key: "problem" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-red-300", key: "problem-title" }, "🚨 The Problem: Bitcoin Can't Scale Alone"),
+        React.createElement('p', { className: "mb-3", key: "problem-desc" },
+          "Bitcoin is decentralized and secure -- but it's slow and expensive."
+        ),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "problem-list" }, [
+          React.createElement('li', { key: "prob1" }, "✅ 7 transactions per second (TPS)"),
+          React.createElement('li', { key: "prob2" }, "❌ Expensive during congestion"),
+          React.createElement('li', { key: "prob3" }, "❌ Not ideal for small or fast payments")
+        ]),
+        React.createElement('p', { className: "mt-3 text-sm italic", key: "coffee-example" },
+          "Imagine trying to buy coffee or tip a creator -- not practical on-chain."
+        )
+      ]),
+  
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "solution" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-300", key: "solution-title" }, "⚡ The Solution: The Lightning Network"),
+        React.createElement('p', { className: "mb-3", key: "solution-desc" },
+          "Lightning = a second layer on top of Bitcoin that allows people to transact instantly, privately, and with minimal fees."
+        ),
+        React.createElement('p', { className: "text-sm", key: "smart-contracts" },
+          "It uses smart contracts to create private \"payment channels\" where users can transact off-chain, then settle on-chain later."
+        )
+      ]),
+  
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "payment-channels" }, "🔄 What's a Payment Channel?"),
+      React.createElement('p', { className: "mb-3", key: "channel-intro" },
+        "Let's say Alice wants to send Bob Bitcoin frequently. Instead of making 100 on-chain transactions, they:"
+      ),
+      React.createElement('ol', { className: "list-decimal ml-4 space-y-2 text-sm mb-4", key: "channel-steps" }, [
+        React.createElement('li', { key: "step1" }, React.createElement('strong', null, "Open a channel together "), "(this is on-chain)"),
+        React.createElement('li', { key: "step2" }, React.createElement('strong', null, "Send payments back and forth "), "(off-chain)"),
+        React.createElement('li', { key: "step3" }, React.createElement('strong', null, "Close the channel when done "), "(this is also on-chain)")
+      ]),
+      React.createElement('p', { className: "mb-4 text-sm bg-green-900/20 border border-green-800/30 rounded p-3", key: "channel-benefits" },
+        "Each off-chain payment updates their shared balance. No miner fees. No delays. Just instant Bitcoin."
+      ),
+  
+      React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4 mb-4", key: "channel-lifecycle" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "lifecycle-title" }, "Payment Channel Lifecycle"),
+        React.createElement('div', { className: "grid md:grid-cols-3 gap-3", key: "lifecycle-grid" }, [
+          React.createElement('div', { className: "text-center p-3 bg-green-900/30 rounded", key: "opening" }, [
+            React.createElement('h5', { className: "font-semibold text-green-300 mb-1", key: "open-title" }, "1. Opening"),
+            React.createElement('p', { className: "text-xs text-gray-300", key: "open-desc" }, "Lock Bitcoin in multi-sig address"),
+            React.createElement('p', { className: "text-xs text-yellow-300 mt-1", key: "open-cost" }, "On-chain fee required")
+          ]),
+          React.createElement('div', { className: "text-center p-3 bg-blue-900/30 rounded", key: "transacting" }, [
+            React.createElement('h5', { className: "font-semibold text-blue-300 mb-1", key: "trans-title" }, "2. Transacting"),
+            React.createElement('p', { className: "text-xs text-gray-300", key: "trans-desc" }, "Unlimited instant payments"),
+            React.createElement('p', { className: "text-xs text-green-300 mt-1", key: "trans-cost" }, "Near-zero fees")
+          ]),
+          React.createElement('div', { className: "text-center p-3 bg-red-900/30 rounded", key: "closing" }, [
+            React.createElement('h5', { className: "font-semibold text-red-300 mb-1", key: "close-title" }, "3. Closing"),
+            React.createElement('p', { className: "text-xs text-gray-300", key: "close-desc" }, "Settle final balances"),
+            React.createElement('p', { className: "text-xs text-yellow-300 mt-1", key: "close-cost" }, "On-chain fee required")
+          ])
+        ])
+      ]),
+  
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "network" }, "🔗 Lightning Works Like a Network"),
+      React.createElement('p', { className: "mb-3", key: "network-intro" },
+        "You don't need a channel with everyone. Lightning routes payments through connected users."
+      ),
+      React.createElement('p', { className: "mb-3", key: "routing-example" },
+        "If Alice is connected to Bob, and Bob to Carol, Alice can pay Carol through Bob."
+      ),
+      React.createElement('p', { className: "mb-4 font-semibold text-blue-300", key: "network-result" },
+        "This creates a global, fast, peer-to-peer payment web."
+      ),
+  
+      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "routing-details" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-orange-300", key: "routing-title" }, "How Payment Routing Works"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "routing-steps" }, [
+          React.createElement('li', { key: "route1" }, "Alice wants to pay Carol 0.01 BTC"),
+          React.createElement('li', { key: "route2" }, "Alice has a channel with Bob, Bob has a channel with Carol"),
+          React.createElement('li', { key: "route3" }, "Alice sends payment through Bob using HTLC"),
+          React.createElement('li', { key: "route4" }, "Bob forwards payment to Carol"),
+          React.createElement('li', { key: "route5" }, "Carol receives payment, releases secret"),
+          React.createElement('li', { key: "route6" }, "Payment completes atomically across the route")
+        ])
+      ]),
+  
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "security" }, "🔐 But Is It Secure?"),
+      React.createElement('p', { className: "mb-3", key: "security-intro" },
+        "Yes! Lightning uses cryptographic tricks to keep everyone honest:"
+      ),
+      React.createElement('ul', { className: "list-disc ml-4 space-y-2 text-sm mb-4", key: "security-features" }, [
+        React.createElement('li', { key: "sec1" }, React.createElement('strong', null, "HTLCs "), "(Hashed Time-Locked Contracts) ensure payment is atomic (all-or-nothing)"),
+        React.createElement('li', { key: "sec2" }, React.createElement('strong', null, "Penalty rules "), "punish cheating"),
+        React.createElement('li', { key: "sec3" }, React.createElement('strong', null, "Multi-sig contracts "), "hold your Bitcoin safely"),
+        React.createElement('li', { key: "sec4" }, React.createElement('strong', null, "Watchtowers "), "monitor channels when you're offline")
+      ]),
+      React.createElement('p', { className: "font-semibold text-green-300", key: "security-guarantee" },
+        "Your funds are always protected."
+      ),
+  
+      React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4 mb-4", key: "security-mechanisms" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "mechanisms-title" }, "Security Mechanisms Explained"),
+        React.createElement('div', { className: "space-y-3", key: "mechanisms-list" }, [
+          React.createElement('div', { key: "htlc-explain" }, [
+            React.createElement('h5', { className: "font-semibold text-green-200", key: "htlc-title" }, "Hash Time-Locked Contracts (HTLCs)"),
+            React.createElement('p', { className: "text-xs text-gray-300", key: "htlc-desc" },
+              "Ensures payments either complete fully or are automatically refunded. Uses cryptographic hashes and time locks."
+            )
+          ]),
+          React.createElement('div', { key: "penalty-explain" }, [
+            React.createElement('h5', { className: "font-semibold text-green-200", key: "penalty-title" }, "Justice Transactions"),
+            React.createElement('p', { className: "text-xs text-gray-300", key: "penalty-desc" },
+              "If someone tries to cheat by broadcasting an old channel state, they lose all their funds as punishment."
+            )
+          ]),
+          React.createElement('div', { key: "watchtower-explain" }, [
+            React.createElement('h5', { className: "font-semibold text-green-200", key: "watchtower-title" }, "Watchtower Services"),
+            React.createElement('p', { className: "text-xs text-gray-300", key: "watchtower-desc" },
+              "Third-party services that monitor the blockchain for fraud attempts while you're offline."
+            )
+          ])
+        ])
+      ]),
+  
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "addresses" }, "📬 Lightning Addresses: Simple, Human-Friendly Payments"),
+      React.createElement('p', { className: "mb-3", key: "addresses-intro" },
+        "Instead of invoices or QR codes, you can use Lightning Addresses, like an email."
+      ),
+      React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-3 mb-3", key: "address-example" }, [
+        React.createElement('code', { className: "text-purple-300", key: "example-address" }, "victoria@lightning.tori.co")
+      ]),
+      React.createElement('p', { className: "mb-4 text-sm", key: "address-explanation" },
+        "It points to your Lightning wallet. Anyone can send you BTC instantly."
+      ),
+  
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "ln-ecosystem" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "ecosystem-title" }, "Lightning Network Ecosystem"),
+        React.createElement('div', { className: "grid md:grid-cols-2 gap-3", key: "ecosystem-grid" }, [
+          React.createElement('div', { key: "wallets" }, [
+            React.createElement('h5', { className: "font-semibold text-blue-200 mb-1", key: "wallets-title" }, "Popular Wallets"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "wallets-list" }, [
+              React.createElement('li', { key: "wallet1" }, "Phoenix (mobile)"),
+              React.createElement('li', { key: "wallet2" }, "Breez (mobile)"),
+              React.createElement('li', { key: "wallet3" }, "Zeus (mobile)"),
+              React.createElement('li', { key: "wallet4" }, "LND (node software)")
+            ])
+          ]),
+          React.createElement('div', { key: "services" }, [
+            React.createElement('h5', { className: "font-semibold text-blue-200 mb-1", key: "services-title" }, "Lightning Services"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "services-list" }, [
+              React.createElement('li', { key: "service1" }, "Strike (payments)"),
+              React.createElement('li', { key: "service2" }, "Cash App (payments)"),
+              React.createElement('li', { key: "service3" }, "Fountain (podcasting)"),
+              React.createElement('li', { key: "service4" }, "Stacker News (social)")
+            ])
+          ])
+        ])
+      ]),
+  
+      React.createElement('div', { className: "bg-yellow-900/20 border border-yellow-800/30 rounded-lg p-4 mb-4", key: "limitations" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-yellow-300", key: "limitations-title" }, "Current Limitations & Considerations"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "limitations-list" }, [
+          React.createElement('li', { key: "lim1" }, React.createElement('strong', null, "Liquidity: "), "Channels need sufficient balance for routing"),
+          React.createElement('li', { key: "lim2" }, React.createElement('strong', null, "Online Requirement: "), "Must be online to receive payments"),
+          React.createElement('li', { key: "lim3" }, React.createElement('strong', null, "Channel Management: "), "Opening/closing requires on-chain transactions"),
+          React.createElement('li', { key: "lim4" }, React.createElement('strong', null, "Backup Complexity: "), "Channel states must be backed up properly"),
+          React.createElement('li', { key: "lim5" }, React.createElement('strong', null, "Network Effects: "), "Better with more adoption and liquidity")
+        ])
+      ]),
+  
+      React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4 mb-4", key: "recap" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-green-300", key: "recap-title" }, "✅ Recap: Why Lightning?"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "recap-list" }, [
+          React.createElement('li', { key: "recap1" }, "Send Bitcoin instantly ⚡"),
+          React.createElement('li', { key: "recap2" }, "Pay less than 1 sat in fees 💰"),
+          React.createElement('li', { key: "recap3" }, "Stay in control (non-custodial) 🔐"),
+          React.createElement('li', { key: "recap4" }, "Scale Bitcoin without breaking it 📈"),
+          React.createElement('li', { key: "recap5" }, "Enable micropayments and streaming money 🚀")
+        ])
+      ]),
+  
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/lightning-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "🧪 Ready to Try It? Start the Lightning Simulation! 🎮"),
+        React.createElement('p', { key: "challenge-desc" },
+          "Open a channel → Send a payment → Route through nodes → Close the channel. " +
+          "Experience how Lightning feels faster than Visa, but still 100% Bitcoin."
+        ),
+        React.createElement('p', { className: "text-sm text-blue-300 mt-2", key: "simulation-features" },
+          "Interactive features: Channel funding, instant payments, multi-hop routing, fee optimization, and channel management."
+        )
+      ])
+    ]),
+    completionMessage: "Amazing! You now understand how the Lightning Network enables instant, cheap Bitcoin payments while maintaining security and decentralization."
+  },
+  {
+    id: 12,
+    title: "Bitcoin vs Lightning",
+    subtitle: "Exploring Their Differences",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/769917eddc6ee5ee6bf70d4b3468bc2d3751f70a7fbc84c9ccf43c5a46bcb068?w=530&h=260",
+    simulationType: "lightning",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "Bitcoin and Lightning Network work together as a powerful two-layer system. Understanding their differences " +
+        "and how they complement each other is essential for using Bitcoin effectively in the modern world."
+      ),
+  
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "base-layer" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-300", key: "base-title" }, "🧱 Understanding the Base Layer (Bitcoin L1)"),
+        React.createElement('p', { className: "mb-3", key: "base-intro" },
+          "The Bitcoin base layer is the original blockchain - the foundation that provides security and finality."
+        ),
+        React.createElement('div', { className: "grid md:grid-cols-2 gap-4", key: "base-details" }, [
+          React.createElement('div', { key: "base-what" }, [
+            React.createElement('h4', { className: "font-semibold text-blue-200 mb-2", key: "what-title" }, "What it is:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "what-list" }, [
+              React.createElement('li', { key: "what1" }, "The original Bitcoin blockchain"),
+              React.createElement('li', { key: "what2" }, "Global distributed ledger"),
+              React.createElement('li', { key: "what3" }, "Proof-of-Work consensus"),
+              React.createElement('li', { key: "what4" }, "Immutable transaction history")
+            ])
+          ]),
+          React.createElement('div', { key: "base-chars" }, [
+            React.createElement('h4', { className: "font-semibold text-blue-200 mb-2", key: "chars-title" }, "Characteristics:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "chars-list" }, [
+              React.createElement('li', { key: "char1" }, "🔒 Secure and decentralized"),
+              React.createElement('li', { key: "char2" }, "🐌 Slow (10 minute blocks)"),
+              React.createElement('li', { key: "char3" }, "💰 Expensive during congestion"),
+              React.createElement('li', { key: "char4" }, "🌍 Global consensus required")
+            ])
+          ])
+        ]),
+        React.createElement('div', { className: "mt-3 p-3 bg-blue-800/20 rounded", key: "base-uses" }, [
+          React.createElement('h4', { className: "font-semibold text-blue-200 mb-1", key: "uses-title" }, "Use Cases:"),
+          React.createElement('p', { className: "text-sm", key: "uses-desc" },
+            "Final settlement • Large transfers • Store of value • Maximum security requirements"
+          )
+        ])
+      ]),
+  
+      React.createElement('div', { className: "bg-yellow-900/20 border border-yellow-800/30 rounded-lg p-4 mb-4", key: "lightning-layer" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-yellow-300", key: "lightning-title" }, "⚡ Understanding the Lightning Network (Bitcoin L2)"),
+        React.createElement('p', { className: "mb-3", key: "lightning-intro" },
+          "Lightning Network is a second layer built on top of Bitcoin, optimized for speed and low costs."
+        ),
+        React.createElement('div', { className: "grid md:grid-cols-2 gap-4", key: "lightning-details" }, [
+          React.createElement('div', { key: "lightning-what" }, [
+            React.createElement('h4', { className: "font-semibold text-yellow-200 mb-2", key: "ln-what-title" }, "What it is:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "ln-what-list" }, [
+              React.createElement('li', { key: "ln-what1" }, "Second layer on Bitcoin"),
+              React.createElement('li', { key: "ln-what2" }, "Network of payment channels"),
+              React.createElement('li', { key: "ln-what3" }, "Off-chain transaction routing"),
+              React.createElement('li', { key: "ln-what4" }, "Bitcoin-backed IOUs")
+            ])
+          ]),
+          React.createElement('div', { key: "lightning-chars" }, [
+            React.createElement('h4', { className: "font-semibold text-yellow-200 mb-2", key: "ln-chars-title" }, "Characteristics:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "ln-chars-list" }, [
+              React.createElement('li', { key: "ln-char1" }, "⚡ Fast (sub-second)"),
+              React.createElement('li', { key: "ln-char2" }, "💸 Cheap (sub-satoshi fees)"),
+              React.createElement('li', { key: "ln-char3" }, "📈 Scalable (millions TPS)"),
+              React.createElement('li', { key: "ln-char4" }, "🔐 Private (onion routing)")
+            ])
+          ])
+        ]),
+        React.createElement('div', { className: "mt-3 p-3 bg-yellow-800/20 rounded", key: "lightning-uses" }, [
+          React.createElement('h4', { className: "font-semibold text-yellow-200 mb-1", key: "ln-uses-title" }, "Use Cases:"),
+          React.createElement('p', { className: "text-sm", key: "ln-uses-desc" },
+            "Daily spending • Micropayments • Streaming money • Fast commerce • Tipping content creators"
+          )
+        ])
+      ]),
+  
+      React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4 mb-4", key: "comparison" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-purple-300", key: "comparison-title" }, "⚖️ Direct Comparison"),
+        React.createElement('div', { className: "overflow-x-auto", key: "comparison-table" }, [
+          React.createElement('table', { className: "w-full text-sm", key: "comp-table" }, [
+            React.createElement('thead', { key: "comp-thead" }, [
+              React.createElement('tr', { className: "border-b border-purple-600", key: "comp-header" }, [
+                React.createElement('th', { className: "text-left p-2 text-purple-200", key: "feature-header" }, "Feature"),
+                React.createElement('th', { className: "text-left p-2 text-purple-200", key: "bitcoin-header" }, "Bitcoin L1"),
+                React.createElement('th', { className: "text-left p-2 text-purple-200", key: "lightning-header" }, "Lightning L2")
+              ])
+            ]),
+            React.createElement('tbody', { key: "comp-tbody" }, [
+              React.createElement('tr', { className: "border-b border-purple-700", key: "speed-row" }, [
+                React.createElement('td', { className: "p-2 font-semibold", key: "speed-label" }, "Transaction Speed"),
+                React.createElement('td', { className: "p-2 text-red-300", key: "speed-bitcoin" }, "10-60 minutes"),
+                React.createElement('td', { className: "p-2 text-green-300", key: "speed-lightning" }, "< 1 second")
+              ]),
+              React.createElement('tr', { className: "border-b border-purple-700", key: "fees-row" }, [
+                React.createElement('td', { className: "p-2 font-semibold", key: "fees-label" }, "Transaction Fees"),
+                React.createElement('td', { className: "p-2 text-red-300", key: "fees-bitcoin" }, "$0.50 - $50+"),
+                React.createElement('td', { className: "p-2 text-green-300", key: "fees-lightning" }, "< $0.01")
+              ]),
+              React.createElement('tr', { className: "border-b border-purple-700", key: "privacy-row" }, [
+                React.createElement('td', { className: "p-2 font-semibold", key: "privacy-label" }, "Privacy"),
+                React.createElement('td', { className: "p-2 text-yellow-300", key: "privacy-bitcoin" }, "Public ledger"),
+                React.createElement('td', { className: "p-2 text-green-300", key: "privacy-lightning" }, "Onion routing")
+              ]),
+              React.createElement('tr', { className: "border-b border-purple-700", key: "finality-row" }, [
+                React.createElement('td', { className: "p-2 font-semibold", key: "finality-label" }, "Finality"),
+                React.createElement('td', { className: "p-2 text-green-300", key: "finality-bitcoin" }, "Global consensus"),
+                React.createElement('td', { className: "p-2 text-yellow-300", key: "finality-lightning" }, "Off-chain trust")
+              ]),
+              React.createElement('tr', { className: "border-b border-purple-700", key: "capacity-row" }, [
+                React.createElement('td', { className: "p-2 font-semibold", key: "capacity-label" }, "Network Capacity"),
+                React.createElement('td', { className: "p-2 text-red-300", key: "capacity-bitcoin" }, "7 TPS"),
+                React.createElement('td', { className: "p-2 text-green-300", key: "capacity-lightning" }, "Millions TPS")
+              ]),
+              React.createElement('tr', { key: "offline-row" }, [
+                React.createElement('td', { className: "p-2 font-semibold", key: "offline-label" }, "Offline Receiving"),
+                React.createElement('td', { className: "p-2 text-green-300", key: "offline-bitcoin" }, "✅ Yes"),
+                React.createElement('td', { className: "p-2 text-red-300", key: "offline-lightning" }, "❌ No")
+              ])
+            ])
+          ])
+        ])
+      ]),
+  
+      React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4 mb-4", key: "complement" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-green-300", key: "complement-title" }, "🤝 How They Work Together"),
+        React.createElement('p', { className: "mb-3", key: "complement-intro" },
+          "Bitcoin and Lightning don't compete - they complement each other in a layered architecture."
+        ),
+        React.createElement('div', { className: "space-y-3", key: "complement-details" }, [
+          React.createElement('div', { className: "p-3 bg-green-800/20 rounded", key: "lightning-needs" }, [
+            React.createElement('h4', { className: "font-semibold text-green-200 mb-1", key: "ln-needs-title" }, "Lightning Needs Bitcoin:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "ln-needs-list" }, [
+              React.createElement('li', { key: "need1" }, "Anchor security and finality"),
+              React.createElement('li', { key: "need2" }, "Channel opening/closing transactions"),
+              React.createElement('li', { key: "need3" }, "Dispute resolution on-chain"),
+              React.createElement('li', { key: "need4" }, "Ultimate settlement layer")
+            ])
+          ]),
+          React.createElement('div', { className: "p-3 bg-green-800/20 rounded", key: "bitcoin-needs" }, [
+            React.createElement('h4', { className: "font-semibold text-green-200 mb-1", key: "btc-needs-title" }, "Bitcoin Needs Lightning:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "btc-needs-list" }, [
+              React.createElement('li', { key: "btc-need1" }, "Scale to billions of users"),
+              React.createElement('li', { key: "btc-need2" }, "Enable everyday transactions"),
+              React.createElement('li', { key: "btc-need3" }, "Reduce on-chain congestion"),
+              React.createElement('li', { key: "btc-need4" }, "Support micropayment use cases")
+            ])
+          ]),
+          React.createElement('div', { className: "p-3 bg-green-800/20 rounded", key: "together" }, [
+            React.createElement('h4', { className: "font-semibold text-green-200 mb-1", key: "together-title" }, "Together They Offer:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "together-list" }, [
+              React.createElement('li', { key: "tog1" }, "Both robustness AND efficiency"),
+              React.createElement('li', { key: "tog2" }, "Store of value AND medium of exchange"),
+              React.createElement('li', { key: "tog3" }, "Security AND scalability"),
+              React.createElement('li', { key: "tog4" }, "Decentralization AND usability")
+            ])
+          ])
+        ])
+      ]),
+  
+      React.createElement('div', { className: "bg-indigo-900/20 border border-indigo-800/30 rounded-lg p-4 mb-4", key: "addresses" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-indigo-300", key: "addresses-title" }, "📧 Address Formats Overview"),
+        React.createElement('p', { className: "mb-3", key: "addresses-intro" },
+          "Each layer uses different address formats optimized for their specific purposes."
+        ),
+        React.createElement('div', { className: "grid md:grid-cols-2 gap-4", key: "addresses-grid" }, [
+          React.createElement('div', { key: "bitcoin-addresses" }, [
+            React.createElement('h4', { className: "font-semibold text-indigo-200 mb-2", key: "btc-addr-title" }, "Bitcoin On-Chain:"),
+            React.createElement('div', { className: "space-y-2", key: "btc-addr-examples" }, [
+              React.createElement('div', { className: "p-2 bg-indigo-800/20 rounded", key: "legacy-addr" }, [
+                React.createElement('div', { className: "font-mono text-xs", key: "legacy-example" }, "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"),
+                React.createElement('div', { className: "text-xs text-gray-400", key: "legacy-label" }, "Legacy (P2PKH)")
+              ]),
+              React.createElement('div', { className: "p-2 bg-indigo-800/20 rounded", key: "segwit-addr" }, [
+                React.createElement('div', { className: "font-mono text-xs", key: "segwit-example" }, "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy"),
+                React.createElement('div', { className: "text-xs text-gray-400", key: "segwit-label" }, "SegWit (P2SH)")
+              ]),
+              React.createElement('div', { className: "p-2 bg-indigo-800/20 rounded", key: "bech32-addr" }, [
+                React.createElement('div', { className: "font-mono text-xs", key: "bech32-example" }, "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4"),
+                React.createElement('div', { className: "text-xs text-gray-400", key: "bech32-label" }, "Bech32 (Native SegWit)")
+              ])
+            ])
+          ]),
+          React.createElement('div', { key: "lightning-addresses" }, [
+            React.createElement('h4', { className: "font-semibold text-indigo-200 mb-2", key: "ln-addr-title" }, "Lightning Network:"),
+            React.createElement('div', { className: "space-y-2", key: "ln-addr-examples" }, [
+              React.createElement('div', { className: "p-2 bg-indigo-800/20 rounded", key: "bolt11-addr" }, [
+                React.createElement('div', { className: "font-mono text-xs break-all", key: "bolt11-example" }, "lnbc20m1pvjluez..."),
+                React.createElement('div', { className: "text-xs text-gray-400", key: "bolt11-label" }, "BOLT11 Invoice")
+              ]),
+              React.createElement('div', { className: "p-2 bg-indigo-800/20 rounded", key: "lnurl-addr" }, [
+                React.createElement('div', { className: "font-mono text-xs", key: "lnurl-example" }, "alice@wallet.com"),
+                React.createElement('div', { className: "text-xs text-gray-400", key: "lnurl-label" }, "Lightning Address (LNURL)")
+              ]),
+              React.createElement('div', { className: "p-2 bg-indigo-800/20 rounded", key: "keysend-addr" }, [
+                React.createElement('div', { className: "font-mono text-xs break-all", key: "keysend-example" }, "03af...@nodehost.com"),
+                React.createElement('div', { className: "text-xs text-gray-400", key: "keysend-label" }, "Keysend (Node Pubkey)")
+              ])
+            ])
+          ])
+        ])
+      ]),
+  
+      React.createElement('div', { className: "bg-gray-900/20 border border-gray-800/30 rounded-lg p-4 mb-4", key: "infrastructure" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-gray-300", key: "infra-title" }, "🏗️ Infrastructure Differences"),
+        React.createElement('div', { className: "grid md:grid-cols-2 gap-4", key: "infra-grid" }, [
+          React.createElement('div', { key: "l1-infra" }, [
+            React.createElement('h4', { className: "font-semibold text-gray-200 mb-2", key: "l1-infra-title" }, "Layer 1 Infrastructure:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "l1-infra-list" }, [
+              React.createElement('li', { key: "l1-1" }, "Full nodes validate all transactions"),
+              React.createElement('li', { key: "l1-2" }, "Miners secure the network"),
+              React.createElement('li', { key: "l1-3" }, "Simple wallet software"),
+              React.createElement('li', { key: "l1-4" }, "Global consensus required"),
+              React.createElement('li', { key: "l1-5" }, "Block explorers for transparency")
+            ])
+          ]),
+          React.createElement('div', { key: "l2-infra" }, [
+            React.createElement('h4', { className: "font-semibold text-gray-200 mb-2", key: "l2-infra-title" }, "Layer 2 Infrastructure:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "l2-infra-list" }, [
+              React.createElement('li', { key: "l2-1" }, "Lightning nodes route payments"),
+              React.createElement('li', { key: "l2-2" }, "Payment channels between peers"),
+              React.createElement('li', { key: "l2-3" }, "Advanced wallet management"),
+              React.createElement('li', { key: "l2-4" }, "Local state synchronization"),
+              React.createElement('li', { key: "l2-5" }, "Watchtower services for security")
+            ])
+          ])
+        ])
+      ]),
+  
+      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "analogy" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-orange-300", key: "analogy-title" }, "🏦 Banking Analogy"),
+        React.createElement('div', { className: "p-3 bg-orange-800/20 rounded", key: "analogy-content" }, [
+          React.createElement('p', { className: "mb-2 text-center font-semibold text-orange-200", key: "analogy-quote" },
+            "\"Bitcoin is digital gold. Lightning is the Visa/M-Pesa built on top of it.\""
+          ),
+          React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mt-3", key: "analogy-breakdown" }, [
+            React.createElement('div', { key: "bitcoin-analogy" }, [
+              React.createElement('h4', { className: "font-semibold text-orange-200 mb-1", key: "btc-analogy-title" }, "Bitcoin = Central Banking:"),
+              React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "btc-analogy-list" }, [
+                React.createElement('li', { key: "btc-a1" }, "Final settlement system"),
+                React.createElement('li', { key: "btc-a2" }, "Slow but ultra-secure"),
+                React.createElement('li', { key: "btc-a3" }, "Used for large transfers"),
+                React.createElement('li', { key: "btc-a4" }, "Expensive but trustless")
+              ])
+            ]),
+            React.createElement('div', { key: "lightning-analogy" }, [
+              React.createElement('h4', { className: "font-semibold text-orange-200 mb-1", key: "ln-analogy-title" }, "Lightning = Retail Banking:"),
+              React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "ln-analogy-list" }, [
+                React.createElement('li', { key: "ln-a1" }, "Daily transaction system"),
+                React.createElement('li', { key: "ln-a2" }, "Fast and convenient"),
+                React.createElement('li', { key: "ln-a3" }, "Used for small purchases"),
+                React.createElement('li', { key: "ln-a4" }, "Cheap but requires setup")
+              ])
+            ])
+          ])
+        ])
+      ]),
+  
+      React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4 mb-4", key: "when-to-use" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-red-300", key: "when-title" }, "🎯 When to Use Each Layer"),
+        React.createElement('div', { className: "grid md:grid-cols-2 gap-4", key: "when-grid" }, [
+          React.createElement('div', { className: "p-3 bg-red-800/20 rounded", key: "use-bitcoin" }, [
+            React.createElement('h4', { className: "font-semibold text-red-200 mb-2", key: "use-btc-title" }, "Use Bitcoin L1 for:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "use-btc-list" }, [
+              React.createElement('li', { key: "use-btc1" }, "☕ Use Lightning for coffee"),
+              React.createElement('li', { key: "use-btc2" }, "🏠 Use on-chain for your house"),
+              React.createElement('li', { key: "use-btc3" }, "💰 Large value transfers (>$1000)"),
+              React.createElement('li', { key: "use-btc4" }, "🏛️ Final settlement requirements"),
+              React.createElement('li', { key: "use-btc5" }, "🔒 Maximum security needs"),
+              React.createElement('li', { key: "use-btc6" }, "📱 When recipient is offline")
+            ])
+          ]),
+          React.createElement('div', { className: "p-3 bg-yellow-800/20 rounded", key: "use-lightning" }, [
+            React.createElement('h4', { className: "font-semibold text-yellow-200 mb-2", key: "use-ln-title" }, "Use Lightning L2 for:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "use-ln-list" }, [
+              React.createElement('li', { key: "use-ln1" }, "☕ Daily purchases & coffee"),
+              React.createElement('li', { key: "use-ln2" }, "🎮 Gaming and microtransactions"),
+              React.createElement('li', { key: "use-ln3" }, "💸 Small frequent payments (<$100)"),
+              React.createElement('li', { key: "use-ln4" }, "⚡ When speed is critical"),
+              React.createElement('li', { key: "use-ln5" }, "💰 Minimizing transaction fees"),
+              React.createElement('li', { key: "use-ln6" }, "🔐 Enhanced privacy desired")
+            ])
+          ])
+        ])
+      ]),
+  
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/lightning-bitcoin-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "🧪 Interactive Simulation: Bitcoin vs Lightning Comparison"),
+        React.createElement('p', { className: "mb-3", key: "challenge-desc" },
+          "Experience both Bitcoin layers side-by-side. Send transactions using both methods and compare:"
+        ),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm mb-3", key: "simulation-features" }, [
+          React.createElement('li', { key: "sim1" }, "⚡ Transaction speed differences"),
+          React.createElement('li', { key: "sim2" }, "💰 Fee comparison in real-time"),
+          React.createElement('li', { key: "sim3" }, "🔐 Privacy and security trade-offs"),
+          React.createElement('li', { key: "sim4" }, "📊 Network capacity and scalability"),
+          React.createElement('li', { key: "sim5" }, "🎯 Address formats and UX differences")
+        ]),
+        React.createElement('p', { className: "text-sm text-blue-300", key: "simulation-conclusion" },
+          "See firsthand why Bitcoin needs both layers to serve as a complete monetary system for the digital age."
+        )
+      ]),
+  
+      React.createElement('div', { className: "bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-800/30 rounded-lg p-4 mb-4", key: "takeaways" }, [
+        React.createElement('h3', { className: "text-xl font-semibold mb-2 text-purple-300", key: "takeaways-title" }, "🧠 Key Takeaways"),
+        React.createElement('ul', { className: "space-y-2 text-sm", key: "takeaways-list" }, [
+          React.createElement('li', { className: "flex items-start", key: "takeaway1" }, [
+            React.createElement('span', { className: "inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full bg-purple-400", key: "dot1" }),
+            React.createElement('span', { key: "text1" }, "Lightning extends Bitcoin's capabilities rather than replacing them")
+          ]),
+          React.createElement('li', { className: "flex items-start", key: "takeaway2" }, [
+            React.createElement('span', { className: "inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full bg-purple-400", key: "dot2" }),
+            React.createElement('span', { key: "text2" }, "Each layer is optimized for different use cases and requirements")
+          ]),
+          React.createElement('li', { className: "flex items-start", key: "takeaway3" }, [
+            React.createElement('span', { className: "inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full bg-purple-400", key: "dot3" }),
+            React.createElement('span', { key: "text3" }, "Together they solve Bitcoin's scaling challenges while preserving decentralization")
+          ]),
+          React.createElement('li', { className: "flex items-start", key: "takeaway4" }, [
+            React.createElement('span', { className: "inline-block mr-2 mt-1 h-1.5 w-1.5 rounded-full bg-purple-400", key: "dot4" }),
+            React.createElement('span', { key: "text4" }, "Understanding both layers is essential for effective Bitcoin usage")
+          ])
+        ])
+      ]),
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/lightning-bitcoin-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "🧪 Ready to Try It? Start the Lightning vs Bitcoin Simulation! 🎮"),
+        React.createElement('p', { key: "challenge-desc" },
+          "Understand why Lightning exists " +
+          "Know when to use on-chain vs Lightning"+
+          "Appreciate how Lightning solves Bitcoin's scaling trilemma"+
+          "Be able to interpret addresses and identify network paths"
+        ),
+        React.createElement('p', { className: "text-sm text-blue-300 mt-2", key: "simulation-features" },
+          "Interactive features: Live Transaction Journey Visualization, Time Simulation,Confirmation Feedback."
+        )
+      ])
+    ]),
+    completionMessage: "🎉 Simulation Complete: You have Sent BTC Using Both Layers!!.🧱 On-Chain Bitcoin gave you finality and security — perfect for large or critical transactions.⚡ Lightning Network delivered instant, low-cost payments — ideal for daily use and microtransactions.🔄 Together, they are two sides of the same coin: The base layer protects your wealth.The second layer lets you spend it freely.🔐 Layered scaling is how Bitcoin grows to serve billions — without compromising on decentralization or security.🚀 You’re now ready to navigate the future of Bitcoin payments with confidence!"
+  }  
 ];

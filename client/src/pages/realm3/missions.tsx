@@ -7,12 +7,14 @@ import { realm4Missions } from '@/lib/realm4-missions';
 import { Mission } from '@/components/ui/mission';
 import { Realm2MissionData } from '@/lib/realm2-missions';
 import { getRealmName } from '@/lib/realm-utils';
+import HalvingSimulator from '../realm4/halving-simulator';
 
 // Lazy load simulation components to improve performance
 const CryptographySimulator = lazy(() => import('./cryptography-simulator'));
 const ConsensusSimulator = lazy(() => import('./consensus-simulator'));
 const HashingSimulator = lazy(() => import('./hashing-simulator'));
 const MerkleTreeSimulator = lazy(() => import('./merkle-tree-simulator'));
+// const TrustLessSimulator = lazy(() => import('./trustless-simulator'));
 
 export default function Realm4Missions() {
   const [, setLocation] = useLocation();
@@ -168,6 +170,11 @@ export default function Realm4Missions() {
               />;
             case 'africa':
               return <MerkleTreeSimulator
+                onComplete={handleChallengeComplete}
+              />;
+
+            case 'halving':
+              return <HalvingSimulator
                 onComplete={handleChallengeComplete}
               />;
             

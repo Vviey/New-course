@@ -3,6 +3,7 @@ import { Suspense, lazy, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider, useAuth } from "@/context/AuthContext"; 
+import TrustlessSimulator from "@/pages/realm3/trustless-simulator";
 
 // Lazy load pages
 const HomePage = lazy(() => import("@/pages/HomePage"));
@@ -55,6 +56,17 @@ const ConsensusSimulator3 = lazy(() => import("@/pages/realm3/consensus-simulato
 const CryptographySimulator = lazy(() => import("@/pages/realm3/cryptography-simulator"));
 const HashingSimulator = lazy(() => import("@/pages/realm3/hashing-simulator"));
 const MerkleTreeSimulator = lazy(() => import("@/pages/realm3/merkle-tree-simulator"));
+const LightningBitcoinSimulator = lazy(() => import("@/pages/realm3/lightning-bitcoin-simulator"));
+const LightningSimulator = lazy(() => import("@/pages/realm3/lightning-simulator"));
+const ForksSimulator = lazy(() => import("@/pages/realm3/forks-simulator"));
+const KeysSimulator = lazy(() => import("@/pages/realm3/keys-simulator"));
+const MempoolSimulator = lazy(() => import("@/pages/realm3/mempool-simulator"));
+const NodeSimulator = lazy(() => import("@/pages/realm3/node-simulator"));
+const ScalingSimulator = lazy(() => import("@/pages/realm3/scaling-simulator"));
+const ScriptSimulator = lazy(() => import("@/pages/realm3/script-simulator"));
+const TransactionSimulator = lazy(() => import("@/pages/realm3/transaction-simulator"));
+const WalletSimulator = lazy(() => import("@/pages/realm3/wallet-simulator"));
+const TrustLessSimulator = lazy(() => import("@/pages/realm3/trustless-simulator"));
 
 const HalvingSimulator = lazy(() => import("@/pages/realm4/halving-simulator"));
 const EnergySimulator = lazy(() => import("@/pages/realm4/energy-simulator"));
@@ -120,6 +132,17 @@ const ConsensusSimulator3Wrapper = () => <ConsensusSimulator3 onComplete={() => 
 const CryptographySimulatorWrapper = () => <CryptographySimulator onComplete={() => {}} />;
 const HashingSimulatorWrapper = () => <HashingSimulator onComplete={() => {}} />;
 const MerkleTreeSimulatorWrapper = () => <MerkleTreeSimulator onComplete={() => {}} />;
+const LightningSimulatorWrapper = () => <LightningSimulator onComplete={() => {}} />;
+const LightningBitcoinSimulatorWrapper = () => <LightningBitcoinSimulator onComplete={() => {}} />;
+const ForksWrapper = () => <ForksSimulator onComplete={() => {}} />;
+const KeysSimulatorWrapper = () => <KeysSimulator onComplete={() => {}} />;
+const MempoolSimulatorWrapper = () => <MempoolSimulator onComplete={() => {}} />;
+const NodeSimulatorWrapper = () => <NodeSimulator onComplete={() => {}} />;
+const ScalingSimulatorWrapper = () => <ScalingSimulator onComplete={() => {}} />;
+const ScriptSimulatorWrapper = () => <ScriptSimulator onComplete={() => {}} />;
+const TransactionSimulatorWrapper = () => <TransactionSimulator onComplete={() => {}} />;
+const WalletSimulatorWrapper = () => <WalletSimulator onComplete={() => {}} />;
+const TrustlessimulatorWrapper = () => <TrustlessSimulator onComplete={() => {}} />;
 const HalvingSimulatorWrapper = () => <HalvingSimulator onComplete={() => {}} />;
 const EnergySimulatorWrapper = () => <EnergySimulator onComplete={() => {}} />;
 const AfricaSimulatorWrapper = () => <AfricaSimulator onComplete={() => {}} />;
@@ -261,6 +284,17 @@ function App() {
           <Route path="/realm3/cryptography-simulator" component={CryptographySimulatorWrapper} />
           <Route path="/realm3/hashing-simulator" component={HashingSimulatorWrapper} />
           <Route path="/realm3/merkle-tree-simulator" component={MerkleTreeSimulatorWrapper} />
+          <Route path="/realm3/lightning-bitcoin-simulator" component={LightningBitcoinSimulatorWrapper} />
+          <Route path="/realm3/lightning-simulator" component={LightningSimulatorWrapper} />
+          <Route path="/realm3/forks-simulator" component={ForkSimulatorWrapper} />
+          <Route path="/realm3/keys-simulator" component={KeysSimulatorWrapper} />
+          <Route path="/realm3/mempool-simulator" component={MempoolSimulatorWrapper} />
+          <Route path="/realm3/node-simulator" component={NodeSimulatorWrapper} />
+          <Route path="/realm3/scaling-simulator" component={ScalingSimulatorWrapper} />
+          <Route path="/realm3/script-simulator" component={ScriptSimulatorWrapper} />
+          <Route path="/realm3/transaction-simulator" component={TransactionSimulatorWrapper} />
+          <Route path="/realm3/wallet-simulator" component={WalletSimulatorWrapper} />
+          <Route path="/realm3/trustless-simulator" component={TrustlessimulatorWrapper} />
 
           {/* Realm 4 Routes */}
           <Route path="/realm4/halving-simulator" component={HalvingSimulatorWrapper} />
