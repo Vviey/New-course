@@ -103,7 +103,7 @@ export default function Realm4Home() {
     <div className="min-h-screen"
       style={{
         background: `linear-gradient(to bottom, ${THEME.colors.background}, ${THEME.colors.backgroundLight})`,
-        backgroundImage: "url('/realms/forks.jpg')",
+        backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Mining-and-Energy.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",

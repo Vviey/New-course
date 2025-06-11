@@ -46,7 +46,7 @@ export default function MissionLayout({
   
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header - now with lighter styling */}
+      {/* Header - now with lighter styling
       <header className="bg-white dark:bg-gray-950 shadow-sm sticky top-0 z-10 border-b">
         <div className="container mx-auto px-4 py-3">
           <MissionNavigation 
@@ -60,12 +60,12 @@ export default function MissionLayout({
             showProgress={true}
           />
         </div>
-      </header>
+      </header> */}
       
       {/* Main content area - now full width */}
       <main className="flex-1 container mx-auto px-4 py-6">
         {/* Title section with updated styling */}
-        <div className="text-center mb-8">
+        {/* <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             {title}
           </h1>
@@ -74,7 +74,7 @@ export default function MissionLayout({
               {subtitle}
             </p>
           )}
-        </div>
+        </div> */}
         
         {/* Children content - now full width within container */}
         <div className="w-full">

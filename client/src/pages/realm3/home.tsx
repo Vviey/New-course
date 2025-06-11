@@ -164,9 +164,9 @@ export default function Realm3Home() {
                       {mission.subtitle}
                     </p>
                     
-                    <p className="text-sm text-teal-100 line-clamp-3 mb-6">
+                    {/* <p className="text-sm text-teal-100 line-clamp-3 mb-6">
                       {mission.description.split('.')[0]}.
-                    </p>
+                    </p> */}
                     
                     <div className="flex justify-between items-center mt-auto">
                       <div>

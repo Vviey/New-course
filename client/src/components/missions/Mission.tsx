@@ -19,6 +19,13 @@ import { BitcoinPrivacySimulator } from '../simulations/BitcoinPrivacySimulator'
 import { LightningPrivacySimulator } from '../simulations/LightningPrivacySimulator';
 import { SelfCustodySimulator } from '../simulations/SelfCustodySimulator';
 
+
+// // Import Realm 3 simulation components
+// import { ConsensusSimulator } from '../simulations/ConsensusSimulator';
+// import { CryptographySimulator } from '../simulations/CryptographySimulator';
+// import { HashFunctionSimulator } from '../simulations/HashFunctionSimulator';
+// import { MerkleTreeSimulator } from '../simulations/MerkleTreeSimulator';
+
 // Lazy load additional simulation components
 const RolePlaySimulator = lazy(() => import('../simulations/RolePlaySimulator').then(module => ({ default: module.RolePlaySimulator })));
 const PaymentPrivacySimulator = lazy(() => import('../simulations/PaymentPrivacySimulator').then(module => ({ default: module.PaymentPrivacySimulator })));
@@ -201,92 +208,92 @@ export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionPr
           </Suspense>
         );
       
-      // Realm 3 simulation types
-      case 'cryptography':
-        return (
-          <Suspense fallback={<div>Loading Cryptography Simulator...</div>}>
-            <CryptographySimulator
-              challenges={mission.simulationData?.challenges || []}
-              visualExplanations={mission.simulationData?.visualExplanations || []}
-              onComplete={handleSimulationComplete}
-            />
-          </Suspense>
-        );
-      case 'hash':
-        return (
-          <Suspense fallback={<div>Loading Hash Function Simulator...</div>}>
-            <HashFunctionSimulator
-              challenges={mission.simulationData?.challenges || []}
-              visualizations={mission.simulationData?.visualizations || []}
-              onComplete={handleSimulationComplete}
-            />
-          </Suspense>
-        );
-      case 'merkle':
-        return (
-          <Suspense fallback={<div>Loading Merkle Tree Simulator...</div>}>
-            <MerkleTreeSimulator
-              explanation={mission.simulationData?.explanation}
-              transactionData={mission.simulationData?.transactionData || []}
-              challenges={mission.simulationData?.challenges || []}
-              visualization={mission.simulationData?.visualization}
-              onComplete={handleSimulationComplete}
-            />
-          </Suspense>
-        );
-      case 'consensus':
-        return (
-          <Suspense fallback={<div>Loading Consensus Simulator...</div>}>
-            <ConsensusSimulator
-              scenarios={mission.simulationData?.scenarios || []}
-              quizQuestions={mission.simulationData?.quizQuestions || []}
-              onComplete={handleSimulationComplete}
-            />
-          </Suspense>
-        );
-      case 'network':
-        return (
-          <Suspense fallback={<div>Loading Network Simulator...</div>}>
-            <NetworkSimulator
-              network={mission.simulationData?.network || { nodes: 50, connections: "random" }}
-              scenarios={mission.simulationData?.scenarios || []}
-              interactiveTests={mission.simulationData?.interactiveTests || []}
-              onComplete={handleSimulationComplete}
-            />
-          </Suspense>
-        );
-      case 'code':
-        return (
-          <Suspense fallback={<div>Loading Scripting Simulator...</div>}>
-            <ScriptingSimulator
-              explanation={mission.simulationData?.explanation}
-              basics={mission.simulationData?.basics || []}
-              challenges={mission.simulationData?.challenges || []}
-              advanced={mission.simulationData?.advanced || []}
-              onComplete={handleSimulationComplete}
-            />
-          </Suspense>
-        );
-      case 'lightning-network':
-        return (
-          <Suspense fallback={<div>Loading Lightning Network Simulator...</div>}>
-            <LightningNetworkSimulator
-              explanation={mission.simulationData?.explanation}
-              scaling={mission.simulationData?.scaling}
-              interactive={mission.simulationData?.interactive || {}}
-              concepts={mission.simulationData?.concepts || []}
-              onComplete={handleSimulationComplete}
-            />
-          </Suspense>
-        );
-      default:
-        return (
-          <div className="bg-red-100 p-4 rounded-lg text-red-800">
-            Unknown simulation type
-          </div>
-        );
+  //     // Realm 3 simulation types
+  //     case 'cryptography':
+  //       return (
+  //         <Suspense fallback={<div>Loading Cryptography Simulator...</div>}>
+  //           <CryptographySimulator
+  //             challenges={mission.simulationData?.challenges || []}
+  //             visualExplanations={mission.simulationData?.visualExplanations || []}
+  //             onComplete={handleSimulationComplete}
+  //           />
+  //         </Suspense>
+  //       );
+  //     case 'hash':
+  //       return (
+  //         <Suspense fallback={<div>Loading Hash Function Simulator...</div>}>
+  //           <HashFunctionSimulator
+  //             challenges={mission.simulationData?.challenges || []}
+  //             visualizations={mission.simulationData?.visualizations || []}
+  //             onComplete={handleSimulationComplete}
+  //           />
+  //         </Suspense>
+  //       );
+  //     case 'merkle':
+  //       return (
+  //         <Suspense fallback={<div>Loading Merkle Tree Simulator...</div>}>
+  //           <MerkleTreeSimulator
+  //             explanation={mission.simulationData?.explanation}
+  //             transactionData={mission.simulationData?.transactionData || []}
+  //             challenges={mission.simulationData?.challenges || []}
+  //             visualization={mission.simulationData?.visualization}
+  //             onComplete={handleSimulationComplete}
+  //           />
+  //         </Suspense>
+  //       );
+  //     case 'consensus':
+  //       return (
+  //         <Suspense fallback={<div>Loading Consensus Simulator...</div>}>
+  //           <ConsensusSimulator
+  //             scenarios={mission.simulationData?.scenarios || []}
+  //             quizQuestions={mission.simulationData?.quizQuestions || []}
+  //             onComplete={handleSimulationComplete}
+  //           />
+  //         </Suspense>
+  //       );
+  //     case 'network':
+  //       return (
+  //         <Suspense fallback={<div>Loading Network Simulator...</div>}>
+  //           <NetworkSimulator
+  //             network={mission.simulationData?.network || { nodes: 50, connections: "random" }}
+  //             scenarios={mission.simulationData?.scenarios || []}
+  //             interactiveTests={mission.simulationData?.interactiveTests || []}
+  //             onComplete={handleSimulationComplete}
+  //           />
+  //         </Suspense>
+  //       );
+  //     case 'code':
+  //       return (
+  //         <Suspense fallback={<div>Loading Scripting Simulator...</div>}>
+  //           <ScriptingSimulator
+  //             explanation={mission.simulationData?.explanation}
+  //             basics={mission.simulationData?.basics || []}
+  //             challenges={mission.simulationData?.challenges || []}
+  //             advanced={mission.simulationData?.advanced || []}
+  //             onComplete={handleSimulationComplete}
+  //           />
+  //         </Suspense>
+  //       );
+  //     case 'lightning-network':
+  //       return (
+  //         <Suspense fallback={<div>Loading Lightning Network Simulator...</div>}>
+  //           <LightningNetworkSimulator
+  //             explanation={mission.simulationData?.explanation}
+  //             scaling={mission.simulationData?.scaling}
+  //             interactive={mission.simulationData?.interactive || {}}
+  //             concepts={mission.simulationData?.concepts || []}
+  //             onComplete={handleSimulationComplete}
+  //           />
+  //         </Suspense>
+  //       );
+  //     default:
+  //       return (
+  //         <div className="bg-red-100 p-4 rounded-lg text-red-800">
+  //           Unknown simulation type
+  //         </div>
+  //       );
     }
-  };
+   };
   
   // Extract realm ID from mission.id
   // First digit is the realm number, remaining digits are the mission number within that realm

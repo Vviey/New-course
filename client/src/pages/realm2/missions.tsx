@@ -122,7 +122,7 @@ export default function Realm2Missions() {
       {/* Background overlay */}
       <div className="absolute inset-0 bg-black/60 z-0"></div>
       
-      {/* Mission header */}
+      {/* Mission header
       <header className="max-w-4xl mx-auto mb-6 relative z-10">
         <button 
           onClick={() => setLocation('/realm/2')} 
@@ -132,7 +132,7 @@ export default function Realm2Missions() {
           <ChevronRight className="h-5 w-5 mr-2 rotate-180" />
           Back to Missions
         </button>
-      </header>
+      </header> */}
 
       {/* Mission completion banner */}
       {missionComplete && (

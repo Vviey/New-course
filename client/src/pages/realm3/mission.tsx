@@ -1,51 +1,37 @@
 import { useState, useEffect } from 'react';
 import { useRoute, Link } from 'wouter';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, User, Award, Map } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Mission as MissionComponent } from '@/components/missions/Mission';
 import { realm3Missions } from '@/lib/realm3-missions';
-import { bioluminescentTheme } from '@/lib/realm-themes';
-import { MissionContent } from '@/lib/realm1-missions';
+import { MissionContent as Realm3MissionContent } from '@/lib/realm3-missions';
+import { getRealmName } from '@/lib/realm-utils';
+import { bioluminescentTheme, miningTheme } from '@/lib/realm-themes';
 
 export default function MissionPage() {
-  // Check both URL formats
-  const [matchRealmFormat, paramsRealmFormat] = useRoute('/realm3/mission/:id');
-  const [matchAlternateFormat, paramsAlternateFormat] = useRoute('/realm/3/mission/:id');
-  
-  // Use parameters from whichever route matched
-  const params = matchRealmFormat ? paramsRealmFormat : paramsAlternateFormat;
-  const missionId = params?.id ? parseInt(params.id) : 1; // Default to mission 1
-  
-  const [mission, setMission] = useState<MissionContent | null>(null);
+  const [_, params] = useRoute('/realm3/mission/:id');
+  const missionId = params?.id ? parseInt(params.id) : null;
+  const [mission, setMission] = useState<Realm3MissionContent | null>(null);
   const [completed, setCompleted] = useState(false);
   
+  const totalMissions = realm3Missions.length;
+  
   useEffect(() => {
-    console.log('Realm 3 Mission - Loading mission:', missionId);
-    console.log('Route matches:', { matchRealmFormat, matchAlternateFormat });
-    
-    // Find mission by ID directly (now all mission IDs are consistent: 1, 2, 3, 4, etc.)
-    const foundMission = realm3Missions.find(m => m.id === missionId);
-    
-    if (foundMission) {
-      // Convert Realm3MissionData to MissionContent format
-      const missionContent: MissionContent = {
-        id: foundMission.id,
-        title: foundMission.title,
-        subtitle: foundMission.subtitle,
-        description: foundMission.description,
-        objectives: foundMission.objectives || [],
-        content: {
-          introduction: foundMission.content.introduction,
-          sections: foundMission.content.sections
-        },
-        simulationType: foundMission.simulationType
-      };
-      setMission(missionContent);
-    } else {
-      console.error(`Mission not found in realm3-missions data. Tried ID ${missionId}`);
-      setMission(null);
+    if (missionId) {
+      // Log mission lookup process
+      console.log(`Realm 3: Looking for mission with ID ${missionId}`);
+      console.log('Available mission IDs:', realm3Missions.map(m => m.id));
+      
+      const foundMission = realm3Missions.find(m => m.id === missionId);
+      
+      if (foundMission) {
+        console.log('Found mission:', foundMission.title);
+        setMission(foundMission as unknown as Realm3MissionContent);
+      } else {
+        console.error(`Mission with ID ${missionId} not found in Realm 3`);
+        setMission(null);
+      }
     }
-  }, [missionId, matchRealmFormat, matchAlternateFormat]);
+  }, [missionId]);
   
   const handleMissionComplete = () => {
     setCompleted(true);
@@ -56,21 +42,15 @@ export default function MissionPage() {
     return (
       <div className="min-h-screen flex items-center justify-center"
         style={{
-          background: `linear-gradient(to bottom, ${bioluminescentTheme.colors.background}, ${bioluminescentTheme.colors.backgroundLight})`,
+          background: `linear-gradient(to bottom, ${miningTheme.colors.background}, ${miningTheme.colors.backgroundLight})`,
         }}
       >
         <div className="text-center">
-          <h1 className="text-3xl font-bold mb-4 text-teal-100">Mission not found</h1>
+          <h1 className="text-3xl font-bold mb-4" style={{ color: miningTheme.colors.primary }}>Mission not found</h1>
           <Link href="/realm3">
-            <Button 
-              className="inline-flex items-center"
-              style={{
-                background: bioluminescentTheme.colors.primary
-                
-              }}
-            >
+            <Button className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Return to Realm 3
+              Return to {getRealmName(4)}
             </Button>
           </Link>
         </div>
@@ -78,109 +58,160 @@ export default function MissionPage() {
     );
   }
   
+  const renderMissionContent = () => {
+    if (typeof mission.content === 'string') {
+      return <div dangerouslySetInnerHTML={{ __html: mission.content }} />;
+    }
+    return <div>{mission.content}</div>;
+  };
+
   if (completed) {
     return (
       <div className="min-h-screen py-12 px-4"
         style={{
-          background: `linear-gradient(to bottom, ${bioluminescentTheme.colors.background}, ${bioluminescentTheme.colors.backgroundLight})`,
+          background: `linear-gradient(to bottom, ${miningTheme.colors.background}, ${miningTheme.colors.backgroundLight})`,
         }}
       >
         <div className="max-w-2xl mx-auto bg-opacity-80 bg-black backdrop-blur rounded-lg p-8 text-center">
-          <h1 className="text-3xl font-bold mb-6"
-            style={{ color: bioluminescentTheme.colors.primary }}
-          >
+          <h1 className="text-3xl font-bold mb-6 text-orange-400">
             Mission Complete!
           </h1>
           
-          <p className="text-teal-100 mb-8">
-            You've successfully completed the {mission.title} mission. The knowledge and skills from this mission will help you understand Bitcoin's innovative technical foundation.
+          <p className="text-orange-100 mb-8">
+            You've successfully completed the {mission.title} mission. These insights about Bitcoin mining will help you understand the economic and technical foundations of the network.
           </p>
           
           {missionId !== null && missionId < realm3Missions[realm3Missions.length - 1].id ? (
-            <div className="space-y-4">
-              <p className="text-teal-300 font-medium">Ready for your next challenge?</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href={`/realm3/mission/${missionId !== null ? missionId + 1 : 1}`}>
-                  <Button
-                    className="w-full sm:w-auto"
-                    style={{
-                      background: `linear-gradient(to right, ${bioluminescentTheme.colors.primary}, ${bioluminescentTheme.colors.secondary})`
-                    }}
-                  >
-                    Next Mission
-                  </Button>
-                </Link>
-                
-                <Link href="/realm3">
-                  <Button variant="outline" className="w-full sm:w-auto border-teal-500 text-teal-400">
-                    Return to Realm 3
-                  </Button>
-                </Link>
-              </div>
-            </div>
+            <Link href={`/realm3/mission/${missionId + 1}`}>
+              <Button className="bg-orange-600 hover:bg-orange-700 text-white mr-4">
+                Next Mission
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           ) : (
-            <div className="space-y-4">
-              <p className="text-teal-300 font-medium">You've reached the edge of the Bioluminescent Forest!</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/map">
-                  <Button
-                    className="w-full sm:w-auto"
-                    style={{
-                      background: `linear-gradient(to right, ${bioluminescentTheme.colors.primary}, ${bioluminescentTheme.colors.secondary})`,
-                      
-                    }}
-                  >
-                    Return to Map
-                  </Button>
-                </Link>
-                
-                <Link href="/realm3">
-                  <Button variant="outline" className="w-full sm:w-auto border-teal-500 text-teal-400">
-                    Return to Realm 3
-                  </Button>
-                </Link>
-              </div>
-            </div>
+            <Link href="/realm5">
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white mr-4">
+                Continue to Next Realm
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           )}
+          
+          <Link href="/realm3">
+            <Button variant="outline" className="border-orange-600 text-orange-400 hover:bg-orange-600/20">
+              Return to {getRealmName(4)}
+            </Button>
+          </Link>
         </div>
       </div>
     );
   }
-  
+
   return (
-    <div className="min-h-screen pt-6 pb-12 px-4"
+    <div 
+      className="min-h-screen text-white"
       style={{
         background: `linear-gradient(to bottom, ${bioluminescentTheme.colors.background}, ${bioluminescentTheme.colors.backgroundLight})`,
+        backgroundImage: "url('https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-3-Merkles-Canopy.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        backgroundBlendMode: "overlay"
       }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        {/* Navigation Header */}
         <div className="flex justify-between items-center mb-8">
           <Link href="/realm3">
-            <a className="inline-flex items-center text-teal-300 hover:text-teal-100 transition-colors">
-              <ArrowLeft className="mr-2 h-5 w-5" />
-              <span>Back to Realm 3</span>
+            <a className="inline-flex items-center hover:text-orange-300 transition-colors text-orange-400">
+              <ChevronLeft className="mr-2 h-5 w-5" />
+              <span>Back to The Forest Of Sparks</span>
             </a>
           </Link>
           
-          <div className="text-teal-300 text-sm font-medium">
-            Mission {missionId !== null ? missionId : 0} of {realm3Missions.length}
+          <div className="flex items-center space-x-4">
+            <Link href="/profile">
+              <a className="p-2 rounded-full bg-orange-600/20 hover:bg-orange-600/30 transition-colors">
+                <User className="h-5 w-5 text-orange-400" />
+              </a>
+            </Link>
+            <Link href="/badges">
+              <a className="p-2 rounded-full bg-orange-600/20 hover:bg-orange-600/30 transition-colors">
+                <Award className="h-5 w-5 text-orange-400" />
+              </a>
+            </Link>
+            <Link href="/map">
+              <a className="p-2 rounded-full bg-orange-600/20 hover:bg-orange-600/30 transition-colors">
+                <Map className="h-5 w-5 text-orange-400" />
+              </a>
+            </Link>
           </div>
         </div>
-        
-        <div className="relative">
-          {/* Glowing code pattern background */}
-          <div className="absolute inset-0 opacity-5" 
-            style={{ 
-              backgroundImage: `radial-gradient(${bioluminescentTheme.colors.secondary}20, transparent 60%)`,
-              backgroundSize: '300px 300px',
-              zIndex: -1 
-            }}>
+
+        {/* Mission Navigation */}
+        <div className="flex justify-between items-center mb-8">
+          {missionId && missionId > 1 ? (
+            <Link href={`/realm3/mission/${missionId - 1}`}>
+              <a className="inline-flex items-center px-4 py-2 bg-orange-600/20 rounded-lg hover:bg-orange-600/30 transition-colors">
+                <ChevronLeft className="mr-2 h-4 w-4" />
+                Previous Mission
+              </a>
+            </Link>
+          ) : (
+            <div></div>
+          )}
+          
+          <div className="text-orange-400 text-sm font-medium">
+            Mission {missionId} of {totalMissions}
           </div>
           
-          <MissionComponent 
-            mission={mission} 
-            onComplete={handleMissionComplete} 
-          />
+          {missionId && missionId < totalMissions ? (
+            <Link href={`/realm3/mission/${missionId + 1}`}>
+              <a className="inline-flex items-center px-4 py-2 bg-orange-600/20 rounded-lg hover:bg-orange-600/30 transition-colors">
+                Next Mission
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </a>
+            </Link>
+          ) : (
+            <Link href="/realm4">
+              <a className="inline-flex items-center px-4 py-2 bg-purple-600/20 rounded-lg hover:bg-purple-600/30 transition-colors">
+                Next Realm
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </a>
+            </Link>
+          )}
+        </div>
+
+        {/* Mission Content - Full Width, No Card Wrapper */}
+        <div className="w-full space-y-12">
+          <div className="text-center">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-orange-400">{mission.title}</h1>
+            {mission.subtitle && (
+              <p className="text-2xl md:text-3xl text-orange-300 mb-12">{mission.subtitle}</p>
+            )}
+          </div>
+
+          <div className="w-full space-y-12">
+            <div className="bg-gradient-to-r from-orange-900/20 to-yellow-900/20 backdrop-blur-sm rounded-2xl p-8 border border-orange-700/30">
+              <div className="prose prose-invert max-w-none text-orange-100">
+                {renderMissionContent()}
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <Button 
+                onClick={handleMissionComplete}
+                size="lg"
+                className="bg-orange-600 hover:bg-orange-700 text-white px-12 py-4 text-xl rounded-xl shadow-lg"
+                style={{ 
+                  background: `linear-gradient(45deg, ${miningTheme.colors.primary}, ${miningTheme.colors.secondary})`,
+                  boxShadow: '0 8px 32px rgba(238, 114, 11, 0.3)'
+                }}
+              >
+                Complete Mission
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

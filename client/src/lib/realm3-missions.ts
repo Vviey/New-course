@@ -1,713 +1,1579 @@
-// Define props interface
-interface MissionProps {
-  realmId: string;
-  missionId: string;
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+export default function ChallengeBox() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/realm3/consensus-simulator'); 
+  };
 }
-export interface Realm3MissionData {
+
+// Types for Quiz Challenge
+export interface Question {
   id: number;
-  title: string;
-  subtitle: string;
-  description: string;
-  objectives?: string[]; // Making this optional since it wasn't in the original
-  simulationType: 'scavenger-hunt' | 'quiz' | 'knowledge' | 'timeline' | 'reflection' | 'cryptography' | 'hash' | 'merkle' | 'consensus' | 'network';
-  simulationData?: {
-    challenges?: any[];
-    visualExplanations?: any[];
-    visualizations?: any[];
-    transactionData?: any[];
-    scenarios?: any[];
-    quizQuestions?: any[];
-    network?: any;
-    interactiveTests?: any[];
-  };
-  content: {
-    title: string;
-    introduction: string;
-    content: string;
-    sections: Array<{
-      title: string;
-      content: string;
-    }>;
-  };
-  game: {
-    name: string;
-    description: string;
-    tasks: string[];
-    reward: string;
-    criteria?: string;
-    scenarios?: Array<{
-      name: string;
-      description: string;
-      success: string;
-    }>;
-    rounds?: Array<{
-      name: string;
-      questions: number;
-      topics: string[];
-    }>;
-  };
-  quiz?: {
-    questions: Array<{
-      question: string;
-      options: string[];
-      answer: number;
-    }>;
-  };
-  reflection?: {
-    prompt: string;
-    questions?: string[];
-    guidelines?: string[];
-  };
-  discussionPrompt?: {
-    question: string;
-    guidelines: string[];
-  };
-  task?: string;
-  discussionPoints?: string[];
+  text: string;
+  answers: {
+    id: number;
+    text: string;
+    isCorrect: boolean;
+    explanation?: string;
+  }[];
+  explanation?: string;
 }
 
 export interface MissionContent {
   id: number;
   title: string;
-  subtitle: string;
-  description: string;
-  objectives: string[];
-  content: {
-    introduction: string;
-    sections: Array<{
-      title: string;
-      content: string;
-    }>;
-  };
-  simulationType?: string;
-  task?: string;
-  reflection?: {
-    prompt: string;
-    questions?: string[];
-    guidelines?: string[];
-  };
-  discussionPoints?: string[];
-  game?: {
-    name: string;
-    description: string;
-    tasks: string[];
-    reward: string;
-  };
+  subtitle?: string;
+  imagePath?: string;
+  simulationType: 'cryptography' | 'consensus' | 'hashing' | 'merkletree';
+  content: React.ReactNode;
+  completionMessage?: string;
 }
 
-export const realm3Missions: Realm3MissionData[] = [
+// Helper function to create content more easily
+const createContent = (elements: React.ReactNode[]): React.ReactNode => {
+  return React.createElement(React.Fragment, null, ...elements);
+};
+
+export const realm3Missions: MissionContent[] = [
   {
     id: 1,
-    title: "Bitcoin's Revolutionary Foundation",
-    subtitle: "Understanding the 2008 Financial Crisis Context and Cypherpunk Origins",
-    description: "Journey through the comprehensive background that led to Bitcoin's creation. Explore the 2008 financial crisis, understand how traditional banking systems failed millions, and discover the cypherpunk movement that provided the ideological foundation for decentralized money. Learn how Satoshi Nakamoto synthesized decades of research into a working solution.",
-    objectives: [
-      "Analyze the 2008 financial crisis and its global impact on trust in institutions",
-      "Understand the historical progression of digital money attempts before Bitcoin",
-      "Explore the cypherpunk philosophy and its influence on Bitcoin's design",
-      "Learn about key cryptographic innovations that made Bitcoin possible",
-      "Examine Satoshi Nakamoto's identity mystery and its significance",
-      "Understand why traditional monetary systems create inequality and exclusion",
-      "Reflect on Bitcoin's potential to address African financial challenges"
-    ],
-    content: {
-      title: "The Perfect Storm: Crisis, Technology, and Vision",
-      content: "Bitcoin emerged from the convergence of a global financial crisis, mature cryptographic technology, and a philosophical movement committed to individual sovereignty. Understanding this context reveals why Bitcoin was inevitable and why it succeeded where others failed.",    
-      introduction: "The year 2008 marked a watershed moment in financial history. As major banks collapsed, governments printed trillions to bail out the very institutions that caused the crisis, and millions lost their homes and savings, trust in the traditional financial system reached historic lows. Into this chaos stepped an anonymous figure who had been quietly working on a solution that would fundamentally challenge how money works.\n\nBitcoin wasn't born in isolation - it was the culmination of decades of research by cryptographers, failed attempts at digital money, and a growing movement of privacy advocates known as cypherpunks. For Africans watching foreign banks extract wealth while local currencies faced manipulation and inflation, Bitcoin represented something unprecedented: money that couldn't be controlled by any government or institution, accessible to anyone with internet access.",
-      sections: [
-        {
-          title: "The 2008 Financial Crisis: When Trust Collapsed",
-          content: "The 2008 financial crisis wasn't just an economic downturn - it was a complete breakdown of trust in the institutions that form the backbone of modern finance. Understanding this crisis is crucial to understanding why Bitcoin was created.\n\n### The Crisis Unfolds:\n**September 15, 2008**: Lehman Brothers, the fourth-largest investment bank in the US, collapsed overnight. This triggered a global financial meltdown that exposed decades of reckless lending, regulatory capture, and systemic corruption.\n\n### Key Problems Exposed:\n1. **Too Big to Fail**: Banks grew so large that their failure would crash the entire system\n2. **Moral Hazard**: Banks took extreme risks knowing taxpayers would bail them out\n3. **Fractional Reserve Banking**: Banks only held a tiny fraction of depositor funds\n4. **Regulatory Capture**: Regulators were controlled by the banks they were supposed to oversee\n5. **Counterparty Risk**: Every transaction required trusting intermediaries\n\n### Global Impact:\n- **$12 trillion** in bailouts and stimulus globally\n- **10 million** homes lost to foreclosure in the US alone\n- **Unemployment** doubled in most developed countries\n- **Currency debasement** through massive money printing\n\n### African Perspective:\nWhile Africa wasn't directly responsible for the crisis, it suffered severely from reduced trade, investment, and remittances. This highlighted how interconnected the global financial system had become and how vulnerable developing nations were to decisions made in distant financial centers.\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Key Insight**: The crisis proved that even the most sophisticated financial institutions couldn't be trusted. This created an opening for a trustless alternative.\n</style>"
-        },
-        {
-          title: "The Cypherpunk Movement: Digital Privacy Warriors",
-          content: "Long before Bitcoin, a group of mathematicians, computer scientists, and libertarian thinkers were working on the problem of digital privacy and freedom. The cypherpunk movement, active since the early 1990s, provided the philosophical foundation and technical building blocks for Bitcoin.\n\n### Cypherpunk Philosophy:\n**Core Belief**: Privacy and freedom are fundamental human rights that must be protected through strong cryptography, not political processes.\n\n**Key Principles:**\n1. **Privacy is necessary for an open society** - people must be able to transact without revealing their identity\n2. **Cryptography is the ultimate protection** - math is more reliable than laws or institutions\n3. **Code is speech** - software that protects privacy is a form of protected expression\n4. **Decentralization prevents tyranny** - no single point of control or failure\n\n### Notable Cypherpunks:\n**Eric Hughes** - Wrote the Cypherpunk Manifesto (1993): \"Privacy is not secrecy... Privacy is the power to selectively reveal oneself to the world.\"\n\n**Tim May** - Created the Crypto Anarchist Manifesto, envisioning a world where cryptography enables completely free markets\n\n**John Gilmore** - Co-founded the Electronic Frontier Foundation, famous for saying \"The Net interprets censorship as damage and routes around it\"\n\n**Wei Dai** - Proposed b-money, one of the key precursors to Bitcoin\n\n**Nick Szabo** - Created Bit Gold and smart contracts, often suspected of being Satoshi\n\n### The Cypherpunk Mailing List:\nFrom 1992-2009, this email list was the primary forum for discussing digital privacy, cryptography, and anonymous digital cash. It was here that Satoshi first announced Bitcoin on October 31, 2008.\n\n### African Relevance:\nCypherpunk ideals resonate strongly in Africa, where many have experienced government surveillance, capital controls, and censorship. The movement's focus on individual sovereignty and resistance to authoritarianism aligns with many African independence movements.\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Cultural Parallel**: Like traditional African secret societies that preserved knowledge and provided alternative governance structures, cypherpunks created hidden networks that preserved digital freedom.\n</style>"
-        },
-        {
-          title: "Failed Digital Money Attempts: Learning from History",
-          content: "Bitcoin wasn't the first attempt at digital money. Understanding the failures of previous systems helps explain why Bitcoin's design was so revolutionary and why it succeeded where others failed.\n\n### Early Digital Cash Systems:\n\n**DigiCash (1989-1998)**\n- **Creator**: David Chaum\n- **Innovation**: Blind signatures for anonymous digital cash\n- **Fatal Flaw**: Centralized - required trust in Chaum's company\n- **Lesson**: Centralization creates single points of failure\n\n**e-gold (1996-2009)**\n- **Innovation**: Digital currency backed by physical gold\n- **Growth**: At peak, processed $2 billion annually\n- **Fatal Flaw**: Centralized storage and management\n- **End**: Shut down by US government for money laundering\n- **Lesson**: Government can kill any centralized system\n\n**Liberty Reserve (2006-2013)**\n- **Innovation**: Anonymous digital currency for global transactions\n- **Fatal Flaw**: Used by criminals, completely unregulated\n- **End**: Founders arrested, called \"financial empire built on facilitating money laundering\"\n- **Lesson**: Pure anonymity without legitimacy invites shutdown\n\n### Theoretical Proposals:\n\n**b-money (1998) - Wei Dai**\n- Proposed decentralized digital cash using proof-of-work\n- First to suggest computational puzzles for money creation\n- Lacked details on how to prevent double-spending\n- **Satoshi explicitly credited b-money in Bitcoin whitepaper**\n\n**Bit Gold (2005) - Nick Szabo**\n- Proposed unforgeable digital scarcity using proof-of-work\n- Included concept of difficulty adjustment\n- Never implemented but extremely close to Bitcoin's design\n- **Many believe Szabo is Satoshi Nakamoto**\n\n### The Double-Spending Problem:\nAll digital money systems faced this fundamental challenge: How do you prevent someone from spending the same digital coin twice without a central authority to verify transactions?\n\n**Previous Solutions:**\n1. **Central verification** (DigiCash) - requires trust\n2. **Physical backing** (e-gold) - requires trust and storage\n3. **Legal enforcement** (banks) - requires government cooperation\n\n**Bitcoin's Solution:**\n- **Decentralized consensus** through proof-of-work\n- **Public ledger** that everyone can verify\n- **Economic incentives** that make honesty profitable\n\n### Why Bitcoin Succeeded:\n1. **Truly decentralized** - no single point of failure\n2. **Open source** - anyone can verify and improve the code\n3. **Network effects** - value increases with adoption\n4. **Fixed supply** - protects against inflation\n5. **Pseudonymous** - balances privacy with accountability\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Insight**: Like how mobile money succeeded in Africa by working within existing systems rather than replacing them entirely, Bitcoin succeeded by being complementary to, rather than directly challenging, traditional finance initially.\n</style>"
-        },
-        {
-          title: "The Bitcoin Whitepaper: A Technical Masterpiece",
-          content: "On October 31, 2008, Satoshi Nakamoto published \"Bitcoin: A Peer-to-Peer Electronic Cash System\" to the cryptography mailing list. This elegant 9-page document outlined a complete solution to problems that had puzzled cryptographers for decades.\n\n### The Whitepaper's Structure:\n**Abstract**: Summarizes the peer-to-peer electronic cash vision\n**Introduction**: Explains the trust problem in online commerce\n**Transactions**: Describes digital signatures and ownership transfer\n**Timestamp Server**: Introduces the concept of blockchain\n**Proof-of-Work**: Explains the mining consensus mechanism\n**Network**: Details how nodes reach consensus\n**Incentive**: Shows how economics align with security\n**Reclaiming Disk Space**: Merkle trees for efficiency\n**Simplified Payment Verification**: Lightweight client design\n**Combining and Splitting Value**: UTXO model basics\n**Privacy**: Pseudonymous transactions\n**Calculations**: Mathematical proof of security\n\n### Revolutionary Innovations:\n\n**1. Proof-of-Work Consensus**\n- Solves the Byzantine Generals Problem for digital money\n- Makes attacking the network economically irrational\n- Creates objective truth from subjective participants\n\n**2. Decentralized Timestamping**\n- Blockchain as an immutable, chronological record\n- No central authority needed to order transactions\n- Cryptographic proofs replace institutional trust\n\n**3. Economic Incentive Alignment**\n- Miners rewarded for honest behavior\n- Network security grows with adoption\n- Self-sustaining ecosystem without external funding\n\n**4. Simplified Payment Verification (SPV)**\n- Enables lightweight clients for mobile devices\n- Users can verify payments without downloading full blockchain\n- Critical for global adoption in bandwidth-limited regions\n\n### Technical Elegance:\nThe whitepaper's brilliance lies not just in individual innovations, but in how they work together. Each component solves specific problems while reinforcing the others:\n\n- **Digital signatures** prove ownership without revealing identity\n- **Proof-of-work** orders transactions without central authority\n- **Economic incentives** align individual profit with network security\n- **Merkle trees** enable efficient verification\n- **Difficulty adjustment** maintains consistent block times\n\n### African Context:\nFor African readers, the whitepaper's vision addresses specific challenges:\n- **No infrastructure requirements** beyond internet access\n- **Resistance to capital controls** and currency manipulation\n- **Global participation** without permission from financial gatekeepers\n- **Mathematical certainty** replacing institutional promises\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Ubuntu Connection**: The whitepaper's design embodies Ubuntu philosophy - individual participants acting in self-interest create collective benefit, with network security emerging from cooperative competition.\n</style>"
-        },
-        {
-          title: "Satoshi Nakamoto: The Architect of Digital Sovereignty",
-          content: "The true identity of Bitcoin's creator remains one of the internet's greatest mysteries, but this anonymity serves Bitcoin's decentralized nature perfectly. Understanding what we know about Satoshi helps us understand Bitcoin's design philosophy.\n\n### What We Know:\n\n**Timeline of Activity:**\n- **August 2008**: Registered bitcoin.org domain\n- **October 2008**: Published whitepaper\n- **January 2009**: Released Bitcoin software, mined Genesis Block\n- **2009-2010**: Active development, responding to community feedback\n- **April 2011**: Final known communication\n- **~1 million BTC**: Estimated holdings, never moved\n\n**Communication Patterns:**\n- Wrote primarily in British English\n- Posted during European/UK timezone hours\n- Demonstrated deep knowledge of cryptography and economics\n- Showed familiarity with financial systems and their flaws\n- Maintained strict operational security\n\n**Programming Style:**\n- C++ expertise with unique coding patterns\n- Focus on robustness over elegance\n- Extensive comments and documentation\n- Conservative approach to changes\n\n### Leading Theories:\n\n**Nick Szabo** (Legal scholar/cryptographer)\n- Created Bit Gold, extremely similar to Bitcoin\n- Writing style analysis shows similarities\n- Deep expertise in law, cryptography, and economics\n- Denied being Satoshi multiple times\n\n**Hal Finney** (Cryptographer)\n- First person besides Satoshi to run Bitcoin\n- Received first Bitcoin transaction\n- Worked on digital cash systems before Bitcoin\n- Lived near Dorian Nakamoto (red herring)\n\n**Wei Dai** (Computer scientist)\n- Created b-money, credited in Bitcoin whitepaper\n- Strong cryptographic background\n- Libertarian philosophy aligns with Bitcoin\n\n**Group Theory**\n- Bitcoin too sophisticated for one person\n- Combination of academic researchers\n- Explains consistent posting hours and varied expertise\n\n### Why Anonymity Matters:\n\n**1. Prevents Centralization**\n- No single person can control Bitcoin's direction\n- Community must reach consensus without appeal to authority\n- Forces focus on code quality over personality\n\n**2. Legal Protection**\n- Avoids potential prosecution for creating alternative money\n- Protects from government pressure to modify Bitcoin\n- Enables global adoption without regulatory capture\n\n**3. Philosophical Consistency**\n- Demonstrates commitment to decentralization\n- Shows Bitcoin can exist without its creator\n- Proves the network's antifragility\n\n**4. Economic Neutrality**\n- Satoshi's coins act as \"lost\" supply, reducing inflation\n- No founder enrichment concerns\n- Community owns Bitcoin's future, not creator\n\n### African Perspective:\nSatoshi's anonymity resonates with African traditions of wisdom attribution:\n\n- **Collective Knowledge**: Like proverbs attributed to ancestors rather than individuals\n- **Resistance to Authority**: Echoes anonymous resistance movements\n- **Community Ownership**: Knowledge belongs to everyone, not just the originator\n- **Protection from Persecution**: Similar to how activists use pseudonyms\n\n### The Satoshi Ethos:\nSatoshi's behavior established Bitcoin's cultural DNA:\n- **Gradual withdrawal** rather than dramatic exit\n- **Open source development** from the beginning\n- **Community consultation** on major decisions\n- **Economic restraint** (never selling bitcoin)\n- **Technical perfectionism** before public release\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Cultural Parallel**: Like African praise singers who remain anonymous to let their message transcend personality, Satoshi's anonymity allows Bitcoin's ideas to speak for themselves.\n</style>"
-        },
-        {
-          title: "The Technological Foundation: Building on Giants' Shoulders",
-          content: "Bitcoin didn't emerge from nothing - it synthesized decades of cryptographic research and digital cash experiments into a working system. Understanding these foundations shows how Bitcoin achieved what previous attempts couldn't.\n\n### Cryptographic Building Blocks:\n\n**Hash Functions (1970s-1990s)**\n- **MD5 (1991)**: Early hash function, now broken\n- **SHA-1 (1995)**: NSA-designed, later found vulnerable\n- **SHA-256 (2001)**: Bitcoin's choice, still unbroken\n- **Purpose**: Create unique digital fingerprints\n- **Bitcoin Usage**: Block hashing, proof-of-work, addresses\n\n**Digital Signatures (1976)**\n- **Diffie-Hellman (1976)**: Public key concept\n- **RSA (1978)**: First practical public key system\n- **Elliptic Curves (1985)**: More efficient alternative\n- **ECDSA**: Bitcoin's signature algorithm\n- **Purpose**: Prove ownership without revealing private keys\n\n**Merkle Trees (1979)**\n- **Inventor**: Ralph Merkle\n- **Innovation**: Efficient verification of large datasets\n- **Bitcoin Usage**: Transaction verification in blocks\n- **Benefit**: SPV clients can verify payments efficiently\n\n### Economic Theories:\n\n**Austrian Economics**\n- **Ludwig von Mises**: Regression theorem for money\n- **Friedrich Hayek**: Competition in currency\n- **Carl Menger**: Theory of money's emergence\n- **Bitcoin Connection**: Sound money principles, market-based value\n\n**Game Theory**\n- **Nash Equilibrium**: Stable strategies in competitive situations\n- **Mechanism Design**: Creating systems with desired outcomes\n- **Bitcoin Application**: Mining incentives, consensus rules\n- **African Relevance**: Community cooperation without central authority\n\n### Computer Science Innovations:\n\n**Distributed Systems**\n- **Byzantine Fault Tolerance**: Consensus with unreliable participants\n- **Lamport Timestamps**: Ordering events in distributed systems\n- **Consensus Algorithms**: Paxos, PBFT, and others\n- **Bitcoin Innovation**: First practical solution to Byzantine Generals Problem for money\n\n**Peer-to-Peer Networks**\n- **Napster (1999)**: Centralized P2P, easy to shut down\n- **Gnutella (2000)**: Decentralized but inefficient\n- **BitTorrent (2001)**: Efficient file sharing\n- **Bitcoin Adaptation**: Gossip protocol for transaction and block propagation\n\n### The Missing Piece: Economic Consensus\n\nPrevious systems failed because they couldn't solve the **consensus problem** in an economic context:\n\n**Technical Consensus** (solved by 1990s):\n- How do distributed computers agree on data?\n- Solutions: Paxos, PBFT, etc.\n- Limitation: Requires known, trusted participants\n\n**Economic Consensus** (solved by Bitcoin):\n- How do strangers agree on truth when money is involved?\n- Innovation: Proof-of-work makes lying expensive\n- Result: First trustless digital money\n\n### Why Bitcoin Succeeded Where Others Failed:\n\n**1. No Trusted Third Parties**\n- Previous systems required central authorities\n- Bitcoin eliminates single points of failure\n- Network security emerges from decentralized competition\n\n**2. Economic Incentive Alignment**\n- Honest behavior is always most profitable\n- Attackers must outspend entire network\n- Security budget grows automatically with adoption\n\n**3. Open Source from Day One**\n- Community can verify and improve code\n- No proprietary secrets or backdoors\n- Transparent development process\n\n**4. Gradual Decentralization**\n- Satoshi didn't try to control adoption\n- Community naturally took over development\n- Network became antifragile\n\n**5. Perfect Timing**\n- Financial crisis created demand for alternatives\n- Internet infrastructure mature enough for P2P networks\n- Cryptographic tools sufficiently advanced\n- Computing power available for mining\n\n### African Innovation Parallels:\nBitcoin's success mirrors African innovation patterns:\n- **Leapfrogging**: Skip traditional banking infrastructure\n- **Community Networks**: Decentralized organization\n- **Practical Solutions**: Solve real problems with available tools\n- **Adaptive Technology**: Modify global innovations for local needs\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Innovation Insight**: Like how African mobile money combined existing technologies (SMS, airtime) in novel ways, Bitcoin combined existing cryptographic tools to create something entirely new.\n</style>"
-        },
-        {
-          title: "Satoshi's Identity",
-          content: "The true identity of Satoshi Nakamoto remains unknown, with several candidates proposed but none conclusively proven. What we know:\n\n- First email from satoshin@gmx.com in August 2008\n- Active development until December 2010\n- Final communication in April 2011\n\n### Why Anonymity Matters:\n1. Prevents centralized authority figure\n2. Aligns with cypherpunk values\n3. Forces focus on the technology\n4. Protects against legal pressure\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Perspective**: Just as African folklore often attributes wisdom to anonymous or mythical figures to focus on the message rather than the messenger, Satoshi's anonymity keeps Bitcoin decentralized and community-owned.\n</style>"
-        }
-      ]
-    },
-    simulationType: 'scavenger-hunt',
-    game: {
-      name: "Satoshi's Quest",
-      description: "Find hidden clues about Bitcoin's origins to earn your Satoshi Badge",
-      tasks: [
-        "Locate the timestamp of the first Bitcoin block",
-        "Find the hidden message in the Genesis block",
-        "Identify three cypherpunk influences on Bitcoin",
-        "Decode Satoshi's estimated birth year from his PGP key"
-      ],
-      reward: "Satoshi Badge"
-    },
-    quiz: {
-      questions: [
-        {
-          question: "What was the primary motivation for creating Bitcoin?",
-          options: [
-            "To make digital gold",
-            "To create peer-to-peer electronic cash without trusted third parties",
-            "To replace traditional banking completely",
-            "To enable anonymous transactions"
-          ],
-          answer: 1
-        },
-        {
-          question: "Which of these was NOT a direct influence on Bitcoin?",
-          options: [
-            "DigiCash",
-            "HashCash",
-            "Bit Gold",
-            "Tor"
-          ],
-          answer: 3
-        }
-      ]
-    }
+    title: "What Makes Bitcoin Work",
+    subtitle: "The Trustless Revolution",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/1534e4562b8d81db405fd9b725fee9e0067de01b1e0903dd13434988beafa612?w=530&h=260",
+    simulationType: "cryptography",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "Welcome to the Technical Heart of Bitcoin. Here you'll discover the revolutionary concepts that make Bitcoin " +
+        "work without banks, governments, or any central authority. Every transaction, every transfer of value, " +
+        "happens through pure mathematics and cryptography."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "trustless" }, "What is Trustlessness?"),
+      React.createElement('p', { className: "mb-4", key: "trustless-desc" },
+        "In traditional systems, you must trust banks to hold your money, payment processors to transfer it, and " +
+        "governments to maintain the currency. Bitcoin eliminates this need for trust by using mathematical proof " +
+        "instead of institutional promises."
+      ),
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "example-box" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "example-title" }, "Real-World Example"),
+        React.createElement('p', { key: "example-text" },
+          "When Alice sends Bitcoin to Bob, she doesn't need to trust any bank or institution. The network " +
+          "mathematically verifies that Alice owns the Bitcoin and that she hasn't already spent it elsewhere. " +
+          "No intermediary can stop, reverse, or manipulate this transaction."
+        )
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "crypto-role" }, "The Role of Cryptography"),
+      React.createElement('p', { className: "mb-4", key: "crypto-desc" },
+        "Cryptography in Bitcoin serves as digital ownership proof. When you 'own' Bitcoin, you actually own " +
+        "a cryptographic private key that can unlock and spend specific Bitcoin. This key is like a digital " +
+        "signature that only you can create, but anyone can verify."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "blockchain-intro" }, "What is a Blockchain?"),
+      React.createElement('p', { className: "mb-4", key: "blockchain-desc" },
+        "Think of blockchain as a digital ledger book, but instead of pages, it has 'blocks' of transactions. " +
+        "Each block is mathematically linked to the previous one, creating an unbreakable chain of transaction history."
+      ),
+      React.createElement('ul', { className: "list-disc ml-6 mb-4 space-y-2", key: "blockchain-features" }, [
+        React.createElement('li', { key: "feature1" }, "Every transaction is recorded permanently and publicly"),
+        React.createElement('li', { key: "feature2" }, "Once written, transactions cannot be altered or deleted"),
+        React.createElement('li', { key: "feature3" }, "Anyone can verify the entire history from the beginning"),
+        React.createElement('li', { key: "feature4" }, "No single entity controls or can manipulate the ledger")
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "immutability" }, "Immutable Ledgers and Timestamping"),
+      React.createElement('p', { className: "mb-4", key: "immutable-desc" },
+        "Each Bitcoin transaction is timestamped and locked into the blockchain forever. This creates an immutable " +
+        "record that proves when each transaction occurred and prevents anyone from later claiming it happened " +
+        "differently. The mathematical linking between blocks ensures that changing any past transaction would " +
+        "require recalculating all subsequent blocks—a computationally impossible task."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "vs-traditional" }, "Bitcoin vs Traditional Ledgers"),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "comparison" }, [
+        React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4", key: "traditional" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-red-300", key: "trad-title" }, "Traditional Ledgers"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "trad-list" }, [
+            React.createElement('li', { key: "trad1" }, "Controlled by single entity"),
+            React.createElement('li', { key: "trad2" }, "Can be modified or censored"),
+            React.createElement('li', { key: "trad3" }, "Requires trust in institution"),
+            React.createElement('li', { key: "trad4" }, "Limited transparency"),
+            React.createElement('li', { key: "trad5" }, "Single point of failure")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4", key: "bitcoin" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "btc-title" }, "Bitcoin Ledger"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "btc-list" }, [
+            React.createElement('li', { key: "btc1" }, "Distributed across thousands of nodes"),
+            React.createElement('li', { key: "btc2" }, "Mathematically immutable"),
+            React.createElement('li', { key: "btc3" }, "Trustless verification"),
+            React.createElement('li', { key: "btc4" }, "Completely transparent"),
+            React.createElement('li', { key: "btc5" }, "Resilient to attacks or failures")
+          ])
+        ])
+      ]),
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/trustless-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "🔓 Interactive Challenge: Experience Trustlessness"),
+        React.createElement('p', { key: "challenge-desc" },
+          "In this simulation, you'll create and verify Bitcoin transactions without any trusted intermediary. " +
+          "See how cryptographic proofs replace the need for banks or governments."
+        )
+      ])
+    ]),
+    completionMessage: "Excellent! You now understand the foundational principles that make Bitcoin a trustless, decentralized system."
   },
+
   {
     id: 2,
-    title: "The Genesis Block",
-    subtitle: "Bitcoin's Immutable Beginning",
-    description: "Explore the significance of Bitcoin's first block - the foundation of the entire blockchain. Understand the hidden message that connects Bitcoin to the financial crisis and reveals its purpose. Learn how this single block set in motion a revolution in digital trust.",
-    objectives: [
-      "Understand the components of the Genesis Block",
-      "Analyze the significance of the embedded message",
-      "Learn how the Genesis Block differs from subsequent blocks",
-      "Explore the concept of block rewards and coinbase transactions",
-      "Reflect on Bitcoin's creation as a response to financial instability"
-    ],
-    content: {
-      title: "Bitcoin's First Block",
-      content: "The Genesis Block, mined on January 3, 2009, marks the beginning of the Bitcoin blockchain and contains a powerful political statement about the traditional financial system it was designed to challenge.",
-      introduction: "On January 3, 2009, at approximately 18:15:05 UTC, Satoshi Nakamoto mined the first Bitcoin block - Block 0, now known as the Genesis Block. This marked the launch of the Bitcoin network and the beginning of a new era in digital money.\n\nFor Africans facing currency instability and financial exclusion, the Genesis Block represents more than technical innovation - it symbolizes the possibility of money that can't be inflated away by distant central banks, a system where participation requires only internet access rather than permission from financial gatekeepers.",
-      sections: [
-        {
-          title: "The Block That Started It All",
-          content: "The Genesis Block contains several unique characteristics:\n\n### Technical Specifications:\n- Block Height: 0\n- Timestamp: 2009-01-03 18:15:05\n- Nonce: 2083236893\n- Difficulty: 1\n- Reward: 50 BTC (unspendable)\n\n### Unique Features:\n1. Hardcoded into Bitcoin clients\n2. Coinbase transaction can't be spent\n3. Doesn't reference previous block\n4. Special status in code\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Analogy**: Just as the baobab tree's roots run deep to support its massive structure, the Genesis Block provides the foundational root for Bitcoin's growing blockchain.\n</style>"
-        },
-        {
-          title: "The Hidden Message",
-          content: "Satoshi embedded a message in the Genesis Block's coinbase parameter:\n\n\"The Times 03/Jan/2009 Chancellor on brink of second bailout for banks\"\n\nThis references a headline from The Times (UK) newspaper that day, serving multiple purposes:\n\n1. **Timestamp Proof**: Verifies the block wasn't created before that date\n2. **Political Statement**: Comments on the financial crisis\n3. **Mission Statement**: Shows Bitcoin's purpose as an alternative\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Context**: Many African currencies have experienced hyperinflation due to similar financial mismanagement. Bitcoin offers an alternative not controlled by any government.\n</style>"
-        },
-        {
-          title: "The Unspendable Reward",
-          content: "Unlike normal blocks, the Genesis Block's 50 BTC reward cannot be spent due to how it was coded. This creates several interesting implications:\n\n1. **Symbolic Gesture**: The first coins exist outside the economy\n2. **Technical Necessity**: Prevents blockchain reorganization issues\n3. **Historical Marker**: Clearly identifies the first block\n\nSubsequent blocks follow different rules, with spendable rewards that decrease through halvings every 210,000 blocks.\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Perspective**: Just as traditional communities might designate certain resources as sacred or untouchable, the unspendable Genesis coins serve as a permanent monument to Bitcoin's creation.\n</style>"
-        }
-      ]
-    },
-    simulationType: 'knowledge',
-    game: {
-      name: "Block Builder",
-      description: "Create your own Genesis Block with a custom message",
-      tasks: [
-        "Design a block header with timestamp and nonce",
-        "Embed a meaningful message in your block",
-        "Explain why you chose your message",
-        "Compare your block to the real Genesis Block"
-      ],
-      reward: "Genesis Creator Badge",
-      criteria: "Most creative and meaningful message wins"
-    },
-    quiz: {
-      questions: [
-        {
-          question: "Why can't the Genesis Block's coinbase reward be spent?",
-          options: [
-            "It was lost",
-            "Satoshi chose not to spend it",
-            "It's hardcoded as unspendable",
-            "The private key is unknown"
-          ],
-          answer: 2
-        },
-        {
-          question: "What was the significance of the Genesis Block's embedded message?",
-          options: [
-            "It proved the block wasn't pre-mined",
-            "It commented on the financial crisis",
-            "It served as a timestamp",
-            "All of the above"
-          ],
-          answer: 3
-        }
-      ]
-    }
+    title: "Private Keys, Public Keys & Addresses",
+    subtitle: "Your Digital Identity in Bitcoin",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/769917eddc6ee5ee6bf70d4b3468bc2d3751f70a7fbc84c9ccf43c5a46bcb068?w=530&h=260",
+    simulationType: "cryptography",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "Your Bitcoin ownership comes down to cryptographic keys—mathematical secrets that prove you control " +
+        "specific Bitcoin. Understanding how these keys work is fundamental to understanding Bitcoin security."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "private-key" }, "What is a Private Key?"),
+      React.createElement('p', { className: "mb-4", key: "private-desc" },
+        "A private key is a randomly generated 256-bit number—so large that it's essentially impossible to guess. " +
+        "This number is your ultimate proof of Bitcoin ownership. Anyone who knows your private key can spend your Bitcoin."
+      ),
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "private-example" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "private-example-title" }, "Private Key Example"),
+        React.createElement('code', { className: "text-sm text-green-400 break-all", key: "private-hex" },
+          "Private Key (Hex): 18E14A7B6A307F426A94F8114701E7C8E774E7F9A47E2C2035DB29A206321725"
+        ),
+        React.createElement('br', { key: "break1" }),
+        React.createElement('code', { className: "text-sm text-blue-300 break-all", key: "private-wif" },
+          "Private Key (WIF): L1aW4aubDFB7yfras2S1mN3bqg9nwySY8nkoLmJebSLD5BWv3ENZ"
+        )
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "public-key" }, "What is a Public Key?"),
+      React.createElement('p', { className: "mb-4", key: "public-desc" },
+        "From your private key, mathematical operations generate a corresponding public key. The public key can " +
+        "verify signatures created by the private key, but it's computationally impossible to derive the private key " +
+        "from the public key. This is the foundation of asymmetric cryptography."
+      ),
+      React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4 mb-4", key: "asymmetric-box" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "asymmetric-title" }, "Asymmetric Encryption in Simple Terms"),
+        React.createElement('p', { className: "mb-2", key: "asymmetric-desc" },
+          "Think of it like a magic lock and key system:"
+        ),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1", key: "asymmetric-list" }, [
+          React.createElement('li', { key: "asym1" }, "Private Key = Secret key that can lock AND unlock"),
+          React.createElement('li', { key: "asym2" }, "Public Key = Public lock that anyone can use to verify, but cannot unlock"),
+          React.createElement('li', { key: "asym3" }, "Anyone can verify a signature came from the private key holder"),
+          React.createElement('li', { key: "asym4" }, "But only the private key holder can create valid signatures")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "addresses" }, "How Bitcoin Addresses Are Derived"),
+      React.createElement('p', { className: "mb-4", key: "address-desc" },
+        "Bitcoin addresses are shortened, encoded versions of public keys that make them easier to use and share. " +
+        "The derivation process adds error-checking and formatting to make addresses user-friendly."
+      ),
+      React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4 mb-4", key: "derivation-flow" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "flow-title" }, "Address Derivation Flow"),
+        React.createElement('div', { className: "space-y-2 text-sm", key: "flow-steps" }, [
+          React.createElement('div', { key: "step1" }, "1. Private Key → Public Key (using Elliptic Curve Cryptography)"),
+          React.createElement('div', { key: "step2" }, "2. Public Key → Public Key Hash (using SHA256 + RIPEMD160)"),
+          React.createElement('div', { key: "step3" }, "3. Public Key Hash → Address (using Base58Check encoding)"),
+          React.createElement('div', { className: "text-purple-300 mt-2", key: "example-addr" },
+            "Result: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
+          )
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "formats" }, "Key Formats: WIF, Hex, and Base58Check"),
+      React.createElement('p', { className: "mb-4", key: "formats-desc" },
+        "Bitcoin keys and addresses can be represented in different formats for different purposes:"
+      ),
+      React.createElement('ul', { className: "list-disc ml-6 mb-4 space-y-2", key: "formats-list" }, [
+        React.createElement('li', { key: "format1" }, 
+          React.createElement('strong', null, "Hexadecimal: "), 
+          "Raw format using 0-9 and A-F characters. Used internally by software."
+        ),
+        React.createElement('li', { key: "format2" }, 
+          React.createElement('strong', null, "WIF (Wallet Import Format): "), 
+          "User-friendly format starting with 'L' or 'K' for private keys. Includes error checking."
+        ),
+        React.createElement('li', { key: "format3" }, 
+          React.createElement('strong', null, "Base58Check: "), 
+          "Encoding for addresses that excludes confusing characters (0, O, I, l) and includes checksum."
+        )
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "not-your-keys" }, "\"Not Your Keys, Not Your Coins\""),
+      React.createElement('p', { className: "mb-4", key: "keys-importance" },
+        "This famous Bitcoin phrase captures a crucial truth: whoever controls the private keys controls the Bitcoin. " +
+        "When you use an exchange or custodial wallet, they hold your private keys, meaning they actually control your Bitcoin."
+      ),
+      React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4 mb-4", key: "custody-warning" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-red-300", key: "warning-title" }, "⚠️ Custody Implications"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1", key: "warning-list" }, [
+          React.createElement('li', { key: "warn1" }, "Exchanges can freeze your account or go bankrupt"),
+          React.createElement('li', { key: "warn2" }, "Governments can force exchanges to confiscate funds"),
+          React.createElement('li', { key: "warn3" }, "You're dependent on the exchange's security practices"),
+          React.createElement('li', { key: "warn4" }, "You can't truly verify your Bitcoin balance without the keys")
+        ])
+      ]),
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/keys-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "🔑 Interactive Challenge: Generate Your Own Keys"),
+        React.createElement('p', { key: "challenge-desc" },
+          "Generate private keys, derive public keys and addresses, and understand the mathematical relationships " +
+          "between them. Practice with different formats and see how digital signatures work."
+        )
+      ])
+    ]),
+    completionMessage: "Perfect! You now understand the cryptographic foundation of Bitcoin ownership and the importance of controlling your own keys."
   },
+
   {
     id: 3,
-    title: "What Makes Bitcoin Different?",
-    subtitle: "Decentralization and Trustless Architecture",
-    description: "Discover the revolutionary aspects of Bitcoin that set it apart from traditional financial systems and earlier digital cash attempts. Learn how decentralization, censorship resistance, and transparent verification create money that doesn't require institutional trust.",
-    objectives: [
-      "Compare Bitcoin to traditional financial systems",
-      "Understand the meaning of decentralization in Bitcoin",
-      "Explore the concept of censorship resistance",
-      "Learn how Bitcoin achieves trust minimization",
-      "Analyze the tradeoffs of decentralized systems"
-    ],
-    content: {
-      title: "Bitcoin's Unique Properties",
-      content: "Bitcoin represents a fundamental shift in how we conceptualize money, replacing institutional trust with mathematical certainty through decentralization, censorship resistance, and transparent verification.",
-      introduction: "Bitcoin represents a fundamental shift in how we conceptualize money and value transfer. Unlike traditional systems that rely on trusted intermediaries, Bitcoin replaces trust in institutions with trust in mathematics and decentralized consensus.\n\nFor Africans who have experienced currency controls, banking exclusion, or arbitrary account freezes, Bitcoin's properties offer an alternative paradigm - financial participation governed by transparent rules rather than opaque institutional decisions.",
-      sections: [
-        {
-          title: "Decentralization: Power to the Edges",
-          content: "Bitcoin distributes authority across a global network of participants:\n\n### Key Aspects:\n1. **No Single Point of Failure**: Thousands of independent nodes\n2. **Permissionless Participation**: Anyone can run a node or mine\n3. **Open-Source Code**: Transparent and community-developed\n4. **Distributed Consensus**: Rules enforced by network majority\n\n### African Benefits:\n- Reduces reliance on unstable local banking\n- Provides access without permission\n- Creates equal participation globally\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Ubuntu Connection**: \"I am because we are\" - Bitcoin's health depends on and benefits all participants, aligning with African communal values.\n</style>"
-        },
-        {
-          title: "Censorship Resistance",
-          content: "Bitcoin transactions are extremely difficult to block or reverse:\n\n### How It Works:\n1. **Global Network**: No single jurisdiction controls it\n2. **Pseudonymous**: Addresses aren't directly tied to identity\n3. **Irreversible**: Confirmed transactions can't be undone\n4. **Permissionless**: No one can prevent valid transactions\n\n### African Use Cases:\n- Cross-border trade despite capital controls\n- Protection from arbitrary account freezes\n- Remittances bypassing expensive corridors\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Historical Parallel**: Like griots preserving history against colonial suppression, Bitcoin preserves financial access against institutional exclusion.\n</style>"
-        },
-        {
-          title: "Transparent Verification",
-          content: "Bitcoin's public ledger enables unprecedented transparency:\n\n### Verification Features:\n1. **Public Blockchain**: All transactions visible\n2. **Full Auditability**: Anyone can verify supply\n3. **Mathematical Certainty**: Rules enforced by code\n4. **Predictable Issuance**: Fixed supply schedule\n\n### African Applications:\n- NGOs can prove fund allocation\n- Governments can demonstrate reserves\n- Businesses can verify payments\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Cultural Alignment**: Similar to community witnessing in traditional African dispute resolution, Bitcoin's transparency creates accountability through visibility.\n</style>"
-        }
-      ]
-    },
-    simulationType: 'quiz',
-    game: {
-      name: "Decentralization Match",
-      description: "Match benefits and trade-offs of decentralized systems",
-      tasks: [
-        "Pair decentralization benefits with real-world examples",
-        "Identify tradeoffs of decentralized vs centralized systems",
-        "Match Bitcoin properties to problems they solve",
-        "Rank decentralization aspects by importance"
-      ],
-      reward: "Decentralization Expert Badge"
-    },
-    discussionPrompt: {
-      question: "Debate the strengths and weaknesses of decentralized systems",
-      guidelines: [
-        "Compare to traditional centralized systems",
-        "Discuss real-world implications",
-        "Consider African contexts specifically",
-        "Weigh tradeoffs honestly"
-      ]
-    }
+    title: "Bitcoin Transactions",
+    subtitle: "Anatomy & Flow of Digital Value Transfer",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/c2b62867b49bdb1cf9109cc3e99fae057b70ba0ab65f7334ef518d3427665c5e?w=530&h=260",
+    simulationType: "hashing",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "Bitcoin transactions are not like traditional payments. There are no account balances—only unspent transaction " +
+        "outputs (UTXOs) that can be unlocked with the right cryptographic keys. Understanding this unique model is " +
+        "crucial to mastering Bitcoin."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "utxo-model" }, "The UTXO Model: Digital Cash"),
+      React.createElement('p', { className: "mb-4", key: "utxo-desc" },
+        "Bitcoin works like digital cash. Just as you might have several bills and coins in your wallet, your Bitcoin " +
+        "\"balance\" consists of various UTXOs (Unspent Transaction Outputs) of different amounts that you can spend."
+      ),
+      React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4 mb-4", key: "utxo-example" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "utxo-example-title" }, "UTXO Example"),
+        React.createElement('p', { className: "mb-2", key: "utxo-example-desc" }, "Alice's wallet shows 1.5 BTC, but actually contains:"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1", key: "utxo-list" }, [
+          React.createElement('li', { key: "utxo1" }, "UTXO #1: 0.8 BTC (from payment from Bob)"),
+          React.createElement('li', { key: "utxo2" }, "UTXO #2: 0.5 BTC (from payment from Carol)"),
+          React.createElement('li', { key: "utxo3" }, "UTXO #3: 0.2 BTC (change from previous transaction)")
+        ]),
+        React.createElement('p', { className: "mt-2 text-sm text-gray-300", key: "utxo-note" },
+          "To spend 1.0 BTC, Alice must use UTXO #1 (0.8 BTC) + UTXO #2 (0.5 BTC) = 1.3 BTC input, " +
+          "then receive 0.3 BTC back as change."
+        )
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "anatomy" }, "Transaction Anatomy: Inputs and Outputs"),
+      React.createElement('p', { className: "mb-4", key: "anatomy-desc" },
+        "Every Bitcoin transaction consists of inputs (UTXOs being spent) and outputs (new UTXOs being created). " +
+        "The sum of inputs must equal or exceed the sum of outputs, with any difference becoming the miner fee."
+      ),
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "transaction-structure" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "structure-title" }, "Transaction Structure"),
+        React.createElement('div', { className: "space-y-3", key: "structure-content" }, [
+          React.createElement('div', { key: "inputs-section" }, [
+            React.createElement('h5', { className: "font-semibold text-yellow-300", key: "inputs-title" }, "Inputs (What you're spending):"),
+            React.createElement('ul', { className: "list-disc ml-4 text-sm", key: "inputs-list" }, [
+              React.createElement('li', { key: "input1" }, "Reference to previous transaction output"),
+              React.createElement('li', { key: "input2" }, "Unlocking script (signature proving ownership)"),
+              React.createElement('li', { key: "input3" }, "Sequence number (for advanced features)")
+            ])
+          ]),
+          React.createElement('div', { key: "outputs-section" }, [
+            React.createElement('h5', { className: "font-semibold text-green-300", key: "outputs-title" }, "Outputs (Where Bitcoin is going):"),
+            React.createElement('ul', { className: "list-disc ml-4 text-sm", key: "outputs-list" }, [
+              React.createElement('li', { key: "output1" }, "Amount of Bitcoin (in satoshis)"),
+              React.createElement('li', { key: "output2" }, "Locking script (conditions for spending)"),
+              React.createElement('li', { key: "output3" }, "Usually contains recipient's address")
+            ])
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "scripts" }, "Scripts: Locking and Unlocking Bitcoin"),
+      React.createElement('p', { className: "mb-4", key: "scripts-desc" },
+        "Bitcoin uses a simple programming language called Script to define spending conditions. When you send Bitcoin " +
+        "to an address, you're creating a locking script that specifies who can spend it and how."
+      ),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "scripts-comparison" }, [
+        React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4", key: "locking-script" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-red-300", key: "locking-title" }, "Locking Script (scriptPubKey)"),
+          React.createElement('p', { className: "text-sm mb-2", key: "locking-desc" }, "Created when receiving Bitcoin:"),
+          React.createElement('code', { className: "text-xs bg-gray-800 p-2 rounded block", key: "locking-code" },
+            "OP_DUP OP_HASH160 <PubKeyHash> OP_EQUALVERIFY OP_CHECKSIG"
+          ),
+          React.createElement('p', { className: "text-xs mt-2 text-gray-400", key: "locking-meaning" },
+            "Means: \"To spend this Bitcoin, provide a signature and public key that hashes to this address\""
+          )
+        ]),
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4", key: "unlocking-script" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "unlocking-title" }, "Unlocking Script (scriptSig)"),
+          React.createElement('p', { className: "text-sm mb-2", key: "unlocking-desc" }, "Created when spending Bitcoin:"),
+          React.createElement('code', { className: "text-xs bg-gray-800 p-2 rounded block", key: "unlocking-code" },
+            "<Signature> <PublicKey>"
+          ),
+          React.createElement('p', { className: "text-xs mt-2 text-gray-400", key: "unlocking-meaning" },
+            "Provides the signature and public key that satisfy the locking script's conditions"
+          )
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "lifecycle" }, "Transaction Lifecycle"),
+      React.createElement('p', { className: "mb-4", key: "lifecycle-desc" },
+        "A Bitcoin transaction goes through several stages from creation to final confirmation:"
+      ),
+      React.createElement('ol', { className: "list-decimal ml-6 mb-4 space-y-2", key: "lifecycle-steps" }, [
+        React.createElement('li', { key: "step1" }, 
+          React.createElement('strong', null, "Creation: "), 
+          "Wallet constructs transaction with inputs, outputs, and signs with private keys"
+        ),
+        React.createElement('li', { key: "step2" }, 
+          React.createElement('strong', null, "Broadcast: "), 
+          "Transaction is sent to the Bitcoin network and propagates to nodes"
+        ),
+        React.createElement('li', { key: "step3" }, 
+          React.createElement('strong', null, "Mempool: "), 
+          "Nodes validate the transaction and add it to their memory pool"
+        ),
+        React.createElement('li', { key: "step4" }, 
+          React.createElement('strong', null, "Mining: "), 
+          "Miners select the transaction for inclusion in a block"
+        ),
+        React.createElement('li', { key: "step5" }, 
+          React.createElement('strong', null, "Confirmation: "), 
+          "Transaction is included in a block and confirmed by the network"
+        ),
+        React.createElement('li', { key: "step6" }, 
+          React.createElement('strong', null, "Finality: "), 
+          "After several confirmations, transaction is considered irreversible"
+        )
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "fees-change" }, "Transaction Fees and Change"),
+      React.createElement('p', { className: "mb-4", key: "fees-desc" },
+        "Since UTXOs must be spent entirely, you often need to send change back to yourself. The difference between " +
+        "total inputs and total outputs becomes the transaction fee paid to miners."
+      ),
+      React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4 mb-4", key: "fee-example" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "fee-example-title" }, "Fee Calculation Example"),
+        React.createElement('div', { className: "space-y-1 text-sm", key: "fee-calc" }, [
+          React.createElement('div', { key: "input-amount" }, "Input: 1.0 BTC"),
+          React.createElement('div', { key: "output-recipient" }, "Output to recipient: 0.3 BTC"),
+          React.createElement('div', { key: "output-change" }, "Output as change: 0.699 BTC"),
+          React.createElement('div', { className: "border-t border-purple-700 pt-1 mt-2 font-semibold text-purple-300", key: "fee-amount" },
+            "Transaction fee: 0.001 BTC (1.0 - 0.3 - 0.699)"
+          )
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "advanced" }, "Advanced Features: Dust, RBF, and SegWit"),
+      React.createElement('ul', { className: "list-disc ml-6 mb-4 space-y-2", key: "advanced-features" }, [
+        React.createElement('li', { key: "dust" }, 
+          React.createElement('strong', null, "Dust: "), 
+          "UTXOs so small that they cost more in fees to spend than they're worth. Most nodes reject dust outputs."
+        ),
+        React.createElement('li', { key: "rbf" }, 
+          React.createElement('strong', null, "RBF (Replace-By-Fee): "), 
+          "Allows replacing an unconfirmed transaction with a higher-fee version to speed up confirmation."
+        ),
+        React.createElement('li', { key: "segwit" }, 
+          React.createElement('strong', null, "SegWit: "), 
+          "Separates signature data from transaction data, reducing transaction size and enabling new features."
+        )
+      ]),
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/transaction-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "📝 Interactive Challenge: Build Your Transaction"),
+        React.createElement('p', { key: "challenge-desc" },
+          "Create transactions using the UTXO model. Select inputs, define outputs, calculate fees, and see how " +
+          "scripts lock and unlock Bitcoin. Experience the full transaction lifecycle."
+        )
+      ])
+    ]),
+    completionMessage: "Outstanding! You now understand how Bitcoin transactions work at a deep technical level and can reason about UTXOs, scripts, and fees."
   },
+
   {
     id: 4,
-    title: "Private Keys & Digital Sovereignty",
-    subtitle: "Owning Your Financial Future",
-    description: "Master the critical concept of private keys - the foundation of true ownership in Bitcoin. Learn why self-custody matters, how keys work cryptographically, and best practices for securing your digital wealth. Understand how private keys enable financial sovereignty unmatched by traditional systems.",
-    objectives: [
-      "Understand public/private key cryptography",
-      "Learn why self-custody is essential",
-      "Explore different wallet types and security models",
-      "Practice secure key management techniques",
-      "Analyze tradeoffs between convenience and security"
-    ],
-    content: {
-      title: "Cryptographic Ownership",
-      content: "Bitcoin's private key system puts users in complete control of their funds, offering unprecedented financial sovereignty but also requiring responsible key management and security practices.",
-      introduction: "In Bitcoin, possession of private keys means true ownership of value. Unlike traditional finance where institutions control access to your money, Bitcoin puts you in complete control through cryptographic keys. This represents both unprecedented freedom and responsibility.\n\nFor Africans who have experienced currency confiscation, banking exclusion, or arbitrary account freezes, private key ownership offers a radical alternative - money that can't be taken without your consent, accessible with just a string of memorized words.",
-      sections: [
-        {
-          title: "The Magic of Key Pairs",
-          content: "Bitcoin uses asymmetric cryptography:\n\n### Key Concepts:\n1. **Private Key**: Secret number that controls funds\n2. **Public Key**: Mathematically derived from private key\n3. **Address**: Hashed version of public key\n\n### How It Works:\n- Private keys sign transactions\n- Public keys verify signatures\n- Addresses receive funds\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Analogy**: Like a chief's seal that can't be forged, your private key uniquely authorizes transactions while your public key lets others verify authenticity.\n</style>"
-        },
-        {
-          title: "Self-Custody: Your Keys, Your Coins",
-          content: "True Bitcoin ownership requires controlling private keys:\n\n### Custody Models:\n1. **Self-Custody**: You hold keys (most secure)\n2. **Multisig**: Shared control among parties\n3. **Custodial**: Third party holds keys (least secure)\n\n### African Importance:\n- Avoids exchange failures/freezes\n- Preserves access during instability\n- Enables true financial sovereignty\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Proverb Connection**: \"If you want to go fast, go alone. If you want to go far, go together.\" Self-custody is going alone - full control but full responsibility.\n</style>"
-        },
-        {
-          title: "Secure Storage Practices",
-          content: "Proper key management balances security and accessibility:\n\n### Best Practices:\n1. **Seed Phrases**: 12-24 word backups\n2. **Hardware Wallets**: Isolated signing\n3. **Multisig**: Distributed trust\n4. **Geographic Distribution**: Protect against local disasters\n\n### African Adaptations:\n- Metal seed storage for durability\n- Community-based multisig for families\n- Hidden storage methods\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Cultural Parallel**: Just as traditional communities developed sophisticated methods to protect physical wealth, Bitcoin requires new methods to protect digital wealth.\n</style>"
-        }
-      ]
-    },
-    simulationType: 'cryptography',
-    game: {
-      name: "Key Keeper",
-      description: "Defend your private keys from various threats",
-      tasks: [
-        "Pair decentralization benefits with real-world examples",
-        "Identify tradeoffs of decentralized vs centralized systems",
-        "Match Bitcoin properties to problems they solve",
-        "Rank decentralization aspects by importance"
-      ],
-      scenarios: [
-        {
-          name: "Phishing Attack",
-          description: "Identify fake wallet websites",
-          success: "Recognized URL mismatch"
-        },
-        {
-          name: "Hardware Failure",
-          description: "Recover from lost device",
-          success: "Used seed phrase properly"
-        },
-        {
-          name: "Social Engineering",
-          description: "Resist fake support calls",
-          success: "Never shared private info"
-        }
-      ],
-      reward: "Security Guardian Badge"
-    },
-    quiz: {
-      questions: [
-        {
-          question: "What is the most secure way to store Bitcoin?",
-          options: [
-            "Exchange account",
-            "Mobile wallet",
-            "Self-custody with hardware wallet",
-            "Paper wallet"
-          ],
-          answer: 2
-        },
-        {
-          question: "Why is self-custody important in Africa?",
-          options: [
-            "Avoids exchange failures/freezes",
-            "Preserves access during instability",
-            "Enables true financial sovereignty",
-            "All of the above"
-          ],
-          answer: 3
-        }
-      ]
-    }
+    title: "Bitcoin Script",
+    subtitle: "Bitcoin's Programming Language",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/bb335542e432a300e466ac9097a60f6846416a65736bf3293241432555cba028?w=530&h=260",
+    simulationType: "merkletree",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "Bitcoin Script is a simple, stack-based programming language that defines the conditions under which Bitcoin " +
+        "can be spent. While often called 'simple,' Script enables sophisticated financial contracts and is the foundation " +
+        "for Bitcoin's programmable money capabilities."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "script-basics" }, "Script Fundamentals"),
+      React.createElement('p', { className: "mb-4", key: "script-desc" },
+        "Bitcoin Script is intentionally limited and deterministic. It uses a stack-based execution model where operations " +
+        "manipulate data on a stack. Scripts are designed to either succeed (returning true) or fail (returning false)."
+      ),
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "script-properties" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "properties-title" }, "Script Properties"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1", key: "properties-list" }, [
+          React.createElement('li', { key: "prop1" }, "Stack-based: Operations work with data on a stack"),
+          React.createElement('li', { key: "prop2" }, "Deterministic: Same input always produces same output"),
+          React.createElement('li', { key: "prop3" }, "Non-Turing complete: No loops to prevent infinite execution"),
+          React.createElement('li', { key: "prop4" }, "Stateless: Each script execution is independent")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "opcodes" }, "OP Codes: Script's Building Blocks"),
+      React.createElement('p', { className: "mb-4", key: "opcodes-desc" },
+        "Scripts are composed of OP codes—specific operations that manipulate the stack. Here are the most important ones:"
+      ),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "opcodes-grid" }, [
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4", key: "basic-ops" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "basic-title" }, "Basic Operations"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "basic-list" }, [
+            React.createElement('li', { key: "op1" }, React.createElement('code', null, "OP_DUP"), ": Duplicate top stack item"),
+            React.createElement('li', { key: "op2" }, React.createElement('code', null, "OP_HASH160"), ": Hash top item with SHA256+RIPEMD160"),
+            React.createElement('li', { key: "op3" }, React.createElement('code', null, "OP_EQUAL"), ": Check if top two items are equal"),
+            React.createElement('li', { key: "op4" }, React.createElement('code', null, "OP_VERIFY"), ": Fail if top item is false")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4", key: "crypto-ops" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "crypto-title" }, "Cryptographic Operations"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "crypto-list" }, [
+            React.createElement('li', { key: "op5" }, React.createElement('code', null, "OP_CHECKSIG"), ": Verify digital signature"),
+            React.createElement('li', { key: "op6" }, React.createElement('code', null, "OP_CHECKMULTISIG"), ": Verify multiple signatures"),
+            React.createElement('li', { key: "op7" }, React.createElement('code', null, "OP_SHA256"), ": SHA256 hash function"),
+            React.createElement('li', { key: "op8" }, React.createElement('code', null, "OP_RIPEMD160"), ": RIPEMD160 hash function")
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "standard-scripts" }, "Standard Script Types"),
+      React.createElement('p', { className: "mb-4", key: "standard-desc" },
+        "While Script can theoretically create many types of conditions, Bitcoin networks typically only relay " +
+        "and mine transactions using standard script templates:"
+      ),
+      React.createElement('div', { className: "space-y-4 mb-4", key: "script-types" }, [
+        React.createElement('div', { className: "bg-yellow-900/20 border border-yellow-800/30 rounded-lg p-4", key: "p2pkh" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-yellow-300", key: "p2pkh-title" }, "P2PKH (Pay to Public Key Hash)"),
+          React.createElement('p', { className: "text-sm mb-2", key: "p2pkh-desc" }, "The most common script type, used for regular Bitcoin addresses."),
+          React.createElement('code', { className: "text-xs bg-gray-800 p-2 rounded block mb-2", key: "p2pkh-code" },
+            "OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG"
+          ),
+          React.createElement('p', { className: "text-xs text-gray-400", key: "p2pkh-meaning" },
+            "Requires a signature and public key that hashes to the specified address."
+          )
+        ]),
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4", key: "p2sh" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "p2sh-title" }, "P2SH (Pay to Script Hash)"),
+          React.createElement('p', { className: "text-sm mb-2", key: "p2sh-desc" }, "Allows complex scripts by referencing their hash."),
+          React.createElement('code', { className: "text-xs bg-gray-800 p-2 rounded block mb-2", key: "p2sh-code" },
+            "OP_HASH160 <scriptHash> OP_EQUAL"
+          ),
+          React.createElement('p', { className: "text-xs text-gray-400", key: "p2sh-meaning" },
+            "Requires providing a script that hashes to the specified value, plus data to satisfy that script."
+          )
+        ]),
+        React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4", key: "p2wpkh" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "p2wpkh-title" }, "P2WPKH (Pay to Witness Public Key Hash)"),
+          React.createElement('p', { className: "text-sm mb-2", key: "p2wpkh-desc" }, "SegWit version of P2PKH with separate witness data."),
+          React.createElement('code', { className: "text-xs bg-gray-800 p-2 rounded block mb-2", key: "p2wpkh-code" },
+            "OP_0 <pubKeyHash>"
+          ),
+          React.createElement('p', { className: "text-xs text-gray-400", key: "p2wpkh-meaning" },
+            "More efficient than P2PKH, with signature data stored separately."
+          )
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "timelocks" }, "Time-locks and Advanced Features"),
+      React.createElement('p', { className: "mb-4", key: "timelocks-desc" },
+        "Script supports time-based conditions, allowing Bitcoin to be locked until specific times or block heights:"
+      ),
+      React.createElement('ul', { className: "list-disc ml-6 mb-4 space-y-2", key: "timelock-list" }, [
+        React.createElement('li', { key: "timelock1" }, 
+          React.createElement('strong', null, "OP_CHECKLOCKTIMEVERIFY (CLTV): "), 
+          "Prevents spending until a specific time or block height"
+        ),
+        React.createElement('li', { key: "timelock2" }, 
+          React.createElement('strong', null, "OP_CHECKSEQUENCEVERIFY (CSV): "), 
+          "Requires a relative time delay from when the UTXO was created"
+        ),
+        React.createElement('li', { key: "timelock3" }, 
+          React.createElement('strong', null, "nLockTime field: "), 
+          "Makes entire transaction invalid until specified time"
+        )
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "multisig" }, "Multisig Transactions"),
+      React.createElement('p', { className: "mb-4", key: "multisig-desc" },
+        "Multisig scripts require multiple signatures to spend Bitcoin, enabling shared control and enhanced security:"
+      ),
+      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "multisig-example" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-orange-300", key: "multisig-title" }, "2-of-3 Multisig Example"),
+        React.createElement('code', { className: "text-xs bg-gray-800 p-2 rounded block mb-2", key: "multisig-code" },
+          "OP_2 <pubkey1> <pubkey2> <pubkey3> OP_3 OP_CHECKMULTISIG"
+        ),
+        React.createElement('p', { className: "text-xs text-gray-400", key: "multisig-meaning" },
+          "Requires any 2 out of 3 specified public keys to sign the transaction."
+        ),
+        React.createElement('div', { className: "mt-2 text-sm", key: "multisig-uses" }, [
+          React.createElement('p', { className: "font-semibold mb-1", key: "uses-title" }, "Common uses:"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "uses-list" }, [
+            React.createElement('li', { key: "use1" }, "Corporate treasury management"),
+            React.createElement('li', { key: "use2" }, "Escrow services"),
+            React.createElement('li', { key: "use3" }, "Enhanced personal security")
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "smart-contracts" }, "Bitcoin Smart Contracts"),
+      React.createElement('p', { className: "mb-4", key: "contracts-desc" },
+        "While limited compared to other platforms, Bitcoin Script enables sophisticated smart contracts:"
+      ),
+      React.createElement('ul', { className: "list-disc ml-6 mb-4 space-y-2", key: "contracts-list" }, [
+        React.createElement('li', { key: "contract1" }, "Hash Time-Locked Contracts (HTLCs) for payment channels"),
+        React.createElement('li', { key: "contract2" }, "Atomic swaps for cross-chain trading"),
+        React.createElement('li', { key: "contract3" }, "Payment channels and Lightning Network"),
+        React.createElement('li', { key: "contract4" }, "Discreet Log Contracts for financial derivatives")
+      ]),
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/script-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "⚡ Interactive Challenge: Program with Script"),
+        React.createElement('p', { key: "challenge-desc" },
+          "Build and execute Bitcoin scripts step by step. Create multisig conditions, time-locks, and custom spending " +
+          "requirements. Watch the stack operations in real-time and understand how Script validates transactions."
+        )
+      ])
+    ]),
+    completionMessage: "Fantastic! You now understand Bitcoin Script and how it enables programmable money through carefully designed constraints."
   },
+
   {
     id: 5,
-    title: "Knowledge Test: Bitcoin's Birthright",
-    subtitle: "Proving Your Understanding",
-    description: "Demonstrate your mastery of Bitcoin's origins, technical foundations, and philosophical principles. This comprehensive test combines all Realm 3 concepts into practical challenges that prove your readiness to advance to more complex Bitcoin topics.",
-    objectives: [
-      "Recall key facts about Bitcoin's creation",
-      "Explain the significance of the Genesis Block",
-      "Articulate Bitcoin's differentiating features",
-      "Demonstrate proper key management understanding",
-      "Synthesize how Bitcoin applies to African contexts"
-    ],
-    content: {
-      title: "Bitcoin Fundamentals Review",
-      content: "This comprehensive test combines all core Bitcoin concepts from its origins and Genesis Block to its differentiating features and key management principles, proving your readiness for advanced topics.",
-      introduction: "You've journeyed through Bitcoin's origin story, from its cypherpunk roots to its revolutionary technical design. Now it's time to prove your understanding and reflect on how these concepts apply to real-world financial situations, particularly in African contexts.\n\nThis final mission combines knowledge testing with practical application, ensuring you've internalized why Bitcoin matters and how its foundational principles create a new paradigm for money and value transfer across the continent and beyond.",
-      sections: [
-        {
-          title: "Comprehensive Review",
-          content: "### Bitcoin's Origins:\n- Created by pseudonymous Satoshi Nakamoto\n- Whitepaper published October 2008\n- Genesis Block mined January 2009\n\n### Key Differentiators:\n- Decentralized and permissionless\n- Censorship-resistant\n- Transparent and verifiable\n- Fixed supply and predictable issuance\n\n### Private Key Sovereignty:\n- True ownership requires key control\n- Various security tradeoffs\n- Special importance in unstable regions\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Synthesis**: Bitcoin represents both a technical innovation and a philosophical shift - from permissioned, centralized systems to open, mathematical money that treats all participants equally regardless of geography or status.\n</style>"
-        }
-      ]
-    },
-    simulationType: 'quiz',
-    game: {
-      name: "Bitcoin Trivia Showdown",
-      description: "Competitive team-based trivia on Realm 3 content",
-      tasks: [
-        "Pair decentralization benefits with real-world examples",
-        "Identify tradeoffs of decentralized vs centralized systems",
-        "Match Bitcoin properties to problems they solve",
-        "Rank decentralization aspects by importance"
-      ],
-      rounds: [
-        {
-          name: "Origins Round",
-          questions: 5,
-          topics: ["Satoshi", "Whitepaper", "Cypherpunks"]
-        },
-        {
-          name: "Genesis Round",
-          questions: 5,
-          topics: ["Block 0", "Message", "Unspendable reward"]
-        },
-        {
-          name: "Decentralization Round",
-          questions: 5,
-          topics: ["Trustlessness", "Censorship", "Transparency"]
-        },
-        {
-          name: "Keys Round",
-          questions: 5,
-          topics: ["Self-custody", "Security", "Wallets"]
-        }
-      ],
-      reward: "Bitcoin Scholar Badge"
-    },
-    reflection: {
-      prompt: "Journal about how Bitcoin could change your financial future",
-      guidelines: [
-        "Consider your local financial challenges",
-        "Imagine Bitcoin solutions to specific problems",
-        "Reflect on personal sovereignty",
-        "Project 5-10 years into the future"
-      ]
-    }
+    title: "Bitcoin Wallets",
+    subtitle: "Behind the Interface",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/1534e4562b8d81db405fd9b725fee9e0067de01b1e0903dd13434988beafa612?w=530&h=260",
+    simulationType: "cryptography",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "Bitcoin wallets are much more than simple storage containers. They're sophisticated key management systems " +
+        "that generate, store, and use cryptographic keys to control your Bitcoin. Understanding how wallets work " +
+        "is essential for Bitcoin security and privacy."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "wallet-types" }, "Types of Bitcoin Wallets"),
+      React.createElement('p', { className: "mb-4", key: "types-desc" },
+        "Wallets can be categorized by their security model, key storage, and network connectivity:"
+      ),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "wallet-categories" }, [
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4", key: "custody-types" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "custody-title" }, "By Custody"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "custody-list" }, [
+            React.createElement('li', { key: "custody1" }, React.createElement('strong', null, "Custodial: "), "Third party controls your keys"),
+            React.createElement('li', { key: "custody2" }, React.createElement('strong', null, "Non-custodial: "), "You control your private keys"),
+            React.createElement('li', { key: "custody3" }, React.createElement('strong', null, "Multi-sig: "), "Shared control with multiple parties")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4", key: "storage-types" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "storage-title" }, "By Storage"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "storage-list" }, [
+            React.createElement('li', { key: "storage1" }, React.createElement('strong', null, "Software: "), "Keys stored on computer/phone"),
+            React.createElement('li', { key: "storage2" }, React.createElement('strong', null, "Hardware: "), "Keys stored on dedicated device"),
+            React.createElement('li', { key: "storage3" }, React.createElement('strong', null, "Paper: "), "Keys printed or written down")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4", key: "connectivity-types" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "connectivity-title" }, "By Connectivity"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "connectivity-list" }, [
+            React.createElement('li', { key: "conn1" }, React.createElement('strong', null, "Hot: "), "Connected to internet"),
+            React.createElement('li', { key: "conn2" }, React.createElement('strong', null, "Cold: "), "Offline, air-gapped"),
+            React.createElement('li', { key: "conn3" }, React.createElement('strong', null, "Watch-only: "), "Can view but not spend")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-yellow-900/20 border border-yellow-800/30 rounded-lg p-4", key: "node-types" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-yellow-300", key: "node-title" }, "By Node Type"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "node-list" }, [
+            React.createElement('li', { key: "node1" }, React.createElement('strong', null, "Full node: "), "Validates all transactions"),
+            React.createElement('li', { key: "node2" }, React.createElement('strong', null, "SPV: "), "Simplified payment verification"),
+            React.createElement('li', { key: "node3" }, React.createElement('strong', null, "Server-based: "), "Relies on third-party servers")
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "hd-wallets" }, "Hierarchical Deterministic (HD) Wallets"),
+      React.createElement('p', { className: "mb-4", key: "hd-desc" },
+        "Modern wallets use HD wallet technology to generate unlimited addresses from a single seed. This provides " +
+        "better privacy, organization, and backup simplicity compared to random key generation."
+      ),
+      React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4 mb-4", key: "hd-advantages" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "hd-adv-title" }, "HD Wallet Advantages"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1", key: "hd-adv-list" }, [
+          React.createElement('li', { key: "adv1" }, "Single backup (seed phrase) protects unlimited keys"),
+          React.createElement('li', { key: "adv2" }, "Deterministic address generation"),
+          React.createElement('li', { key: "adv3" }, "Hierarchical organization of accounts and addresses"),
+          React.createElement('li', { key: "adv4" }, "Extended public keys allow watch-only wallets"),
+          React.createElement('li', { key: "adv5" }, "Better privacy through address reuse avoidance")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "bip-standards" }, "BIP Standards: The Wallet Blueprint"),
+      React.createElement('p', { className: "mb-4", key: "bip-desc" },
+        "Bitcoin Improvement Proposals (BIPs) define standards that ensure wallet compatibility and security:"
+      ),
+      React.createElement('div', { className: "space-y-4 mb-4", key: "bip-standards" }, [
+        React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4", key: "bip32" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "bip32-title" }, "BIP32: Hierarchical Deterministic Wallets"),
+          React.createElement('p', { className: "text-sm mb-2", key: "bip32-desc" }, 
+            "Defines how to derive unlimited keys from a master key using mathematical relationships."
+          ),
+          React.createElement('code', { className: "text-xs bg-gray-800 p-2 rounded block", key: "bip32-code" },
+            "Master Key → Child Keys → Grandchild Keys → ..."
+          )
+        ]),
+        React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4", key: "bip39" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "bip39-title" }, "BIP39: Mnemonic Seed Phrases"),
+          React.createElement('p', { className: "text-sm mb-2", key: "bip39-desc" }, 
+            "Converts random entropy into human-readable word lists for wallet backup and recovery."
+          ),
+          React.createElement('code', { className: "text-xs bg-gray-800 p-2 rounded block", key: "bip39-code" },
+            "abandon ability able about above absent absorb abstract absurd abuse access accident"
+          )
+        ]),
+        React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4", key: "bip44" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-orange-300", key: "bip44-title" }, "BIP44: Multi-Account Hierarchy"),
+          React.createElement('p', { className: "text-sm mb-2", key: "bip44-desc" }, 
+            "Defines a standard structure for organizing accounts and addresses within HD wallets."
+          ),
+          React.createElement('code', { className: "text-xs bg-gray-800 p-2 rounded block", key: "bip44-code" },
+            "m / purpose' / coin_type' / account' / change / address_index"
+          )
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "seed-entropy" }, "Seed Phrases and Entropy"),
+      React.createElement('p', { className: "mb-4", key: "entropy-desc" },
+        "Your wallet's security depends entirely on the randomness (entropy) used to generate your seed phrase. " +
+        "Understanding this process is crucial for maintaining security."
+      ),
+      React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4 mb-4", key: "entropy-process" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-red-300", key: "entropy-title" }, "Seed Generation Process"),
+        React.createElement('ol', { className: "list-decimal ml-4 space-y-1 text-sm", key: "entropy-steps" }, [
+          React.createElement('li', { key: "step1" }, "Generate 128-256 bits of cryptographic randomness"),
+          React.createElement('li', { key: "step2" }, "Add checksum bits for error detection"),
+          React.createElement('li', { key: "step3" }, "Divide into groups representing word indices"),
+          React.createElement('li', { key: "step4" }, "Map indices to words from standardized word list"),
+          React.createElement('li', { key: "step5" }, "Result: 12-24 word mnemonic phrase")
+        ])
+      ]),
+      React.createElement('div', { className: "bg-yellow-900/20 border border-yellow-800/30 rounded-lg p-4 mb-4", key: "entropy-warning" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-yellow-300", key: "warning-title" }, "⚠️ Entropy Security Warning"),
+        React.createElement('p', { className: "text-sm", key: "warning-text" },
+          "Never use human-generated phrases or weak randomness sources. Poor entropy has led to theft of millions " +
+          "of dollars worth of Bitcoin. Always use properly implemented wallet software that sources entropy from " +
+          "cryptographically secure random number generators."
+        )
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "address-generation" }, "Address Generation Paths"),
+      React.createElement('p', { className: "mb-4", key: "path-desc" },
+        "HD wallets use derivation paths to organize and generate addresses systematically:"
+      ),
+      React.createElement('div', { className: "bg-gray-900/50 border border-gray-700 rounded-lg p-4 mb-4", key: "path-example" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-gray-300", key: "path-title" }, "Standard Derivation Paths"),
+        React.createElement('div', { className: "space-y-2 text-sm font-mono", key: "path-examples" }, [
+          React.createElement('div', { key: "path1" }, 
+            React.createElement('span', { className: "text-blue-400" }, "m/44'/0'/0'/0/0"), 
+            " - First receiving address (BIP44)"
+          ),
+          React.createElement('div', { key: "path2" }, 
+            React.createElement('span', { className: "text-green-400" }, "m/44'/0'/0'/1/0"), 
+            " - First change address (BIP44)"
+          ),
+          React.createElement('div', { key: "path3" }, 
+            React.createElement('span', { className: "text-purple-400" }, "m/84'/0'/0'/0/0"), 
+            " - First SegWit address (BIP84)"
+          ),
+          React.createElement('div', { key: "path4" }, 
+            React.createElement('span', { className: "text-orange-400" }, "m/86'/0'/0'/0/0"), 
+            " - First Taproot address (BIP86)"
+          )
+        ])
+      ]),
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "path-breakdown" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "breakdown-title" }, "Path Component Breakdown"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "breakdown-list" }, [
+          React.createElement('li', { key: "comp1" }, React.createElement('strong', null, "Purpose (44'): "), "BIP44 standard"),
+          React.createElement('li', { key: "comp2" }, React.createElement('strong', null, "Coin type (0'): "), "Bitcoin (other coins use different numbers)"),
+          React.createElement('li', { key: "comp3" }, React.createElement('strong', null, "Account (0'): "), "Logical account separation"),
+          React.createElement('li', { key: "comp4" }, React.createElement('strong', null, "Change (0/1): "), "0 = receiving, 1 = change addresses"),
+          React.createElement('li', { key: "comp5" }, React.createElement('strong', null, "Index (0,1,2...): "), "Sequential address number")
+        ])
+      ]),
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/wallet-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "💼 Interactive Challenge: Build Your Wallet"),
+        React.createElement('p', { key: "challenge-desc" },
+          "Generate seed phrases, derive keys using BIP standards, and create different types of addresses. " +
+          "Understand the relationship between entropy, seeds, keys, and addresses in a working wallet implementation."
+        )
+      ])
+    ]),
+    completionMessage: "Excellent! You now understand the sophisticated key management systems that make Bitcoin wallets secure and user-friendly."
+  },
+
+  {
+    id: 6,
+    title: "The Mempool",
+    subtitle: "Bitcoin's Waiting Room",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/769917eddc6ee5ee6bf70d4b3468bc2d3751f70a7fbc84c9ccf43c5a46bcb068?w=530&h=260",
+    simulationType: "hashing",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "The mempool (memory pool) is where Bitcoin transactions wait before being included in a block. Understanding " +
+        "the mempool is crucial for fee estimation, transaction timing, and comprehending Bitcoin's transaction lifecycle."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "what-is-mempool" }, "What is the Mempool?"),
+      React.createElement('p', { className: "mb-4", key: "mempool-desc" },
+        "The mempool is a temporary storage area where each Bitcoin node keeps valid but unconfirmed transactions. " +
+        "When you broadcast a transaction, it first enters mempools across the network before miners select it for inclusion in a block."
+      ),
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "mempool-facts" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "facts-title" }, "Key Mempool Facts"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1", key: "facts-list" }, [
+          React.createElement('li', { key: "fact1" }, "Each node maintains its own mempool independently"),
+          React.createElement('li', { key: "fact2" }, "Mempools can differ between nodes due to propagation timing"),
+          React.createElement('li', { key: "fact3" }, "Transactions are removed when included in a block or evicted"),
+          React.createElement('li', { key: "fact4" }, "Mempool size fluctuates based on network activity"),
+          React.createElement('li', { key: "fact5" }, "Higher fee transactions get priority for mining")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "fee-estimation" }, "Fee Estimation and Market Dynamics"),
+      React.createElement('p', { className: "mb-4", key: "fee-desc" },
+        "The mempool functions as a fee market where users compete for limited block space. Understanding this " +
+        "dynamic helps you set appropriate fees for timely transaction confirmation."
+      ),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "fee-grid" }, [
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4", key: "fee-factors" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "factors-title" }, "Fee Influencing Factors"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "factors-list" }, [
+            React.createElement('li', { key: "factor1" }, "Network congestion level"),
+            React.createElement('li', { key: "factor2" }, "Transaction size (in bytes)"),
+            React.createElement('li', { key: "factor3" }, "Desired confirmation time"),
+            React.createElement('li', { key: "factor4" }, "Mempool composition"),
+            React.createElement('li', { key: "factor5" }, "Recent block patterns")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4", key: "fee-strategies" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "strategies-title" }, "Fee Strategies"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "strategies-list" }, [
+            React.createElement('li', { key: "strategy1" }, "Conservative: High fee, fast confirmation"),
+            React.createElement('li', { key: "strategy2" }, "Standard: Medium fee, reasonable time"),
+            React.createElement('li', { key: "strategy3" }, "Economy: Low fee, longer wait"),
+            React.createElement('li', { key: "strategy4" }, "Custom: Manual fee calculation")
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "double-spend" }, "Double-Spends and Replace-by-Fee (RBF)"),
+      React.createElement('p', { className: "mb-4", key: "double-spend-desc" },
+        "Unconfirmed transactions in the mempool can potentially be double-spent or replaced. Understanding these " +
+        "concepts is important for merchant security and transaction management."
+      ),
+      React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4 mb-4", key: "double-spend-box" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-red-300", key: "double-spend-title" }, "Double-Spending Scenarios"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "double-spend-list" }, [
+          React.createElement('li', { key: "scenario1" }, React.createElement('strong', null, "Accidental: "), "Wallet broadcasts conflicting transactions due to bugs"),
+          React.createElement('li', { key: "scenario2" }, React.createElement('strong', null, "Malicious: "), "Intentional attempt to spend same UTXO twice"),
+          React.createElement('li', { key: "scenario3" }, React.createElement('strong', null, "RBF: "), "Legitimate replacement with higher fee"),
+          React.createElement('li', { key: "scenario4" }, React.createElement('strong', null, "CPFP: "), "Child-pays-for-parent fee bumping")
+        ])
+      ]),
+      React.createElement('div', { className: "bg-yellow-900/20 border border-yellow-800/30 rounded-lg p-4 mb-4", key: "rbf-box" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-yellow-300", key: "rbf-title" }, "Replace-by-Fee (RBF) Mechanism"),
+        React.createElement('p', { className: "text-sm mb-2", key: "rbf-desc" },
+          "RBF allows users to increase transaction fees by replacing unconfirmed transactions:"
+        ),
+        React.createElement('ol', { className: "list-decimal ml-4 space-y-1 text-sm", key: "rbf-steps" }, [
+          React.createElement('li', { key: "rbf1" }, "Original transaction signals RBF capability"),
+          React.createElement('li', { key: "rbf2" }, "Create new transaction spending same inputs"),
+          React.createElement('li', { key: "rbf3" }, "Increase fee to meet replacement requirements"),
+          React.createElement('li', { key: "rbf4" }, "Broadcast replacement transaction"),
+          React.createElement('li', { key: "rbf5" }, "Nodes replace original with higher-fee version")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "malleability" }, "Transaction Malleability"),
+      React.createElement('p', { className: "mb-4", key: "malleability-desc" },
+        "Transaction malleability refers to the ability to change a transaction's ID while keeping its effects the same. " +
+        "This was a significant issue before SegWit activation."
+      ),
+      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "malleability-box" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-orange-300", key: "malleability-title" }, "Malleability Issues and Solutions"),
+        React.createElement('div', { className: "grid md:grid-cols-2 gap-4", key: "malleability-grid" }, [
+          React.createElement('div', { key: "problems" }, [
+            React.createElement('h5', { className: "font-semibold mb-1 text-red-300", key: "problems-title" }, "Pre-SegWit Problems:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "problems-list" }, [
+              React.createElement('li', { key: "prob1" }, "Third parties could change transaction IDs"),
+              React.createElement('li', { key: "prob2" }, "Complicated Lightning Network development"),
+              React.createElement('li', { key: "prob3" }, "Made certain smart contracts difficult")
+            ])
+          ]),
+          React.createElement('div', { key: "solutions" }, [
+            React.createElement('h5', { className: "font-semibold mb-1 text-green-300", key: "solutions-title" }, "SegWit Solutions:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "solutions-list" }, [
+              React.createElement('li', { key: "sol1" }, "Signature data moved to witness section"),
+              React.createElement('li', { key: "sol2" }, "Transaction ID no longer includes signatures"),
+              React.createElement('li', { key: "sol3" }, "Enabled advanced payment channels")
+            ])
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "policies" }, "Mempool Policies and Node Differences"),
+      React.createElement('p', { className: "mb-4", key: "policies-desc" },
+        "While Bitcoin has consensus rules that all nodes must follow, mempool policies can vary between node implementations " +
+        "and configurations, affecting which transactions are accepted and propagated."
+      ),
+      React.createElement('div', { className: "space-y-3 mb-4", key: "policy-examples" }, [
+        React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-3", key: "policy1" }, [
+          React.createElement('h5', { className: "font-semibold mb-1 text-blue-300", key: "policy1-title" }, "Minimum Fee Rates"),
+          React.createElement('p', { className: "text-sm text-gray-300", key: "policy1-desc" },
+            "Nodes may reject transactions below certain fee thresholds to prevent spam."
+          )
+        ]),
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-3", key: "policy2" }, [
+          React.createElement('h5', { className: "font-semibold mb-1 text-green-300", key: "policy2-title" }, "Standard Script Types"),
+          React.createElement('p', { className: "text-sm text-gray-300", key: "policy2-desc" },
+            "Some nodes only relay 'standard' transaction types, filtering out unusual scripts."
+          )
+        ]),
+        React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-3", key: "policy3" }, [
+          React.createElement('h5', { className: "font-semibold mb-1 text-purple-300", key: "policy3-title" }, "Dust Limits"),
+          React.createElement('p', { className: "text-sm text-gray-300", key: "policy3-desc" },
+            "Outputs below the dust threshold may be rejected to prevent UTXO set bloat."
+          )
+        ])
+      ]),
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/mempool-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "🏊 Interactive Challenge: Navigate the Mempool"),
+        React.createElement('p', { key: "challenge-desc" },
+          "Explore mempool dynamics by adjusting fees, observing transaction propagation, and experimenting with RBF. " +
+          "See how network congestion affects confirmation times and learn optimal fee strategies."
+        )
+      ])
+    ]),
+    completionMessage: "Great work! You now understand how the mempool operates and can make informed decisions about transaction fees and timing."
+  },
+
+  {
+    id: 7,
+    title: "Bitcoin Consensus Mechanism",
+    subtitle: "Agreement Without Authority",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/c2b62867b49bdb1cf9109cc3e99fae057b70ba0ab65f7334ef518d3427665c5e?w=530&h=260",
+    simulationType: "consensus",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "Bitcoin's consensus mechanism allows thousands of independent nodes to agree on transaction validity and " +
+        "blockchain state without any central authority. This distributed agreement is what makes Bitcoin truly decentralized."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "what-is-consensus" }, "What is Consensus?"),
+      React.createElement('p', { className: "mb-4", key: "consensus-desc" },
+        "Consensus in Bitcoin means agreement among network participants about which transactions are valid and " +
+        "what the current state of the blockchain is. This agreement is achieved through a combination of " +
+        "cryptographic proof, economic incentives, and network effects."
+      ),
+      React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4 mb-4", key: "consensus-elements" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "elements-title" }, "Elements of Bitcoin Consensus"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1", key: "elements-list" }, [
+          React.createElement('li', { key: "element1" }, React.createElement('strong', null, "Cryptographic Rules: "), "Mathematical validation of signatures and hashes"),
+          React.createElement('li', { key: "element2" }, React.createElement('strong', null, "Economic Rules: "), "Valid monetary policy and supply limits"),
+          React.createElement('li', { key: "element3" }, React.createElement('strong', null, "Technical Rules: "), "Block size, transaction format requirements"),
+          React.createElement('li', { key: "element4" }, React.createElement('strong', null, "Social Rules: "), "Community agreement on protocol changes")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "longest-chain" }, "The Longest Chain Rule"),
+      React.createElement('p', { className: "mb-4", key: "longest-desc" },
+        "When multiple valid blocks are found simultaneously, nodes follow the 'longest chain rule' (more accurately, " +
+        "the chain with the most accumulated proof-of-work). This ensures the network converges on a single history."
+      ),
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "longest-chain-example" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "example-title" }, "Chain Selection Example"),
+        React.createElement('div', { className: "space-y-2 text-sm font-mono", key: "chain-example" }, [
+          React.createElement('div', { key: "chain1" }, "Chain A: Block 1 → Block 2 → Block 3 → Block 4"),
+          React.createElement('div', { key: "chain2" }, "Chain B: Block 1 → Block 2 → Block 3'"),
+          React.createElement('div', { className: "text-green-400 mt-2", key: "winner" }, 
+            "✓ Chain A wins (longer chain with more accumulated work)"
+          ),
+          React.createElement('div', { className: "text-red-400", key: "loser" }, 
+            "✗ Chain B becomes orphaned"
+          )
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "validation-rules" }, "Block Validation Rules"),
+      React.createElement('p', { className: "mb-4", key: "validation-desc" },
+        "Every Bitcoin node independently validates blocks against the same set of consensus rules. A block is only " +
+        "accepted if it passes all validation checks."
+      ),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "validation-grid" }, [
+        React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4", key: "block-rules" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "block-rules-title" }, "Block-Level Rules"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "block-rules-list" }, [
+            React.createElement('li', { key: "rule1" }, "Valid proof-of-work (meets difficulty target)"),
+            React.createElement('li', { key: "rule2" }, "Block size within limits"),
+            React.createElement('li', { key: "rule3" }, "Valid Merkle root"),
+            React.createElement('li', { key: "rule4" }, "Proper timestamp"),
+            React.createElement('li', { key: "rule5" }, "Builds on previous valid block")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4", key: "tx-rules" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-orange-300", key: "tx-rules-title" }, "Transaction-Level Rules"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "tx-rules-list" }, [
+            React.createElement('li', { key: "txrule1" }, "Valid digital signatures"),
+            React.createElement('li', { key: "txrule2" }, "Inputs reference existing UTXOs"),
+            React.createElement('li', { key: "txrule3" }, "Input sum ≥ output sum"),
+            React.createElement('li', { key: "txrule4" }, "No double-spending"),
+            React.createElement('li', { key: "txrule5" }, "Scripts execute successfully")
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "orphaned-blocks" }, "Orphaned and Stale Blocks"),
+      React.createElement('p', { className: "mb-4", key: "orphaned-desc" },
+        "Sometimes miners find valid blocks simultaneously, creating temporary forks. Blocks that end up on the shorter " +
+        "fork become orphaned and are not part of the main chain."
+      ),
+      React.createElement('div', { className: "bg-yellow-900/20 border border-yellow-800/30 rounded-lg p-4 mb-4", key: "orphaned-process" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-yellow-300", key: "orphaned-title" }, "Orphaned Block Process"),
+        React.createElement('ol', { className: "list-decimal ml-4 space-y-1 text-sm", key: "orphaned-steps" }, [
+          React.createElement('li', { key: "step1" }, "Two miners find valid blocks at nearly the same time"),
+          React.createElement('li', { key: "step2" }, "Different parts of network initially accept different blocks"),
+          React.createElement('li', { key: "step3" }, "Miners continue building on the block they received first"),
+          React.createElement('li', { key: "step4" }, "One chain becomes longer due to next block discovery"),
+          React.createElement('li', { key: "step5" }, "All nodes switch to the longer chain"),
+          React.createElement('li', { key: "step6" }, "Shorter chain's blocks become orphaned")
+        ])
+      ]),
+      React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4 mb-4", key: "orphaned-impact" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-red-300", key: "impact-title" }, "Impact of Orphaned Blocks"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "impact-list" }, [
+          React.createElement('li', { key: "impact1" }, "Miners lose block rewards from orphaned blocks"),
+          React.createElement('li', { key: "impact2" }, "Transactions in orphaned blocks return to mempool"),
+          React.createElement('li', { key: "impact3" }, "Network security temporarily reduced during fork"),
+          React.createElement('li', { key: "impact4" }, "Demonstrates importance of mining on latest block")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "network-latency" }, "Network Latency and Block Propagation"),
+      React.createElement('p', { className: "mb-4", key: "latency-desc" },
+        "The time it takes for blocks to propagate across the global network affects consensus dynamics and the " +
+        "frequency of orphaned blocks. Faster propagation leads to better network health."
+      ),
+      React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4 mb-4", key: "propagation-factors" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "factors-title" }, "Propagation Factors"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "factors-list" }, [
+          React.createElement('li', { key: "factor1" }, React.createElement('strong', null, "Block Size: "), "Larger blocks take longer to transmit"),
+          React.createElement('li', { key: "factor2" }, React.createElement('strong', null, "Network Topology: "), "Better connected nodes propagate faster"),
+          React.createElement('li', { key: "factor3" }, React.createElement('strong', null, "Geographic Distance: "), "Physical distance affects latency"),
+          React.createElement('li', { key: "factor4" }, React.createElement('strong', null, "Compact Blocks: "), "Optimization reduces propagation time"),
+          React.createElement('li', { key: "factor5" }, React.createElement('strong', null, "Internet Infrastructure: "), "Backbone capacity matters")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "consensus-changes" }, "Consensus Rule Changes"),
+      React.createElement('p', { className: "mb-4", key: "changes-desc" },
+        "Changing Bitcoin's consensus rules requires careful coordination to maintain network unity. There are " +
+        "different mechanisms for implementing changes with varying levels of backward compatibility."
+      ),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "changes-grid" }, [
+        React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4", key: "soft-fork" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "soft-title" }, "Soft Forks"),
+          React.createElement('p', { className: "text-sm mb-2", key: "soft-desc" }, "Backward-compatible rule changes:"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "soft-list" }, [
+            React.createElement('li', { key: "soft1" }, "Tighten existing rules"),
+            React.createElement('li', { key: "soft2" }, "Old nodes remain compatible"),
+            React.createElement('li', { key: "soft3" }, "Example: SegWit, Taproot")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4", key: "hard-fork" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-red-300", key: "hard-title" }, "Hard Forks"),
+          React.createElement('p', { className: "text-sm mb-2", key: "hard-desc" }, "Non-backward-compatible changes:"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "hard-list" }, [
+            React.createElement('li', { key: "hard1" }, "Loosen or change existing rules"),
+            React.createElement('li', { key: "hard2" }, "All nodes must upgrade"),
+            React.createElement('li', { key: "hard3" }, "Risk of chain split")
+          ])
+        ])
+      ]),
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/consensus-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "🤝 Interactive Challenge: Achieve Network Consensus"),
+        React.createElement('p', { key: "challenge-desc" },
+          "Simulate network consensus scenarios with competing blocks, orphaned chains, and rule validation. " +
+          "Experience how the network converges on agreement despite temporary disagreements."
+        )
+      ])
+    ]),
+    completionMessage: "Impressive! You now understand how Bitcoin achieves global consensus without central authority through cryptographic proofs and economic incentives."
+  },
+
+  {
+    id: 8,
+    title: "Bitcoin Nodes",
+    subtitle: "The Backbone of the Network",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/bb335542e432a300e466ac9097a60f6846416a65736bf3293241432555cba028?w=530&h=260",
+    simulationType: "merkletree",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "Bitcoin nodes are the individual computers that collectively form the Bitcoin network. Each node validates " +
+        "transactions, stores blockchain data, and helps propagate information across the network. Understanding " +
+        "different node types and their roles is crucial to understanding Bitcoin's decentralization."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "node-types" }, "Types of Bitcoin Nodes"),
+      React.createElement('p', { className: "mb-4", key: "types-desc" },
+        "Different types of nodes serve different functions in the Bitcoin ecosystem, each with varying levels of " +
+        "validation, storage, and resource requirements."
+      ),
+      React.createElement('div', { className: "space-y-4 mb-4", key: "node-types-details" }, [
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4", key: "full-node" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "full-title" }, "Full Nodes"),
+          React.createElement('p', { className: "text-sm mb-2", key: "full-desc" },
+            "Download, validate, and store the complete blockchain with all transaction history."
+          ),
+          React.createElement('div', { className: "grid md:grid-cols-2 gap-3", key: "full-grid" }, [
+            React.createElement('div', { key: "full-features" }, [
+              React.createElement('h5', { className: "font-semibold text-green-200 mb-1", key: "full-features-title" }, "Features:"),
+              React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "full-features-list" }, [
+                React.createElement('li', { key: "feature1" }, "Complete transaction validation"),
+                React.createElement('li', { key: "feature2" }, "Independent verification"),
+                React.createElement('li', { key: "feature3" }, "Full network participation"),
+                React.createElement('li', { key: "feature4" }, "Maximum security and privacy")
+              ])
+            ]),
+            React.createElement('div', { key: "full-requirements" }, [
+              React.createElement('h5', { className: "font-semibold text-red-200 mb-1", key: "full-req-title" }, "Requirements:"),
+              React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "full-req-list" }, [
+                React.createElement('li', { key: "req1" }, "~500GB+ storage space"),
+                React.createElement('li', { key: "req2" }, "Reliable internet connection"),
+                React.createElement('li', { key: "req3" }, "Several days initial sync"),
+                React.createElement('li', { key: "req4" }, "Ongoing bandwidth usage")
+              ])
+            ])
+          ])
+        ]),
+        React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4", key: "pruned-node" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "pruned-title" }, "Pruned Nodes"),
+          React.createElement('p', { className: "text-sm mb-2", key: "pruned-desc" },
+            "Full validation but only store recent blockchain data to save storage space."
+          ),
+          React.createElement('div', { className: "text-xs text-gray-300", key: "pruned-note" },
+            "Validates all transactions but deletes old block data after verification. Still contributes to network security."
+          )
+        ]),
+        React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4", key: "spv-node" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "spv-title" }, "SPV (Simplified Payment Verification) Nodes"),
+          React.createElement('p', { className: "text-sm mb-2", key: "spv-desc" },
+            "Lightweight clients that download block headers and verify transactions using Merkle proofs."
+          ),
+          React.createElement('div', { className: "grid md:grid-cols-2 gap-3", key: "spv-grid" }, [
+            React.createElement('div', { key: "spv-pros" }, [
+              React.createElement('h5', { className: "font-semibold text-green-200 mb-1", key: "spv-pros-title" }, "Advantages:"),
+              React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "spv-pros-list" }, [
+                React.createElement('li', { key: "pro1" }, "Low storage requirements"),
+                React.createElement('li', { key: "pro2" }, "Fast synchronization"),
+                React.createElement('li', { key: "pro3" }, "Mobile-friendly"),
+                React.createElement('li', { key: "pro4" }, "Lower bandwidth usage")
+              ])
+            ]),
+            React.createElement('div', { key: "spv-cons" }, [
+              React.createElement('h5', { className: "font-semibold text-red-200 mb-1", key: "spv-cons-title" }, "Limitations:"),
+              React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "spv-cons-list" }, [
+                React.createElement('li', { key: "con1" }, "Relies on other nodes"),
+                React.createElement('li', { key: "con2" }, "Reduced privacy"),
+                React.createElement('li', { key: "con3" }, "Cannot validate all rules"),
+                React.createElement('li', { key: "con4" }, "Vulnerable to some attacks")
+              ])
+            ])
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "validation" }, "How Nodes Verify Transactions and Blocks"),
+      React.createElement('p', { className: "mb-4", key: "validation-desc" },
+        "When a node receives a new transaction or block, it performs extensive validation to ensure compliance " +
+        "with Bitcoin's consensus rules before accepting or relaying it."
+      ),
+      React.createElement('div', { className: "bg-gray-900/50 border border-gray-700 rounded-lg p-4 mb-4", key: "validation-process" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-gray-300", key: "validation-title" }, "Transaction Validation Process"),
+        React.createElement('ol', { className: "list-decimal ml-4 space-y-1 text-sm", key: "validation-steps" }, [
+          React.createElement('li', { key: "val1" }, "Check transaction format and structure"),
+          React.createElement('li', { key: "val2" }, "Verify digital signatures using public keys"),
+          React.createElement('li', { key: "val3" }, "Confirm all inputs reference existing UTXOs"),
+          React.createElement('li', { key: "val4" }, "Ensure inputs haven't been spent elsewhere"),
+          React.createElement('li', { key: "val5" }, "Validate that input amounts ≥ output amounts"),
+          React.createElement('li', { key: "val6" }, "Execute and verify all scripts"),
+          React.createElement('li', { key: "val7" }, "Check transaction against policy rules"),
+          React.createElement('li', { key: "val8" }, "Add to mempool if valid, reject if invalid")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "bitcoin-core" }, "Bitcoin Core: The Reference Implementation"),
+      React.createElement('p', { className: "mb-4", key: "core-desc" },
+        "Bitcoin Core is the most widely used Bitcoin node software, serving as the reference implementation " +
+        "that defines Bitcoin's consensus rules. Understanding its role and features is important for the ecosystem."
+      ),
+      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "core-features" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-orange-300", key: "core-features-title" }, "Bitcoin Core Features"),
+        React.createElement('div', { className: "grid md:grid-cols-2 gap-4", key: "core-grid" }, [
+          React.createElement('div', { key: "core-node" }, [
+            React.createElement('h5', { className: "font-semibold mb-1 text-orange-200", key: "node-title" }, "Node Functions:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "node-functions" }, [
+              React.createElement('li', { key: "func1" }, "Full blockchain validation"),
+              React.createElement('li', { key: "func2" }, "Transaction relay"),
+              React.createElement('li', { key: "func3" }, "Block propagation"),
+              React.createElement('li', { key: "func4" }, "Network peer discovery")
+            ])
+          ]),
+          React.createElement('div', { key: "core-wallet" }, [
+            React.createElement('h5', { className: "font-semibold mb-1 text-orange-200", key: "wallet-title" }, "Wallet Functions:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "wallet-functions" }, [
+              React.createElement('li', { key: "wfunc1" }, "Key management"),
+              React.createElement('li', { key: "wfunc2" }, "Transaction creation"),
+              React.createElement('li', { key: "wfunc3" }, "Balance calculation"),
+              React.createElement('li', { key: "wfunc4" }, "Address generation")
+            ])
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "running-node" }, "Running Your Own Node"),
+      React.createElement('p', { className: "mb-4", key: "running-desc" },
+        "Operating your own Bitcoin node provides maximum security, privacy, and independence. It also contributes " +
+        "to the network's decentralization and resilience."
+      ),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "running-grid" }, [
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4", key: "benefits" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "benefits-title" }, "Benefits of Running a Node"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "benefits-list" }, [
+            React.createElement('li', { key: "benefit1" }, "Verify transactions independently"),
+            React.createElement('li', { key: "benefit2" }, "No need to trust third parties"),
+            React.createElement('li', { key: "benefit3" }, "Enhanced privacy"),
+            React.createElement('li', { key: "benefit4" }, "Support network decentralization"),
+            React.createElement('li', { key: "benefit5" }, "Direct access to blockchain data")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-yellow-900/20 border border-yellow-800/30 rounded-lg p-4", key: "considerations" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-yellow-300", key: "considerations-title" }, "Setup Considerations"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "considerations-list" }, [
+            React.createElement('li', { key: "consider1" }, "Initial blockchain download (~400GB)"),
+            React.createElement('li', { key: "consider2" }, "Ongoing bandwidth usage"),
+            React.createElement('li', { key: "consider3" }, "Hardware requirements"),
+            React.createElement('li', { key: "consider4" }, "24/7 operation preferred"),
+            React.createElement('li', { key: "consider5" }, "Regular software updates")
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "p2p-protocols" }, "P2P Network Protocols"),
+      React.createElement('p', { className: "mb-4", key: "p2p-desc" },
+        "Bitcoin nodes communicate using a peer-to-peer protocol that enables decentralized information sharing " +
+        "without relying on central servers."
+      ),
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "p2p-messages" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "messages-title" }, "Key P2P Messages"),
+        React.createElement('div', { className: "grid md:grid-cols-2 gap-4", key: "messages-grid" }, [
+          React.createElement('div', { key: "connection-msgs" }, [
+            React.createElement('h5', { className: "font-semibold mb-1 text-blue-200", key: "conn-title" }, "Connection:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "conn-list" }, [
+              React.createElement('li', { key: "conn1" }, React.createElement('code', null, "version"), " - Node capabilities"),
+              React.createElement('li', { key: "conn2" }, React.createElement('code', null, "verack"), " - Version acknowledgment"),
+              React.createElement('li', { key: "conn3" }, React.createElement('code', null, "ping/pong"), " - Keep connection alive")
+            ])
+          ]),
+          React.createElement('div', { key: "data-msgs" }, [
+            React.createElement('h5', { className: "font-semibold mb-1 text-blue-200", key: "data-title" }, "Data Sharing:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "data-list" }, [
+              React.createElement('li', { key: "data1" }, React.createElement('code', null, "inv"), " - Inventory of available data"),
+              React.createElement('li', { key: "data2" }, React.createElement('code', null, "getdata"), " - Request specific data"),
+              React.createElement('li', { key: "data3" }, React.createElement('code', null, "tx/block"), " - Transaction/block data")
+            ])
+          ])
+        ])
+      ]),
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/node-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "🖥️ Interactive Challenge: Operate Your Virtual Node"),
+        React.createElement('p', { key: "challenge-desc" },
+          "Set up and operate different types of Bitcoin nodes. Experience transaction validation, block propagation, " +
+          "and peer-to-peer networking. Compare the capabilities and resource requirements of various node types."
+        )
+      ])
+    ]),
+    completionMessage: "Excellent! You now understand how Bitcoin nodes form the decentralized backbone that validates and secures the entire network."
+  },
+
+  {
+    id: 9,
+    title: "Bitcoin Forks",
+    subtitle: "When the Network Splits",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/1534e4562b8d81db405fd9b725fee9e0067de01b1e0903dd13434988beafa612?w=530&h=260",
+    simulationType: "consensus",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "Bitcoin forks represent changes to the network's consensus rules. Understanding the different types of forks " +
+        "and their implications is crucial for grasping how Bitcoin evolves while maintaining network integrity."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "soft-vs-hard" }, "Soft Forks vs Hard Forks"),
+      React.createElement('p', { className: "mb-4", key: "fork-types-desc" },
+        "The key difference between soft and hard forks lies in backward compatibility and how they affect the " +
+        "existing network."
+      ),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "fork-comparison" }, [
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4", key: "soft-forks" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "soft-title" }, "Soft Forks"),
+          React.createElement('p', { className: "text-sm mb-2", key: "soft-desc" }, "Backward-compatible rule changes that make consensus rules more restrictive."),
+          React.createElement('div', { className: "space-y-2", key: "soft-details" }, [
+            React.createElement('h5', { className: "font-semibold text-green-200", key: "soft-char-title" }, "Characteristics:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "soft-char-list" }, [
+              React.createElement('li', { key: "soft1" }, "Old nodes remain compatible"),
+              React.createElement('li', { key: "soft2" }, "New rules are subset of old rules"),
+              React.createElement('li', { key: "soft3" }, "Only requires majority miner support"),
+              React.createElement('li', { key: "soft4" }, "Network remains unified")
+            ]),
+            React.createElement('h5', { className: "font-semibold text-green-200 mt-2", key: "soft-ex-title" }, "Examples:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "soft-ex-list" }, [
+              React.createElement('li', { key: "ex1" }, "SegWit (2017)"),
+              React.createElement('li', { key: "ex2" }, "Taproot (2021)"),
+              React.createElement('li', { key: "ex3" }, "BIP66 (DER signatures)")
+            ])
+          ])
+        ]),
+        React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4", key: "hard-forks" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-red-300", key: "hard-title" }, "Hard Forks"),
+          React.createElement('p', { className: "text-sm mb-2", key: "hard-desc" }, "Non-backward-compatible changes that loosen or change existing rules."),
+          React.createElement('div', { className: "space-y-2", key: "hard-details" }, [
+            React.createElement('h5', { className: "font-semibold text-red-200", key: "hard-char-title" }, "Characteristics:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "hard-char-list" }, [
+              React.createElement('li', { key: "hard1" }, "All nodes must upgrade"),
+              React.createElement('li', { key: "hard2" }, "Creates incompatible chains"),
+              React.createElement('li', { key: "hard3" }, "Risk of permanent network split"),
+              React.createElement('li', { key: "hard4" }, "Requires broad consensus")
+            ]),
+            React.createElement('h5', { className: "font-semibold text-red-200 mt-2", key: "hard-ex-title" }, "Examples:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "hard-ex-list" }, [
+              React.createElement('li', { key: "hex1" }, "Bitcoin Cash (2017)"),
+              React.createElement('li', { key: "hex2" }, "Bitcoin SV (2018)"),
+              React.createElement('li', { key: "hex3" }, "Hypothetical block size increase")
+            ])
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "backward-compat" }, "Backward Compatibility"),
+      React.createElement('p', { className: "mb-4", key: "compat-desc" },
+        "Backward compatibility determines whether older versions of node software can continue operating " +
+        "after a protocol change."
+      ),
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "compat-example" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "compat-title" }, "Compatibility in Practice"),
+        React.createElement('div', { className: "space-y-2 text-sm", key: "compat-scenarios" }, [
+          React.createElement('div', { key: "scenario1" }, [
+            React.createElement('strong', { className: "text-green-400", key: "soft-scenario" }, "Soft Fork Scenario: "),
+            "Old nodes see new SegWit transactions as valid 'anyone-can-spend' transactions, maintaining compatibility."
+          ]),
+          React.createElement('div', { key: "scenario2" }, [
+            React.createElement('strong', { className: "text-red-400", key: "hard-scenario" }, "Hard Fork Scenario: "),
+            "Old nodes reject larger blocks as invalid, creating two incompatible networks."
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "segwit-case" }, "Case Study: SegWit Activation"),
+      React.createElement('p', { className: "mb-4", key: "segwit-desc" },
+        "Segregated Witness (SegWit) demonstrates how a soft fork can introduce significant improvements while " +
+        "maintaining network compatibility."
+      ),
+      React.createElement('div', { className: "space-y-4 mb-4", key: "segwit-details" }, [
+        React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4", key: "segwit-what" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "segwit-what-title" }, "What SegWit Changed"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "segwit-changes" }, [
+            React.createElement('li', { key: "change1" }, "Moved signature data to separate witness section"),
+            React.createElement('li', { key: "change2" }, "Increased effective block size to ~1.7MB"),
+            React.createElement('li', { key: "change3" }, "Fixed transaction malleability"),
+            React.createElement('li', { key: "change4" }, "Enabled Lightning Network development"),
+            React.createElement('li', { key: "change5" }, "Introduced new address formats (bech32)")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4", key: "segwit-activation" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-orange-300", key: "segwit-activation-title" }, "Activation Process"),
+          React.createElement('ol', { className: "list-decimal ml-4 space-y-1 text-sm", key: "activation-steps" }, [
+            React.createElement('li', { key: "activ1" }, "BIP9 signaling: Miners signal readiness in block version"),
+            React.createElement('li', { key: "activ2" }, "95% threshold required over 2016-block period"),
+            React.createElement('li', { key: "activ3" }, "BIP148 User Activated Soft Fork (UASF) pressure"),
+            React.createElement('li', { key: "activ4" }, "New York Agreement and SegWit2x proposal"),
+            React.createElement('li', { key: "activ5" }, "Final activation on August 24, 2017")
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "taproot-case" }, "Case Study: Taproot Upgrade"),
+      React.createElement('p', { className: "mb-4", key: "taproot-desc" },
+        "Taproot represents Bitcoin's most significant upgrade since SegWit, demonstrating how soft forks can " +
+        "add sophisticated functionality."
+      ),
+      React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4 mb-4", key: "taproot-features" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "taproot-features-title" }, "Taproot Improvements"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "taproot-improvements" }, [
+          React.createElement('li', { key: "improve1" }, React.createElement('strong', null, "Schnorr Signatures: "), "More efficient and private signature scheme"),
+          React.createElement('li', { key: "improve2" }, React.createElement('strong', null, "Tapscript: "), "Enhanced scripting capabilities"),
+          React.createElement('li', { key: "improve3" }, React.createElement('strong', null, "MAST: "), "Merklized Abstract Syntax Trees for complex contracts"),
+          React.createElement('li', { key: "improve4" }, React.createElement('strong', null, "Key Aggregation: "), "Multiple signatures appear as single signature"),
+          React.createElement('li', { key: "improve5" }, React.createElement('strong', null, "Privacy: "), "Complex transactions look like simple ones")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "replay-protection" }, "Replay Protection"),
+      React.createElement('p', { className: "mb-4", key: "replay-desc" },
+        "When hard forks create separate networks, replay protection prevents transactions from being valid " +
+        "on both chains simultaneously."
+      ),
+      React.createElement('div', { className: "bg-yellow-900/20 border border-yellow-800/30 rounded-lg p-4 mb-4", key: "replay-box" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-yellow-300", key: "replay-title" }, "Replay Attack Scenario"),
+        React.createElement('ol', { className: "list-decimal ml-4 space-y-1 text-sm", key: "replay-scenario" }, [
+          React.createElement('li', { key: "replay1" }, "Alice sends Bitcoin on Chain A"),
+          React.createElement('li', { key: "replay2" }, "Attacker copies the transaction"),
+          React.createElement('li', { key: "replay3" }, "Broadcasts identical transaction on Chain B"),
+          React.createElement('li', { key: "replay4" }, "Alice loses coins on both chains"),
+          React.createElement('li', { key: "replay5" }, "Replay protection prevents this by making transactions chain-specific")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "controversial-forks" }, "Controversial Forks: BCH and BSV"),
+      React.createElement('p', { className: "mb-4", key: "controversial-desc" },
+        "Some hard forks create permanent network splits due to fundamental disagreements about Bitcoin's direction."
+      ),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "controversial-grid" }, [
+        React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4", key: "bch" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-red-300", key: "bch-title" }, "Bitcoin Cash (BCH) - 2017"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "bch-list" }, [
+            React.createElement('li', { key: "bch1" }, "Increased block size to 8MB"),
+            React.createElement('li', { key: "bch2" }, "Removed SegWit"),
+            React.createElement('li', { key: "bch3" }, "Emphasized on-chain scaling"),
+            React.createElement('li', { key: "bch4" }, "Added replay protection")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4", key: "bsv" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-orange-300", key: "bsv-title" }, "Bitcoin SV (BSV) - 2018"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "bsv-list" }, [
+            React.createElement('li', { key: "bsv1" }, "Fork of Bitcoin Cash"),
+            React.createElement('li', { key: "bsv2" }, "Massive block size increases"),
+            React.createElement('li', { key: "bsv3" }, "Attempted to restore original opcodes"),
+            React.createElement('li', { key: "bsv4" }, "Controversial leadership and claims")
+          ])
+        ])
+      ]),
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "network-effects" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "effects-title" }, "Network Effects and Market Dynamics"),
+        React.createElement('p', { className: "text-sm mb-2", key: "effects-desc" },
+          "Fork success depends on multiple factors beyond technical merit:"
+        ),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "effects-list" }, [
+          React.createElement('li', { key: "effect1" }, "Miner support and hash rate"),
+          React.createElement('li', { key: "effect2" }, "Exchange and wallet adoption"),
+          React.createElement('li', { key: "effect3" }, "Developer community backing"),
+          React.createElement('li', { key: "effect4" }, "User and merchant acceptance"),
+          React.createElement('li', { key: "effect5" }, "Market valuation and liquidity")
+        ])
+      ]),
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/forks-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "🔀 Interactive Challenge: Navigate Network Forks"),
+        React.createElement('p', { key: "challenge-desc" },
+          "Simulate different fork scenarios and their outcomes. Experience how soft forks maintain compatibility " +
+          "while hard forks can split networks. Understand the governance challenges of protocol upgrades."
+        )
+      ])
+    ]),
+    completionMessage: "Outstanding! You now understand how Bitcoin evolves through forks while balancing innovation with network stability."
+  },
+
+  {
+    id: 10,
+    title: "Scaling Bitcoin",
+    subtitle: "Challenges and Solutions",
+    imagePath: "https://pfst.cf2.poecdn.net/base/image/769917eddc6ee5ee6bf70d4b3468bc2d3751f70a7fbc84c9ccf43c5a46bcb068?w=530&h=260",
+    simulationType: "hashing",
+    content: createContent([
+      React.createElement('p', { className: "mb-4", key: "intro" },
+        "Bitcoin's limited transaction throughput has sparked intense debate and innovation around scaling solutions. " +
+        "Understanding these challenges and the various proposed solutions is crucial for grasping Bitcoin's evolution " +
+        "and future potential."
+      ),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "scaling-challenge" }, "Why Bitcoin Doesn't Scale Easily"),
+      React.createElement('p', { className: "mb-4", key: "challenge-desc" },
+        "Bitcoin's design prioritizes security and decentralization over transaction throughput, creating inherent " +
+        "scaling limitations that require careful engineering to overcome."
+      ),
+      React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4 mb-4", key: "limitations" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-red-300", key: "limitations-title" }, "Technical Limitations"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "limitations-list" }, [
+          React.createElement('li', { key: "limit1" }, React.createElement('strong', null, "Block Size: "), "~1MB limit restricts transactions per block"),
+          React.createElement('li', { key: "limit2" }, React.createElement('strong', null, "Block Time: "), "10-minute average creates confirmation delays"),
+          React.createElement('li', { key: "limit3" }, React.createElement('strong', null, "Throughput: "), "~7 transactions per second maximum"),
+          React.createElement('li', { key: "limit4" }, React.createElement('strong', null, "Verification: "), "Every node must validate every transaction"),
+          React.createElement('li', { key: "limit5" }, React.createElement('strong', null, "Storage: "), "Full nodes store complete transaction history")
+        ])
+      ]),
+      React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4", key: "tradeoffs" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "tradeoffs-title" }, "The Scaling Trilemma"),
+        React.createElement('p', { className: "text-sm mb-2", key: "trilemma-desc" },
+          "Bitcoin must balance three competing properties:"
+        ),
+        React.createElement('div', { className: "grid md:grid-cols-3 gap-3", key: "trilemma-grid" }, [
+          React.createElement('div', { className: "text-center p-2 bg-green-900/30 rounded", key: "security" }, [
+            React.createElement('h5', { className: "font-semibold text-green-300", key: "security-title" }, "Security"),
+            React.createElement('p', { className: "text-xs text-gray-300", key: "security-desc" }, "Resistance to attacks")
+          ]),
+          React.createElement('div', { className: "text-center p-2 bg-blue-900/30 rounded", key: "decentralization" }, [
+            React.createElement('h5', { className: "font-semibold text-blue-300", key: "decent-title" }, "Decentralization"),
+            React.createElement('p', { className: "text-xs text-gray-300", key: "decent-desc" }, "No central control")
+          ]),
+          React.createElement('div', { className: "text-center p-2 bg-purple-900/30 rounded", key: "scalability" }, [
+            React.createElement('h5', { className: "font-semibold text-purple-300", key: "scale-title" }, "Scalability"),
+            React.createElement('p', { className: "text-xs text-gray-300", key: "scale-desc" }, "High throughput")
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "scaling-approaches" }, "On-chain vs Off-chain Scaling"),
+      React.createElement('p', { className: "mb-4", key: "approaches-desc" },
+        "Scaling solutions fall into two main categories: increasing the blockchain's direct capacity or moving " +
+        "transactions to secondary layers."
+      ),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "scaling-grid" }, [
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4", key: "onchain" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "onchain-title" }, "On-chain Scaling"),
+          React.createElement('p', { className: "text-sm mb-2", key: "onchain-desc" }, "Increase blockchain's direct transaction capacity"),
+          React.createElement('div', { className: "space-y-2", key: "onchain-methods" }, [
+            React.createElement('h5', { className: "font-semibold text-green-200", key: "onchain-methods-title" }, "Methods:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "onchain-list" }, [
+              React.createElement('li', { key: "on1" }, "Increase block size"),
+              React.createElement('li', { key: "on2" }, "Reduce block time"),
+              React.createElement('li', { key: "on3" }, "Optimize transaction format"),
+              React.createElement('li', { key: "on4" }, "Signature aggregation")
+            ]),
+            React.createElement('h5', { className: "font-semibold text-red-200 mt-2", key: "onchain-tradeoffs-title" }, "Tradeoffs:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "onchain-tradeoffs" }, [
+              React.createElement('li', { key: "trade1" }, "Increased node requirements"),
+              React.createElement('li', { key: "trade2" }, "Reduced decentralization"),
+              React.createElement('li', { key: "trade3" }, "Network consensus needed")
+            ])
+          ])
+        ]),
+        React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4", key: "offchain" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "offchain-title" }, "Off-chain Scaling"),
+          React.createElement('p', { className: "text-sm mb-2", key: "offchain-desc" }, "Move transactions to secondary layers"),
+          React.createElement('div', { className: "space-y-2", key: "offchain-methods" }, [
+            React.createElement('h5', { className: "font-semibold text-purple-200", key: "offchain-methods-title" }, "Methods:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "offchain-list" }, [
+              React.createElement('li', { key: "off1" }, "Payment channels"),
+              React.createElement('li', { key: "off2" }, "State channels"),
+              React.createElement('li', { key: "off3" }, "Sidechains"),
+              React.createElement('li', { key: "off4" }, "Rollups")
+            ]),
+            React.createElement('h5', { className: "font-semibold text-green-200 mt-2", key: "offchain-benefits-title" }, "Benefits:"),
+            React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-xs", key: "offchain-benefits" }, [
+              React.createElement('li', { key: "benefit1" }, "Preserve base layer"),
+              React.createElement('li', { key: "benefit2" }, "Instant settlements"),
+              React.createElement('li', { key: "benefit3" }, "Lower fees"),
+              React.createElement('li', { key: "benefit4" }, "Unlimited scalability")
+            ])
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "segwit-scaling" }, "SegWit: Bitcoin's Scaling Breakthrough"),
+      React.createElement('p', { className: "mb-4", key: "segwit-scaling-desc" },
+        "Segregated Witness cleverly increased Bitcoin's transaction capacity while maintaining backward compatibility " +
+        "and enabling further scaling innovations."
+      ),
+      React.createElement('div', { className: "bg-orange-900/20 border border-orange-800/30 rounded-lg p-4 mb-4", key: "segwit-benefits" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-orange-300", key: "segwit-benefits-title" }, "SegWit Scaling Benefits"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "segwit-benefits-list" }, [
+          React.createElement('li', { key: "seg1" }, React.createElement('strong', null, "Capacity Increase: "), "Effective block size up to ~1.7MB"),
+          React.createElement('li', { key: "seg2" }, React.createElement('strong', null, "Fee Reduction: "), "Lower transaction costs for SegWit users"),
+          React.createElement('li', { key: "seg3" }, React.createElement('strong', null, "Malleability Fix: "), "Enabled Lightning Network development"),
+          React.createElement('li', { key: "seg4" }, React.createElement('strong', null, "Script Versioning: "), "Easier future upgrades"),
+          React.createElement('li', { key: "seg5" }, React.createElement('strong', null, "Quadratic Hashing: "), "Fixed performance attack vector")
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "lightning" }, "Lightning Network: Payment Channels"),
+      React.createElement('p', { className: "mb-4", key: "lightning-desc" },
+        "The Lightning Network creates a layer-2 payment system that enables instant, low-cost transactions while " +
+        "maintaining Bitcoin's security guarantees."
+      ),
+      React.createElement('div', { className: "space-y-4 mb-4", key: "lightning-details" }, [
+        React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4", key: "how-lightning" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "how-title" }, "How Lightning Works"),
+          React.createElement('ol', { className: "list-decimal ml-4 space-y-1 text-sm", key: "lightning-steps" }, [
+            React.createElement('li', { key: "ln1" }, "Two parties lock Bitcoin in a multi-signature address"),
+            React.createElement('li', { key: "ln2" }, "They can make unlimited off-chain transactions"),
+            React.createElement('li', { key: "ln3" }, "Transactions are instant and nearly free"),
+            React.createElement('li', { key: "ln4" }, "Either party can close the channel on-chain"),
+            React.createElement('li', { key: "ln5" }, "Final balances are settled on the Bitcoin blockchain")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-green-900/20 border border-green-800/30 rounded-lg p-4", key: "lightning-features" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-green-300", key: "features-title" }, "Lightning Features"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "lightning-features-list" }, [
+            React.createElement('li', { key: "feat1" }, "Routing through interconnected channels"),
+            React.createElement('li', { key: "feat2" }, "Atomic payments via Hash Time-Locked Contracts"),
+            React.createElement('li', { key: "feat3" }, "Micropayments down to 1 satoshi"),
+            React.createElement('li', { key: "feat4" }, "Privacy through onion routing"),
+            React.createElement('li', { key: "feat5" }, "Watchtower services for security")
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "block-size-debate" }, "The Block Size Debate"),
+      React.createElement('p', { className: "mb-4", key: "debate-desc" },
+        "The debate over increasing Bitcoin's block size highlighted fundamental disagreements about scaling " +
+        "approaches and network governance."
+      ),
+      React.createElement('div', { className: "grid md:grid-cols-2 gap-4 mb-4", key: "debate-positions" }, [
+        React.createElement('div', { className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4", key: "small-blocks" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-blue-300", key: "small-title" }, "Small Block Position"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "small-args" }, [
+            React.createElement('li', { key: "small1" }, "Preserve decentralization"),
+            React.createElement('li', { key: "small2" }, "Keep node operation accessible"),
+            React.createElement('li', { key: "small3" }, "Layer-2 solutions for scaling"),
+            React.createElement('li', { key: "small4" }, "Gradual, conservative changes")
+          ])
+        ]),
+        React.createElement('div', { className: "bg-red-900/20 border border-red-800/30 rounded-lg p-4", key: "big-blocks" }, [
+          React.createElement('h4', { className: "font-semibold mb-2 text-red-300", key: "big-title" }, "Big Block Position"),
+          React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "big-args" }, [
+            React.createElement('li', { key: "big1" }, "Immediate capacity increase"),
+            React.createElement('li', { key: "big2" }, "Lower transaction fees"),
+            React.createElement('li', { key: "big3" }, "On-chain scaling priority"),
+            React.createElement('li', { key: "big4" }, "User adoption focus")
+          ])
+        ])
+      ]),
+      React.createElement('h3', { className: "text-xl font-semibold mb-2 text-blue-400", key: "schnorr-taproot" }, "Schnorr Signatures & Taproot"),
+      React.createElement('p', { className: "mb-4", key: "schnorr-desc" },
+        "These advanced cryptographic techniques improve Bitcoin's efficiency, privacy, and enable more sophisticated " +
+        "smart contracts while maintaining the security model."
+      ),
+      React.createElement('div', { className: "bg-purple-900/20 border border-purple-800/30 rounded-lg p-4 mb-4", key: "schnorr-benefits" }, [
+        React.createElement('h4', { className: "font-semibold mb-2 text-purple-300", key: "schnorr-title" }, "Schnorr & Taproot Benefits"),
+        React.createElement('ul', { className: "list-disc ml-4 space-y-1 text-sm", key: "schnorr-list" }, [
+          React.createElement('li', { key: "sch1" }, React.createElement('strong', null, "Signature Aggregation: "), "Multiple signatures combine into one"),
+          React.createElement('li', { key: "sch2" }, React.createElement('strong', null, "Space Efficiency: "), "Reduced transaction size"),
+          React.createElement('li', { key: "sch3" }, React.createElement('strong', null, "Privacy: "), "Complex scripts look like simple payments"),
+          React.createElement('li', { key: "sch4" }, React.createElement('strong', null, "Smart Contracts: "), "MAST enables complex conditions"),
+          React.createElement('li', { key: "sch5" }, React.createElement('strong', null, "Batch Verification: "), "Faster validation of multiple signatures")
+        ])
+      ]),
+      React.createElement('div', { 
+        className: "bg-blue-900/20 border border-blue-800/30 rounded-lg p-4 mb-4 cursor-pointer hover:bg-blue-900/30 transition-colors", 
+        key: "challenge-box",
+        onClick: () => { window.location.href = '/realm3/scaling-simulator'; }
+      }, [
+        React.createElement('h4', { className: "text-lg font-semibold mb-2 text-blue-400", key: "challenge-title" }, "⚡ Interactive Challenge: Scale the Network"),
+        React.createElement('p', { key: "challenge-desc" },
+          "Experiment with different scaling approaches and their tradeoffs. Compare on-chain and off-chain solutions, " +
+          "experience Lightning Network channels, and understand the engineering challenges of scaling Bitcoin."
+        )
+      ])
+    ]),
+    completionMessage: "Exceptional work! You now understand Bitcoin's scaling challenges and the innovative solutions being developed to address them."
   }
 ];
-
-export const bonusMissions: MissionContent[] = [
-  {
-    id: 1,
-    title: "Altcoin Exploration",
-    subtitle: "Comparing Bitcoin to Alternative Cryptocurrencies",
-    description: "Investigate the landscape of alternative cryptocurrencies (altcoins) and analyze how they compare to Bitcoin in purpose, design, and value proposition. Understand why Bitcoin remains unique despite thousands of competitors.",
-    objectives: [
-      "Research a selected altcoin's technical design",
-      "Compare its properties to Bitcoin",
-      "Analyze its value proposition",
-      "Evaluate tradeoffs in its design",
-      "Present findings to peers"
-    ],
-    content: {
-      introduction: "Since Bitcoin's creation, thousands of alternative cryptocurrencies (altcoins) have emerged, each with different designs, goals, and tradeoffs. Understanding this landscape helps clarify Bitcoin's unique value proposition and why it remains dominant despite numerous competitors.\n\nFor African developers and entrepreneurs, this knowledge is crucial for making informed decisions about which technologies to build on and which to use for different applications.",
-      sections: [
-        {
-          title: "Selecting an Altcoin",
-          content: "Choose one altcoin to research from these categories:\n\n### Categories:\n1. **Privacy Coins**: Monero, Zcash\n2. **Smart Contract Platforms**: Ethereum, Solana\n3. **Stablecoins**: USDT, USDC\n4. **Meme Coins**: Dogecoin, Shiba Inu\n5. **African Projects**: eNaira, others\n\n### Research Framework:\n- Creation story and purpose\n- Technical design differences from Bitcoin\n- Consensus mechanism\n- Tokenomics and issuance\n- Use cases and adoption\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Focus**: Pay special attention to projects with African roots or particularly relevant use cases for African markets.\n</style>"
-        },
-        {
-          title: "Comparative Analysis",
-          content: "Compare your selected altcoin to Bitcoin:\n\n### Comparison Areas:\n1. **Decentralization**: Node count, development, mining/staking\n2. **Security**: Attack resistance, audit history\n3. **Monetary Policy**: Supply cap, inflation rate\n4. **Adoption**: Users, merchants, developers\n5. **Censorship Resistance**: Transaction reversibility\n\n### Presentation Tips:\n- Create slides or written report\n- Highlight key differences\n- Be objective about tradeoffs\n- Suggest appropriate use cases\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Critical Thinking**: Remember that different designs serve different purposes - assess whether tradeoffs align with stated goals.\n</style>"
-        }
-      ]
-    },
-    task: "Research and present on one altcoin",
-    reflection: {
-      prompt: "Compare your altcoin to Bitcoin in purpose and design",
-      questions: [
-        "What problem does it solve that Bitcoin doesn't?",
-        "What tradeoffs does its design make?",
-        "How might it be useful in African contexts?",
-        "Why might Bitcoin still be preferable?"
-      ]
-    }
-  },
-  {
-    id: 2,
-    title: "Creating a Wallet",
-    subtitle: "Your Gateway to Bitcoin Ownership",
-    description: "Set up your first Bitcoin wallet, taking your first practical step into the Bitcoin ecosystem. Learn the differences between wallet types and experience the empowerment of generating your first Bitcoin address.",
-    objectives: [
-      "Understand different wallet types",
-      "Generate a secure seed phrase",
-      "Create receiving addresses",
-      "Practice backup procedures",
-      "Experience wallet interfaces"
-    ],
-    content: {
-      introduction: "A Bitcoin wallet is your personal interface to the Bitcoin network, allowing you to receive, store, and send bitcoin. Setting up your first wallet is a foundational step in your Bitcoin journey.\n\nFor many Africans, this represents their first experience with truly self-sovereign money - an account that can't be frozen or closed, requiring no permission or identification to create and use.",
-      sections: [
-        {
-          title: "Wallet Types",
-          content: "### Custodial vs Non-Custodial:\n- **Custodial**: Exchange accounts (easy but risky)\n- **Non-Custodial**: You control keys (more secure)\n\n### Non-Custodial Options:\n1. **Mobile Wallets**: BlueWallet, Phoenix (convenient)\n2. **Desktop Wallets**: Sparrow, Electrum (feature-rich)\n3. **Hardware Wallets**: Coldcard, BitBox02 (most secure)\n4. **Paper Wallets**: Offline generated (advanced)\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Consideration**: Choose based on your threat model - mobile wallets may be most practical, but consider hardware if saving significant amounts.\n</style>"
-        },
-        {
-          title: "Setup Process",
-          content: "### Key Steps:\n1. **Download** from official source\n2. **Generate** seed phrase (12-24 words)\n3. **Secure** backup (write down, no digital copies)\n4. **Verify** backup (test recovery)\n5. **Receive** first payment (generate address)\n\n### Security Checklist:\n- Device free from malware\n- Private environment during setup\n- Multiple backup locations\n- Understanding of recovery process\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Pro Tip**: Start with small amounts as you learn, like practicing with a new tool before serious use.\n</style>"
-        }
-      ]
-    },
-    task: "Set up a Bitcoin wallet",
-    reflection: {
-      prompt: "Write about the wallet setup experience",
-      questions: [
-        "What type did you choose and why?",
-        "What was most surprising?",
-        "What security considerations did you make?",
-        "How does it feel to control your own keys?"
-      ]
-    }
-  },
-  {
-    id: 3,
-    title: "Exchange Simulation",
-    subtitle: "Practicing Bitcoin Trading",
-    description: "Simulate trading Bitcoin in a risk-free environment, learning about order types, market dynamics, and the emotional aspects of trading. Understand why most Bitcoiners recommend holding long-term rather than active trading.",
-    objectives: [
-      "Learn basic exchange interfaces",
-      "Practice different order types",
-      "Track fictional portfolio performance",
-      "Analyze trading psychology",
-      "Understand long-term holding rationale"
-    ],
-    content: {
-      introduction: "While Bitcoin is best held as long-term savings, understanding how exchanges work is valuable for times when you need to acquire or sell bitcoin. This simulation lets you practice in a risk-free environment before using real funds.\n\nFor Africans using Bitcoin to preserve wealth against currency devaluation or to participate in global markets, judicious exchange use is often necessary, making this practice valuable despite the risks of active trading.",
-      sections: [
-        {
-          title: "Exchange Basics",
-          content: "### Key Concepts:\n1. **Order Book**: Lists of buy/sell orders\n2. **Market Price**: Current trading price\n3. **Spread**: Difference between buy/sell prices\n4. **Liquidity**: How easily large orders fill\n\n### Order Types:\n1. **Market Order**: Buy/sell immediately\n2. **Limit Order**: Set your price\n3. **Stop Loss**: Limit downside\n4. **Recurring Buy**: Dollar-cost averaging\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Reality**: Many face limited exchange options - research which serve your country and have fair KYC policies.\n</style>"
-        },
-        {
-          title: "Simulation Setup",
-          content: "### How to Simulate:\n1. Use paper trading or demo accounts\n2. Track fictional portfolio in spreadsheet\n3. Set initial fictional capital (e.g., $1000)\n4. Make trades over set period\n5. Compare to simple buy-and-hold\n\n### Tracking Metrics:\n- Portfolio value over time\n- Trade frequency\n- Emotional responses\n- Comparison to benchmarks\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Warning**: Most traders lose money - this exercise often proves how hard outperforming simple holding is.\n</style>"
-        }
-      ]
-    },
-    task: "Simulate trading BTC for ETH using fictional rates",
-    discussionPoints: [
-      "What fees did you encounter?",
-      "How did market prices affect your decisions?",
-      "What was challenging about tracking investments?",
-      "How did your performance compare to just holding?"
-    ]
-  },
-  {
-    id: 4,
-    title: "Final Reflection",
-    subtitle: "Synthesizing Your Bitcoin Journey",
-    description: "Step back and reflect on your comprehensive Bitcoin learning experience. Consider how this knowledge might shape your financial future and how you can apply Bitcoin principles to improve your economic resilience.",
-    objectives: [
-      "Synthesize key lessons learned",
-      "Project Bitcoin's role in your future",
-      "Consider African-specific applications",
-      "Identify next learning steps",
-      "Commit to ongoing Bitcoin education"
-    ],
-    content: {
-      introduction: "You've explored Bitcoin from its philosophical foundations to practical usage. Now take time to reflect on how this knowledge might transform your relationship with money and financial systems, particularly within African contexts.\n\nBitcoin represents more than technology - it's a toolkit for financial sovereignty, a hedge against instability, and a means of participating in global markets without traditional gatekeepers. How will you wield these tools?",
-      sections: [
-        {
-          title: "Looking Back",
-          content: "### Key Realizations:\n1. Bitcoin is fundamentally different from traditional money\n2. True ownership requires technical understanding\n3. Security is personal responsibility\n4. African applications are unique and important\n\n### Surprising Discoveries:\n- What challenged your assumptions?\n- What excited you most?\n- What concerns remain?\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**Cultural Reflection**: How do Bitcoin's values align or conflict with your community's financial traditions?\n</style>"
-        },
-        {
-          title: "Looking Forward",
-          content: "### Personal Applications:\n1. **Savings**: Bitcoin as long-term store of value\n2. **Remittances**: Cheaper cross-border transfers\n3. **Business**: New payment options\n4. **Hedge**: Against currency instability\n\n### Next Steps:\n- Deepen technical knowledge\n- Improve security practices\n- Share with community\n- Build Bitcoin-based solutions\n\n<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n**African Opportunity**: You're positioned at a historic inflection point - how will you help shape Bitcoin's African future?\n</style>"
-        }
-      ]
-    },
-    reflection: {
-      prompt: "How does this knowledge shape your view of Bitcoin's potential?",
-      questions: [
-        "What role might digital currencies play in your future?",
-        "How could Bitcoin address specific African challenges?",
-        "What personal changes will you make?",
-        "How will you continue learning?"
-      ]
-    }
-  }
-];
-
-export const advancedTopicsIntroduction: MissionContent = {
-  id: 0,
-  title: "Advanced Bitcoin Concepts Preview",
-  subtitle: "Your Roadmap to Mastering Bitcoin",
-  description: "This overview introduces key advanced topics you'll master in later realms. Each builds on the cryptographic foundations you've just learned, creating Bitcoin's complete system of decentralized trust.",
-  objectives: [
-    "Understand how these concepts connect to what you've learned",
-    "Recognize which realm will cover each topic in depth",
-    "See Bitcoin as an interconnected system",
-    "Prepare for deeper dives in upcoming realms"
-  ],
-  content: {
-    introduction: "Just as a baobab tree's branches all connect to its massive trunk, Bitcoin's advanced systems all grow from the cryptographic roots you've learned. This preview shows how we'll expand your knowledge through five key branches of Bitcoin mastery.",
-    sections: [
-      {
-        title: "🔐 Cryptography & Security (Realm 4)",
-        content: "You'll dive deeper into:\n\n" +
-          "• **Hash Functions**: How SHA-256 creates Bitcoin's unbreakable chain\n" +
-          "• **Elliptic Curve Magic**: The math securing your bitcoin (ECDSA)\n" +
-          "• **Digital Signatures**: Your unforgeable authorization stamp\n" +
-          "• **Multisig Vaults**: Shared control for families/businesses\n" +
-          "• **HD Wallets**: One seed to rule all your addresses (BIP32/39/44)\n\n" +
-          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
-          "**African Relevance**: Multisig enables cooperative finance models familiar in many African communities.\n" +
-          "</style>"
-      },
-      {
-        title: "🧱 Blockchain Architecture (Realm 5)",
-        content: "Explore Bitcoin's engine room:\n\n" +
-          "• **Merkle Trees**: The efficient verification backbone\n" +
-          "• **UTXO Model**: How Bitcoin tracks who owns what\n" +
-          "• **Bitcoin Script**: Simple but powerful transaction logic\n" +
-          "• **Mining Difficulty**: The self-adjusting security dial\n" +
-          "• **Orphan Blocks**: When two miners find blocks simultaneously\n\n" +
-          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
-          "**Real-World Impact**: UTXOs enable transparent auditing - valuable for NGOs and governments.\n" +
-          "</style>"
-      },
-      {
-        title: "⚙️ Network & Infrastructure (Realm 6)",
-        content: "How Bitcoin stays decentralized:\n\n" +
-          "• **Full vs Light Nodes**: Security vs convenience tradeoffs\n" +
-          "• **Proof-of-Work**: Energy as security deposit\n" +
-          "• **Gossip Protocol**: How nodes spread information\n" +
-          "• **Mining Pools**: Cooperation with centralization risks\n" +
-          "• **Mempool**: The waiting room for transactions\n\n" +
-          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
-          "**African Angle**: Light nodes enable smartphone participation where infrastructure is limited.\n" +
-          "</style>"
-      },
-      {
-        title: "⚡ Scalability & Second Layers (Realm 7)",
-        content: "Bitcoin's expansion pack:\n\n" +
-          "• **Scalability Trilemma**: Why Bitcoin chose security first\n" +
-          "• **Lightning Network**: Instant, cheap microtransactions\n" +
-          "• **SegWit**: The upgrade that fixed transaction malleability\n" +
-          "• **Taproot**: Privacy and efficiency upgrade\n" +
-          "• **Sidechains**: Experimental feature testing grounds\n\n" +
-          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
-          "**Use Case**: Lightning enables remittances for less than 1% fees across African borders.\n" +
-          "</style>"
-      },
-      {
-        title: "📊 Economics & Game Theory (Realm 8)",
-        content: "The invisible hands shaping Bitcoin:\n\n" +
-          "• **Halving Events**: Scheduled supply shocks every 4 years\n" +
-          "• **Miner Incentives**: How security stays funded\n" +
-          "• **Store of Value**: Digital gold properties\n" +
-          "• **Nash Equilibrium**: Why cheating doesn't pay\n\n" +
-          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
-          "**Local Impact**: Fixed supply protects against currency devaluation affecting many African economies.\n" +
-          "</style>"
-      },
-      {
-        title: "🏛️ Governance & Ecosystem (Realm 9)",
-        content: "How Bitcoin evolves without leaders:\n\n" +
-          "• **BIPs**: How improvements get proposed\n" +
-          "• **Soft Forks**: Backward-compatible upgrades\n" +
-          "• **Hard Forks**: Contentious chain splits\n" +
-          "• **Historical Events**: Lessons from past conflicts\n\n" +
-          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
-          "**Key Insight**: Bitcoin's governance mimics African palaver trees - open discussion but no central chief.\n" +
-          "</style>"
-      },
-      {
-        title: "📈 Adoption & Real-World Use (Realm 10)",
-        content: "Bitcoin in action:\n\n" +
-          "• **Global Regulations**: How countries approach Bitcoin\n" +
-          "• **African Solutions**: Bitcoin addressing local challenges\n" +
-          "• **Custody Choices**: From self-reliance to institutional\n" +
-          "• **Energy Debate**: Separating myths from facts\n\n" +
-          "<style={{backgroundImage: 'linear-gradient(to right, #1A8F60, #46D1A2)', textShadow: '0 0 15px rgba(6, 214, 160, 0.3)'}}>\n" +
-          "**Fact**: Kenya and Nigeria lead Africa in peer-to-peer Bitcoin trading volume.\n" +
-          "</style>"
-      }
-    ]
-  },
-  simulationType: 'roadmap',
-  game: {
-    name: "Concept Connector",
-    description: "Match foundational concepts to their advanced applications",
-    tasks: [
-      "Pair cryptographic primitives to their real-world uses",
-      "Trace how a transaction moves through network layers",
-      "Predict how economic incentives affect behavior",
-      "Connect African use cases to technical features"
-    ],
-    reward: "Bitcoin Visionary Badge"
-  }
-};

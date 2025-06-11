@@ -37,6 +37,43 @@ const Realm6Home = lazy(() => import("@/pages/realm6/home"));
 const Realm7Story = lazy(() => import("@/pages/realm7/story-intro"));
 const Realm7Home = lazy(() => import("@/pages/realm7/home"));
 
+// Lazy load simulator components
+const BarterWebChallenge = lazy(() => import("@/pages/realm1/barter-web-challenge"));
+const CurrencyValueSimulator = lazy(() => import("@/pages/realm1/currency-value-simulator"));
+const AfricanCurrencyEducation = lazy(() => import("@/pages/realm1/african-currency-education"));
+const GameComponent = lazy(() => import("@/pages/realm1/game"));
+const InflationSimulator = lazy(() => import("@/pages/realm1/inflation-simulator"));
+
+const BitcoinTransparencyExplorer = lazy(() => import("@/pages/realm2/bitcoin-transparency-explorer"));
+const CBDCSimulator = lazy(() => import("@/pages/realm2/cbdc-simulator"));
+const LightningNetworkSimulator = lazy(() => import("@/pages/realm2/lightning-network-simulator"));
+const PrivacyBalanceSimulator = lazy(() => import("@/pages/realm2/privacy-balance-simulator"));
+const SelfCustodySimulator = lazy(() => import("@/pages/realm2/self-custody-simulator"));
+const SurveillanceSimulator = lazy(() => import("@/pages/realm2/surveillance-simulator"));
+
+const ConsensusSimulator3 = lazy(() => import("@/pages/realm3/consensus-simulator"));
+const CryptographySimulator = lazy(() => import("@/pages/realm3/cryptography-simulator"));
+const HashingSimulator = lazy(() => import("@/pages/realm3/hashing-simulator"));
+const MerkleTreeSimulator = lazy(() => import("@/pages/realm3/merkle-tree-simulator"));
+
+const HalvingSimulator = lazy(() => import("@/pages/realm4/halving-simulator"));
+const EnergySimulator = lazy(() => import("@/pages/realm4/energy-simulator"));
+const KnowledgeSimulator = lazy(() => import("@/pages/realm4/knowledge-simulator"));
+const AfricaSimulator = lazy(() => import("@/pages/realm4/africa-simulator"));
+const ConsensusSimulator4 = lazy(() => import("@/pages/realm4/consensus-simulator"));
+const MiningSimulator = lazy(() => import("@/pages/realm4/mining-simulator"));
+
+// const KnowledgeSimulator = lazy(() => import("@/pages/realm5/knowledge-simulator"));
+const BipSimulator = lazy(() => import("@/pages/realm5/bip-simulator"));
+const FailedForksSimulator = lazy(() => import("@/pages/realm5/failed-forks-simulator"));
+const ForkSimulator = lazy(() => import("@/pages/realm5/fork-simulator"));
+const GovernanceSimulator = lazy(() => import("@/pages/realm5/governance-simulator"));
+const HistoricalForksSimulator = lazy(() => import("@/pages/realm5/historical-forks-simulator"));
+
+const PracticalChallenges = lazy(() => import("@/pages/realm7/components/PracticalChallenges"));
+const TechnicalMastery = lazy(() => import("@/pages/realm7/components/TechnicalMastery"));
+const Certification = lazy(() => import("@/pages/realm7/components/Certification"));
+
 // Router wrapper to handle navigation
 function RouterListener() {
   const [location] = useLocation();
@@ -71,9 +108,36 @@ const LoadingSpinner = () => (
   </div>
 );
 
+// Wrapper components for simulators that need specific props
+const BarterWebChallengeWrapper = () => <BarterWebChallenge onComplete={() => {}} />;
+const InflationSimulatorWrapper = () => <InflationSimulator onComplete={() => {}} />;
+const CBDCSimulatorWrapper = () => <CBDCSimulator onComplete={() => {}} />;
+const LightningNetworkSimulatorWrapper = () => <LightningNetworkSimulator onComplete={() => {}} />;
+const PrivacyBalanceSimulatorWrapper = () => <PrivacyBalanceSimulator onComplete={() => {}} />;
+const SelfCustodySimulatorWrapper = () => <SelfCustodySimulator onComplete={() => {}} />;
+const SurveillanceSimulatorWrapper = () => <SurveillanceSimulator onComplete={() => {}} />;
+const ConsensusSimulator3Wrapper = () => <ConsensusSimulator3 onComplete={() => {}} />;
+const CryptographySimulatorWrapper = () => <CryptographySimulator onComplete={() => {}} />;
+const HashingSimulatorWrapper = () => <HashingSimulator onComplete={() => {}} />;
+const MerkleTreeSimulatorWrapper = () => <MerkleTreeSimulator onComplete={() => {}} />;
+const HalvingSimulatorWrapper = () => <HalvingSimulator onComplete={() => {}} />;
+const EnergySimulatorWrapper = () => <EnergySimulator onComplete={() => {}} />;
+const AfricaSimulatorWrapper = () => <AfricaSimulator onComplete={() => {}} />;
+const ConsensusSimulator4Wrapper = () => <ConsensusSimulator4 onComplete={() => {}} />;
+const MiningSimulatorWrapper = () => <MiningSimulator onComplete={() => {}} />;
+const KnowledgeSimulatorWrapper = () => <KnowledgeSimulator onComplete={() => {}} />;
+const BipSimulatorWrapper = () => <BipSimulator onComplete={() => {}} />;
+const FailedForksSimulatorWrapper = () => <FailedForksSimulator onComplete={() => {}} />;
+const ForkSimulatorWrapper = () => <ForkSimulator onComplete={() => {}} />;
+const GovernanceSimulatorWrapper = () => <GovernanceSimulator onComplete={() => {}} />;
+const HistoricalForksSimulatorWrapper = () => <HistoricalForksSimulator onComplete={() => {}} />;
+const PracticalChallengesWrapper = () => <PracticalChallenges onComplete={() => {}} />;
+const TechnicalMasteryWrapper = () => <TechnicalMastery onComplete={() => {}} />;
+const CertificationWrapper = () => <Certification onComplete={() => {}} />;
+
 function App() {
   return (
-    <AuthProvider> {/* Wrap everything inside AuthProvider */}
+    <AuthProvider>
       <RouterListener />
       <Suspense fallback={<LoadingSpinner />}>
         <Switch>
@@ -174,7 +238,51 @@ function App() {
           <Route path="/realm5/missions" component={lazy(() => import("@/pages/realm5/missions"))} />
           <Route path="/realm6/missions" component={lazy(() => import("@/pages/realm6/missions"))} />
           <Route path="/realm7/missions" component={lazy(() => import("@/pages/realm7/missions"))} />
+
+          {/* Simulations - Using wrapper components for those that need specific props */}
           
+         {/* Realm 1 Routes */}
+          <Route path="/realm1/barter-web-challenge" component={BarterWebChallengeWrapper} />
+          <Route path="/realm1/currency-value-simulator" component={CurrencyValueSimulator} />
+          {/* <Route path="/realm1/african-currency-education" component={AfricanCurrencyEducation} /> */}
+          <Route path="/realm1/game" component={GameComponent} />
+          <Route path="/realm1/inflation-simulator" component={InflationSimulatorWrapper} />
+
+          {/* Realm 2 Routes */}
+          <Route path="/realm2/bitcoin-transparency-explorer" component={BitcoinTransparencyExplorer} />
+          <Route path="/realm2/cbdc-simulator" component={CBDCSimulatorWrapper} />
+          <Route path="/realm2/lightning-network-simulator" component={LightningNetworkSimulatorWrapper} />
+          <Route path="/realm2/privacy-balance-simulator" component={PrivacyBalanceSimulatorWrapper} />
+          <Route path="/realm2/self-custody-simulator" component={SelfCustodySimulatorWrapper} />
+          <Route path="/realm2/surveillance-simulator" component={SurveillanceSimulatorWrapper} />
+
+          {/* Realm 3 Routes */}
+          <Route path="/realm3/consensus-simulator" component={ConsensusSimulator3Wrapper} />
+          <Route path="/realm3/cryptography-simulator" component={CryptographySimulatorWrapper} />
+          <Route path="/realm3/hashing-simulator" component={HashingSimulatorWrapper} />
+          <Route path="/realm3/merkle-tree-simulator" component={MerkleTreeSimulatorWrapper} />
+
+          {/* Realm 4 Routes */}
+          <Route path="/realm4/halving-simulator" component={HalvingSimulatorWrapper} />
+          <Route path="/realm4/energy-simulator" component={EnergySimulatorWrapper} />
+          <Route path="/realm4/africa-simulator" component={AfricaSimulatorWrapper} />
+          <Route path="/realm4/consensus-simulator" component={ConsensusSimulator4Wrapper} />
+          <Route path="/realm4/mining-simulator" component={MiningSimulatorWrapper} />
+          <Route path="/realm4/knowledge-simulator" component={KnowledgeSimulatorWrapper} />
+
+          {/* Realm 5 Routes */}
+          <Route path="/realm5/knowledge-simulator" component={KnowledgeSimulatorWrapper} />
+          <Route path="/realm5/bip-simulator" component={BipSimulatorWrapper} />
+          <Route path="/realm5/failed-forks-simulator" component={FailedForksSimulatorWrapper} />
+          <Route path="/realm5/fork-simulator" component={ForkSimulatorWrapper} />
+          <Route path="/realm5/governance-simulator" component={GovernanceSimulatorWrapper} />
+          <Route path="/realm5/historical-forks-simulator" component={HistoricalForksSimulatorWrapper} />
+
+          {/* Realm 7 Routes */}
+          <Route path="/realm7/practical-challenges" component={PracticalChallengesWrapper} />
+          <Route path="/realm7/technical-mastery" component={TechnicalMasteryWrapper} />
+          <Route path="/realm7/certification" component={CertificationWrapper} />
+                
           {/* Fall back to NotFound for any other route */}
           <Route component={NotFound} />
         </Switch>
@@ -183,6 +291,5 @@ function App() {
     </AuthProvider>
   );
 }
-
 
 export default App;

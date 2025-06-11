@@ -5,8 +5,9 @@ export default function ChallengeBox() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/realm4/mining-simulator'); 
+    navigate('/realm4/consensus-simulator'); 
   };
+
 
 }
 // Types for Quiz Challenge
@@ -25,6 +26,7 @@ export interface MissionContent {
   id: number;
   title: string;
   subtitle?: string;
+  imagePath?: string;
   simulationType: 'mining' | 'consensus' | 'energy' | 'africa' | 'knowledge' | 'halving';
   content: React.ReactNode;
   completionMessage?: string;
@@ -40,6 +42,7 @@ export const realm4Missions: MissionContent[] = [
     id: 1,
     title: "The Power of Proof-of-Work",
     subtitle: "Understanding Bitcoin's Consensus Mechanism",
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-The-Power-of-Proof-Of-Work.png",
     simulationType: "mining",
     content: createContent([
       React.createElement('p', { className: "mb-4", key: "intro" },
@@ -91,6 +94,7 @@ export const realm4Missions: MissionContent[] = [
     id: 2,
     title: "Securing the Chain",
     subtitle: "How Miners Achieve Consensus",
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Securing-the-Chain.png",
     simulationType: "consensus",
     content: createContent([
       React.createElement('p', { className: "mb-4", key: "intro" },
@@ -137,6 +141,7 @@ export const realm4Missions: MissionContent[] = [
     id: 3,
     title: "Mining and Energy",
     subtitle: "The Relationship Between Bitcoin and Power Consumption",
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Mining-and-Energy.png",
     simulationType: "energy",
     content: createContent([
       React.createElement('p', { className: "mb-4", key: "intro" },
@@ -189,6 +194,7 @@ export const realm4Missions: MissionContent[] = [
     id: 4,
     title: "Mining in Africa",
     subtitle: "Economic Opportunities Through Bitcoin",
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Mining-in-Africa.png",
     simulationType: "africa",
     content: createContent([
       React.createElement('p', { className: "mb-4", key: "intro" },
@@ -248,6 +254,7 @@ export const realm4Missions: MissionContent[] = [
     id: 5,
     title: "The Bitcoin Halving",
     subtitle: "Monetary Policy Set in Code",
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-The-Bitcoin-Halving.png",
     simulationType: "halving",
     content: createContent([
       React.createElement('p', { className: "mb-4", key: "intro" },
@@ -302,6 +309,7 @@ export const realm4Missions: MissionContent[] = [
     id: 6,
     title: "Mastering Mining Concepts",
     subtitle: "Test Your Knowledge",
+    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Mastering-Mining-Concepts.png",
     simulationType: "knowledge",
     content: createContent([
       React.createElement('p', { className: "mb-4", key: "intro" },

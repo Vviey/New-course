@@ -4,7 +4,7 @@ import { Loader2 } from 'lucide-react';
 import MissionLayout from './mission-layout';
 import { getRealmName } from '@/lib/realm-utils';
 
-// Updated loading component with light/dark mode support
+// Loading indicator
 const Loading = () => (
   <div className="flex items-center justify-center min-h-[80vh]">
     <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -12,7 +12,7 @@ const Loading = () => (
   </div>
 );
 
-// Updated error component with modern styling
+// Error message display
 const ErrorMessage = ({ realmId, missionId }: { realmId: string; missionId: string }) => {
   const [, setLocation] = useLocation();
   
@@ -22,7 +22,6 @@ const ErrorMessage = ({ realmId, missionId }: { realmId: string; missionId: stri
   const returnPath = validRealmId ? `/realm/${realmId}` : "/map";
   
   let errorMessage = "";
-  
   if (!realmId || isNaN(Number(realmId))) {
     errorMessage = "Invalid realm specified. Please return to the map and select a valid realm.";
   } else if (!missionId || isNaN(Number(missionId))) {
@@ -30,7 +29,7 @@ const ErrorMessage = ({ realmId, missionId }: { realmId: string; missionId: stri
   } else {
     errorMessage = `We couldn't find mission ${missionId} in ${realmName}. It may have been moved or doesn't exist.`;
   }
-  
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
       <h1 className="text-2xl font-bold mb-4 text-destructive">Mission not found</h1>
@@ -47,6 +46,18 @@ const ErrorMessage = ({ realmId, missionId }: { realmId: string; missionId: stri
   );
 };
 
+// Layout condition checker
+function shouldUseCustomLayout(
+  MissionComponent: React.ComponentType<any>,
+  missionId: string,
+  realmId: string
+): boolean {
+  return (
+    Object.prototype.hasOwnProperty.call(MissionComponent, 'useCustomLayout') ||
+    (missionId === '1' && realmId === '1')
+  );
+}
+
 interface MissionData {
   title?: string;
   subtitle?: string;
@@ -56,10 +67,10 @@ interface MissionData {
 export default function MissionWrapper() {
   const params = useParams<{ realmId: string; missionId: string }>();
   const [, setLocation] = useLocation();
-  
+
   const realmId = params.realmId;
   const missionId = params.missionId;
-  
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [missionData, setMissionData] = useState<MissionData | null>(null);
@@ -68,11 +79,11 @@ export default function MissionWrapper() {
   const getMissionInfo = (missionId: string, realmId: string) => {
     let idToUse = Number(missionId);
     const realmNum = Number(realmId);
-    
+
     if (realmNum >= 1 && realmNum <= 2) {
       idToUse = realmNum * 100 + Number(missionId);
     }
-    
+
     return { 
       title: `Mission ${missionId}`, 
       subtitle: `A learning journey in ${getRealmName(Number(realmId))}`,
@@ -85,28 +96,28 @@ export default function MissionWrapper() {
     setError(false);
     setMissionComponent(null);
     setMissionData(null);
-    
+
     let isMounted = true;
-    
+
     if (!realmId || isNaN(Number(realmId)) || !missionId || isNaN(Number(missionId))) {
       console.error('Invalid realm or mission ID:', { realmId, missionId });
       setError(true);
       setLoading(false);
       return;
     }
-    
+
     const loadMission = async () => {
       try {
         let missionModule;
         const realmNum = Number(realmId);
         const missionNum = Number(missionId);
-        
+
         if (realmNum < 1 || realmNum > 7) {
-          throw new Error(`Realm ${realmNum} is out of valid range (1-7)`);
+          throw new Error(`Realm ${realmNum} is out of valid range (1–7)`);
         }
-        
-        let loadPaths = [];
-        
+
+        let loadPaths: string[] = [];
+
         if (realmNum === 4) {
           loadPaths = [
             `../pages/realm${realmNum}/mission.tsx`,
@@ -126,33 +137,45 @@ export default function MissionWrapper() {
             `../pages/realm${realmNum}/barter-web-challenge.tsx`,
             `../pages/realm${realmNum}/currency-value-simulator.tsx`,
             `../pages/realm${realmNum}/inflation-simulator.tsx`,
+            `../pages/realm${realmNum}/halving-simulator.tsx`,
+            `../pages/realm${realmNum}/energy-simulator.tsx`,
+            `../pages/realm${realmNum}/africa-simulator.tsx`,
+            `../pages/realm${realmNum}/knowledge-simulator.tsx`,
+            `../pages/realm${realmNum}/consensus-simulator.tsx`,
+            `../pages/realm${realmNum}/mining-simulator.tsx`,
+            `../pages/realm${realmNum}/cryptography-simulator.tsx`,
+            `../pages/realm${realmNum}/hashing-simulator.tsx`,
+            `../pages/realm${realmNum}/merkle-tree-simulator.tsx`,
+            `../pages/realm${realmNum}/bip-simulator.tsx`,
+            `../pages/realm${realmNum}/failed-forks-simulator.tsx`,
+            `../pages/realm${realmNum}/governance-simulator.tsx`,
+            `../pages/realm${realmNum}/historical-forks-simulator.tsx`,
           ];
         }
-        
+
+        // Fallback path for realms stored in a different directory
         loadPaths.push(`../realms/Realm${realmNum}/Mission${missionNum}/index.tsx`);
-        
+
         for (const path of loadPaths) {
-          if (!path) continue;
-          
           try {
             // @vite-ignore
             missionModule = await import(path);
             break;
-          } catch (error) {
+          } catch {
             continue;
           }
         }
-        
+
         if (!missionModule) {
           throw new Error(`Mission ${missionId} in Realm ${realmId} not found.`);
         }
-        
+
         if (isMounted) {
           setMissionComponent(() => missionModule.default);
           const missionInfo = getMissionInfo(missionId, realmId);
-          setMissionData({ 
+          setMissionData({
             title: missionInfo.title,
-            subtitle: missionInfo.subtitle 
+            subtitle: missionInfo.subtitle,
           });
           setLoading(false);
         }
@@ -175,13 +198,12 @@ export default function MissionWrapper() {
   if (loading) return <Loading />;
   if (error || !MissionComponent) return <ErrorMessage realmId={realmId} missionId={missionId} />;
 
-  if (Object.prototype.hasOwnProperty.call(MissionComponent, 'useCustomLayout') || 
-     (missionId === '1' && realmId === '1')) {
+  if (shouldUseCustomLayout(MissionComponent, missionId, realmId)) {
     return <MissionComponent />;
   }
 
   return (
-    <MissionLayout 
+    <MissionLayout
       realmId={realmId}
       title={missionData?.title || `Mission ${missionId}`}
       subtitle={missionData?.subtitle}
