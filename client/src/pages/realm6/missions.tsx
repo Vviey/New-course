@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'wouter';
-import { ChevronRight, Loader2, ArrowLeft } from 'lucide-react';
+import { Link, useLocation, useParams } from 'wouter';
+import { ChevronRight, Loader2, ArrowLeft, ChevronLeft } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { realm6Missions } from '@/lib/realm6-missions';
 import { getRealmName } from '@/lib/realm-utils';
@@ -25,6 +25,9 @@ export default function Realm6Missions() {
   
   // Current mission data
   const missionData = realm6Missions.find(m => m.id === missionDataId);
+  
+  // Total number of missions
+  const totalMissions = realm6Missions.length;
   
   // Add required content property for Mission component compatibility
   const missionWithContent = missionData ? {
@@ -202,6 +205,41 @@ export default function Realm6Missions() {
           Back to {getRealmName(6)}
         </button>
       </header>
+
+      
+        {/* Mission Navigation */}
+        <div className="flex justify-between items-center mb-8">
+          {missionId && parseInt(missionId) > 1 ? (
+            <Link href={`/realm4/mission/${parseInt(missionId) - 1}`}>
+              <a className="inline-flex items-center px-4 py-2 bg-orange-600/20 rounded-lg hover:bg-orange-600/30 transition-colors">
+                <ChevronLeft className="mr-2 h-4 w-4" />
+                Previous Mission
+              </a>
+            </Link>
+          ) : (
+            <div></div>
+          )}
+          
+          <div className="text-orange-400 text-sm font-medium">
+            Mission {missionId} of {totalMissions}
+          </div>
+          
+          {missionId && parseInt(missionId) < totalMissions ? (
+            <Link href={`/realm4/mission/${missionId + 1}`}>
+              <a className="inline-flex items-center px-4 py-2 bg-orange-600/20 rounded-lg hover:bg-orange-600/30 transition-colors">
+                Next Mission
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </a>
+            </Link>
+          ) : (
+            <Link href="/realm5">
+              <a className="inline-flex items-center px-4 py-2 bg-purple-600/20 rounded-lg hover:bg-purple-600/30 transition-colors">
+                Next Realm
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </a>
+            </Link>
+          )}
+        </div>
       
       {/* Mission completion message */}
       {missionComplete && (

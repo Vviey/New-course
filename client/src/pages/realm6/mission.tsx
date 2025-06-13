@@ -379,25 +379,9 @@ export default function Mission({ mission: propMission, onComplete }: MissionPro
               <div className="text-xs text-gray-400">Interactive map of Bitcoin initiatives across Africa</div>
             </a>
             
-            <a 
-              href="https://bitcoinforbesikho.org/" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block p-3 bg-black/30 border border-gray-800 rounded-lg hover:bg-black/50 transition-colors"
-            >
-              <div className="font-medium text-rose-400 mb-1">Bitcoin for Besikho</div>
-              <div className="text-xs text-gray-400">Educational resources for African Bitcoin users</div>
-            </a>
             
-            <a 
-              href="https://www.bitmari.com/" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block p-3 bg-black/30 border border-gray-800 rounded-lg hover:bg-black/50 transition-colors"
-            >
-              <div className="font-medium text-rose-400 mb-1">BitMari</div>
-              <div className="text-xs text-gray-400">Bitcoin wallet provider focused on African remittances</div>
-            </a>
+            
+           
           </div>
         </motion.div>
       )}

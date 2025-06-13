@@ -32,7 +32,7 @@ export default function Realm7MissionWrapper() {
   
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
+      <div className="min-h-screen bg-black">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-violet-500"></div>
       </div>
     );

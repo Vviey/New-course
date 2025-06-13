@@ -104,44 +104,7 @@ export default function Realm7Home() {
           </div>
         </div>
         
-        {/* Final Missions */}
-        <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-lg">
-          <div className="flex items-start mb-6">
-            <div className="bg-purple-900/30 p-3 rounded-lg mr-4">
-              <Award className="h-6 w-6 text-purple-400" />
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold text-purple-400">Final Missions</h2>
-              <p className="text-gray-400 mt-1">Complete these challenges to earn your Bitcoin certification</p>
-            </div>
-          </div>
-          
-          <div className="space-y-4">
-            {realm7Missions.map((mission) => (
-              <div key={mission.id} className="flex items-center justify-between border-b border-gray-800 pb-4">
-                <div className="flex items-center">
-                  <div className={`h-10 w-10 rounded-full flex items-center justify-center mr-4 ${
-                    mission.contentType === 'certificate' 
-                      ? 'bg-yellow-900/30 text-yellow-400' 
-                      : 'bg-purple-900/30 text-purple-400'
-                  }`}>
-                    {mission.id}
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-gray-200">{mission.title}</h3>
-                    <p className="text-sm text-gray-400">{mission.subtitle}</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => navigate(`/realm7/mission/${mission.id}`, setLocation)}
-                  className="px-3 py-1 text-sm bg-gray-800 text-gray-300 rounded hover:bg-gray-700 transition-colors"
-                >
-                  Start
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+      
       </div>
     </div>
   );

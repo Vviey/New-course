@@ -72,7 +72,7 @@ export default function Realm6Home() {
       className="min-h-screen py-8 px-4"
       style={{
         background: `linear-gradient(to bottom, ${ubuntuTheme.colors.background}, ${ubuntuTheme.colors.backgroundLight})`,
-        backgroundImage: "url('/realms/ubuntu-village.jpg')",
+        backgroundImage: "url('realm6.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",

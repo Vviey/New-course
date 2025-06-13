@@ -12,7 +12,7 @@ export interface Realm2MissionData {
 
 export const realm2Missions: Realm2MissionData[] = [
   {
-    id: 199,
+    id: 101,
     title: "The Central Citadel",
     subtitle: "Introduction to Centralized Monetary Systems",
     description: "Learn about centralized control, surveillance, privacy, and digital currencies in modern financial systems.",
@@ -20,6 +20,10 @@ export const realm2Missions: Realm2MissionData[] = [
     content: `
       <div style="position: relative; background-color: rgba(255, 204, 0, 0.05); border-radius: 12px; padding: 20px; margin-bottom: 24px; overflow: hidden;">
         <div style="position: absolute; top: 0; right: 0; width: 150px; height: 150px; background: radial-gradient(circle at top right, rgba(255, 204, 0, 0.2), transparent 70%); z-index: 0;"></div>
+
+        <img src="https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-The-Citadel-Shados.png" 
+        alt="Everyday Bitcoin Tools" 
+        style="position: relative; z-index: 1; width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 16px;">
         
         <h2 style="color: #FFA500; position: relative; z-index: 1; text-align: center; margin-bottom: 16px;">Welcome to the Central Citadel</h2>
         <h3 style="color: #FFCC00; position: relative; z-index: 1; text-align: center; font-style: italic; margin-bottom: 24px;">Where money listens, watches, and obeys</h3>
@@ -183,14 +187,18 @@ export const realm2Missions: Realm2MissionData[] = [
     `
   },
   {
-    id: 200,
+    id: 102,
     title: "Financial Surveillance: The Digital Lens",
     subtitle: "Introduction to financial surveillance and privacy concerns",
     description: "Learn the fundamentals of financial surveillance, its real-world applications, and why privacy matters.",
     simulationType: 'surveillance',
     content: `
       <div style="background-color: rgba(255, 204, 0, 0.1); border: 1px solid rgba(255, 204, 0, 0.3); border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+        <img src="https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-The-Citadel-Shados.png" 
+        alt="Everyday Bitcoin Tools" 
+        style="position: relative; z-index: 1; width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 16px;">
         <h2 style="color: #FFA500; margin-top: 0;">What is Financial Surveillance?</h2>
+
         <p>The monitoring and tracking of financial transactions and activities by governments, corporations, or other entities.</p>
         
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px;">
@@ -305,7 +313,7 @@ export const realm2Missions: Realm2MissionData[] = [
     `
   },
   {
-    id: 201,
+    id: 103,
     title: "The Citadel's Shadows",
     subtitle: "Understanding financial surveillance",
     description: "Learn how centralized monetary systems enable surveillance and financial control.",
@@ -313,6 +321,10 @@ export const realm2Missions: Realm2MissionData[] = [
     content: `
       <div style="position: relative; background-color: rgba(255, 204, 0, 0.05); border-radius: 12px; padding: 20px; margin-bottom: 24px; overflow: hidden;">
         <div style="position: absolute; top: 0; right: 0; width: 150px; height: 150px; background: radial-gradient(circle at top right, rgba(255, 204, 0, 0.2), transparent 70%); z-index: 0;"></div>
+
+        <img src="https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-The-Citadel-Shados.png" 
+        alt="Everyday Bitcoin Tools" 
+        style="position: relative; z-index: 1; width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 16px;">
         
         <h2 style="color: #FFA500; position: relative; z-index: 1;">Financial Control System</h2>
         
@@ -404,13 +416,16 @@ export const realm2Missions: Realm2MissionData[] = [
     `
   },
   {
-    id: 202,
+    id: 104,
     title: "Privacy vs Control",
     subtitle: "Balancing transparency and personal privacy",
     description: "Explore the balance between financial transparency and personal privacy.",
     simulationType: 'privacy',
     content: `
       <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+      <img src="https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-The-Citadel-Shados.png" 
+        alt="Everyday Bitcoin Tools" 
+        style="position: relative; z-index: 1; width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 16px;">
         <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 16px;">
           <div style="flex-grow: 1;">
             <h2 style="color: #FFA500; margin-top: 0;">Understanding Financial Privacy</h2>
@@ -540,13 +555,16 @@ export const realm2Missions: Realm2MissionData[] = [
     `
   },
   {
-    id: 203,
+    id: 105,
     title: "CBDCs and Privacy",
     subtitle: "The future of government-issued digital money",
     description: "Understand how Central Bank Digital Currencies might affect financial privacy.",
     simulationType: 'cbdc',
     content: `
       <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+      <img src="https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-CBDCs-and-Privacy.png" 
+        alt="Everyday Bitcoin Tools" 
+        style="position: relative; z-index: 1; width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 16px;">
         <h2 style="color: #FFA500; margin-top: 0; text-align: center;">Enter CBDCs: Central Bank Digital Currencies</h2>
         
         <p style="margin-bottom: 20px;">Many governments are building <strong>CBDCs</strong> — digital versions of their currency that give them even more control than traditional banking systems.</p>
@@ -679,7 +697,7 @@ export const realm2Missions: Realm2MissionData[] = [
     `
   },
   {
-    id: 204,
+    id: 106,
     title: "Bitcoin's Transparency",
     subtitle: "Balancing public ledgers with pseudonymity",
     description: "Discover how Bitcoin balances transparency with pseudonymity.",
@@ -719,7 +737,7 @@ export const realm2Missions: Realm2MissionData[] = [
   },
 
   {
-    id: 206,
+    id: 107,
     title: "Self-Custody",
     subtitle: "Taking control of your financial sovereignty",
     description: "Explore why \"not your keys, not your coins\" matters for financial sovereignty.",
@@ -727,7 +745,9 @@ export const realm2Missions: Realm2MissionData[] = [
     content: `
       <div style="background-color: rgba(255, 204, 0, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
         <h2 style="color: #FFA500; margin-top: 0; text-align: center;">Not Your Keys, Not Your Coins</h2>
-        
+        <img src="https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-Self-Custody.png" 
+        alt="Everyday Bitcoin Tools" 
+        style="position: relative; z-index: 1; width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 16px;">
         <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; margin: 16px 0; text-align: center;">
           <p style="font-size: 18px; font-weight: bold; margin: 0; color: #FFCC00;">Self-custody means holding your own keys rather than trusting third parties with your money</p>
         </div>

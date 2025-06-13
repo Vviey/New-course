@@ -20,6 +20,11 @@ export const realm6Missions: Mission[] = [
     title: "Real Use Cases in Africa",
     subtitle: "Everyday Bitcoiners",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-6-Everyday-Bitcoin-Tools.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("p", null, 
         "Bitcoin is transforming lives across Africa. This mission explores how Bitcoin is used in various countries, highlighting real-world applications beyond price speculation."
       ),
@@ -34,7 +39,7 @@ export const realm6Missions: Mission[] = [
         // Visual cards layout
         React.createElement("div", { className: "grid md:grid-cols-2 gap-4" },
           // Remittances
-          React.createElement("div", { className: "bg-rose-800/20 p-4 rounded-lg border-l-4 border-rose-500" },
+          React.createElement("div", { className: "bg-rose-800/20 p-4 rounded-lg border-l-4 border-rose-500", image:new URL('https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-6-Everyday-Bitcoin-Tools.png') },
             React.createElement("h4", { className: "font-medium text-rose-300 mb-2" }, "Remittances: Nigeria"),
             React.createElement("div", { className: "flex items-center justify-between" },
               React.createElement("div", null,
@@ -233,24 +238,25 @@ export const realm6Missions: Mission[] = [
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
           <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #e11d48;">
-            <h3 style="color: #fb7185; margin-top: 0; font-size: 18px;">Farming Cooperatives</h3>
-            <p style="margin-bottom: 0;">In Uganda, small-scale farmers have formed cooperatives that use Bitcoin to:</p>
+            <h3 style="color: #fb7185; margin-top: 0; font-size: 18px;">Bitsacco and the Cooperative Model:</h3>
+            <p style="margin-bottom: 0;">Bitsacco is a template for Savings and Credit Cooperative Organizations (SACCOs) in Africa, built on Bitcoin.  Key Components & Features:</p>
+            <p style="margin-bottom: 0;">Key Components & Features:</p>
+
             <ul style="margin-bottom: 0; padding-left: 20px;">
-              <li>Receive direct payments from international buyers</li>
-              <li>Eliminate multiple middlemen taking cuts</li>
-              <li>Create transparent supply chains</li>
-              <li>Increase farmer earnings by 20-40%</li>
+              <li>SACCO Integration: It leverages the existing SACCO model, a familiar community-based financial institution in Kenya and other African countries.</li>
+              <li>Fedimint Protocol: Bitsacco utilizes Fedimint, an open-source protocol for custodying and transacting Bitcoin in a community context. [4][5] This aligns with the trust assumptions already present in SACCOs.</li>
+              <li>Find out more about this fro our website</li>
             </ul>
           </div>
           
           <div style="background-color: rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 16px; border-left: 4px solid #e11d48;">
             <h3 style="color: #fb7185; margin-top: 0; font-size: 18px;">Educational Initiatives</h3>
-            <p style="margin-bottom: 0;">Bitcoin-funded education projects in Tanzania have:</p>
+            <p style="margin-bottom: 0;">Trezor Academy: Trezor Academy is an educational initiative by Trezor focused on promoting Bitcoin adoption and understanding, particularly in developing regions. </p>
             <ul style="margin-bottom: 0; padding-left: 20px;">
-              <li>Provided scholarships to over 500 students</li>
-              <li>Built facilities in remote areas</li>
-              <li>Created sustainable funding mechanisms</li>
-              <li>Taught financial literacy alongside traditional subjects</li>
+              <li>Bitcoin Adoption: Trezor Academy aims to accelerate Bitcoin adoption worldwide by providing accessible and localized education.</li>
+              <li>Focus on Underserved Regions: It focuses on communities in developing regions, particularly in the Global South, including Africa, South America, Mexico, and the Caribbean.</li>
+             
+              <li>Financial Literacy: The academy equips individuals with financial literacy and the knowledge to navigate the digital economy securely.</li>
             </ul>
           </div>
           
@@ -322,6 +328,11 @@ export const realm6Missions: Mission[] = [
     title: "Sending Value Without Borders",
     subtitle: "Lightning Network Power",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-6-Sending-Value-without-Borders.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("p", null, 
         "The Lightning Network is revolutionizing how Africans send and receive money, enabling near-instant, low-cost transactions across borders. This mission explores how this second-layer solution makes Bitcoin practical for everyday use."
       ),
@@ -352,11 +363,16 @@ export const realm6Missions: Mission[] = [
     title: "Building With Bitcoin",
     subtitle: "Builders, Coders, Creators",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-6-Building-with-Bitcoin.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("p", null, 
-        "Africa is home to a growing community of innovators and builders who are creating impactful Bitcoin solutions. This mission highlights their work and inspires you to see yourself as a potential contributor to the ecosystem."
+        "Africa is home to a growing community of innovators and builders who are creating impactful Bitcoin solutions. This mission highlights their work and inspires you to see yourself as a potential contributor to the ecosystem. One such community is Btrust which is emerging as a prominent force in the Bitcoin ecosystem, distinguished by its unwavering commitment to decentralizing Bitcoin software development and fostering talent within the Global South."
       ),
       React.createElement("p", null, 
-        "From educational podcasts in Zambia to sustainable mining operations using hydroelectric power in Congo, and blockchain education hubs in Ghana and Nigeria, Africans are not just using Bitcoin—they're actively shaping its future."
+        "Btrust Builders Program: Btrust Builders is a program specifically designed to educate African software developers about Bitcoin and Lightning development. The program offers clear learning pathways, mentorship, and community support to help developers become open-source Bitcoin contributors. Btrust Builders aims to create a pipeline of African developers who can contribute to Bitcoin's growth and innovation."
       ),
       React.createElement("p", null, 
         "This mission will introduce you to these builders and their projects, showing the diverse ways people contribute to the Bitcoin ecosystem in Africa."
@@ -382,6 +398,11 @@ export const realm6Missions: Mission[] = [
     title: "Everyday Bitcoin Tools",
     subtitle: "Apps and Wallets That Work",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-6-Real-use-cases-in-Africa.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("p", null, 
         "This mission explores the practical tools that Africans are using to engage with Bitcoin effectively in their daily lives. You'll learn about various wallet options and how to choose the right one for different needs."
       ),
@@ -412,6 +433,11 @@ export const realm6Missions: Mission[] = [
     title: "Knowledge Test",
     subtitle: "Africa Rising",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-6-Knowledge-Test.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("p", null, 
         "This mission will test your understanding of Bitcoin's practical applications in Africa, the Lightning Network's benefits, and the tools available for everyday use."
       ),
@@ -442,6 +468,11 @@ export const realm6Missions: Mission[] = [
     title: "The Seed of Tomorrow",
     subtitle: "Bonus Mission",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-6-The-Seed-Of-Tomorrow.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("p", null, 
         "In this final mission, you'll help Asha develop a Bitcoin project for her village, applying everything you've learned about Bitcoin's practical applications in Africa."
       ),

@@ -42,9 +42,13 @@ export const realm4Missions: MissionContent[] = [
     id: 1,
     title: "The Power of Proof-of-Work",
     subtitle: "Understanding Bitcoin's Consensus Mechanism",
-    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-The-Power-of-Proof-Of-Work.png",
     simulationType: "mining",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-The-Power-of-Proof-Of-Work.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Welcome to The Mountain Forge, where the elemental power of mining transforms energy into digital security. " +
         "Here, in this realm, you'll discover how Bitcoin's proof-of-work system secures the network through computational effort."
@@ -94,9 +98,13 @@ export const realm4Missions: MissionContent[] = [
     id: 2,
     title: "Securing the Chain",
     subtitle: "How Miners Achieve Consensus",
-    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Securing-the-Chain.png",
     simulationType: "consensus",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Securing-the-Chain.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "The Mountain Forge's fire burns brightest when many miners work together. In this mission, you'll discover " +
         "how Bitcoin nodes reach agreement on which transactions are valid and prevent double-spending attacks."
@@ -141,9 +149,13 @@ export const realm4Missions: MissionContent[] = [
     id: 3,
     title: "Mining and Energy",
     subtitle: "The Relationship Between Bitcoin and Power Consumption",
-    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Mining-and-Energy.png",
     simulationType: "energy",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Mining-and-Energy.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "In the Mountain Forge, energy transforms into security. This mission explores the relationship between Bitcoin mining " +
         "and energy consumption, including the growing trend toward renewable energy sources."
@@ -194,9 +206,13 @@ export const realm4Missions: MissionContent[] = [
     id: 4,
     title: "Mining in Africa",
     subtitle: "Economic Opportunities Through Bitcoin",
-    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Mining-in-Africa.png",
     simulationType: "africa",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Mining-in-Africa.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "As we continue our journey through the Mountain Forge, we'll explore how Bitcoin mining creates new economic " +
         "opportunities, particularly in regions with abundant energy resources but limited infrastructure, like many parts of Africa."
@@ -254,9 +270,13 @@ export const realm4Missions: MissionContent[] = [
     id: 5,
     title: "The Bitcoin Halving",
     subtitle: "Monetary Policy Set in Code",
-    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-The-Bitcoin-Halving.png",
     simulationType: "halving",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-The-Bitcoin-Halving.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "The Mountain Forge's fire burns steadily, but every four years, a remarkable event occurs: the Bitcoin halving. " +
         "This mission explores how Bitcoin's supply schedule works and why it's crucial to Bitcoin's monetary policy."
@@ -309,9 +329,13 @@ export const realm4Missions: MissionContent[] = [
     id: 6,
     title: "Mastering Mining Concepts",
     subtitle: "Test Your Knowledge",
-    imagePath: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Mastering-Mining-Concepts.png",
     simulationType: "knowledge",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-4-Mastering-Mining-Concepts.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "You've journeyed through the Mountain Forge and learned about Bitcoin mining from multiple perspectives. " +
         "Now it's time to test your knowledge and prove your mastery of these concepts."

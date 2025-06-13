@@ -2,6 +2,7 @@ import { useLocation } from "wouter";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { realm2Missions } from "@/lib/realm2-missions";
 
 // The Central Citadel - Realm 2 Home Page
 export default function Realm2Home() {
@@ -20,7 +21,27 @@ export default function Realm2Home() {
 
   // Handler to navigate to missions
   const handleStartMission = (missionId: number) => {
-    setLocation(`/realm/2/mission/${missionId}`);
+    setLocation(`/realm/2/mission/${missionId - 100}`);
+  };
+
+  // Get appropriate icon for mission type
+  const getMissionIcon = (type: string) => {
+    switch (type) {
+      case 'surveillance':
+        return '👁️';
+      case 'privacy':
+        return '🔐';
+      case 'cbdc':
+        return '🏦';
+      case 'bitcoin':
+        return '₿';
+      case 'lightning':
+        return '⚡';
+      case 'selfcustody':
+        return '🗝️';
+      default:
+        return '🔍';
+    }
   };
 
   // Container animations
@@ -90,7 +111,7 @@ export default function Realm2Home() {
               Return to Map
             </button>
             <button 
-              onClick={() => handleStartMission(1)}
+              onClick={() => handleStartMission(realm2Missions[0].id)}
               className="px-5 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
             >
               Begin Journey
@@ -105,77 +126,24 @@ export default function Realm2Home() {
           animate="visible"
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          <motion.div 
-            variants={itemVariants}
-            className="backdrop-blur-md bg-black/60 rounded-xl p-5 border border-purple-900/50 hover:border-purple-500/70 transition-all cursor-pointer"
-            onClick={() => handleStartMission(1)}
-          >
-            <div className="h-40 rounded-lg bg-gradient-to-br from-purple-700 to-purple-900 mb-4 flex items-center justify-center">
-              <span className="text-5xl">👁️</span>
-            </div>
-            <h3 className="text-xl font-medium text-purple-400 mb-2">The Citadel's Shadows</h3>
-            <p className="text-gray-400">Learn how centralized monetary systems enable surveillance and financial control.</p>
-          </motion.div>
-          
-          <motion.div 
-            variants={itemVariants}
-            className="backdrop-blur-md bg-black/60 rounded-xl p-5 border border-purple-900/50 hover:border-purple-500/70 transition-all cursor-pointer"
-            onClick={() => handleStartMission(2)}
-          >
-            <div className="h-40 rounded-lg bg-gradient-to-br from-purple-700 to-purple-900 mb-4 flex items-center justify-center">
-              <span className="text-5xl">🔐</span>
-            </div>
-            <h3 className="text-xl font-medium text-purple-400 mb-2">Privacy vs Control</h3>
-            <p className="text-gray-400">Explore the balance between financial transparency and personal privacy.</p>
-          </motion.div>
-          
-          <motion.div 
-            variants={itemVariants}
-            className="backdrop-blur-md bg-black/60 rounded-xl p-5 border border-purple-900/50 hover:border-purple-500/70 transition-all cursor-pointer"
-            onClick={() => handleStartMission(3)}
-          >
-            <div className="h-40 rounded-lg bg-gradient-to-br from-purple-700 to-purple-900 mb-4 flex items-center justify-center">
-              <span className="text-5xl">💸</span>
-            </div>
-            <h3 className="text-xl font-medium text-purple-400 mb-2">CBDCs and Privacy</h3>
-            <p className="text-gray-400">Understand how Central Bank Digital Currencies might affect financial privacy.</p>
-          </motion.div>
-          
-          <motion.div 
-            variants={itemVariants}
-            className="backdrop-blur-md bg-black/60 rounded-xl p-5 border border-purple-900/50 hover:border-purple-500/70 transition-all cursor-pointer"
-            onClick={() => handleStartMission(4)}
-          >
-            <div className="h-40 rounded-lg bg-gradient-to-br from-purple-700 to-purple-900 mb-4 flex items-center justify-center">
-              <span className="text-5xl">🔍</span>
-            </div>
-            <h3 className="text-xl font-medium text-purple-400 mb-2">Bitcoin's Transparency</h3>
-            <p className="text-gray-400">Discover how Bitcoin balances transparency with pseudonymity.</p>
-          </motion.div>
-          
-          <motion.div 
-            variants={itemVariants}
-            className="backdrop-blur-md bg-black/60 rounded-xl p-5 border border-purple-900/50 hover:border-purple-500/70 transition-all cursor-pointer"
-            onClick={() => handleStartMission(5)}
-          >
-            <div className="h-40 rounded-lg bg-gradient-to-br from-purple-700 to-purple-900 mb-4 flex items-center justify-center">
-              <span className="text-5xl">⚡</span>
-            </div>
-            <h3 className="text-xl font-medium text-purple-400 mb-2">Lightning Network</h3>
-            <p className="text-gray-400">Learn how Bitcoin's Layer 2 solutions enhance privacy and transaction efficiency.</p>
-          </motion.div>
-          
-          <motion.div 
-            variants={itemVariants}
-            className="backdrop-blur-md bg-black/60 rounded-xl p-5 border border-purple-900/50 hover:border-purple-500/70 transition-all cursor-pointer"
-            onClick={() => handleStartMission(6)}
-          >
-            <div className="h-40 rounded-lg bg-gradient-to-br from-purple-700 to-purple-900 mb-4 flex items-center justify-center">
-              <span className="text-5xl">🛡️</span>
-            </div>
-            <h3 className="text-xl font-medium text-purple-400 mb-2">Self-Custody</h3>
-            <p className="text-gray-400">Explore why "not your keys, not your coins" matters for financial sovereignty.</p>
-          </motion.div>
+          {realm2Missions.map((mission, index) => (
+            <motion.div 
+              key={mission.id}
+              variants={itemVariants}
+              className="backdrop-blur-md bg-black/60 rounded-xl p-5 border border-purple-900/50 hover:border-purple-500/70 transition-all cursor-pointer"
+              onClick={() => handleStartMission(mission.id)}
+            >
+              <div className="h-40 rounded-lg bg-gradient-to-br from-purple-700 to-purple-900 mb-4 flex items-center justify-center">
+                <span className="text-5xl">{getMissionIcon(mission.simulationType)}</span>
+              </div>
+              <div className="mb-2 text-xs text-purple-300 font-medium">
+                Mission {index + 1} • {mission.simulationType.charAt(0).toUpperCase() + mission.simulationType.slice(1)}
+              </div>
+              <h3 className="text-xl font-medium text-purple-400 mb-2">{mission.title}</h3>
+              <p className="text-sm text-purple-300 mb-2 italic">{mission.subtitle}</p>
+              <p className="text-gray-400">{mission.description}</p>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </div>

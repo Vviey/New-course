@@ -59,10 +59,10 @@ export default function Realm7Mission({ missionId: explicitMissionId }: MissionP
     }, 2000);
   };
   
-  // Handle starting the challenge after reading content
-  const handleStartChallenge = () => {
-    setContentRead(true);
-  };
+  // // Handle starting the challenge after reading content
+  // const handleStartChallenge = () => {
+  //   setContentRead(true);
+  // };
   
   // Handle share button click
   const handleShareClick = () => {
@@ -79,7 +79,7 @@ export default function Realm7Mission({ missionId: explicitMissionId }: MissionP
   
   return (
     <div 
-      className="min-h-screen py-8 px-4"
+      className="min-h-screen"
       style={{
         background: `linear-gradient(to bottom, ${summitTheme.colors.background}, ${summitTheme.colors.backgroundLight})`,
         backgroundImage: "url('/realms/summit.jpg')",
@@ -91,7 +91,7 @@ export default function Realm7Mission({ missionId: explicitMissionId }: MissionP
       }}
     >
       {/* Mission navigation header */}
-      <header className="max-w-4xl mx-auto mb-6">
+      <header className="w-full p-4 absolute top-0 left-0 z-10">
         <button 
           onClick={() => setLocation('/realm/7')} 
           className="flex items-center transition-colors font-medium"
@@ -113,24 +113,25 @@ export default function Realm7Mission({ missionId: explicitMissionId }: MissionP
       
       {/* Mission not found message */}
       {!missionData && (
-        <div className="max-w-4xl mx-auto bg-violet-100 border-2 border-violet-500 p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold text-violet-900 mb-2">Mission Not Found</h2>
-          <p className="text-violet-800 mb-4">This mission doesn't exist yet or may have been moved.</p>
-          <button 
-            onClick={() => setLocation('/realm/7')} 
-            className="bg-violet-600 hover:bg-violet-700 text-white font-medium py-2 px-4 rounded transition-colors"
-          >
-            Return to Realm
-          </button>
+        <div className="w-full h-screen flex items-center justify-center p-4">
+          <div className="bg-violet-100 border-2 border-violet-500 p-6 rounded-lg shadow-lg max-w-md">
+            <h2 className="text-2xl font-bold text-violet-900 mb-2">Mission Not Found</h2>
+            <p className="text-violet-800 mb-4">This mission doesn't exist yet or may have been moved.</p>
+            <button 
+              onClick={() => setLocation('/realm/7')} 
+              className="bg-violet-600 hover:bg-violet-700 text-white font-medium py-2 px-4 rounded transition-colors"
+            >
+              Return to Realm
+            </button>
+          </div>
         </div>
       )}
       
-      {/* Mission content */}
+      {/* Mission content - Full screen */}
       {missionData && (
-        <main className="max-w-4xl mx-auto">
-          <div className="backdrop-blur-md bg-black/60 p-8 rounded-xl border shadow-xl"
-            style={{ borderColor: `${summitTheme.colors.primary}40` }}
-          >
+        <main className="w-full min-h-screen pt-16">
+          {/* Title section */}
+          <div className="w-full p-6 bg-black/30">
             <h1 className="text-3xl font-bold mb-2" style={{ color: summitTheme.colors.primary }}>
               {missionData.title}
             </h1>
@@ -141,48 +142,46 @@ export default function Realm7Mission({ missionId: explicitMissionId }: MissionP
             <div className="prose prose-invert max-w-none">
               {missionData.description}
             </div>
-            
-            {/* Educational content section */}
-            {missionData.content && !contentRead && (
-              <div className="mt-8 p-5 rounded-lg bg-black/30 border border-cyan-900/30">
-                <h3 className="font-medium flex items-center mb-4" style={{ color: summitTheme.colors.primary }}>
-                  <Lightbulb className="h-5 w-5 mr-2" />
-                  <span className="text-xl">Educational Content</span>
-                </h3>
-                
-                <div 
-                  className="prose prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: missionData.content }}
-                />
-              </div>
-            )}
-            
-            <div className="mt-8 flex justify-end">
-              {!contentRead ? (
-                <button
-                  onClick={handleStartChallenge}
-                  className="px-6 py-3 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
-                  style={{ 
-                    background: summitTheme.gradients.main,
-                    boxShadow: summitTheme.shadows.button
-                  }}
-                >
-                  Start Challenge
-                  <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-              ) : (
-                <button
-                  onClick={handleShareClick}
-                  className="px-6 py-3 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
-                  style={{ 
-                    background: summitTheme.gradients.main,
-                    boxShadow: summitTheme.shadows.button
-                  }}
-                >
-                  Complete & Share
-                  <Award className="ml-2 h-5 w-5" />
-                </button>
-              )}
+          </div>
+          
+          {/* Educational content section - Full screen */}
+          {missionData.content && !contentRead && (
+            <div className="w-full">
+              <div 
+                className="w-full"
+                dangerouslySetInnerHTML={{ __html: missionData.content }}
+              />
+            </div>
+          )}
+          
+          {/* Action buttons */}
+          <div className="w-full p-6 bg-black/30">
+            <div className="flex justify-end">
+              {/* {!contentRead ? (
+                // <button
+                //   onClick={handleStartChallenge}
+                //   className="px-6 py-3 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
+                //   style={{ 
+                //     background: summitTheme.gradients.main,
+                //     boxShadow: summitTheme.shadows.button
+                //   }}
+                // >
+                //   Start Challenge
+                //   <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                // </button>
+              // ) : (
+                // <button
+                //   onClick={handleShareClick}
+                //   className="px-6 py-3 text-white font-semibold rounded-lg transition-colors shadow-lg flex items-center group"
+                //   style={{ 
+                //     background: summitTheme.gradients.main,
+                //     boxShadow: summitTheme.shadows.button
+                //   }}
+                // >
+                //   Complete & Share
+                //   <Award className="ml-2 h-5 w-5" />
+                // </button>
+              // )} */}
             </div>
           </div>
           

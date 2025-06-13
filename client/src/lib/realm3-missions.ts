@@ -42,9 +42,13 @@ export const realm3Missions: MissionContent[] = [
     id: 1,
     title: "What Makes Bitcoin Work",
     subtitle: "The Trustless Revolution",
-    imagePath: "https://pfst.cf2.poecdn.net/base/image/1534e4562b8d81db405fd9b725fee9e0067de01b1e0903dd13434988beafa612?w=530&h=260",
     simulationType: "cryptography",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-3-Lightning-Network.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Welcome to the Technical Heart of Bitcoin. Here you'll discover the revolutionary concepts that make Bitcoin " +
         "work without banks, governments, or any central authority. Every transaction, every transfer of value, " +
@@ -133,6 +137,11 @@ export const realm3Missions: MissionContent[] = [
     imagePath: "https://pfst.cf2.poecdn.net/base/image/769917eddc6ee5ee6bf70d4b3468bc2d3751f70a7fbc84c9ccf43c5a46bcb068?w=530&h=260",
     simulationType: "cryptography",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/digitalchains.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Your Bitcoin ownership comes down to cryptographic keys—mathematical secrets that prove you control " +
         "specific Bitcoin. Understanding how these keys work is fundamental to understanding Bitcoin security."
@@ -240,6 +249,11 @@ export const realm3Missions: MissionContent[] = [
     imagePath: "https://pfst.cf2.poecdn.net/base/image/c2b62867b49bdb1cf9109cc3e99fae057b70ba0ab65f7334ef518d3427665c5e?w=530&h=260",
     simulationType: "hashing",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-3-Lightning-Network.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Bitcoin transactions are not like traditional payments. There are no account balances—only unspent transaction " +
         "outputs (UTXOs) that can be unlocked with the right cryptographic keys. Understanding this unique model is " +
@@ -396,9 +410,13 @@ export const realm3Missions: MissionContent[] = [
     id: 4,
     title: "Bitcoin Script",
     subtitle: "Bitcoin's Programming Language",
-    imagePath: "https://pfst.cf2.poecdn.net/base/image/bb335542e432a300e466ac9097a60f6846416a65736bf3293241432555cba028?w=530&h=260",
     simulationType: "merkletree",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-3-Lightning-Network.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Bitcoin Script is a simple, stack-based programming language that defines the conditions under which Bitcoin " +
         "can be spent. While often called 'simple,' Script enables sophisticated financial contracts and is the foundation " +
@@ -550,6 +568,11 @@ export const realm3Missions: MissionContent[] = [
     imagePath: "https://pfst.cf2.poecdn.net/base/image/1534e4562b8d81db405fd9b725fee9e0067de01b1e0903dd13434988beafa612?w=530&h=260",
     simulationType: "cryptography",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-3-Lightning-Network.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Bitcoin wallets are much more than simple storage containers. They're sophisticated key management systems " +
         "that generate, store, and use cryptographic keys to control your Bitcoin. Understanding how wallets work " +
@@ -721,6 +744,11 @@ export const realm3Missions: MissionContent[] = [
     imagePath: "https://pfst.cf2.poecdn.net/base/image/769917eddc6ee5ee6bf70d4b3468bc2d3751f70a7fbc84c9ccf43c5a46bcb068?w=530&h=260",
     simulationType: "hashing",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-3-Lightning-Network.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "The mempool (memory pool) is where Bitcoin transactions wait before being included in a block. Understanding " +
         "the mempool is crucial for fee estimation, transaction timing, and comprehending Bitcoin's transaction lifecycle."
@@ -866,6 +894,11 @@ export const realm3Missions: MissionContent[] = [
     imagePath: "https://pfst.cf2.poecdn.net/base/image/c2b62867b49bdb1cf9109cc3e99fae057b70ba0ab65f7334ef518d3427665c5e?w=530&h=260",
     simulationType: "consensus",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-3-Consensus-Grove.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Bitcoin's consensus mechanism allows thousands of independent nodes to agree on transaction validity and " +
         "blockchain state without any central authority. This distributed agreement is what makes Bitcoin truly decentralized."
@@ -1016,7 +1049,11 @@ export const realm3Missions: MissionContent[] = [
     subtitle: "The Backbone of the Network",
     imagePath: "https://pfst.cf2.poecdn.net/base/image/bb335542e432a300e466ac9097a60f6846416a65736bf3293241432555cba028?w=530&h=260",
     simulationType: "merkletree",
-    content: createContent([
+    content: createContent([ React.createElement("img", { 
+      src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-3-Forest-Network-Resilience.png",
+      alt: "Everyday Bitcoin Tools",
+      className: "w-full h-48 object-cover rounded-lg mb-4"
+    }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Bitcoin nodes are the individual computers that collectively form the Bitcoin network. Each node validates " +
         "transactions, stores blockchain data, and helps propagate information across the network. Understanding " +
@@ -1211,6 +1248,11 @@ export const realm3Missions: MissionContent[] = [
     imagePath: "https://pfst.cf2.poecdn.net/base/image/1534e4562b8d81db405fd9b725fee9e0067de01b1e0903dd13434988beafa612?w=530&h=260",
     simulationType: "consensus",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-5-History-Forks.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Bitcoin forks represent changes to the network's consensus rules. Understanding the different types of forks " +
         "and their implications is crucial for grasping how Bitcoin evolves while maintaining network integrity."
@@ -1394,6 +1436,11 @@ export const realm3Missions: MissionContent[] = [
     imagePath: "https://pfst.cf2.poecdn.net/base/image/769917eddc6ee5ee6bf70d4b3468bc2d3751f70a7fbc84c9ccf43c5a46bcb068?w=530&h=260",
     simulationType: "hashing",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-Lightning-network.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Bitcoin's limited transaction throughput has sparked intense debate and innovation around scaling solutions. " +
         "Understanding these challenges and the various proposed solutions is crucial for grasping Bitcoin's evolution " +
@@ -1583,6 +1630,11 @@ export const realm3Missions: MissionContent[] = [
     imagePath: "https://pfst.cf2.poecdn.net/base/image/769917eddc6ee5ee6bf70d4b3468bc2d3751f70a7fbc84c9ccf43c5a46bcb068?w=530&h=260",
     simulationType: "lightning",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-Lightning-network.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Bitcoin is powerful, but it's not built for speed. What if we could send Bitcoin in seconds, with almost zero fees? " +
         "Say hello to the Lightning Network -- Bitcoin's Layer 2 upgrade designed for fast, cheap, global payments."
@@ -1789,6 +1841,11 @@ export const realm3Missions: MissionContent[] = [
     imagePath: "https://pfst.cf2.poecdn.net/base/image/769917eddc6ee5ee6bf70d4b3468bc2d3751f70a7fbc84c9ccf43c5a46bcb068?w=530&h=260",
     simulationType: "lightning",
     content: createContent([
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-Lightning-network.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement('p', { className: "mb-4", key: "intro" },
         "Bitcoin and Lightning Network work together as a powerful two-layer system. Understanding their differences " +
         "and how they complement each other is essential for using Bitcoin effectively in the modern world."

@@ -17,6 +17,11 @@ export const realm5Missions: Mission[] = [
     title: "The Proposal Path",
     subtitle: "Understanding Bitcoin Improvement Proposals (BIPs)",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-5-The-Proposal-Path.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("p", null, 
         "Welcome to the heart of Bitcoin's evolution process. In this comprehensive mission, you'll master the Bitcoin Improvement Proposal (BIP) system - the formal process through which Bitcoin's protocol evolves."
       ),
@@ -61,6 +66,11 @@ export const realm5Missions: Mission[] = [
     title: "Path of the Fork",
     subtitle: "Understanding Protocol Upgrade Mechanisms",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-5-Path-of-the-Fork.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("p", null, 
         "Explore the critical concept of forks in Bitcoin's evolution. This mission delves deep into how Bitcoin can be upgraded while maintaining decentralization and consensus."
       ),
@@ -121,6 +131,11 @@ export const realm5Missions: Mission[] = [
     title: "Historic Forks: Bitcoin's Evolution",
     subtitle: "Learning from Bitcoin's Major Protocol Changes",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-5-History-Forks.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("p", null, 
         "Journey through Bitcoin's most significant protocol changes and learn how they shaped the network we know today."
       ),
@@ -166,6 +181,11 @@ export const realm5Missions: Mission[] = [
     title: "The Governance Council",
     subtitle: "Bitcoin's Decentralized Decision-Making",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-5-The-Gouvernance-Council.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("p", null, 
         "Master the intricacies of Bitcoin's governance model and understand how decisions are made in a truly decentralized network."
       ),
@@ -214,6 +234,11 @@ export const realm5Missions: Mission[] = [
     title: "Governance in Action",
     subtitle: "Practical Decision-Making Scenarios",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-5-Gouvernance-in-Action.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("p", null,
         "Apply your knowledge through realistic governance scenarios and decision-making challenges."
       ),
@@ -248,6 +273,11 @@ export const realm5Missions: Mission[] = [
     title: "Learning from Failures",
     subtitle: "Historical Fork Case Studies",
     description: React.createElement("div", { className: "space-y-4" },
+      React.createElement("img", { 
+        src: "https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-5-Learning-from-failures.png",
+        alt: "Everyday Bitcoin Tools",
+        className: "w-full h-48 object-cover rounded-lg mb-4"
+      }),
       React.createElement("h3", { className: "text-xl font-semibold mb-2 text-purple-400" }, "Failed Fork Analysis"),
       React.createElement("div", { className: "space-y-6" },
         React.createElement("div", { className: "bg-purple-900/30 p-4 rounded-xl" },

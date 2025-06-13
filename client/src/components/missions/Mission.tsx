@@ -2,6 +2,8 @@ import { useState, lazy, Suspense } from 'react';
 import { MissionContent } from '@/lib/realm1-missions';
 import { Realm2MissionData } from '@/lib/realm2-missions';
 import { MissionContentWrapper } from '@/components/ui/mission-content-wrapper';
+import { ChevronLeft, ChevronRight, User, Award, Map } from 'lucide-react';
+import { Link } from 'wouter';
 
 // Import Realm 1 simulation components
 import { BarterWebChallenge } from '../simulations/BarterWebChallenge';
@@ -18,13 +20,6 @@ import { CBDCSimulator } from '../simulations/CBDCSimulator';
 import { BitcoinPrivacySimulator } from '../simulations/BitcoinPrivacySimulator';
 import { LightningPrivacySimulator } from '../simulations/LightningPrivacySimulator';
 import { SelfCustodySimulator } from '../simulations/SelfCustodySimulator';
-
-
-// // Import Realm 3 simulation components
-// import { ConsensusSimulator } from '../simulations/ConsensusSimulator';
-// import { CryptographySimulator } from '../simulations/CryptographySimulator';
-// import { HashFunctionSimulator } from '../simulations/HashFunctionSimulator';
-// import { MerkleTreeSimulator } from '../simulations/MerkleTreeSimulator';
 
 // Lazy load additional simulation components
 const RolePlaySimulator = lazy(() => import('../simulations/RolePlaySimulator').then(module => ({ default: module.RolePlaySimulator })));
@@ -207,100 +202,18 @@ export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionPr
             />
           </Suspense>
         );
-      
-  //     // Realm 3 simulation types
-  //     case 'cryptography':
-  //       return (
-  //         <Suspense fallback={<div>Loading Cryptography Simulator...</div>}>
-  //           <CryptographySimulator
-  //             challenges={mission.simulationData?.challenges || []}
-  //             visualExplanations={mission.simulationData?.visualExplanations || []}
-  //             onComplete={handleSimulationComplete}
-  //           />
-  //         </Suspense>
-  //       );
-  //     case 'hash':
-  //       return (
-  //         <Suspense fallback={<div>Loading Hash Function Simulator...</div>}>
-  //           <HashFunctionSimulator
-  //             challenges={mission.simulationData?.challenges || []}
-  //             visualizations={mission.simulationData?.visualizations || []}
-  //             onComplete={handleSimulationComplete}
-  //           />
-  //         </Suspense>
-  //       );
-  //     case 'merkle':
-  //       return (
-  //         <Suspense fallback={<div>Loading Merkle Tree Simulator...</div>}>
-  //           <MerkleTreeSimulator
-  //             explanation={mission.simulationData?.explanation}
-  //             transactionData={mission.simulationData?.transactionData || []}
-  //             challenges={mission.simulationData?.challenges || []}
-  //             visualization={mission.simulationData?.visualization}
-  //             onComplete={handleSimulationComplete}
-  //           />
-  //         </Suspense>
-  //       );
-  //     case 'consensus':
-  //       return (
-  //         <Suspense fallback={<div>Loading Consensus Simulator...</div>}>
-  //           <ConsensusSimulator
-  //             scenarios={mission.simulationData?.scenarios || []}
-  //             quizQuestions={mission.simulationData?.quizQuestions || []}
-  //             onComplete={handleSimulationComplete}
-  //           />
-  //         </Suspense>
-  //       );
-  //     case 'network':
-  //       return (
-  //         <Suspense fallback={<div>Loading Network Simulator...</div>}>
-  //           <NetworkSimulator
-  //             network={mission.simulationData?.network || { nodes: 50, connections: "random" }}
-  //             scenarios={mission.simulationData?.scenarios || []}
-  //             interactiveTests={mission.simulationData?.interactiveTests || []}
-  //             onComplete={handleSimulationComplete}
-  //           />
-  //         </Suspense>
-  //       );
-  //     case 'code':
-  //       return (
-  //         <Suspense fallback={<div>Loading Scripting Simulator...</div>}>
-  //           <ScriptingSimulator
-  //             explanation={mission.simulationData?.explanation}
-  //             basics={mission.simulationData?.basics || []}
-  //             challenges={mission.simulationData?.challenges || []}
-  //             advanced={mission.simulationData?.advanced || []}
-  //             onComplete={handleSimulationComplete}
-  //           />
-  //         </Suspense>
-  //       );
-  //     case 'lightning-network':
-  //       return (
-  //         <Suspense fallback={<div>Loading Lightning Network Simulator...</div>}>
-  //           <LightningNetworkSimulator
-  //             explanation={mission.simulationData?.explanation}
-  //             scaling={mission.simulationData?.scaling}
-  //             interactive={mission.simulationData?.interactive || {}}
-  //             concepts={mission.simulationData?.concepts || []}
-  //             onComplete={handleSimulationComplete}
-  //           />
-  //         </Suspense>
-  //       );
-  //     default:
-  //       return (
-  //         <div className="bg-red-100 p-4 rounded-lg text-red-800">
-  //           Unknown simulation type
-  //         </div>
-  //       );
+      default:
+        return (
+          <div className="bg-red-100 p-4 rounded-lg text-red-800">
+            Unknown simulation type
+          </div>
+        );
     }
-   };
+  };
   
   // Extract realm ID from mission.id
-  // First digit is the realm number, remaining digits are the mission number within that realm
   const realmId = Math.floor(mission.id / 100);
   const missionNumber = mission.id % 100;
-  
-  // Determine total missions in realm based on best guess (can be customized per realm)
   const totalMissionsInRealm = 7; // Default value, could be different per realm
   
   // Calculate progress for display
@@ -329,6 +242,68 @@ export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionPr
                 />
               </div>
             )}
+            
+            {/* Navigation Header */}
+            <div className="flex justify-between items-center mb-8 p-6">
+              <Link href={`/realm${realmId}`}>
+                <a className="inline-flex items-center hover:text-orange-300 transition-colors text-orange-400">
+                  <ChevronLeft className="mr-2 h-5 w-5" />
+                  <span>Back to {realmId === 1 ? 'The Savannah of Money' : realmId === 2 ? 'The Digital Jungle' : 'The Forest of Sparks'}</span>
+                </a>
+              </Link>
+              
+              <div className="flex items-center space-x-4">
+                <Link href="/profile">
+                  <a className="p-2 rounded-full bg-orange-600/20 hover:bg-orange-600/30 transition-colors">
+                    <User className="h-5 w-5 text-orange-400" />
+                  </a>
+                </Link>
+                <Link href="/badges">
+                  <a className="p-2 rounded-full bg-orange-600/20 hover:bg-orange-600/30 transition-colors">
+                    <Award className="h-5 w-5 text-orange-400" />
+                  </a>
+                </Link>
+                <Link href="/map">
+                  <a className="p-2 rounded-full bg-orange-600/20 hover:bg-orange-600/30 transition-colors">
+                    <Map className="h-5 w-5 text-orange-400" />
+                  </a>
+                </Link>
+              </div>
+            </div>
+
+            {/* Mission Navigation */}
+            <div className="flex justify-between items-center mb-8 px-6">
+              {missionNumber > 1 ? (
+                <Link href={`/realm${realmId}/mission/${missionNumber - 1}`}>
+                  <a className="inline-flex items-center px-4 py-2 bg-orange-600/20 rounded-lg hover:bg-orange-600/30 transition-colors">
+                    <ChevronLeft className="mr-2 h-4 w-4" />
+                    Previous Mission
+                  </a>
+                </Link>
+              ) : (
+                <div></div>
+              )}
+              
+              <div className="text-orange-400 text-sm font-medium">
+                Mission {missionNumber} of {totalMissionsInRealm}
+              </div>
+              
+              {missionNumber < totalMissionsInRealm ? (
+                <Link href={`/realm${realmId}/mission/${missionNumber + 1}`}>
+                  <a className="inline-flex items-center px-4 py-2 bg-orange-600/20 rounded-lg hover:bg-orange-600/30 transition-colors">
+                    Next Mission
+                    <ChevronRight className="ml-2 h-4 w-4" />
+                  </a>
+                </Link>
+              ) : (
+                <Link href={`/realm2}`}>
+                  <a className="inline-flex items-center px-4 py-2 bg-purple-600/20 rounded-lg hover:bg-purple-600/30 transition-colors">
+                    Next Realm
+                    <ChevronRight className="ml-2 h-4 w-4" />
+                  </a>
+                </Link>
+              )}
+            </div>
             
             {/* Mission content */}
             <div className="p-6">
@@ -494,29 +469,29 @@ export function Mission({ mission, onComplete, realmTheme = 'amber' }: MissionPr
                         </p>
                       </>
                     )}
-                  </>
-                )}
-                
-                {mission.id === 107 && (
-                  <>
-                    <h3 className="text-xl font-semibold">Reflection on Money's Evolution</h3>
-                    <p>
-                      As we've explored the journey of money through African history, we can recognize patterns that help us understand today's monetary innovations, including Bitcoin.
-                    </p>
-                    <p>
-                      Key insights from Africa's monetary history include:
-                    </p>
-                    <ul className="list-disc pl-5 space-y-2">
-                      <li>Money evolves to solve real economic problems, not by decree</li>
-                      <li>Societies independently developed similar solutions to the limitations of barter</li>
-                      <li>Trade networks expand dramatically when money is introduced</li>
-                      <li>Currency debasement and inflation have affected African economies throughout history</li>
-                      <li>Effective money must be durable, portable, divisible, fungible, scarce, and verifiable</li>
-                      <li>Trust-based systems like Ubuntu can provide economic resilience beyond what money alone offers</li>
-                    </ul>
-                    <p>
-                      These historical patterns provide context for understanding modern digital currencies and why they might represent the next step in money's evolution.
-                    </p>
+                    
+                    {mission.id === 107 && (
+                      <>
+                        <h3 className="text-xl font-semibold">Reflection on Money's Evolution</h3>
+                        <p>
+                          As we've explored the journey of money through African history, we can recognize patterns that help us understand today's monetary innovations, including Bitcoin.
+                        </p>
+                        <p>
+                          Key insights from Africa's monetary history include:
+                        </p>
+                        <ul className="list-disc pl-5 space-y-2">
+                          <li>Money evolves to solve real economic problems, not by decree</li>
+                          <li>Societies independently developed similar solutions to the limitations of barter</li>
+                          <li>Trade networks expand dramatically when money is introduced</li>
+                          <li>Currency debasement and inflation have affected African economies throughout history</li>
+                          <li>Effective money must be durable, portable, divisible, fungible, scarce, and verifiable</li>
+                          <li>Trust-based systems like Ubuntu can provide economic resilience beyond what money alone offers</li>
+                        </ul>
+                        <p>
+                          These historical patterns provide context for understanding modern digital currencies and why they might represent the next step in money's evolution.
+                        </p>
+                      </>
+                    )}
                   </>
                 )}
                 
