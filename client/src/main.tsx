@@ -2,6 +2,9 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
+if (import.meta.env.PROD && import.meta.env.SKIP_REPLIT) {
+  // Remove any Replit-specific initialization
+}
 // Local development mode - disabling Replit-specific imports
 const isLocalDev = process.env.NODE_ENV === 'development';
 
