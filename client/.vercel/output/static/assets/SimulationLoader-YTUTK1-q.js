@@ -1,1 +1,0 @@
-import{j as s,n as e}from"./index-Cb9N_GOt.js";import"./react-Q3K9tvtn.js";const t=()=>s.jsxs("div",{className:"flex items-center justify-center p-8",children:[s.jsx(e,{className:"h-8 w-8 animate-spin"}),s.jsx("span",{className:"ml-3",children:"Loading simulation..."})]});export{t as default};
