@@ -28,17 +28,17 @@ export default function Realm2Home() {
   const getMissionIcon = (type: string) => {
     switch (type) {
       case 'surveillance':
-        return '👁️';
+        return 'url(https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-The-Citadel-Shados.png)';
       case 'privacy':
-        return '🔐';
+        return 'url(https://bitcoiners.africa/wp-content/uploads/2025/06/Realm2-Privacy-vs-Control.png)';
       case 'cbdc':
-        return '🏦';
+        return 'url(https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-CBDCs-and-Privacy.png)';
       case 'bitcoin':
-        return '₿';
+        return 'url(https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-Bitcoins-Transparency.png)';
       case 'lightning':
-        return '⚡';
+        return 'url(https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-Lightning-Network.png)';
       case 'selfcustody':
-        return '🗝️';
+        return 'url(https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-2-Self-Custody.png)';
       default:
         return '🔍';
     }
@@ -62,7 +62,7 @@ export default function Realm2Home() {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { type: "spring", stiffness: 100 }
+      transition: { type: "spring" as const, stiffness: 100 }
     }
   };
 

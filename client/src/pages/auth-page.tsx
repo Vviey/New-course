@@ -71,7 +71,7 @@ function LoginForm() {
       <div className="text-center mb-8">
         <div className="flex justify-center space-x-4 mb-4">
           <img 
-            src="/assets/characters/asha.svg" 
+            src="https://bitcoiners.africa/wp-content/uploads/2025/06/asha2.png" 
             alt="Asha" 
             className="h-24 object-contain"
           />
@@ -225,7 +225,7 @@ function SignupForm() {
           <div className="text-center mb-8">
             <div className="flex justify-center space-x-4 mb-4">
               <img 
-                src="/assets/characters/asha.svg" 
+                src="https://bitcoiners.africa/wp-content/uploads/2025/06/asha2.png" 
                 alt="Asha" 
                 className="h-24 object-contain"
               />
@@ -359,7 +359,7 @@ export default function AuthPage() {
               <div className="bg-darkBg/40 p-8 rounded-2xl border border-primary/20 backdrop-blur-sm">
                 <div className="flex justify-center mb-8">
                   <img 
-                    src="/assets/characters/asha.svg" 
+                    src="/https://bitcoiners.africa/wp-content/uploads/2025/06/asha2.png" 
                     alt="Asha" 
                     className="h-64 object-contain"
                   />

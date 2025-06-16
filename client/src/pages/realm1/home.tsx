@@ -25,29 +25,18 @@ export default function RealmHome() {
   // Mission cards are styled with African patterns
   const patternStyles = {
     spirals: {
-      backgroundImage: 'radial-gradient(circle, #EE720B 10%, transparent 11%), radial-gradient(circle, #EE720B 10%, transparent 11%)',
+      backgroundImage: 'url("https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-1-The-First-Exchange.png")',
       backgroundSize: '60px 60px',
-      backgroundPosition: '0 0, 30px 30px',
       backgroundColor: '#FBF4D2',
       borderColor: '#FFC567'
     },
     zigzag: {
-      background: `repeating-linear-gradient(
-        45deg,
-        #EE720B,
-        #EE720B 10px,
-        #FFC567 10px,
-        #FFC567 20px
-      )`,
+      backgroundImage: 'url("https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-1-The-First-Exchange.png")',
       borderColor: '#FBF4D2'
     },
     geometric: {
-      backgroundImage: `linear-gradient(45deg, #EE720B 25%, transparent 25%), 
-                        linear-gradient(-45deg, #EE720B 25%, transparent 25%), 
-                        linear-gradient(45deg, transparent 75%, #EE720B 75%), 
-                        linear-gradient(-45deg, transparent 75%, #EE720B 75%)`,
+      backgroundImage: `url("https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-1-The-First-Exchange.png")`,
       backgroundSize: '20px 20px',
-      backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px',
       backgroundColor: '#FBF4D2',
       borderColor: '#FFC567'
     }
@@ -65,7 +54,7 @@ export default function RealmHome() {
       className="min-h-screen py-12 px-6 md:px-12"
       style={{
         //  background: "linear-gradient(to bottom, #000000, #1a001a)",
-         backgroundImage: "url(https://bitcoiners.africa/wp-content/uploads/2025/06/Realm-1-African-Currency-Eolution.png)",
+         backgroundImage: "url(https://bitcoiners.africa/wp-content/uploads/2025/06/1-1.png)",
          backgroundSize: "cover",
         //  backgroundPosition: "center",
         //  backgroundAttachment: "fixed",
